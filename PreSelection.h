@@ -144,6 +144,11 @@ public :
    vector<vector<int> > *PFParticle_NumberNuMuDaughtersPdgCode;
    vector<vector<double>> *TracksFromCurrentPFParticleStartX;
 
+   std::vector<double>  *MCParticle_Vx;
+   std::vector<int>     *MCParticle_StatusCode;
+   std::vector<int>     *MCParticle_PdgCode;
+   std::vector<int>     *MCParticle_P;
+
    // List of branches
 
    TBranch        *b_EventWeight;   //!
@@ -258,6 +263,11 @@ public :
    TBranch        *b_PFParticle_NumberNuMuDaughters;   //!
    TBranch        *b_PFParticle_NumberNuMuDaughtersPdgCode;   //!
    TBranch        *b_TracksFromCurrentPFParticleStartX;   //!
+
+   TBranch        *b_MCParticle_Vx;   //!
+   TBranch        *b_MCParticle_StatusCode;   //!
+   TBranch        *b_MCParticle_PdgCode;   //!
+   TBranch        *b_MCParticle_P;   //!
 
    //PreSelection(TTree *tree=0);
    PreSelection(TChain *tree=0);
@@ -447,6 +457,11 @@ void PreSelection::Init(TChain *tree)
    PFParticle_NumberNuMuDaughtersPdgCode = 0;
    TracksFromCurrentPFParticleStartX = 0;
 
+   MCParticle_Vx = 0;
+   MCParticle_StatusCode = 0;
+   MCParticle_PdgCode = 0;
+   MCParticle_P = 0;
+
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -565,6 +580,11 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("PFParticle_NumberNuMuDaughters", &PFParticle_NumberNuMuDaughters, &b_PFParticle_NumberNuMuDaughters);
    fChain->SetBranchAddress("PFParticle_NumberNuMuDaughtersPdgCode", &PFParticle_NumberNuMuDaughtersPdgCode, &b_PFParticle_NumberNuMuDaughtersPdgCode);
    fChain->SetBranchAddress("TracksFromCurrentPFParticleStartX", &TracksFromCurrentPFParticleStartX, &b_TracksFromCurrentPFParticleStartX);
+
+   fChain->SetBranchAddress("MCParticle_Vx", &MCParticle_Vx, &b_MCParticle_Vx);
+   fChain->SetBranchAddress("MCParticle_StatusCode", &MCParticle_StatusCode, &b_MCParticle_StatusCode);
+   fChain->SetBranchAddress("MCParticle_PdgCode", &MCParticle_PdgCode, &b_MCParticle_PdgCode);
+   fChain->SetBranchAddress("MCParticle_P", &MCParticle_P, &b_MCParticle_P);
 
    Notify();
 }

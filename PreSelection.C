@@ -64,6 +64,8 @@ void PreSelection::Loop() {
 
 //	int PassedSwTrigger;
 	double Weight;
+	int CC1p;
+	int MCParticle_Mode;
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -71,26 +73,6 @@ void PreSelection::Loop() {
 	std::vector<double> BeamFlashes_YCenter;
 	std::vector<double> BeamFlashes_ZCenter;
 	std::vector<double> BeamFlashes_TotalPE;
-
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//	int NumberMCParticles;
-
-//	std::vector<int> MCParticle_Mode;
-//	std::vector<double> MCParticle_Mom;
-////	std::vector<double> MCParticle_KE;
-//	std::vector<double> MCParticle_Phi;
-//	std::vector<double> MCParticle_CosTheta;
-////	std::vector<double> MCParticle_Length;
-////	std::vector<double> MCParticle_StartX;
-////	std::vector<double> MCParticle_StartY;
-////	std::vector<double> MCParticle_StartZ;
-////	std::vector<double> MCParticle_EndPointX;
-////	std::vector<double> MCParticle_EndPointY;
-////	std::vector<double> MCParticle_EndPointZ;
-//	std::vector<int> MCParticle_StartContainment;
-//	std::vector<int> MCParticle_EndContainment;
-//	std::vector<int> MCParticle_Pdg;
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -175,30 +157,13 @@ void PreSelection::Loop() {
 
 //	tree->Branch("PassedSwTrigger",&PassedSwTrigger);
 	tree->Branch("Weight",&Weight);
+	tree->Branch("CC1p",&CC1p);
+	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 
 	tree->Branch("NBeamFlashes",&NBeamFlashes);
 	tree->Branch("BeamFlashes_YCenter",&BeamFlashes_YCenter);
 	tree->Branch("BeamFlashes_ZCenter",&BeamFlashes_ZCenter);
 	tree->Branch("BeamFlashes_TotalPE",&BeamFlashes_TotalPE);
-
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//	tree->Branch("NumberMCParticles",&NumberMCParticles);
-//	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
-//	tree->Branch("MCParticle_Mom",&MCParticle_Mom);
-////	tree->Branch("MCParticle_KE",&MCParticle_KE);
-//	tree->Branch("MCParticle_Phi",&MCParticle_Phi);
-//	tree->Branch("MCParticle_CosTheta",&MCParticle_CosTheta);
-////	tree->Branch("MCParticle_Length",&MCParticle_Length);
-////	tree->Branch("MCParticle_StartX",&MCParticle_StartX);
-////	tree->Branch("MCParticle_StartY",&MCParticle_StartY);
-////	tree->Branch("MCParticle_StartZ",&MCParticle_StartZ);
-////	tree->Branch("MCParticle_EndPointX",&MCParticle_EndPointX);
-////	tree->Branch("MCParticle_EndPointY",&MCParticle_EndPointY);
-////	tree->Branch("MCParticle_EndPointZ",&MCParticle_EndPointZ);
-//	tree->Branch("MCParticle_StartContainment",&MCParticle_StartContainment);
-//	tree->Branch("MCParticle_EndContainment",&MCParticle_EndContainment);
-//	tree->Branch("MCParticle_Pdg",&MCParticle_Pdg);
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -346,26 +311,19 @@ void PreSelection::Loop() {
 		VectorTrackStart.clear();
 		VectorTrackEnd.clear();
 
-		std::vector<int> FirstTrackIndex; FirstTrackIndex.clear();
-		std::vector<int> SecondTrackIndex; SecondTrackIndex.clear();
-		std::vector<double> TrackPairDistance; TrackPairDistance.clear();
-		std::vector<TVector3> TrackPairVertexPosition; TrackPairVertexPosition.clear();
+//std::vector<int> FirstTrackIndex; FirstTrackIndex.clear();
+//std::vector<int> SecondTrackIndex; SecondTrackIndex.clear();
+//std::vector<double> TrackPairDistance; TrackPairDistance.clear();
+//std::vector<TVector3> TrackPairVertexPosition; TrackPairVertexPosition.clear();
+
+		int Track_MCParticle_MuonCounter = 0, Track_MCParticle_ProtonCounter = 0, Track_MCParticle_PionCounter = 0;
+		int fCC1p = 0, fMCParticle_Mode = -1;
 
 		for (int WhichTrack = 0; WhichTrack < NumberTracks; WhichTrack++) {
 
-//			// Make sure that we have non-zero length tracks by demanding a min length of 0.3 cm (distance between wires)
+			// Make sure that we have non-zero length tracks by demanding a min length of 0.3 cm (distance between wires)
 
-//			if (Track_Length->at(WhichTrack) > UBSpaceReso) {
-
-//				TVector3 TVector3TrackStart(Track_StartX->at(WhichTrack),Track_StartY->at(WhichTrack),Track_StartZ->at(WhichTrack));
-//				TVector3 TVector3TrackEnd(Track_EndX->at(WhichTrack),Track_EndY->at(WhichTrack),Track_EndZ->at(WhichTrack));
-
-//				VectorTrackStart.push_back(TVector3TrackStart);
-//				VectorTrackEnd.push_back(TVector3TrackEnd);
-
-//			}
-
-			if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(0) || Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(1)) {
+			if (Track_Length->at(WhichTrack) > UBSpaceReso) {
 
 				TVector3 TVector3TrackStart(Track_StartX->at(WhichTrack),Track_StartY->at(WhichTrack),Track_StartZ->at(WhichTrack));
 				TVector3 TVector3TrackEnd(Track_EndX->at(WhichTrack),Track_EndY->at(WhichTrack),Track_EndZ->at(WhichTrack));
@@ -373,37 +331,66 @@ void PreSelection::Loop() {
 				VectorTrackStart.push_back(TVector3TrackStart);
 				VectorTrackEnd.push_back(TVector3TrackEnd);
 
-				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(0) ) { FirstTrackIndex.push_back(WhichTrack); }
-				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(1) ) { SecondTrackIndex.push_back(WhichTrack); }
+				if ( string(WhichSample).find("Overlay") != std::string::npos && Track_MCParticle_PdgCode->size() != 0 ) { 
+
+					if (Track_MCParticle_PdgCode->at(WhichTrack) == MuonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsMuonMomentum[0]) 
+						{ Track_MCParticle_MuonCounter++; }
+
+					if (Track_MCParticle_PdgCode->at(WhichTrack) == ProtonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsProtonMomentum[0]) 
+						{ Track_MCParticle_ProtonCounter++; }
+
+					if (fabs(Track_MCParticle_PdgCode->at(WhichTrack)) == AbsChargedPionPdg && Track_MCParticle_P->at(WhichTrack) > ChargedPionMomentumThres)		
+					{ Track_MCParticle_PionCounter++; }
+					
+				}
 
 			}
+
+//			if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(0) || Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(1)) {
+
+//				TVector3 TVector3TrackStart(Track_StartX->at(WhichTrack),Track_StartY->at(WhichTrack),Track_StartZ->at(WhichTrack));
+//				TVector3 TVector3TrackEnd(Track_EndX->at(WhichTrack),Track_EndY->at(WhichTrack),Track_EndZ->at(WhichTrack));
+
+//				VectorTrackStart.push_back(TVector3TrackStart);
+//				VectorTrackEnd.push_back(TVector3TrackEnd);
+
+//				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(0) ) { FirstTrackIndex.push_back(WhichTrack); }
+//				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(1) ) { SecondTrackIndex.push_back(WhichTrack); }
+
+//			}
 			
 		} // end of the loop over the recob::Tracks
 
-		int NCandidateTrackPairs = VectorTrackStart.size() / 2;
-		if (NCandidateTrackPairs == 0) { continue; }
+		if (Track_MCParticle_MuonCounter == 1 && Track_MCParticle_ProtonCounter == 1 && Track_MCParticle_PionCounter == 0) { fCC1p = 1; fMCParticle_Mode = MCTruth_Mode->at(0); }
+
+//int NCandidateTrackPairs = VectorTrackStart.size() / 2;
+//if (NCandidateTrackPairs != 1) { continue; }
 
 
-double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
-TrackPairDistance.push_back(fTrackPairDistance);
+//double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
+//TrackPairDistance.push_back(fTrackPairDistance);
 
 
-TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
-TrackPairVertexPosition.push_back(VertexPositionV3);
+//TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
+//TrackPairVertexPosition.push_back(VertexPositionV3);
 
 		// Get the candidate track pairs
 
-//		TrackVertexSorting recob_trackvertexsorting; 
-//		recob_trackvertexsorting.CandidateTrackPairs(VectorTrackStart,VectorTrackEnd);
+		TrackVertexSorting recob_trackvertexsorting; 
+		recob_trackvertexsorting.CandidateTrackPairs(VectorTrackStart,VectorTrackEnd);
 
-//		std::vector<int> FirstTrackIndex = recob_trackvertexsorting.ReturnFirstTrackVector();
-//		std::vector<int> SecondTrackIndex = recob_trackvertexsorting.ReturnSecondTrackVector();
-//		std::vector<double> TrackPairDistance = recob_trackvertexsorting.ReturnTrackPairDistance();
-//		std::vector<TVector3> TrackPairVertexPosition = recob_trackvertexsorting.ReturnVertexPosition();
+		std::vector<int> FirstTrackIndex = recob_trackvertexsorting.ReturnFirstTrackVector();
+		std::vector<int> SecondTrackIndex = recob_trackvertexsorting.ReturnSecondTrackVector();
+		std::vector<double> TrackPairDistance = recob_trackvertexsorting.ReturnTrackPairDistance();
+		std::vector<TVector3> TrackPairVertexPosition = recob_trackvertexsorting.ReturnVertexPosition();
 
-//		int NCandidateTrackPairs = FirstTrackIndex.size();
-//		int NCandidateTrackPairs = VectorTrackStart.size();
-//std::cout << "NCandidateTrackPairs = " << NCandidateTrackPairs << std::endl;
+		int NCandidateTrackPairs = FirstTrackIndex.size();
+
+		if (NCandidateTrackPairs == 0) { continue; }
+
+		CC1p = fCC1p;
+		MCParticle_Mode = fMCParticle_Mode;
+
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		// Loop over the candidate track pairs
@@ -489,21 +476,16 @@ TrackPairVertexPosition.push_back(VertexPositionV3);
 
 		for (int WhichTrackPair = 0; WhichTrackPair < NCandidateTrackPairs; WhichTrackPair++) {
 
-			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
-			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
-			Vertex_Y.push_back(TrackPairVertexPosition.at(WhichTrackPair).Y());
-			Vertex_Z.push_back(TrackPairVertexPosition.at(WhichTrackPair).Z());
-
 			// Track indices
 
 			int FirstCandidateTrackIndex = FirstTrackIndex.at(WhichTrackPair);
 			int SecondCandidateTrackIndex = SecondTrackIndex.at(WhichTrackPair);
-//std::cout << "FirstCandidateTrackIndex = " << FirstCandidateTrackIndex << "  SecondCandidateTrackIndex = " << SecondCandidateTrackIndex << std::endl;
+
 			// Get the muon & proton candidates
 
 			int CandidateMuonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
 			int CandidateProtonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
-//std::cout << "CandidateMuonTrackIndex = " << CandidateMuonTrackIndex << "  CandidateProtonTrackIndex = " << CandidateProtonTrackIndex << std::endl;
+
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 			// Candidate muon
@@ -530,11 +512,18 @@ TrackPairVertexPosition.push_back(VertexPositionV3);
 
 			// Track-PFParticle Associations
 
-//			if (  !(fabs(CandidateMuonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(0)) < MaxPFParticleTrackDistance || 
-//				fabs(CandidateMuonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(1)) < MaxPFParticleTrackDistance) ) { continue; }
+if (  !(fabs(CandidateMuonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(0)) < MaxPFParticleTrackDistance || 
+				fabs(CandidateMuonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(1)) < MaxPFParticleTrackDistance) ) { continue; }
 
-//			if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(0)) < MaxPFParticleTrackDistance || 
-//				fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(1)) < MaxPFParticleTrackDistance) ) { continue; }
+if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(0)) < MaxPFParticleTrackDistance || 
+				fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(1)) < MaxPFParticleTrackDistance) ) { continue; }
+
+			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
+			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
+			Vertex_Y.push_back(TrackPairVertexPosition.at(WhichTrackPair).Y());
+			Vertex_Z.push_back(TrackPairVertexPosition.at(WhichTrackPair).Z());
 
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -712,9 +701,12 @@ TrackPairVertexPosition.push_back(VertexPositionV3);
 
 			} // only for overlays
 
-		EventCounter++;
+//if ( CandidateMuP_Distance.size() == 0) { continue; }
+			EventCounter++;
 
 		} // End of the loop over the candidate track pairs
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		tree->Fill();
 
