@@ -17,8 +17,11 @@ using namespace Constants;
 
 TString WhichSample = "Run1Data9"; int NFiles = 15;
 //TString WhichSample = "ExtBNB9"; int NFiles = 15;
-//TString WhichSample = "Overlay9"; int NFiles = 15;
 //TString WhichSample = "OverlayDirt9"; int NFiles = 10;
+
+//TString WhichSample = "Overlay9"; int NFiles = 15;
+//TString WhichSample = "Overlay9_SCE"; int NFiles = 15;
+//TString WhichSample = "Overlay9_DLdown"; int NFiles = 15;
 
 TString CCQEPath = "/pnfs/uboone/persistent/users/apapadop/"+WhichSample+"/"+UBCodeVersion+"/";
 
@@ -147,7 +150,10 @@ public :
    std::vector<double>  *MCParticle_Vx;
    std::vector<int>     *MCParticle_StatusCode;
    std::vector<int>     *MCParticle_PdgCode;
-   std::vector<int>     *MCParticle_P;
+   std::vector<double>     *MCParticle_P;
+
+   std::vector<double> *PFParticle_NuScore;
+   std::vector<double> *PFParticle_FlashScore;
 
    // List of branches
 
@@ -268,6 +274,9 @@ public :
    TBranch        *b_MCParticle_StatusCode;   //!
    TBranch        *b_MCParticle_PdgCode;   //!
    TBranch        *b_MCParticle_P;   //!
+
+   TBranch        *b_PFParticle_NuScore;   //!
+   TBranch        *b_PFParticle_FlashScore;   //!
 
    //PreSelection(TTree *tree=0);
    PreSelection(TChain *tree=0);
@@ -462,6 +471,9 @@ void PreSelection::Init(TChain *tree)
    MCParticle_PdgCode = 0;
    MCParticle_P = 0;
 
+   PFParticle_NuScore = 0;
+   PFParticle_FlashScore = 0;
+
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -585,6 +597,9 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("MCParticle_StatusCode", &MCParticle_StatusCode, &b_MCParticle_StatusCode);
    fChain->SetBranchAddress("MCParticle_PdgCode", &MCParticle_PdgCode, &b_MCParticle_PdgCode);
    fChain->SetBranchAddress("MCParticle_P", &MCParticle_P, &b_MCParticle_P);
+
+   fChain->SetBranchAddress("PFParticle_NuScore", &PFParticle_NuScore, &b_PFParticle_NuScore);
+   fChain->SetBranchAddress("PFParticle_FlashScore", &PFParticle_FlashScore, &b_PFParticle_FlashScore);
 
    Notify();
 }

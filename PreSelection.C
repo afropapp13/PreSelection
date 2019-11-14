@@ -17,13 +17,14 @@
 #include <iomanip>
 #include <vector>
 
-#include "ubana/MyClasses/TrackVertexSorting.h"
 #include "ubana/MyClasses/Tools.h"
 #include "ubana/MyClasses/SelectionCuts.h"
 #include "ubana/MyClasses/Constants.h"
 
 using namespace std;
 using namespace Constants;
+
+double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2);
 
 void PreSelection::Loop() {
 
@@ -69,6 +70,11 @@ void PreSelection::Loop() {
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+	double NuScore;
+	double FlashScore; 
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	int NBeamFlashes;
 	std::vector<double> BeamFlashes_YCenter;
 	std::vector<double> BeamFlashes_ZCenter;
@@ -83,36 +89,19 @@ void PreSelection::Loop() {
 
 	std::vector<int> CandidateMu_Mode;
 	std::vector<double> CandidateMu_P;
-//	std::vector<double> CandidateMu_KE;
-//	std::vector<double> CandidateMu_E;
 	std::vector<double> CandidateMu_Phi;
 	std::vector<double> CandidateMu_CosTheta;
-//	std::vector<double> CandidateMu_Length;
 	std::vector<double> CandidateMu_Chi2_YPlane;
+	std::vector<double> CandidateMu_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateMu_ThreePlaneChi2;
-//	std::vector<double> CandidateMu_StartX;
-//	std::vector<double> CandidateMu_StartY;
-//	std::vector<double> CandidateMu_StartZ;
-//	std::vector<double> CandidateMu_EndX;
-//	std::vector<double> CandidateMu_EndY;
-//	std::vector<double> CandidateMu_EndZ;
 	std::vector<int> CandidateMu_StartContainment;
 	std::vector<int> CandidateMu_EndContainment;
 	std::vector<int> CandidateMu_MCParticle_Pdg;
 	std::vector<double> CandidateMu_MCParticle_Purity;
 
 	std::vector<double> True_CandidateMu_P;
-//	std::vector<double> True_CandidateMu_KE;
-//	std::vector<double> True_CandidateMu_E;
 	std::vector<double> True_CandidateMu_Phi;
 	std::vector<double> True_CandidateMu_CosTheta;
-//	std::vector<double> True_CandidateMu_Length;
-//	std::vector<double> True_CandidateMu_StartX;
-//	std::vector<double> True_CandidateMu_StartY;
-//	std::vector<double> True_CandidateMu_StartZ;
-//	std::vector<double> True_CandidateMu_EndX;
-//	std::vector<double> True_CandidateMu_EndY;
-//	std::vector<double> True_CandidateMu_EndZ;
 	std::vector<int> True_CandidateMu_StartContainment;
 	std::vector<int> True_CandidateMu_EndContainment;
 
@@ -120,45 +109,34 @@ void PreSelection::Loop() {
 
 	std::vector<int> CandidateP_Mode;
 	std::vector<double> CandidateP_P;
-//	std::vector<double> CandidateP_KE;
-//	std::vector<double> CandidateP_E;
 	std::vector<double> CandidateP_Phi;
 	std::vector<double> CandidateP_CosTheta;
-//	std::vector<double> CandidateP_Length;
 	std::vector<double> CandidateP_Chi2_YPlane;
+	std::vector<double> CandidateP_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateP_ThreePlaneChi2;
-//	std::vector<double> CandidateP_StartX;
-//	std::vector<double> CandidateP_StartY;
-//	std::vector<double> CandidateP_StartZ;
-//	std::vector<double> CandidateP_EndX;
-//	std::vector<double> CandidateP_EndY;
-//	std::vector<double> CandidateP_EndZ;
 	std::vector<int> CandidateP_StartContainment;
 	std::vector<int> CandidateP_EndContainment;
 	std::vector<int> CandidateP_MCParticle_Pdg;
 	std::vector<double> CandidateP_MCParticle_Purity;
 
 	std::vector<double> True_CandidateP_P;
-//	std::vector<double> True_CandidateP_KE;
-//	std::vector<double> True_CandidateP_E;
 	std::vector<double> True_CandidateP_Phi;
 	std::vector<double> True_CandidateP_CosTheta;
-//	std::vector<double> True_CandidateP_Length;
-//	std::vector<double> True_CandidateP_StartX;
-//	std::vector<double> True_CandidateP_StartY;
-//	std::vector<double> True_CandidateP_StartZ;
-//	std::vector<double> True_CandidateP_EndX;
-//	std::vector<double> True_CandidateP_EndY;
-//	std::vector<double> True_CandidateP_EndZ;
 	std::vector<int> True_CandidateP_StartContainment;
 	std::vector<int> True_CandidateP_EndContainment;
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//	tree->Branch("PassedSwTrigger",&PassedSwTrigger);
 	tree->Branch("Weight",&Weight);
 	tree->Branch("CC1p",&CC1p);
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	tree->Branch("NuScore",&NuScore);
+	tree->Branch("FlashScore",&FlashScore);
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("NBeamFlashes",&NBeamFlashes);
 	tree->Branch("BeamFlashes_YCenter",&BeamFlashes_YCenter);
@@ -173,72 +151,38 @@ void PreSelection::Loop() {
 	tree->Branch("Vertex_Z",&Vertex_Z);
 
 	tree->Branch("CandidateMu_P",&CandidateMu_P);
-//	tree->Branch("CandidateMu_KE",&CandidateMu_KE);
-//	tree->Branch("CandidateMu_E",&CandidateMu_E);
 	tree->Branch("CandidateMu_Phi",&CandidateMu_Phi);
 	tree->Branch("CandidateMu_CosTheta",&CandidateMu_CosTheta);
-//	tree->Branch("CandidateMu_Length",&CandidateMu_Length);
 	tree->Branch("CandidateMu_Chi2_YPlane",&CandidateMu_Chi2_YPlane);
+	tree->Branch("CandidateMu_ThreePlaneLogLikelihood",&CandidateMu_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateMu_ThreePlaneChi2",&CandidateMu_ThreePlaneChi2);
-//	tree->Branch("CandidateMu_StartX",&CandidateMu_StartX);
-//	tree->Branch("CandidateMu_StartY",&CandidateMu_StartY);
-//	tree->Branch("CandidateMu_StartZ",&CandidateMu_StartZ);
-//	tree->Branch("CandidateMu_EndX",&CandidateMu_EndX);
-//	tree->Branch("CandidateMu_EndY",&CandidateMu_EndY);
-//	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);
 	tree->Branch("CandidateMu_StartContainment",&CandidateMu_StartContainment);
 	tree->Branch("CandidateMu_EndContainment",&CandidateMu_EndContainment);
 	tree->Branch("CandidateMu_MCParticle_Pdg",&CandidateMu_MCParticle_Pdg);
 	tree->Branch("CandidateMu_MCParticle_Purity",&CandidateMu_MCParticle_Purity);
 
 	tree->Branch("True_CandidateMu_P",&True_CandidateMu_P);
-//	tree->Branch("True_CandidateMu_KE",&True_CandidateMu_KE);
-//	tree->Branch("True_CandidateMu_E",&True_CandidateMu_E);
 	tree->Branch("True_CandidateMu_Phi",&True_CandidateMu_Phi);
 	tree->Branch("True_CandidateMu_CosTheta",&True_CandidateMu_CosTheta);
-//	tree->Branch("True_CandidateMu_Length",&True_CandidateMu_Length);
-//	tree->Branch("True_CandidateMu_StartX",&True_CandidateMu_StartX);
-//	tree->Branch("True_CandidateMu_StartY",&True_CandidateMu_StartY);
-//	tree->Branch("True_CandidateMu_StartZ",&True_CandidateMu_StartZ);
-//	tree->Branch("True_CandidateMu_EndX",&True_CandidateMu_EndX);
-//	tree->Branch("True_CandidateMu_EndY",&True_CandidateMu_EndY);
-//	tree->Branch("True_CandidateMu_EndZ",&True_CandidateMu_EndZ);
 	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
 	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("CandidateP_P",&CandidateP_P);
-//	tree->Branch("CandidateP_KE",&CandidateP_KE);
-//	tree->Branch("CandidateP_E",&CandidateP_E);
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
 	tree->Branch("CandidateP_CosTheta",&CandidateP_CosTheta);
-//	tree->Branch("CandidateP_Length",&CandidateP_Length);
 	tree->Branch("CandidateP_Chi2_YPlane",&CandidateP_Chi2_YPlane);
+	tree->Branch("CandidateP_ThreePlaneLogLikelihood",&CandidateP_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateP_ThreePlaneChi2",&CandidateP_ThreePlaneChi2);
-//	tree->Branch("CandidateP_StartX",&CandidateP_StartX);
-//	tree->Branch("CandidateP_StartY",&CandidateP_StartY);
-//	tree->Branch("CandidateP_StartZ",&CandidateP_StartZ);
-//	tree->Branch("CandidateP_EndX",&CandidateP_EndX);
-//	tree->Branch("CandidateP_EndY",&CandidateP_EndY);
-//	tree->Branch("CandidateP_EndZ",&CandidateP_EndZ);
 	tree->Branch("CandidateP_StartContainment",&CandidateP_StartContainment);
 	tree->Branch("CandidateP_EndContainment",&CandidateP_EndContainment);
 	tree->Branch("CandidateP_MCParticle_Pdg",&CandidateP_MCParticle_Pdg);
 	tree->Branch("CandidateP_MCParticle_Purity",&CandidateP_MCParticle_Purity);
 
 	tree->Branch("True_CandidateP_P",&True_CandidateP_P);
-//	tree->Branch("True_CandidateP_KE",&True_CandidateP_KE);
-//	tree->Branch("True_CandidateP_E",&True_CandidateP_E);
 	tree->Branch("True_CandidateP_Phi",&True_CandidateP_Phi);
 	tree->Branch("True_CandidateP_CosTheta",&True_CandidateP_CosTheta);
-//	tree->Branch("True_CandidateP_Length",&True_CandidateP_Length);
-//	tree->Branch("True_CandidateP_StartX",&True_CandidateP_StartX);
-//	tree->Branch("True_CandidateP_StartY",&True_CandidateP_StartY);
-//	tree->Branch("True_CandidateP_StartZ",&True_CandidateP_StartZ);
-//	tree->Branch("True_CandidateP_EndX",&True_CandidateP_EndX);
-//	tree->Branch("True_CandidateP_EndY",&True_CandidateP_EndY);
-//	tree->Branch("True_CandidateP_EndZ",&True_CandidateP_EndZ);
 	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
 	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
@@ -270,7 +214,6 @@ void PreSelection::Loop() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//		PassedSwTrigger = EventPassedSwTrigger;
 		if ( EventPassedSwTrigger != 1) { continue; }
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -280,10 +223,27 @@ void PreSelection::Loop() {
 		if (NumberNuMuPFParticles != 1) { continue; }
 
 		int NNuMuDaughters = PFParticle_NumberNuMuDaughters->at(0);
-		if (NNuMuDaughters != 2) { continue; }
+
+//		if (NNuMuDaughters != 2) { continue; } // Don't use this one, Track-PFParticle Ass don't necessarily exist, so use TracksFromCurrentPFParticleStartX->at(0).size()
+		int FirstPFParticleDaughter = 0;
+		int SecondPFParticleDaughter = 1;
+		if (TracksFromCurrentPFParticleStartX->at(0).size() != 2) { continue; }
+
 		// MuonPdg in this case / Pandora = Track-like object
-		if (PFParticle_NumberNuMuDaughtersPdgCode->at(0).at(0) != MuonPdg || PFParticle_NumberNuMuDaughtersPdgCode->at(0).at(0) != MuonPdg) { continue; }
-		if (TracksFromCurrentPFParticleStartX->at(0).at(0) == -99. || TracksFromCurrentPFParticleStartX->at(0).at(1) == -99.) { continue; }
+		if (PFParticle_NumberNuMuDaughtersPdgCode->at(0).at(FirstPFParticleDaughter) != MuonPdg || 
+			PFParticle_NumberNuMuDaughtersPdgCode->at(0).at(SecondPFParticleDaughter) != MuonPdg) { continue; }
+		if (TracksFromCurrentPFParticleStartX->at(0).at(0) == -99.) { continue; }
+		if (TracksFromCurrentPFParticleStartX->at(0).at(1) == -99.) { continue; }
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// Making sure that we have NuScore & FlashScore
+
+		if (PFParticle_NuScore->size() != 1) { continue; }
+		if (PFParticle_FlashScore->size() != 1) { continue; }
+
+		NuScore = PFParticle_NuScore->at(0);
+		FlashScore = PFParticle_FlashScore->at(0);
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -311,10 +271,10 @@ void PreSelection::Loop() {
 		VectorTrackStart.clear();
 		VectorTrackEnd.clear();
 
-//std::vector<int> FirstTrackIndex; FirstTrackIndex.clear();
-//std::vector<int> SecondTrackIndex; SecondTrackIndex.clear();
-//std::vector<double> TrackPairDistance; TrackPairDistance.clear();
-//std::vector<TVector3> TrackPairVertexPosition; TrackPairVertexPosition.clear();
+		std::vector<int> FirstTrackIndex; FirstTrackIndex.clear();
+		std::vector<int> SecondTrackIndex; SecondTrackIndex.clear();
+		std::vector<double> TrackPairDistance; TrackPairDistance.clear();
+		std::vector<TVector3> TrackPairVertexPosition; TrackPairVertexPosition.clear();
 
 		int Track_MCParticle_MuonCounter = 0, Track_MCParticle_ProtonCounter = 0, Track_MCParticle_PionCounter = 0;
 		int fCC1p = 0, fMCParticle_Mode = -1;
@@ -323,30 +283,7 @@ void PreSelection::Loop() {
 
 			// Make sure that we have non-zero length tracks by demanding a min length of 0.3 cm (distance between wires)
 
-			if (Track_Length->at(WhichTrack) > UBSpaceReso) {
-
-				TVector3 TVector3TrackStart(Track_StartX->at(WhichTrack),Track_StartY->at(WhichTrack),Track_StartZ->at(WhichTrack));
-				TVector3 TVector3TrackEnd(Track_EndX->at(WhichTrack),Track_EndY->at(WhichTrack),Track_EndZ->at(WhichTrack));
-
-				VectorTrackStart.push_back(TVector3TrackStart);
-				VectorTrackEnd.push_back(TVector3TrackEnd);
-
-				if ( string(WhichSample).find("Overlay") != std::string::npos && Track_MCParticle_PdgCode->size() != 0 ) { 
-
-					if (Track_MCParticle_PdgCode->at(WhichTrack) == MuonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsMuonMomentum[0]) 
-						{ Track_MCParticle_MuonCounter++; }
-
-					if (Track_MCParticle_PdgCode->at(WhichTrack) == ProtonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsProtonMomentum[0]) 
-						{ Track_MCParticle_ProtonCounter++; }
-
-					if (fabs(Track_MCParticle_PdgCode->at(WhichTrack)) == AbsChargedPionPdg && Track_MCParticle_P->at(WhichTrack) > ChargedPionMomentumThres)		
-					{ Track_MCParticle_PionCounter++; }
-					
-				}
-
-			}
-
-//			if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(0) || Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(1)) {
+//			if (Track_Length->at(WhichTrack) > UBSpaceReso) {
 
 //				TVector3 TVector3TrackStart(Track_StartX->at(WhichTrack),Track_StartY->at(WhichTrack),Track_StartZ->at(WhichTrack));
 //				TVector3 TVector3TrackEnd(Track_EndX->at(WhichTrack),Track_EndY->at(WhichTrack),Track_EndZ->at(WhichTrack));
@@ -354,42 +291,61 @@ void PreSelection::Loop() {
 //				VectorTrackStart.push_back(TVector3TrackStart);
 //				VectorTrackEnd.push_back(TVector3TrackEnd);
 
-//				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(0) ) { FirstTrackIndex.push_back(WhichTrack); }
-//				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(1) ) { SecondTrackIndex.push_back(WhichTrack); }
+//				if ( string(WhichSample).find("Overlay") != std::string::npos && Track_MCParticle_PdgCode->size() != 0 ) { 
+
+//					if (Track_MCParticle_PdgCode->at(WhichTrack) == MuonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsMuonMomentum[0]) 
+//						{ Track_MCParticle_MuonCounter++; }
+
+//					if (Track_MCParticle_PdgCode->at(WhichTrack) == ProtonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsProtonMomentum[0]) 
+//						{ Track_MCParticle_ProtonCounter++; }
+
+//					if (fabs(Track_MCParticle_PdgCode->at(WhichTrack)) == AbsChargedPionPdg && Track_MCParticle_P->at(WhichTrack) > ChargedPionMomentumThres)		
+//					{ Track_MCParticle_PionCounter++; }
+//					
+//				}
 
 //			}
+//
+
+			if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) || 
+				Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(SecondPFParticleDaughter)) {
+
+				TVector3 TVector3TrackStart(Track_StartX->at(WhichTrack),Track_StartY->at(WhichTrack),Track_StartZ->at(WhichTrack));
+				TVector3 TVector3TrackEnd(Track_EndX->at(WhichTrack),Track_EndY->at(WhichTrack),Track_EndZ->at(WhichTrack));
+
+				VectorTrackStart.push_back(TVector3TrackStart);
+				VectorTrackEnd.push_back(TVector3TrackEnd);
+
+				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) ) { FirstTrackIndex.push_back(WhichTrack); }
+				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(SecondPFParticleDaughter) ) { SecondTrackIndex.push_back(WhichTrack); }
+
+			}
 			
 		} // end of the loop over the recob::Tracks
 
-		if (Track_MCParticle_MuonCounter == 1 && Track_MCParticle_ProtonCounter == 1 && Track_MCParticle_PionCounter == 0) { fCC1p = 1; fMCParticle_Mode = MCTruth_Mode->at(0); }
 
-//int NCandidateTrackPairs = VectorTrackStart.size() / 2;
-//if (NCandidateTrackPairs != 1) { continue; }
+int NCandidateTrackPairs = FirstTrackIndex.size();
+if (NCandidateTrackPairs != 1) { continue; }
 
+double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
+TrackPairDistance.push_back(fTrackPairDistance);
 
-//double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
-//TrackPairDistance.push_back(fTrackPairDistance);
-
-
-//TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
-//TrackPairVertexPosition.push_back(VertexPositionV3);
+TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
+TrackPairVertexPosition.push_back(VertexPositionV3);
 
 		// Get the candidate track pairs
 
-		TrackVertexSorting recob_trackvertexsorting; 
-		recob_trackvertexsorting.CandidateTrackPairs(VectorTrackStart,VectorTrackEnd);
+//		TrackVertexSorting recob_trackvertexsorting; 
+//		recob_trackvertexsorting.CandidateTrackPairs(VectorTrackStart,VectorTrackEnd);
 
-		std::vector<int> FirstTrackIndex = recob_trackvertexsorting.ReturnFirstTrackVector();
-		std::vector<int> SecondTrackIndex = recob_trackvertexsorting.ReturnSecondTrackVector();
-		std::vector<double> TrackPairDistance = recob_trackvertexsorting.ReturnTrackPairDistance();
-		std::vector<TVector3> TrackPairVertexPosition = recob_trackvertexsorting.ReturnVertexPosition();
+//		std::vector<int> FirstTrackIndex = recob_trackvertexsorting.ReturnFirstTrackVector();
+//		std::vector<int> SecondTrackIndex = recob_trackvertexsorting.ReturnSecondTrackVector();
+//		std::vector<double> TrackPairDistance = recob_trackvertexsorting.ReturnTrackPairDistance();
+//		std::vector<TVector3> TrackPairVertexPosition = recob_trackvertexsorting.ReturnVertexPosition();
 
-		int NCandidateTrackPairs = FirstTrackIndex.size();
+//		int NCandidateTrackPairs = FirstTrackIndex.size();
 
-		if (NCandidateTrackPairs == 0) { continue; }
-
-		CC1p = fCC1p;
-		MCParticle_Mode = fMCParticle_Mode;
+//		if (NCandidateTrackPairs == 0) { continue; }
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -402,36 +358,19 @@ void PreSelection::Loop() {
 
 		CandidateMu_Mode.clear();
 		CandidateMu_P.clear();
-//		CandidateMu_KE.clear();
-//		CandidateMu_E.clear();
 		CandidateMu_Phi.clear();
 		CandidateMu_CosTheta.clear();
-//		CandidateMu_Length.clear();
 		CandidateMu_Chi2_YPlane.clear();
+		CandidateMu_ThreePlaneLogLikelihood.clear();
 		CandidateMu_ThreePlaneChi2.clear();
-//		CandidateMu_StartX.clear();
-//		CandidateMu_StartY.clear();
-//		CandidateMu_StartZ.clear();
-//		CandidateMu_EndX.clear();
-//		CandidateMu_EndY.clear();
-//		CandidateMu_EndZ.clear();
 		CandidateMu_StartContainment.clear();
 		CandidateMu_EndContainment.clear();
 		CandidateMu_MCParticle_Pdg.clear();
 		CandidateMu_MCParticle_Purity.clear();
 
 		True_CandidateMu_P.clear();
-//		True_CandidateMu_KE.clear();
-//		True_CandidateMu_E.clear();
 		True_CandidateMu_Phi.clear();
 		True_CandidateMu_CosTheta.clear();
-//		True_CandidateMu_Length.clear();
-//		True_CandidateMu_StartX.clear();
-//		True_CandidateMu_StartY.clear();
-//		True_CandidateMu_StartZ.clear();
-//		True_CandidateMu_EndX.clear();
-//		True_CandidateMu_EndY.clear();
-//		True_CandidateMu_EndZ.clear();
 		True_CandidateMu_StartContainment.clear();
 		True_CandidateMu_EndContainment.clear();
 
@@ -439,36 +378,19 @@ void PreSelection::Loop() {
 
 		CandidateP_Mode.clear();
 		CandidateP_P.clear();
-//		CandidateP_KE.clear();
-//		CandidateP_E.clear();
 		CandidateP_Phi.clear();
 		CandidateP_CosTheta.clear();
-//		CandidateP_Length.clear();
 		CandidateP_Chi2_YPlane.clear();
+		CandidateP_ThreePlaneLogLikelihood.clear();
 		CandidateP_ThreePlaneChi2.clear();
-//		CandidateP_StartX.clear();
-//		CandidateP_StartY.clear();
-//		CandidateP_StartZ.clear();
-//		CandidateP_EndX.clear();
-//		CandidateP_EndY.clear();
-//		CandidateP_EndZ.clear();
 		CandidateP_StartContainment.clear();
 		CandidateP_EndContainment.clear();
 		CandidateP_MCParticle_Pdg.clear();
 		CandidateP_MCParticle_Purity.clear();
 
 		True_CandidateP_P.clear();
-//		True_CandidateP_KE.clear();
-//		True_CandidateP_E.clear();
 		True_CandidateP_Phi.clear();
 		True_CandidateP_CosTheta.clear();
-//		True_CandidateP_Length.clear();
-//		True_CandidateP_StartX.clear();
-//		True_CandidateP_StartY.clear();
-//		True_CandidateP_StartZ.clear();
-//		True_CandidateP_EndX.clear();
-//		True_CandidateP_EndY.clear();
-//		True_CandidateP_EndZ.clear();
 		True_CandidateP_StartContainment.clear();
 		True_CandidateP_EndContainment.clear();
 
@@ -483,8 +405,12 @@ void PreSelection::Loop() {
 
 			// Get the muon & proton candidates
 
-			int CandidateMuonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
-			int CandidateProtonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
+//			int CandidateMuonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
+//			int CandidateProtonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
+
+			int CandidateMuonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) > Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
+			int CandidateProtonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) > Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
+
 
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -510,16 +436,6 @@ void PreSelection::Loop() {
 
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-			// Track-PFParticle Associations
-
-if (  !(fabs(CandidateMuonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(0)) < MaxPFParticleTrackDistance || 
-				fabs(CandidateMuonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(1)) < MaxPFParticleTrackDistance) ) { continue; }
-
-if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(0)) < MaxPFParticleTrackDistance || 
-				fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->at(0).at(1)) < MaxPFParticleTrackDistance) ) { continue; }
-
-			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
 			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
 			Vertex_Y.push_back(TrackPairVertexPosition.at(WhichTrackPair).Y());
@@ -534,6 +450,10 @@ if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->
 			double CandidateMuonTrack_KE_MeV = -99.;
 			double CandidateMuonTrack_KE_GeV = -99.;
 			double CandidateMuonTrack_E_GeV = -99.;
+			double CalCandidateMu_ThreePlaneChi2 = ThreePlaneChi2(CandidateMuonTrackStart,CandidateMuonTrackEnd,
+								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateMuonTrackIndex),
+								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateMuonTrackIndex),
+								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 
 			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
@@ -554,19 +474,11 @@ if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->
 			}
 
 			CandidateMu_P.push_back(CandidateMuonTrack_Momentum_MCS_GeV);
-//			CandidateMu_KE.push_back(CandidateMuonTrack_KE_GeV);
-//			CandidateMu_E.push_back(CandidateMuonTrack_E_GeV);
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
 			CandidateMu_CosTheta.push_back(CandidateMuonTrackCosTheta);
-//			CandidateMu_Length.push_back(Track_Length->at(CandidateMuonTrackIndex)); // cm
 			CandidateMu_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
-			CandidateMu_ThreePlaneChi2.push_back(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateMuonTrackIndex));
-//			CandidateMu_StartX.push_back(CandidateMuonTrackStart.X());
-//			CandidateMu_StartY.push_back(CandidateMuonTrackStart.Y());
-//			CandidateMu_StartZ.push_back(CandidateMuonTrackStart.Z());
-//			CandidateMu_EndX.push_back(CandidateMuonTrackEnd.X());
-//			CandidateMu_EndY.push_back(CandidateMuonTrackEnd.Y());
-//			CandidateMu_EndZ.push_back(CandidateMuonTrackEnd.Z());
+			CandidateMu_ThreePlaneLogLikelihood.push_back(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateMuonTrackIndex));
+			CandidateMu_ThreePlaneChi2.push_back(CalCandidateMu_ThreePlaneChi2);
 			CandidateMu_StartContainment.push_back(CandidateMuonTrackStartContainment);
 			CandidateMu_EndContainment.push_back(CandidateMuonTrackEndContainment);
 
@@ -579,6 +491,10 @@ if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->
 			double CandidateProtonTrack_KE_MeV = -99.;
 			double CandidateProtonTrack_KE_GeV = -99.;
 			double CandidateProtonTrack_E_GeV = -99.;
+			double CalCandidateP_ThreePlaneChi2 = ThreePlaneChi2(CandidateProtonTrackStart,CandidateProtonTrackEnd,
+								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateProtonTrackIndex),
+								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateProtonTrackIndex),
+								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
 
 			if (CandidateProtonTrackStartContainment == true && CandidateProtonTrackEndContainment == true) {
 
@@ -599,26 +515,18 @@ if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->
 			}
 
 			CandidateP_P.push_back(CandidateProtonTrack_Momentum_MCS_GeV);
-//			CandidateP_KE.push_back(CandidateProtonTrack_KE_GeV);
-//			CandidateP_E.push_back(CandidateProtonTrack_E_GeV);
 			CandidateP_Phi.push_back(Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi()); // deg
 			CandidateP_CosTheta.push_back(CandidateProtonTrackCosTheta);
-//			CandidateP_Length.push_back(Track_Length->at(CandidateProtonTrackIndex)); // cm
 			CandidateP_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
-			CandidateP_ThreePlaneChi2.push_back(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateProtonTrackIndex));
-//			CandidateP_StartX.push_back(CandidateProtonTrackStart.X());
-//			CandidateP_StartY.push_back(CandidateProtonTrackStart.Y());
-//			CandidateP_StartZ.push_back(CandidateProtonTrackStart.Z());
-//			CandidateP_EndX.push_back(CandidateProtonTrackEnd.X());
-//			CandidateP_EndY.push_back(CandidateProtonTrackEnd.Y());
-//			CandidateP_EndZ.push_back(CandidateProtonTrackEnd.Z());
+			CandidateP_ThreePlaneLogLikelihood.push_back(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateProtonTrackIndex));
+			CandidateP_ThreePlaneChi2.push_back(CalCandidateP_ThreePlaneChi2);
 			CandidateP_StartContainment.push_back(CandidateProtonTrackStartContainment);
 			CandidateP_EndContainment.push_back(CandidateProtonTrackEndContainment);
 
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-			if (WhichSample == "Overlay9")	{
+			if (WhichSample == "Overlay9" || WhichSample == "OverlayDirt9")	{
 
 				CandidateMu_MCParticle_Pdg.push_back(Track_MCParticle_PdgCode->at(CandidateMuonTrackIndex));
 				CandidateMu_MCParticle_Purity.push_back(Track_MCParticle_Purity->at(CandidateMuonTrackIndex));
@@ -644,17 +552,8 @@ if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->
 				double TrueCandidateMuonTrack_E_GeV = TrueCandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV
 
 				True_CandidateMu_P.push_back(TrueCandidateMuonTrackMomentum_GeV);
-//				True_CandidateMu_KE.push_back(TrueCandidateMuonTrack_KE_GeV);
-//				True_CandidateMu_E.push_back(TrueCandidateMuonTrack_E_GeV);
 				True_CandidateMu_Phi.push_back(TrueCandidateMuonTrackPhi_Deg); // deg
 				True_CandidateMu_CosTheta.push_back(TrueCandidateMuonTrackCosTheta);
-//				True_CandidateMu_Length.push_back(TrueCandidateMuonTrackLength); // cm
-//				True_CandidateMu_StartX.push_back(TrueCandidateMuonTrackStart.X());
-//				True_CandidateMu_StartY.push_back(TrueCandidateMuonTrackStart.Y());
-//				True_CandidateMu_StartZ.push_back(TrueCandidateMuonTrackStart.Z());
-//				True_CandidateMu_EndX.push_back(TrueCandidateMuonTrackEnd.X());
-//				True_CandidateMu_EndY.push_back(TrueCandidateMuonTrackEnd.Y());
-//				True_CandidateMu_EndZ.push_back(TrueCandidateMuonTrackEnd.Z());
 				True_CandidateMu_StartContainment.push_back(TrueCandidateMuonTrackStartContainment);
 				True_CandidateMu_EndContainment.push_back(TrueCandidateMuonTrackEndContainment);
 
@@ -684,27 +583,42 @@ if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->
 				double TrueCandidateProtonTrack_E_GeV = TrueCandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV
 
 				True_CandidateP_P.push_back(TrueCandidateProtonTrackMomentum_GeV);
-//				True_CandidateP_KE.push_back(TrueCandidateProtonTrack_KE_GeV);
-//				True_CandidateP_E.push_back(TrueCandidateProtonTrack_E_GeV);
 				True_CandidateP_Phi.push_back(TrueCandidateProtonTrackPhi_Deg); // deg
-				True_CandidateP_CosTheta.push_back(TrueCandidateProtonTrackCosTheta);
-//				True_CandidateP_Length.push_back(TrueCandidateProtonTrackLength); // cm
-//				True_CandidateP_StartX.push_back(TrueCandidateProtonTrackStart.X());
-//				True_CandidateP_StartY.push_back(TrueCandidateProtonTrackStart.Y());
-//				True_CandidateP_StartZ.push_back(TrueCandidateProtonTrackStart.Z());
-//				True_CandidateP_EndX.push_back(TrueCandidateProtonTrackEnd.X());
-//				True_CandidateP_EndY.push_back(TrueCandidateProtonTrackEnd.Y());
-//				True_CandidateP_EndZ.push_back(TrueCandidateProtonTrackEnd.Z());
 				True_CandidateP_StartContainment.push_back(TrueCandidateProtonTrackStartContainment);
 				True_CandidateP_EndContainment.push_back(TrueCandidateProtonTrackEndContainment);
 
 
 			} // only for overlays
 
-//if ( CandidateMuP_Distance.size() == 0) { continue; }
 			EventCounter++;
 
 		} // End of the loop over the candidate track pairs
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// MCParticle Loop
+
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TrueNeutralPionCounter = 0;
+		int NMCParticles = MCParticle_PdgCode->size();
+
+		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
+
+			if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsMuonMomentum[0]) { TrueMuonCounter++; }
+
+			if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsProtonMomentum[0]) { TrueProtonCounter++; }
+
+			if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticle_P->at(WhichMCParticle) > ChargedPionMomentumThres) { TrueChargedPionCounter++; }
+
+		} // end of the loop over the simb::MCParticles
+
+		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 300 MeV / c) & pi+/- (Ppi > 70 MeV / c)
+
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
+
+		if (MCTruth_Mode->size() == 1) { fMCParticle_Mode = MCTruth_Mode->at(0); }
+
+		CC1p = fCC1p;
+		MCParticle_Mode = fMCParticle_Mode;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -732,5 +646,35 @@ if (  !(fabs(CandidateProtonTrackStart.X() - TracksFromCurrentPFParticleStartX->
 
 } // end of the program
 
-//________________________________________________________________________________________________________________________________________________________________________________________________
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2){
+
+	TVector3 TrackDiff = TrackEnd - TrackStart;
+	double theta_Plane2 = std::atan2(TrackDiff.Z(),TrackDiff.Y());
+	double theta_Plane1 = theta_Plane2 + TMath::Pi();
+	double theta_Plane0 = theta_Plane2 - TMath::Pi();
+
+	int w2 = 0; int w1 = 0; int w0 = 0;
+	double sin2_pl2 = sin(theta_Plane2) * sin(theta_Plane2);
+	double sin2_pl1 = sin(theta_Plane1) * sin(theta_Plane1);
+	double sin2_pl0 = sin(theta_Plane0) * sin(theta_Plane0);
+
+	// Get projected angle wrt to the wires (docdb 23008)
+	if (sin2_pl2 >= 0.5) w2 = 1;
+	if (sin2_pl1 >= 0.5) w1 = 1;
+	if (sin2_pl0 >= 0.5) w0 = 1;
+
+	double PID_Chi2P_3pl = -1.;
+	int ww0 = w0; int ww1 = w1; int ww2 = w2; // copy from the origin
+	if (Chi2_Plane0 < 0) ww0 = 0;
+	if (Chi2_Plane1 < 0) ww1 = 0;
+	if (Chi2_Plane2 < 0) ww2 = 0;
+	if (ww0 + ww1 + ww2 == 0) PID_Chi2P_3pl = -999;
+	else PID_Chi2P_3pl = (ww0 * Chi2_Plane0 + ww1 * Chi2_Plane0 + ww2 * Chi2_Plane0) / (ww0 + ww1 + ww2);
+
+	return PID_Chi2P_3pl;
+
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
