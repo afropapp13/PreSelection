@@ -15,10 +15,9 @@
 
 using namespace Constants;
 
-//TString WhichSample = "Run1Data9"; int NFiles = 15;
-//TString WhichSample = "ExtBNB9"; int NFiles = 15;
 TString WhichSample = "Overlay9"; int NFiles = 15;
-//TString WhichSample = "OverlayDirt9"; int NFiles = 10;
+//TString WhichSample = "Overlay9_DLdown"; int NFiles = 15;
+//TString WhichSample = "Overlay9_SCE"; int NFiles = 15;
 
 TString CCQEPath = "/pnfs/uboone/persistent/users/apapadop/"+WhichSample+"/"+UBCodeVersion+"/";
 
