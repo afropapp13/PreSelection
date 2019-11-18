@@ -4,6 +4,7 @@
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
+#include <TString.h>
 
 #include "ubana/MyClasses/Constants.h"
 
@@ -15,19 +16,11 @@
 
 using namespace Constants;
 
-TString WhichSample = "Run1Data9"; int NFiles = 15;
-//TString WhichSample = "ExtBNB9"; int NFiles = 15;
-//TString WhichSample = "OverlayDirt9"; int NFiles = 10;
-
-//TString WhichSample = "Overlay9"; int NFiles = 15;
-//TString WhichSample = "Overlay9_SCE"; int NFiles = 15;
-//TString WhichSample = "Overlay9_DLdown"; int NFiles = 15;
-
-TString CCQEPath = "/pnfs/uboone/persistent/users/apapadop/"+WhichSample+"/"+UBCodeVersion+"/";
-
-TString Name = CCQEPath+"my"+WhichSample+"_"+WhichRun+"_"+UBCodeVersion+"_Part";
-
 class PreSelection {
+
+private:
+	TString fWhichSample;
+
 public :
 
    //TTree           *fChain;   //!pointer to the analyzed TTree or TChain
@@ -279,7 +272,7 @@ public :
    TBranch        *b_PFParticle_FlashScore;   //!
 
    //PreSelection(TTree *tree=0);
-   PreSelection(TChain *tree=0);
+   PreSelection(TString WhichSample="", TChain *tree=0);
 
    virtual ~PreSelection();
    virtual Int_t    Cut(Long64_t entry);
@@ -298,7 +291,7 @@ public :
 #endif
 
 #ifdef PreSelection_cxx
-PreSelection::PreSelection(TChain *tree) : fChain(0) 
+PreSelection::PreSelection(TString WhichSample, TChain *tree) : fChain(0) 
 //PreSelection::PreSelection(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
@@ -315,14 +308,21 @@ PreSelection::PreSelection(TChain *tree) : fChain(0)
 //   }
 //   Init(tree);
 
+	fWhichSample = WhichSample;
+
+	TString CCQEPath = "/pnfs/uboone/persistent/users/apapadop/"+fWhichSample+"/"+UBCodeVersion+"/";
+
+	TString Name = CCQEPath+"my"+fWhichSample+"_"+WhichRun+"_"+UBCodeVersion+"_Part";
+
 	TChain* fmyLocalChain = new TChain("myTTree");
 
+	int NFiles = 15;
 	for (int i = 1; i < NFiles+1; i++) {
 		fmyLocalChain->Add(Name+ToString(i)+".root");
 	}
 
 	tree = fmyLocalChain;
-	std::cout << endl << "Total # " + WhichSample + " " + WhichRun + " Entries = " << tree->GetEntries() << std::endl << std::endl;
+	std::cout << endl << "Total # " + fWhichSample + " " + WhichRun + " Entries = " << tree->GetEntries() << std::endl << std::endl;
 	Init(tree);	
 
 }

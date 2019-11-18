@@ -51,7 +51,7 @@ void PreSelection::Loop() {
 
 	// Output Files
 
-	TString FileName = "./OutputFiles/"+UBCodeVersion+"/PreSelection_"+WhichSample+"_"+UBCodeVersion+".root";
+	TString FileName = "./OutputFiles/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -281,32 +281,6 @@ void PreSelection::Loop() {
 
 		for (int WhichTrack = 0; WhichTrack < NumberTracks; WhichTrack++) {
 
-			// Make sure that we have non-zero length tracks by demanding a min length of 0.3 cm (distance between wires)
-
-//			if (Track_Length->at(WhichTrack) > UBSpaceReso) {
-
-//				TVector3 TVector3TrackStart(Track_StartX->at(WhichTrack),Track_StartY->at(WhichTrack),Track_StartZ->at(WhichTrack));
-//				TVector3 TVector3TrackEnd(Track_EndX->at(WhichTrack),Track_EndY->at(WhichTrack),Track_EndZ->at(WhichTrack));
-
-//				VectorTrackStart.push_back(TVector3TrackStart);
-//				VectorTrackEnd.push_back(TVector3TrackEnd);
-
-//				if ( string(WhichSample).find("Overlay") != std::string::npos && Track_MCParticle_PdgCode->size() != 0 ) { 
-
-//					if (Track_MCParticle_PdgCode->at(WhichTrack) == MuonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsMuonMomentum[0]) 
-//						{ Track_MCParticle_MuonCounter++; }
-
-//					if (Track_MCParticle_PdgCode->at(WhichTrack) == ProtonPdg && Track_MCParticle_P->at(WhichTrack) > ArrayNBinsProtonMomentum[0]) 
-//						{ Track_MCParticle_ProtonCounter++; }
-
-//					if (fabs(Track_MCParticle_PdgCode->at(WhichTrack)) == AbsChargedPionPdg && Track_MCParticle_P->at(WhichTrack) > ChargedPionMomentumThres)		
-//					{ Track_MCParticle_PionCounter++; }
-//					
-//				}
-
-//			}
-//
-
 			if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) || 
 				Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(SecondPFParticleDaughter)) {
 
@@ -324,28 +298,14 @@ void PreSelection::Loop() {
 		} // end of the loop over the recob::Tracks
 
 
-int NCandidateTrackPairs = FirstTrackIndex.size();
-if (NCandidateTrackPairs != 1) { continue; }
+		int NCandidateTrackPairs = FirstTrackIndex.size();
+		if (NCandidateTrackPairs != 1) { continue; }
 
-double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
-TrackPairDistance.push_back(fTrackPairDistance);
+		double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
+		TrackPairDistance.push_back(fTrackPairDistance);
 
-TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
-TrackPairVertexPosition.push_back(VertexPositionV3);
-
-		// Get the candidate track pairs
-
-//		TrackVertexSorting recob_trackvertexsorting; 
-//		recob_trackvertexsorting.CandidateTrackPairs(VectorTrackStart,VectorTrackEnd);
-
-//		std::vector<int> FirstTrackIndex = recob_trackvertexsorting.ReturnFirstTrackVector();
-//		std::vector<int> SecondTrackIndex = recob_trackvertexsorting.ReturnSecondTrackVector();
-//		std::vector<double> TrackPairDistance = recob_trackvertexsorting.ReturnTrackPairDistance();
-//		std::vector<TVector3> TrackPairVertexPosition = recob_trackvertexsorting.ReturnVertexPosition();
-
-//		int NCandidateTrackPairs = FirstTrackIndex.size();
-
-//		if (NCandidateTrackPairs == 0) { continue; }
+		TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
+		TrackPairVertexPosition.push_back(VertexPositionV3);
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -408,8 +368,8 @@ TrackPairVertexPosition.push_back(VertexPositionV3);
 //			int CandidateMuonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
 //			int CandidateProtonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
 
-			int CandidateMuonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) > Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
-			int CandidateProtonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) > Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
+			int CandidateMuonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) < Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
+			int CandidateProtonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) < Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
 
 
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -526,7 +486,8 @@ TrackPairVertexPosition.push_back(VertexPositionV3);
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-			if (WhichSample == "Overlay9" || WhichSample == "OverlayDirt9")	{
+//			if (fWhichSample == "Overlay9" || fWhichSample == "OverlayDirt9") {
+			if (string(fWhichSample).find("Overlay") != std::string::npos) {
 
 				CandidateMu_MCParticle_Pdg.push_back(Track_MCParticle_PdgCode->at(CandidateMuonTrackIndex));
 				CandidateMu_MCParticle_Purity.push_back(Track_MCParticle_Purity->at(CandidateMuonTrackIndex));
@@ -584,6 +545,7 @@ TrackPairVertexPosition.push_back(VertexPositionV3);
 
 				True_CandidateP_P.push_back(TrueCandidateProtonTrackMomentum_GeV);
 				True_CandidateP_Phi.push_back(TrueCandidateProtonTrackPhi_Deg); // deg
+				True_CandidateP_CosTheta.push_back(TrueCandidateProtonTrackCosTheta);
 				True_CandidateP_StartContainment.push_back(TrueCandidateProtonTrackStartContainment);
 				True_CandidateP_EndContainment.push_back(TrueCandidateProtonTrackEndContainment);
 
