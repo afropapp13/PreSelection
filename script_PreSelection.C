@@ -12,6 +12,8 @@
 	WhichSampleArray.push_back("Overlay9_SCE");
 	WhichSampleArray.push_back("Overlay9_DLdown");
 
+	// ----------------------------------------------------------------------------------
+
 	gROOT->ProcessLine(".L ../../MyClasses/TrackVertexSorting.cxx+");
 	gROOT->ProcessLine(".L ../../MyClasses/Tools.cxx+");
 
@@ -22,5 +24,5 @@
 
 	}
 
-	gROOT->ProcessLine(".q");
+	//gROOT->ProcessLine(".q");
 };

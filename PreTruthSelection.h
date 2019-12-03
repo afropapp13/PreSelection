@@ -15,15 +15,11 @@
 
 using namespace Constants;
 
-TString WhichSample = "Overlay9"; int NFiles = 15;
-//TString WhichSample = "Overlay9_DLdown"; int NFiles = 15;
-//TString WhichSample = "Overlay9_SCE"; int NFiles = 15;
-
-TString CCQEPath = "/pnfs/uboone/persistent/users/apapadop/"+WhichSample+"/"+UBCodeVersion+"/";
-
-TString Name = CCQEPath+"my"+WhichSample+"_"+WhichRun+"_"+UBCodeVersion+"_Part";
-
 class PreTruthSelection {
+
+private:
+   TString fWhichSample;
+
 public :
 
    //TTree           *fChain;   //!pointer to the analyzed TTree or TChain
@@ -103,7 +99,7 @@ public :
    TBranch        *b_MCTruth_InteractionType;   //!
 
    //PreTruthSelection(TTree *tree=0);
-   PreTruthSelection(TChain *tree=0);
+   PreTruthSelection(TString WhichSample,TChain *tree=0);
 
    virtual ~PreTruthSelection();
    virtual Int_t    Cut(Long64_t entry);
@@ -122,7 +118,7 @@ public :
 #endif
 
 #ifdef PreTruthSelection_cxx
-PreTruthSelection::PreTruthSelection(TChain *tree) : fChain(0) 
+PreTruthSelection::PreTruthSelection(TString WhichSample,TChain *tree) : fChain(0) 
 //PreTruthSelection::PreTruthSelection(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
@@ -139,14 +135,21 @@ PreTruthSelection::PreTruthSelection(TChain *tree) : fChain(0)
 //   }
 //   Init(tree);
 
+	fWhichSample = WhichSample;
+
+	TString CCQEPath = "/pnfs/uboone/persistent/users/apapadop/"+fWhichSample+"/"+UBCodeVersion+"/";
+
+	TString Name = CCQEPath+"my"+fWhichSample+"_"+WhichRun+"_"+UBCodeVersion+"_Part";
+
 	TChain* fmyLocalChain = new TChain("myTTree");
 
+	int NFiles = 15;
 	for (int i = 1; i < NFiles+1; i++) {
 		fmyLocalChain->Add(Name+ToString(i)+".root");
 	}
 
 	tree = fmyLocalChain;
-	std::cout << endl << "Total # " + WhichSample + " " + WhichRun + " Entries = " << tree->GetEntries() << std::endl << std::endl;
+	std::cout << std::endl << std::endl << "Total # " +fWhichSample + " " + WhichRun + " Entries = " << tree->GetEntries() << std::endl << std::endl;
 	Init(tree);	
 
 }
