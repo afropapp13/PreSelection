@@ -65,6 +65,7 @@ void PreSelection::Loop() {
 
 //	int PassedSwTrigger;
 	double Weight;
+	double T2KWeight;
 	int CC1p;
 	int MCParticle_Mode;
 
@@ -128,6 +129,7 @@ void PreSelection::Loop() {
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("Weight",&Weight);
+	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("CC1p",&CC1p);
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 
@@ -211,6 +213,9 @@ void PreSelection::Loop() {
 //		double weight = 1.;
 		double weight = EventWeight->at(0);
 		Weight = weight;
+
+		double T2Kweight = T2KEventWeight->at(0);
+		T2KWeight = T2Kweight;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
