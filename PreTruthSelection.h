@@ -29,6 +29,7 @@ public :
 
    // Declaration of leaf types
    std::vector<double>  *EventWeight;
+   std::vector<double>  *T2KEventWeight;
    Int_t           isData;
    Int_t           RunNumber;
    Int_t           SubRunNumber;
@@ -65,6 +66,7 @@ public :
    // List of branches
 
    TBranch        *b_EventWeight;   //!
+   TBranch        *b_T2KEventWeight;   //!
 
    TBranch        *b_isData;   //!
    TBranch        *b_RunNumber;   //!
@@ -192,6 +194,7 @@ void PreTruthSelection::Init(TChain *tree)
 
    // Set object pointer
    EventWeight = 0;
+   T2KEventWeight = 0;
 
    MCParticle_Mother = 0;
    MCParticle_StatusCode = 0;
@@ -226,6 +229,7 @@ void PreTruthSelection::Init(TChain *tree)
    fChain->SetMakeClass(1);
 
    fChain->SetBranchAddress("EventWeight", &EventWeight, &b_EventWeight);
+   fChain->SetBranchAddress("T2KEventWeight", &T2KEventWeight, &b_T2KEventWeight);
 
    fChain->SetBranchAddress("isData", &isData, &b_isData);
    fChain->SetBranchAddress("RunNumber", &RunNumber, &b_RunNumber);
