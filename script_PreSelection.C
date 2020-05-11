@@ -1,10 +1,11 @@
 {
 
 	vector<TString> WhichSampleArray;
-	WhichSampleArray.push_back("Run1Data9");
-	WhichSampleArray.push_back("ExtBNB9");
-	WhichSampleArray.push_back("OverlayDirt9");
-       	WhichSampleArray.push_back("Overlay9"); // CV
+
+	WhichSampleArray.push_back("BeamOn9_Run1");
+	WhichSampleArray.push_back("ExtBNB9_Run1");
+	WhichSampleArray.push_back("OverlayDirt9_Run1");
+       	WhichSampleArray.push_back("Overlay9_Run1"); // CV
 	
 	// ----------------------------------------------------------------------------------
 

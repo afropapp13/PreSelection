@@ -40,14 +40,6 @@ void PreTruthSelection::Loop() {
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// Momentum from range
-
-	TFile *fSpines = TFile::Open("Proton_Muon_Range_dEdx_LAr_TSplines.root","READ");
-	TSpline3* sMuonRange2T = (TSpline3*)fSpines->Get("sMuonRange2T");
-	TSpline3* sProtonRange2T = (TSpline3*)fSpines->Get("sProtonRange2T");
-
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 	// Output Files
 
 	TString FileName = "./OutputFiles/"+UBCodeVersion+"/PreTruthSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
@@ -76,6 +68,7 @@ void PreTruthSelection::Loop() {
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	int NumberMCParticles;
+	int CC1p;
 
 	std::vector<int> MCParticle_Mode;
 	std::vector<double> MCParticle_Mom;
@@ -101,6 +94,7 @@ void PreTruthSelection::Loop() {
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("NumberMCParticles",&NumberMCParticles);
+	tree->Branch("CC1p",&CC1p);
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 	tree->Branch("MCParticle_Mom",&MCParticle_Mom);
 //	tree->Branch("MCParticle_KE",&MCParticle_KE);
@@ -127,7 +121,7 @@ void PreTruthSelection::Loop() {
 
 	int EventCounter = 0;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
 //	for (Long64_t jentry=0; jentry<1002;jentry++) {
@@ -136,7 +130,7 @@ void PreTruthSelection::Loop() {
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 		Long64_t ientry = LoadTree(jentry); if (ientry < 0) break; nb = fChain->GetEntry(jentry); nbytes += nb;
 
-		// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //		double weight = 1.;
 		double weight = EventWeight->at(0);
@@ -145,7 +139,7 @@ void PreTruthSelection::Loop() {
 		double T2Kweight = T2KEventWeight->at(0);
 		T2KWeight = T2Kweight;
 
-		// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		// MCParticles
 
@@ -168,6 +162,8 @@ void PreTruthSelection::Loop() {
 		int NMCParticles = MCParticle_Vx->size();
 
 		int StableMCParticles = 0;
+		int fCC1p = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
 
 		// Loop over the MCParticles and determine the populations
 
@@ -193,6 +189,13 @@ void PreTruthSelection::Loop() {
 				double TrueMomentum_MeV = 1000. * TrueMomentum_GeV; // MeV
 				double TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(WhichMCParticle),TrueMomentum_MeV); // MeV
 				double TrueKE_GeV = TrueKE_MeV / 1000.; // GeV
+
+				if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsMuonMomentum[0]) { TrueMuonCounter++; }
+
+				if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsProtonMomentum[0]) { TrueProtonCounter++; }
+
+				if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticle_P->at(WhichMCParticle) > ChargedPionMomentumThres) 
+					{ TrueChargedPionCounter++; }
 
 				if (TrueStartContainment == 1) {
 
@@ -220,6 +223,9 @@ void PreTruthSelection::Loop() {
 
 		} // end of the loop over the MCParticles
 
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
+		CC1p = fCC1p;
+
 		NumberMCParticles = StableMCParticles;
 
 		EventCounter++;
@@ -242,7 +248,6 @@ void PreTruthSelection::Loop() {
 	OutputFile->cd();
 	OutputFile->Write();
 	OutputFile->Close();
-	fSpines->Close();
 	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
 
 } // end of the program

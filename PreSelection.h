@@ -31,6 +31,9 @@ public :
    // Declaration of leaf types
    std::vector<double>  *EventWeight;
    std::vector<double>  *T2KEventWeight;
+//   std::vector<std::vector<std::string > > *EventWeightNames;
+   std::vector<std::vector<std::vector<double> > > *EventWeightValues;
+
    Int_t           isData;
    Int_t           RunNumber;
    Int_t           SubRunNumber;
@@ -142,6 +145,12 @@ public :
    vector<vector<double>> *TracksFromCurrentPFParticleStartX;
 
    std::vector<double>  *MCParticle_Vx;
+   std::vector<double>  *MCParticle_Vy;
+   std::vector<double>  *MCParticle_Vz;
+   std::vector<double>  *MCParticle_EndX;
+   std::vector<double>  *MCParticle_EndY;
+   std::vector<double>  *MCParticle_EndZ;
+
    std::vector<int>     *MCParticle_StatusCode;
    std::vector<int>     *MCParticle_PdgCode;
    std::vector<double>     *MCParticle_P;
@@ -153,6 +162,8 @@ public :
 
    TBranch        *b_EventWeight;   //!
    TBranch        *b_T2KEventWeight;   //!
+//   TBranch        *b_EventWeightNames;   //!
+   TBranch        *b_EventWeightValues;   //!
 
    TBranch        *b_isData;   //!
    TBranch        *b_RunNumber;   //!
@@ -266,6 +277,13 @@ public :
    TBranch        *b_TracksFromCurrentPFParticleStartX;   //!
 
    TBranch        *b_MCParticle_Vx;   //!
+   TBranch        *b_MCParticle_Vy;   //!
+   TBranch        *b_MCParticle_Vz;   //!
+
+   TBranch        *b_MCParticle_EndX;   //!
+   TBranch        *b_MCParticle_EndY;   //!
+   TBranch        *b_MCParticle_EndZ;   //!
+
    TBranch        *b_MCParticle_StatusCode;   //!
    TBranch        *b_MCParticle_PdgCode;   //!
    TBranch        *b_MCParticle_P;   //!
@@ -314,7 +332,7 @@ PreSelection::PreSelection(TString WhichSample, TChain *tree) : fChain(0)
 
 	TString CCQEPath = "/pnfs/uboone/persistent/users/apapadop/"+fWhichSample+"/"+UBCodeVersion+"/";
 
-	TString Name = CCQEPath+"my"+fWhichSample+"_"+WhichRun+"_"+UBCodeVersion+"_Part";
+	TString Name = CCQEPath+"my"+fWhichSample+"_"+UBCodeVersion+"_Part";
 
 	TChain* fmyLocalChain = new TChain("myTTree");
 
@@ -324,7 +342,7 @@ PreSelection::PreSelection(TString WhichSample, TChain *tree) : fChain(0)
 	}
 
 	tree = fmyLocalChain;
-	std::cout << endl << "Total # " + fWhichSample + " " + WhichRun + " Entries = " << tree->GetEntries() << std::endl << std::endl;
+	std::cout << endl << "Total # " + fWhichSample  + " Entries = " << tree->GetEntries() << std::endl << std::endl;
 	Init(tree);	
 
 }
@@ -368,6 +386,8 @@ void PreSelection::Init(TChain *tree)
    // Set object pointer
    EventWeight = 0;
    T2KEventWeight = 0;
+//   EventWeightNames = 0;
+   EventWeightValues = 0;
 
    Track_Length = 0;
    Track_Phi = 0;
@@ -470,6 +490,13 @@ void PreSelection::Init(TChain *tree)
    TracksFromCurrentPFParticleStartX = 0;
 
    MCParticle_Vx = 0;
+   MCParticle_Vy = 0;
+   MCParticle_Vz = 0;
+
+   MCParticle_EndX = 0;
+   MCParticle_EndY = 0;
+   MCParticle_EndZ = 0;
+
    MCParticle_StatusCode = 0;
    MCParticle_PdgCode = 0;
    MCParticle_P = 0;
@@ -485,6 +512,8 @@ void PreSelection::Init(TChain *tree)
 
    fChain->SetBranchAddress("EventWeight", &EventWeight, &b_EventWeight);
    fChain->SetBranchAddress("T2KEventWeight", &T2KEventWeight, &b_T2KEventWeight);
+//   fChain->SetBranchAddress("EventWeightNames", &EventWeightNames, &b_EventWeightNames);
+   fChain->SetBranchAddress("EventWeightValues", &EventWeightValues, &b_EventWeightValues);
 
    fChain->SetBranchAddress("isData", &isData, &b_isData);
    fChain->SetBranchAddress("RunNumber", &RunNumber, &b_RunNumber);
@@ -598,6 +627,13 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("TracksFromCurrentPFParticleStartX", &TracksFromCurrentPFParticleStartX, &b_TracksFromCurrentPFParticleStartX);
 
    fChain->SetBranchAddress("MCParticle_Vx", &MCParticle_Vx, &b_MCParticle_Vx);
+   fChain->SetBranchAddress("MCParticle_Vy", &MCParticle_Vy, &b_MCParticle_Vy);
+   fChain->SetBranchAddress("MCParticle_Vz", &MCParticle_Vz, &b_MCParticle_Vz);
+
+   fChain->SetBranchAddress("MCParticle_EndX", &MCParticle_EndX, &b_MCParticle_EndX);
+   fChain->SetBranchAddress("MCParticle_EndY", &MCParticle_EndY, &b_MCParticle_EndY);
+   fChain->SetBranchAddress("MCParticle_EndZ", &MCParticle_EndZ, &b_MCParticle_EndZ);
+
    fChain->SetBranchAddress("MCParticle_StatusCode", &MCParticle_StatusCode, &b_MCParticle_StatusCode);
    fChain->SetBranchAddress("MCParticle_PdgCode", &MCParticle_PdgCode, &b_MCParticle_PdgCode);
    fChain->SetBranchAddress("MCParticle_P", &MCParticle_P, &b_MCParticle_P);

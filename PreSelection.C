@@ -188,29 +188,25 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
 	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	Tools tools;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	// Event Counters
 
 	int EventCounter = 0;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
-//	for (Long64_t jentry=0; jentry<1002;jentry++) {
-//	for (Long64_t jentry=0; jentry<3002;jentry++) {
-//	for (Long64_t jentry=0; jentry<10002;jentry++) {
 
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 		Long64_t ientry = LoadTree(jentry); if (ientry < 0) break; nb = fChain->GetEntry(jentry); nbytes += nb;
 
-		// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//		double weight = 1.;
 		double weight = EventWeight->at(0);
 		Weight = weight;
 
@@ -229,7 +225,7 @@ void PreSelection::Loop() {
 
 		int NNuMuDaughters = PFParticle_NumberNuMuDaughters->at(0);
 
-//		if (NNuMuDaughters != 2) { continue; } // Don't use this one, Track-PFParticle Ass don't necessarily exist, so use TracksFromCurrentPFParticleStartX->at(0).size()
+		if (NNuMuDaughters != 2) { continue; } // Track-PFParticle Ass don't necessarily exist, so use TracksFromCurrentPFParticleStartX->at(0).size()
 		int FirstPFParticleDaughter = 0;
 		int SecondPFParticleDaughter = 1;
 		if (TracksFromCurrentPFParticleStartX->at(0).size() != 2) { continue; }
@@ -268,6 +264,11 @@ void PreSelection::Loop() {
 			BeamFlashes_TotalPE.push_back(FlashesBeam_TotalPE->at(WhichBeamFlash));
 
 		}
+
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// EventWeight to go here
+
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -377,7 +378,7 @@ void PreSelection::Loop() {
 			int CandidateProtonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) < Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
 
 
-			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+			// ------------------------------------------------------------------------------------------------------------------------------------------
 
 			// Candidate muon
 
@@ -399,14 +400,14 @@ void PreSelection::Loop() {
 			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
 			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackStart);
 
-			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+			// --------------------------------------------------------------------------------------------------------------------------------------
 
 			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
 			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
 			Vertex_Y.push_back(TrackPairVertexPosition.at(WhichTrackPair).Y());
 			Vertex_Z.push_back(TrackPairVertexPosition.at(WhichTrackPair).Z());
 
-			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+			// ----------------------------------------------------------------------------------------------------------------------------------------
 
 			// Muon
 
@@ -488,10 +489,9 @@ void PreSelection::Loop() {
 			CandidateP_StartContainment.push_back(CandidateProtonTrackStartContainment);
 			CandidateP_EndContainment.push_back(CandidateProtonTrackEndContainment);
 
-			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+			// ------------------------------------------------------------------------------------------------------------------------------------------
+			// ------------------------------------------------------------------------------------------------------------------------------------------
 
-//			if (fWhichSample == "Overlay9" || fWhichSample == "OverlayDirt9") {
 			if (string(fWhichSample).find("Overlay") != std::string::npos) {
 
 				CandidateMu_MCParticle_Pdg.push_back(Track_MCParticle_PdgCode->at(CandidateMuonTrackIndex));
@@ -570,15 +570,32 @@ void PreSelection::Loop() {
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
 
-			if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsMuonMomentum[0]) { TrueMuonCounter++; }
+			// Demand stable final state particles
 
-			if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsProtonMomentum[0]) { TrueProtonCounter++; }
+			if (MCParticle_StatusCode->at(WhichMCParticle) == 1) {
 
-			if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticle_P->at(WhichMCParticle) > ChargedPionMomentumThres) { TrueChargedPionCounter++; }
+				TVector3 TVector3TrueStart(MCParticle_Vx->at(WhichMCParticle),MCParticle_Vy->at(WhichMCParticle),MCParticle_Vz->at(WhichMCParticle));
+				TVector3 TVector3TrueEnd(MCParticle_EndX->at(WhichMCParticle), MCParticle_EndY->at(WhichMCParticle),MCParticle_EndZ->at(WhichMCParticle));
+				bool TrueStartContainment = tools.inFVVector(TVector3TrueStart);
+
+				if (TrueStartContainment == 1) {
+
+					if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsMuonMomentum[0]) 
+						{ TrueMuonCounter++; }
+
+					if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsProtonMomentum[0]) 
+						{ TrueProtonCounter++; }
+
+					if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticle_P->at(WhichMCParticle) > ChargedPionMomentumThres) 
+						{ TrueChargedPionCounter++; }
+
+				}
+
+			} // End of the demand stable final state particles and primary interactions
 
 		} // end of the loop over the simb::MCParticles
 
-		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 300 MeV / c) & pi+/- (Ppi > 70 MeV / c)
+		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & pi+/- (Ppi > 70 MeV / c)
 
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
 
@@ -627,7 +644,6 @@ double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,d
 	double sin2_pl1 = sin(theta_Plane1) * sin(theta_Plane1);
 	double sin2_pl0 = sin(theta_Plane0) * sin(theta_Plane0);
 
-	// Get projected angle wrt to the wires (docdb 23008)
 	if (sin2_pl2 >= 0.5) w2 = 1;
 	if (sin2_pl1 >= 0.5) w1 = 1;
 	if (sin2_pl0 >= 0.5) w0 = 1;

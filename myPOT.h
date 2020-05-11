@@ -10,11 +10,6 @@
 
 using namespace Constants;
 
-//TString Sample = "Overlay9_LYRayleigh";
-//TString Version = "v08_00_00_33";
-
-//TString path = "/pnfs/uboone/persistent/users/apapadop/"+Sample+"/"+Version+"/my"+Sample+"_POT_Run1_"+Version+"_Part1.root";
-
 class myPOT {
 
  private:
@@ -54,7 +49,7 @@ myPOT::myPOT(TString WhichSample,TTree *tree) : fChain(0)
 // used to generate this class and read the Tree.
 
    fWhichSample = WhichSample;
-   TString path = "/pnfs/uboone/persistent/users/apapadop/"+WhichSample+"/"+UBCodeVersion+"/my"+WhichSample+"_POT_Run1_"+UBCodeVersion+"_Part1.root";
+   TString path = "/pnfs/uboone/persistent/users/apapadop/"+WhichSample+"/"+UBCodeVersion+"/my"+WhichSample+"_POT_"+UBCodeVersion+"_Part1.root";
 
    if (tree == 0) {
       TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject(path);
