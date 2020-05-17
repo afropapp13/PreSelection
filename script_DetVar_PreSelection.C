@@ -4,11 +4,11 @@
 
 	// Detector Systematics // Starting from the same GENIE events
        
-	WhichSampleArray.push_back("Overlay9_CV_Run1");
-	WhichSampleArray.push_back("Overlay9_X_Run1");
-	WhichSampleArray.push_back("Overlay9_YZ_Run1");
-	WhichSampleArray.push_back("Overlay9_LY_Run1");
-	WhichSampleArray.push_back("Overlay9_LYRayleigh_Run1");
+	WhichSampleArray.push_back("Overlay9_Run1_CV");
+	WhichSampleArray.push_back("Overlay9_Run1_X");
+	WhichSampleArray.push_back("Overlay9_Run1_YZ");
+	WhichSampleArray.push_back("Overlay9_Run1_LY");
+	WhichSampleArray.push_back("Overlay9_Run1_LYRayleigh");
 	
 	// -------------------------------------------------------
 
