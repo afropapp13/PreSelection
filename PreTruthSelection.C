@@ -42,7 +42,7 @@ void PreTruthSelection::Loop() {
 
 	// Output Files
 
-	TString FileName = "./OutputFiles/"+UBCodeVersion+"/PreTruthSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
+	TString FileName = "../myEvents/mySamples/"+UBCodeVersion+"/PreTruthSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
