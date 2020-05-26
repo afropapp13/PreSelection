@@ -12,7 +12,7 @@
 	
 	// -------------------------------------------------------
 
-	gROOT->ProcessLine(".L ../../MyClasses/Tools.cxx+");
+	gROOT->ProcessLine(".L ../../myClasses/Tools.cxx+");
 
 	gROOT->ProcessLine(".L PreSelection.C+");
 	gROOT->ProcessLine(".L PreTruthSelection.C+");

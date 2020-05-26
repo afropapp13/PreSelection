@@ -6,7 +6,7 @@
 #include <TFile.h>
 #include <TString.h>
 
-#include "ubana/MyClasses/Constants.h"
+#include "ubana/myClasses/Constants.h"
 
 #include <vector>
 #include <iostream>

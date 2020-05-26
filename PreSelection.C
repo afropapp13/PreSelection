@@ -17,9 +17,7 @@
 #include <iomanip>
 #include <vector>
 
-#include "ubana/MyClasses/Tools.h"
-#include "ubana/MyClasses/SelectionCuts.h"
-#include "ubana/MyClasses/Constants.h"
+#include "ubana/myClasses/Tools.h"
 
 using namespace std;
 using namespace Constants;

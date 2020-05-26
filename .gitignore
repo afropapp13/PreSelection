@@ -1,1 +1,4 @@
-OutputFiles/*/*.root
+*.C#
+*.pcm
+*.d
+*.so
