@@ -37,7 +37,7 @@ void PreSelection::Loop() {
 	std::vector<TVector3> VectorMCParticleStart;
 	std::vector<TVector3> VectorMCParticleEnd;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------
 
 	// Momentum from range
 
@@ -45,7 +45,7 @@ void PreSelection::Loop() {
 	TSpline3* sMuonRange2T = (TSpline3*)fSpines->Get("sMuonRange2T");
 	TSpline3* sProtonRange2T = (TSpline3*)fSpines->Get("sProtonRange2T");
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------------------------------------------------
 
 	// Output Files
 
@@ -53,13 +53,13 @@ void PreSelection::Loop() {
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// TTree
 
 	TTree* tree = new TTree("myPreSelection","myPreSelection");
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 //	int PassedSwTrigger;
 	double Weight;
@@ -67,19 +67,19 @@ void PreSelection::Loop() {
 	int CC1p;
 	int MCParticle_Mode;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------
 
 	double NuScore;
 	double FlashScore; 
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	int NBeamFlashes;
 	std::vector<double> BeamFlashes_YCenter;
 	std::vector<double> BeamFlashes_ZCenter;
 	std::vector<double> BeamFlashes_TotalPE;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	std::vector<double> CandidateMuP_Distance;
 	std::vector<double> Vertex_X;
@@ -104,7 +104,7 @@ void PreSelection::Loop() {
 	std::vector<int> True_CandidateMu_StartContainment;
 	std::vector<int> True_CandidateMu_EndContainment;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------------------------------------------------
 
 	std::vector<int> CandidateP_Mode;
 	std::vector<double> CandidateP_P;
@@ -124,26 +124,26 @@ void PreSelection::Loop() {
 	std::vector<int> True_CandidateP_StartContainment;
 	std::vector<int> True_CandidateP_EndContainment;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("CC1p",&CC1p);
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("NuScore",&NuScore);
 	tree->Branch("FlashScore",&FlashScore);
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("NBeamFlashes",&NBeamFlashes);
 	tree->Branch("BeamFlashes_YCenter",&BeamFlashes_YCenter);
 	tree->Branch("BeamFlashes_ZCenter",&BeamFlashes_ZCenter);
 	tree->Branch("BeamFlashes_TotalPE",&BeamFlashes_TotalPE);
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("CandidateMuP_Distance",&CandidateMuP_Distance);
 	tree->Branch("Vertex_X",&Vertex_X);
@@ -167,7 +167,7 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
 	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("CandidateP_P",&CandidateP_P);
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
@@ -186,24 +186,24 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
 	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
-	// ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 	Tools tools;
 
-	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 	// Event Counters
 
 	int EventCounter = 0;
 
-	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
 
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 		Long64_t ientry = LoadTree(jentry); if (ientry < 0) break; nb = fChain->GetEntry(jentry); nbytes += nb;
 
-		// --------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		double weight = EventWeight->at(0);
 		Weight = weight;
@@ -211,11 +211,11 @@ void PreSelection::Loop() {
 		double T2Kweight = T2KEventWeight->at(0);
 		T2KWeight = T2Kweight;
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		if ( EventPassedSwTrigger != 1) { continue; }
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		// Numu Slices
 
@@ -223,18 +223,19 @@ void PreSelection::Loop() {
 
 		int NNuMuDaughters = PFParticle_NumberNuMuDaughters->at(0);
 
-		if (NNuMuDaughters != 2) { continue; } // Track-PFParticle Ass don't necessarily exist, so use TracksFromCurrentPFParticleStartX->at(0).size()
+		if (NNuMuDaughters != 2) { continue; } // Demand exactly 2 daughter particles
 		int FirstPFParticleDaughter = 0;
 		int SecondPFParticleDaughter = 1;
-		if (TracksFromCurrentPFParticleStartX->at(0).size() != 2) { continue; }
+		if (TracksFromCurrentPFParticleStartX->at(0).size() != 2) { continue; } // Demand exactly 2 track-like daughter particles
 
 		// MuonPdg in this case / Pandora = Track-like object
+		
 		if (PFParticle_NumberNuMuDaughtersPdgCode->at(0).at(FirstPFParticleDaughter) != MuonPdg || 
 			PFParticle_NumberNuMuDaughtersPdgCode->at(0).at(SecondPFParticleDaughter) != MuonPdg) { continue; }
 		if (TracksFromCurrentPFParticleStartX->at(0).at(0) == -99.) { continue; }
 		if (TracksFromCurrentPFParticleStartX->at(0).at(1) == -99.) { continue; }
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------
 
 		// Making sure that we have NuScore & FlashScore
 
@@ -244,7 +245,7 @@ void PreSelection::Loop() {
 		NuScore = PFParticle_NuScore->at(0);
 		FlashScore = PFParticle_FlashScore->at(0);
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------
 
 		// Beam Flashes
 
@@ -263,12 +264,13 @@ void PreSelection::Loop() {
 
 		}
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------------------------------
+
 
 // EventWeight to go here
 
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------------------------------
 
 		// Tracks
 
@@ -279,9 +281,6 @@ void PreSelection::Loop() {
 		std::vector<int> SecondTrackIndex; SecondTrackIndex.clear();
 		std::vector<double> TrackPairDistance; TrackPairDistance.clear();
 		std::vector<TVector3> TrackPairVertexPosition; TrackPairVertexPosition.clear();
-
-		int Track_MCParticle_MuonCounter = 0, Track_MCParticle_ProtonCounter = 0, Track_MCParticle_PionCounter = 0;
-		int fCC1p = 0, fMCParticle_Mode = -1;
 
 		for (int WhichTrack = 0; WhichTrack < NumberTracks; WhichTrack++) {
 
@@ -294,8 +293,10 @@ void PreSelection::Loop() {
 				VectorTrackStart.push_back(TVector3TrackStart);
 				VectorTrackEnd.push_back(TVector3TrackEnd);
 
-				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) ) { FirstTrackIndex.push_back(WhichTrack); }
-				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(SecondPFParticleDaughter) ) { SecondTrackIndex.push_back(WhichTrack); }
+				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) )
+					{ FirstTrackIndex.push_back(WhichTrack); }
+				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(SecondPFParticleDaughter) )
+					{ SecondTrackIndex.push_back(WhichTrack); }
 
 			}
 			
@@ -311,7 +312,7 @@ void PreSelection::Loop() {
 		TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
 		TrackPairVertexPosition.push_back(VertexPositionV3);
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		// Loop over the candidate track pairs
 
@@ -338,7 +339,7 @@ void PreSelection::Loop() {
 		True_CandidateMu_StartContainment.clear();
 		True_CandidateMu_EndContainment.clear();
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		CandidateP_Mode.clear();
 		CandidateP_P.clear();
@@ -358,7 +359,7 @@ void PreSelection::Loop() {
 		True_CandidateP_StartContainment.clear();
 		True_CandidateP_EndContainment.clear();
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------
 
 		for (int WhichTrackPair = 0; WhichTrackPair < NCandidateTrackPairs; WhichTrackPair++) {
 
@@ -376,7 +377,7 @@ void PreSelection::Loop() {
 			int CandidateProtonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) < Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
 
 
-			// ------------------------------------------------------------------------------------------------------------------------------------------
+			// ---------------------------------------------------------------------------------------------------------------------
 
 			// Candidate muon
 
@@ -398,14 +399,14 @@ void PreSelection::Loop() {
 			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
 			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackStart);
 
-			// --------------------------------------------------------------------------------------------------------------------------------------
+			// ---------------------------------------------------------------------------------------------------------------------
 
 			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
 			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
 			Vertex_Y.push_back(TrackPairVertexPosition.at(WhichTrackPair).Y());
 			Vertex_Z.push_back(TrackPairVertexPosition.at(WhichTrackPair).Z());
 
-			// ----------------------------------------------------------------------------------------------------------------------------------------
+			// ---------------------------------------------------------------------------------------------------------------------
 
 			// Muon
 
@@ -446,7 +447,7 @@ void PreSelection::Loop() {
 			CandidateMu_StartContainment.push_back(CandidateMuonTrackStartContainment);
 			CandidateMu_EndContainment.push_back(CandidateMuonTrackEndContainment);
 
-			// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+			// --------------------------------------------------------------------------------------------------------------------------
 
 			// Proton
 
@@ -487,19 +488,27 @@ void PreSelection::Loop() {
 			CandidateP_StartContainment.push_back(CandidateProtonTrackStartContainment);
 			CandidateP_EndContainment.push_back(CandidateProtonTrackEndContainment);
 
-			// ------------------------------------------------------------------------------------------------------------------------------------------
-			// ------------------------------------------------------------------------------------------------------------------------------------------
+			// --------------------------------------------------------------------------------------------------------------------
+			// --------------------------------------------------------------------------------------------------------------------
+
+			// Backtracking to truth, only for overlays
 
 			if (string(fWhichSample).find("Overlay") != std::string::npos) {
 
 				CandidateMu_MCParticle_Pdg.push_back(Track_MCParticle_PdgCode->at(CandidateMuonTrackIndex));
 				CandidateMu_MCParticle_Purity.push_back(Track_MCParticle_Purity->at(CandidateMuonTrackIndex));
 				CandidateMu_Mode.push_back(Track_MCParticle_Mode->at(CandidateMuonTrackIndex));
+				
+				double CandidateMuonStartX = Track_MCParticle_Vx->at(CandidateMuonTrackIndex);
+				double CandidateMuonStartY = Track_MCParticle_Vy->at(CandidateMuonTrackIndex);
+				double CandidateMuonStartZ = Track_MCParticle_Vz->at(CandidateMuonTrackIndex);
+				
+				double CandidateMuonEndX = Track_MCParticle_EndX->at(CandidateMuonTrackIndex);
+				double CandidateMuonEndY = Track_MCParticle_EndY->at(CandidateMuonTrackIndex);
+				double CandidateMuonEndZ = Track_MCParticle_EndZ->at(CandidateMuonTrackIndex);						
 
-				TVector3 TrueCandidateMuonTrackStart(Track_MCParticle_Vx->at(CandidateMuonTrackIndex), Track_MCParticle_Vy->at(CandidateMuonTrackIndex),
-														       Track_MCParticle_Vz->at(CandidateMuonTrackIndex));
-				TVector3 TrueCandidateMuonTrackEnd(Track_MCParticle_EndX->at(CandidateMuonTrackIndex), Track_MCParticle_EndY->at(CandidateMuonTrackIndex),
-														       Track_MCParticle_EndZ->at(CandidateMuonTrackIndex));
+				TVector3 TrueCandidateMuonTrackStart(CandidateMuonStartX,CandidateMuonStartY,CandidateMuonStartZ);
+				TVector3 TrueCandidateMuonTrackEnd(CandidateMuonEndX,CandidateMuonEndY,CandidateMuonEndZ);
 				TVector3 TrueCandidateMuonChange = TrueCandidateMuonTrackEnd - TrueCandidateMuonTrackStart;
 				bool TrueCandidateMuonTrackStartContainment = tools.inFVVector(TrueCandidateMuonTrackStart);
 				bool TrueCandidateMuonTrackEndContainment = tools.inFVVector(TrueCandidateMuonTrackEnd);
@@ -521,16 +530,22 @@ void PreSelection::Loop() {
 				True_CandidateMu_StartContainment.push_back(TrueCandidateMuonTrackStartContainment);
 				True_CandidateMu_EndContainment.push_back(TrueCandidateMuonTrackEndContainment);
 
-				// ---------------------------------------------------------------------------------------------------------------------------------------------
+				// --------------------------------------------------------------------------------------------------------------------
 
 				CandidateP_MCParticle_Pdg.push_back(Track_MCParticle_PdgCode->at(CandidateProtonTrackIndex));
 				CandidateP_MCParticle_Purity.push_back(Track_MCParticle_Purity->at(CandidateProtonTrackIndex));
 				CandidateP_Mode.push_back(Track_MCParticle_Mode->at(CandidateProtonTrackIndex));
+				
+				double CandidateProtonStartX = Track_MCParticle_Vx->at(CandidateProtonTrackIndex);
+				double CandidateProtonStartY = Track_MCParticle_Vy->at(CandidateProtonTrackIndex);
+				double CandidateProtonStartZ = Track_MCParticle_Vz->at(CandidateProtonTrackIndex);
+				
+				double CandidateProtonEndX = Track_MCParticle_EndX->at(CandidateProtonTrackIndex);
+				double CandidateProtonEndY = Track_MCParticle_EndY->at(CandidateProtonTrackIndex);
+				double CandidateProtonEndZ = Track_MCParticle_EndZ->at(CandidateProtonTrackIndex);						
 
-				TVector3 TrueCandidateProtonTrackStart(Track_MCParticle_Vx->at(CandidateProtonTrackIndex), Track_MCParticle_Vy->at(CandidateProtonTrackIndex),
-														       Track_MCParticle_Vz->at(CandidateProtonTrackIndex));
-				TVector3 TrueCandidateProtonTrackEnd(Track_MCParticle_EndX->at(CandidateProtonTrackIndex), Track_MCParticle_EndY->at(CandidateProtonTrackIndex),
-														       Track_MCParticle_EndZ->at(CandidateProtonTrackIndex));
+				TVector3 TrueCandidateProtonTrackStart(CandidateProtonStartX,CandidateProtonStartY,CandidateProtonStartZ);
+				TVector3 TrueCandidateProtonTrackEnd(TCandidateProtonEndX,CandidateProtonEndY,CandidateProtonStartZ);
 				TVector3 TrueCandidateProtonChange = TrueCandidateProtonTrackEnd - TrueCandidateProtonTrackStart;
 				bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
 				bool TrueCandidateProtonTrackEndContainment = tools.inFVVector(TrueCandidateProtonTrackEnd);
@@ -553,15 +568,17 @@ void PreSelection::Loop() {
 				True_CandidateP_EndContainment.push_back(TrueCandidateProtonTrackEndContainment);
 
 
-			} // only for overlays
+			} // End of the backtracking to truth, only for overlays
 
 			EventCounter++;
 
 		} // End of the loop over the candidate track pairs
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ------------------------------------------------------------------------------------------------------------------------------------
 
 		// MCParticle Loop
+		
+		int fCC1p = 0, fMCParticle_Mode = -1;
 
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TrueNeutralPionCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
@@ -572,22 +589,16 @@ void PreSelection::Loop() {
 
 			if (MCParticle_StatusCode->at(WhichMCParticle) == 1) {
 
-				TVector3 TVector3TrueStart(MCParticle_Vx->at(WhichMCParticle),MCParticle_Vy->at(WhichMCParticle),MCParticle_Vz->at(WhichMCParticle));
-				TVector3 TVector3TrueEnd(MCParticle_EndX->at(WhichMCParticle), MCParticle_EndY->at(WhichMCParticle),MCParticle_EndZ->at(WhichMCParticle));
-				bool TrueStartContainment = tools.inFVVector(TVector3TrueStart);
+				double MCParticleMomentum = MCParticle_P->at(WhichMCParticle);
 
-				if (TrueStartContainment == 1) {
+				if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticleMomentum > ArrayNBinsMuonMomentum[0]) 
+					{ TrueMuonCounter++; }
 
-					if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsMuonMomentum[0]) 
-						{ TrueMuonCounter++; }
+				if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticleMomentum > ArrayNBinsProtonMomentum[0]) 
+					{ TrueProtonCounter++; }
 
-					if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsProtonMomentum[0]) 
-						{ TrueProtonCounter++; }
-
-					if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticle_P->at(WhichMCParticle) > ChargedPionMomentumThres) 
-						{ TrueChargedPionCounter++; }
-
-				}
+				if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticleMomentum > ChargedPionMomentumThres) 
+					{ TrueChargedPionCounter++; }
 
 			} // End of the demand stable final state particles and primary interactions
 
@@ -602,14 +613,14 @@ void PreSelection::Loop() {
 		CC1p = fCC1p;
 		MCParticle_Mode = fMCParticle_Mode;
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		tree->Fill();
 
 	} // End of the loop over the number of events
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 	// To be printed at the end of the run
 
@@ -618,7 +629,7 @@ void PreSelection::Loop() {
 	std::cout.precision(precision);
 	std::cout << "\n\nTotal of " << EventCounter << " events processed" << std::endl << std::endl;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	OutputFile->cd();
 	OutputFile->Write();
@@ -628,9 +639,9 @@ void PreSelection::Loop() {
 
 } // end of the program
 
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2){
+double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2) {
 
 	TVector3 TrackDiff = TrackEnd - TrackStart;
 	double theta_Plane2 = std::atan2(TrackDiff.Z(),TrackDiff.Y());
@@ -658,4 +669,4 @@ double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,d
 
 }
 
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------

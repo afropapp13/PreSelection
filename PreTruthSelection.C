@@ -29,13 +29,7 @@ void PreTruthSelection::Loop() {
 
 	TH1D::SetDefaultSumw2();
 
-	std::vector<TVector3> VectorTrackStart;
-	std::vector<TVector3> VectorTrackEnd;
-
-	std::vector<TVector3> VectorMCParticleStart;
-	std::vector<TVector3> VectorMCParticleEnd;
-
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------------------
 
 	// Output Files
 
@@ -43,26 +37,18 @@ void PreTruthSelection::Loop() {
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// TTree
 
 	TTree* tree = new TTree("myPreTruthSelection","myPreTruthSelection");
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
-//	int PassedSwTrigger;
 	double Weight;
 	double T2KWeight;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-	int NBeamFlashes;
-	std::vector<double> BeamFlashes_YCenter;
-	std::vector<double> BeamFlashes_ZCenter;
-	std::vector<double> BeamFlashes_TotalPE;
-
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	int NumberMCParticles;
 	int CC1p;
@@ -83,12 +69,12 @@ void PreTruthSelection::Loop() {
 	std::vector<int> MCParticle_EndContainment;
 	std::vector<int> MCParticle_Pdg;
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
 
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("NumberMCParticles",&NumberMCParticles);
 	tree->Branch("CC1p",&CC1p);
@@ -108,17 +94,17 @@ void PreTruthSelection::Loop() {
 	tree->Branch("MCParticle_EndContainment",&MCParticle_EndContainment);
 	tree->Branch("MCParticle_Pdg",&MCParticle_Pdg);
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 	Tools tools;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	// Event Counters
 
 	int EventCounter = 0;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
 //	for (Long64_t jentry=0; jentry<1002;jentry++) {
@@ -127,7 +113,7 @@ void PreTruthSelection::Loop() {
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 		Long64_t ientry = LoadTree(jentry); if (ientry < 0) break; nb = fChain->GetEntry(jentry); nbytes += nb;
 
-		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ---------------------------------------------------------------------------------------------------------------------------------
 
 //		double weight = 1.;
 		double weight = EventWeight->at(0);
@@ -136,7 +122,7 @@ void PreTruthSelection::Loop() {
 		double T2Kweight = T2KEventWeight->at(0);
 		T2KWeight = T2Kweight;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ------------------------------------------------------------------------------------------------------------------------------
 
 		// MCParticles
 
@@ -186,35 +172,35 @@ void PreTruthSelection::Loop() {
 				double TrueMomentum_MeV = 1000. * TrueMomentum_GeV; // MeV
 				double TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(WhichMCParticle),TrueMomentum_MeV); // MeV
 				double TrueKE_GeV = TrueKE_MeV / 1000.; // GeV
+				
+				double MCParticleMomentum = MCParticle_P->at(WhichMCParticle);
 
-				if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsMuonMomentum[0]) { TrueMuonCounter++; }
+				if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticleMomentum > ArrayNBinsMuonMomentum[0])
+					{ TrueMuonCounter++; }
 
-				if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticle_P->at(WhichMCParticle) > ArrayNBinsProtonMomentum[0]) { TrueProtonCounter++; }
+				if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticleMomentum > ArrayNBinsProtonMomentum[0]) 
+					{ TrueProtonCounter++; }
 
-				if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticle_P->at(WhichMCParticle) > ChargedPionMomentumThres) 
+				if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticleMomentum > ChargedPionMomentumThres) 
 					{ TrueChargedPionCounter++; }
 
-				if (TrueStartContainment == 1) {
+				MCParticle_Mode.push_back(MCTruth_Mode->at(0));
+				MCParticle_Mom.push_back(TrueMomentum_GeV);
+//				MCParticle_KE.push_back(TrueKE_GeV);
+				MCParticle_Phi.push_back(TruePhi_Deg);
+				MCParticle_CosTheta.push_back(TrueCosTheta);
+//				MCParticle_Length.push_back(TrueLength);
+//				MCParticle_StartX.push_back(TVector3TrueStart.X());
+//				MCParticle_StartY.push_back(TVector3TrueStart.Y());
+//				MCParticle_StartZ.push_back(TVector3TrueStart.Z());
+//				MCParticle_EndPointX.push_back(TVector3TrueEnd.X());
+//				MCParticle_EndPointY.push_back(TVector3TrueEnd.Y());
+//				MCParticle_EndPointZ.push_back(TVector3TrueEnd.Z());
+				MCParticle_StartContainment.push_back(TrueStartContainment);
+				MCParticle_EndContainment.push_back(TrueEndContainment);
+				MCParticle_Pdg.push_back(MCParticle_PdgCode->at(WhichMCParticle));
 
-					MCParticle_Mode.push_back(MCTruth_Mode->at(0));
-					MCParticle_Mom.push_back(TrueMomentum_GeV);
-//					MCParticle_KE.push_back(TrueKE_GeV);
-					MCParticle_Phi.push_back(TruePhi_Deg);
-					MCParticle_CosTheta.push_back(TrueCosTheta);
-//					MCParticle_Length.push_back(TrueLength);
-//					MCParticle_StartX.push_back(TVector3TrueStart.X());
-//					MCParticle_StartY.push_back(TVector3TrueStart.Y());
-//					MCParticle_StartZ.push_back(TVector3TrueStart.Z());
-//					MCParticle_EndPointX.push_back(TVector3TrueEnd.X());
-//					MCParticle_EndPointY.push_back(TVector3TrueEnd.Y());
-//					MCParticle_EndPointZ.push_back(TVector3TrueEnd.Z());
-					MCParticle_StartContainment.push_back(TrueStartContainment);
-					MCParticle_EndContainment.push_back(TrueEndContainment);
-					MCParticle_Pdg.push_back(MCParticle_PdgCode->at(WhichMCParticle));
-
-					StableMCParticles++;
-
-				}
+				StableMCParticles++;
 
 			} // End of the demand stable final state particles and primary interactions
 
@@ -230,8 +216,8 @@ void PreTruthSelection::Loop() {
 
 	} // End of the loop over the number of events
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------------
 
 	// To be printed at the end of the run
 
@@ -240,7 +226,7 @@ void PreTruthSelection::Loop() {
 	std::cout.precision(precision);
 	std::cout << "\n\nTotal of " << EventCounter << " events processed" << std::endl << std::endl;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------------------------------------------------------------------
 
 	OutputFile->cd();
 	OutputFile->Write();
@@ -249,5 +235,4 @@ void PreTruthSelection::Loop() {
 
 } // end of the program
 
-//________________________________________________________________________________________________________________________________________________________________________________________________
-
+// --------------------------------------------------------------------------------------------------------------------------------------------
