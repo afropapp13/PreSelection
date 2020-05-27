@@ -545,7 +545,7 @@ void PreSelection::Loop() {
 				double CandidateProtonEndZ = Track_MCParticle_EndZ->at(CandidateProtonTrackIndex);						
 
 				TVector3 TrueCandidateProtonTrackStart(CandidateProtonStartX,CandidateProtonStartY,CandidateProtonStartZ);
-				TVector3 TrueCandidateProtonTrackEnd(TCandidateProtonEndX,CandidateProtonEndY,CandidateProtonStartZ);
+				TVector3 TrueCandidateProtonTrackEnd(CandidateProtonEndX,CandidateProtonEndY,CandidateProtonStartZ);
 				TVector3 TrueCandidateProtonChange = TrueCandidateProtonTrackEnd - TrueCandidateProtonTrackStart;
 				bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
 				bool TrueCandidateProtonTrackEndContainment = tools.inFVVector(TrueCandidateProtonTrackEnd);
