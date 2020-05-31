@@ -125,6 +125,7 @@ void PreSelection::Loop() {
 	std::vector<int> True_CandidateP_EndContainment;
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------	
 
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
@@ -580,7 +581,7 @@ void PreSelection::Loop() {
 		
 		int fCC1p = 0, fMCParticle_Mode = -1;
 
-		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TrueNeutralPionCounter = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
@@ -604,7 +605,7 @@ void PreSelection::Loop() {
 
 		} // end of the loop over the simb::MCParticles
 
-		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & pi+/- (Ppi > 70 MeV / c)
+		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
 
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
 

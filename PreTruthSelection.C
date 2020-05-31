@@ -116,10 +116,10 @@ void PreTruthSelection::Loop() {
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 //		double weight = 1.;
-		double weight = EventWeight->at(0);
+		double weight = EventWeight->at(0); // spline bug fix from v3.0.4 to v3.0.6
 		Weight = weight;
 
-		double T2Kweight = T2KEventWeight->at(0);
+		double T2Kweight = T2KEventWeight->at(0); // MicroBooNE tune based on T2K 
 		T2KWeight = T2Kweight;
 
 		// ------------------------------------------------------------------------------------------------------------------------------
@@ -155,9 +155,17 @@ void PreTruthSelection::Loop() {
 			// Demand stable final state particles
 
 			if (MCParticle_StatusCode->at(WhichMCParticle) == 1) {
+			
+				double MCParticleStartX = MCParticle_Vx->at(WhichMCParticle);
+				double MCParticleStartY = MCParticle_Vy->at(WhichMCParticle);
+				double MCParticleStartZ = MCParticle_Vz->at(WhichMCParticle);
+				
+				double MCParticleEndX = MCParticle_EndX->at(WhichMCParticle);
+				double MCParticleEndY = MCParticle_EndY->at(WhichMCParticle);
+				double MCParticleEndZ = MCParticle_EndZ->at(WhichMCParticle);								
 
-				TVector3 TVector3TrueStart(MCParticle_Vx->at(WhichMCParticle),MCParticle_Vy->at(WhichMCParticle),MCParticle_Vz->at(WhichMCParticle));
-				TVector3 TVector3TrueEnd(MCParticle_EndX->at(WhichMCParticle), MCParticle_EndY->at(WhichMCParticle),MCParticle_EndZ->at(WhichMCParticle));
+				TVector3 TVector3TrueStart(MCParticleStartX,MCParticleStartY,MCParticleStartZ);
+				TVector3 TVector3TrueEnd(MCParticleEndX,MCParticleEndY,MCParticleEndZ);
 				TVector3 TVector3TrueChange = TVector3TrueEnd - TVector3TrueStart;
 				bool TrueStartContainment = tools.inFVVector(TVector3TrueStart);
 				bool TrueEndContainment = tools.inFVVector(TVector3TrueEnd);
