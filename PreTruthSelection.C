@@ -154,7 +154,7 @@ void PreTruthSelection::Loop() {
 
 			// Demand stable final state particles
 
-			if (MCParticle_StatusCode->at(WhichMCParticle) == 1) {
+			if (MCParticle_StatusCode->at(WhichMCParticle) == 1 && MCParticle_Process->at(WhichMCParticle) == "primary") {
 			
 				double MCParticleStartX = MCParticle_Vx->at(WhichMCParticle);
 				double MCParticleStartY = MCParticle_Vy->at(WhichMCParticle);
@@ -182,14 +182,15 @@ void PreTruthSelection::Loop() {
 				double TrueKE_GeV = TrueKE_MeV / 1000.; // GeV
 				
 				double MCParticleMomentum = MCParticle_P->at(WhichMCParticle);
+				int MCParticlePdg = MCParticle_PdgCode->at(WhichMCParticle);
 
-				if (MCParticle_PdgCode->at(WhichMCParticle) == MuonPdg && MCParticleMomentum > ArrayNBinsMuonMomentum[0])
+				if (MCParticlePdg == MuonPdg && MCParticleMomentum > ArrayNBinsMuonMomentum[0])
 					{ TrueMuonCounter++; }
 
-				if (MCParticle_PdgCode->at(WhichMCParticle) == ProtonPdg && MCParticleMomentum > ArrayNBinsProtonMomentum[0]) 
+				if (MCParticlePdg == ProtonPdg && MCParticleMomentum > ArrayNBinsProtonMomentum[0]) 
 					{ TrueProtonCounter++; }
 
-				if (fabs(MCParticle_PdgCode->at(WhichMCParticle)) == AbsChargedPionPdg && MCParticleMomentum > ChargedPionMomentumThres) 
+				if (fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum > ChargedPionMomentumThres) 
 					{ TrueChargedPionCounter++; }
 
 				MCParticle_Mode.push_back(MCTruth_Mode->at(0));
