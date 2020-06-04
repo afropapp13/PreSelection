@@ -152,7 +152,7 @@ void PreTruthSelection::Loop() {
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
 
-			// Demand stable final state particles
+			// Demand stable final state particles and primary interactions
 
 			if (MCParticle_StatusCode->at(WhichMCParticle) == 1 && MCParticle_Process->at(WhichMCParticle) == "primary") {
 			
