@@ -152,6 +152,7 @@ public :
    std::vector<double>  *MCParticle_EndZ;
 
    std::vector<int>     *MCParticle_StatusCode;
+   std::vector<std::string>  *MCParticle_Process;   
    std::vector<int>     *MCParticle_PdgCode;
    std::vector<double>     *MCParticle_P;
 
@@ -285,6 +286,7 @@ public :
    TBranch        *b_MCParticle_EndZ;   //!
 
    TBranch        *b_MCParticle_StatusCode;   //!
+   TBranch        *b_MCParticle_Process;   //!   
    TBranch        *b_MCParticle_PdgCode;   //!
    TBranch        *b_MCParticle_P;   //!
 
@@ -498,6 +500,7 @@ void PreSelection::Init(TChain *tree)
    MCParticle_EndZ = 0;
 
    MCParticle_StatusCode = 0;
+   MCParticle_Process = 0;   
    MCParticle_PdgCode = 0;
    MCParticle_P = 0;
 
@@ -635,6 +638,7 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("MCParticle_EndZ", &MCParticle_EndZ, &b_MCParticle_EndZ);
 
    fChain->SetBranchAddress("MCParticle_StatusCode", &MCParticle_StatusCode, &b_MCParticle_StatusCode);
+   fChain->SetBranchAddress("MCParticle_Process", &MCParticle_Process, &b_MCParticle_Process);   
    fChain->SetBranchAddress("MCParticle_PdgCode", &MCParticle_PdgCode, &b_MCParticle_PdgCode);
    fChain->SetBranchAddress("MCParticle_P", &MCParticle_P, &b_MCParticle_P);
 
