@@ -546,7 +546,7 @@ void PreSelection::Loop() {
 				double CandidateProtonEndZ = Track_MCParticle_EndZ->at(CandidateProtonTrackIndex);						
 
 				TVector3 TrueCandidateProtonTrackStart(CandidateProtonStartX,CandidateProtonStartY,CandidateProtonStartZ);
-				TVector3 TrueCandidateProtonTrackEnd(CandidateProtonEndX,CandidateProtonEndY,CandidateProtonStartZ);
+				TVector3 TrueCandidateProtonTrackEnd(CandidateProtonEndX,CandidateProtonEndY,CandidateProtonEndZ);
 				TVector3 TrueCandidateProtonChange = TrueCandidateProtonTrackEnd - TrueCandidateProtonTrackStart;
 				bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
 				bool TrueCandidateProtonTrackEndContainment = tools.inFVVector(TrueCandidateProtonTrackEnd);
@@ -588,7 +588,11 @@ void PreSelection::Loop() {
 
 			// Demand stable final state particles and primary interactions
 
-			if (MCParticle_StatusCode->at(WhichMCParticle) == 1 && MCParticle_Process->at(WhichMCParticle) == "primary") {
+			if (
+				MCParticle_StatusCode->at(WhichMCParticle) == 1 
+				&& MCParticle_Process->at(WhichMCParticle) == "primary"
+				&& MCTruth_CCNC->at(0) == 0 // CC events				
+			) {
 
 				double MCParticleMomentum = MCParticle_P->at(WhichMCParticle);
 				int MCParticlePdg = MCParticle_PdgCode->at(WhichMCParticle);
