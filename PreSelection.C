@@ -590,20 +590,20 @@ void PreSelection::Loop() {
 
 			if (
 				MCParticle_StatusCode->at(WhichMCParticle) == 1 
-				&& MCParticle_Process->at(WhichMCParticle) == "primary"
+				//&& MCParticle_Process->at(WhichMCParticle) == "primary"
 				&& MCTruth_CCNC->at(0) == 0 // CC events				
 			) {
 
 				double MCParticleMomentum = MCParticle_P->at(WhichMCParticle);
 				int MCParticlePdg = MCParticle_PdgCode->at(WhichMCParticle);
 
-				if (MCParticlePdg == MuonPdg && MCParticleMomentum > ArrayNBinsMuonMomentum[0]) 
+				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= ArrayNBinsMuonMomentum[0] ) 
 					{ TrueMuonCounter++; }
 
-				if (MCParticlePdg == ProtonPdg && MCParticleMomentum > ArrayNBinsProtonMomentum[0]) 
+				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= ArrayNBinsProtonMomentum[0] ) 
 					{ TrueProtonCounter++; }
 
-				if (fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum > ChargedPionMomentumThres) 
+				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
 					{ TrueChargedPionCounter++; }
 
 			} // End of the demand stable final state particles and primary interactions

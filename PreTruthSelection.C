@@ -59,14 +59,14 @@ void PreTruthSelection::Loop() {
 	std::vector<double> MCParticle_Phi;
 	std::vector<double> MCParticle_CosTheta;
 //	std::vector<double> MCParticle_Length;
-	std::vector<double> MCParticle_StartX;
-	std::vector<double> MCParticle_StartY;
-	std::vector<double> MCParticle_StartZ;
-	std::vector<double> MCParticle_EndPointX;
-	std::vector<double> MCParticle_EndPointY;
-	std::vector<double> MCParticle_EndPointZ;
-	std::vector<int> MCParticle_StartContainment;
-	std::vector<int> MCParticle_EndContainment;
+//	std::vector<double> MCParticle_StartX;
+//	std::vector<double> MCParticle_StartY;
+//	std::vector<double> MCParticle_StartZ;
+//	std::vector<double> MCParticle_EndPointX;
+//	std::vector<double> MCParticle_EndPointY;
+//	std::vector<double> MCParticle_EndPointZ;
+//	std::vector<int> MCParticle_StartContainment;
+//	std::vector<int> MCParticle_EndContainment;
 	std::vector<int> MCParticle_Pdg;
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
@@ -84,14 +84,14 @@ void PreTruthSelection::Loop() {
 	tree->Branch("MCParticle_Phi",&MCParticle_Phi);
 	tree->Branch("MCParticle_CosTheta",&MCParticle_CosTheta);
 //	tree->Branch("MCParticle_Length",&MCParticle_Length);
-	tree->Branch("MCParticle_StartX",&MCParticle_StartX);
-	tree->Branch("MCParticle_StartY",&MCParticle_StartY);
-	tree->Branch("MCParticle_StartZ",&MCParticle_StartZ);
-	tree->Branch("MCParticle_EndPointX",&MCParticle_EndPointX);
-	tree->Branch("MCParticle_EndPointY",&MCParticle_EndPointY);
-	tree->Branch("MCParticle_EndPointZ",&MCParticle_EndPointZ);
-	tree->Branch("MCParticle_StartContainment",&MCParticle_StartContainment);
-	tree->Branch("MCParticle_EndContainment",&MCParticle_EndContainment);
+//	tree->Branch("MCParticle_StartX",&MCParticle_StartX);
+//	tree->Branch("MCParticle_StartY",&MCParticle_StartY);
+//	tree->Branch("MCParticle_StartZ",&MCParticle_StartZ);
+//	tree->Branch("MCParticle_EndPointX",&MCParticle_EndPointX);
+//	tree->Branch("MCParticle_EndPointY",&MCParticle_EndPointY);
+//	tree->Branch("MCParticle_EndPointZ",&MCParticle_EndPointZ);
+//	tree->Branch("MCParticle_StartContainment",&MCParticle_StartContainment);
+//	tree->Branch("MCParticle_EndContainment",&MCParticle_EndContainment);
 	tree->Branch("MCParticle_Pdg",&MCParticle_Pdg);
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
@@ -133,14 +133,14 @@ void PreTruthSelection::Loop() {
 		MCParticle_Phi.clear();
 		MCParticle_CosTheta.clear();
 //		MCParticle_Length.clear();
-		MCParticle_StartX.clear();
-		MCParticle_StartY.clear();
-		MCParticle_StartZ.clear();
-		MCParticle_EndPointX.clear();
-		MCParticle_EndPointY.clear();
-		MCParticle_EndPointZ.clear();
-		MCParticle_StartContainment.clear();
-		MCParticle_EndContainment.clear();
+//		MCParticle_StartX.clear();
+//		MCParticle_StartY.clear();
+//		MCParticle_StartZ.clear();
+//		MCParticle_EndPointX.clear();
+//		MCParticle_EndPointY.clear();
+//		MCParticle_EndPointZ.clear();
+//		MCParticle_StartContainment.clear();
+//		MCParticle_EndContainment.clear();
 		MCParticle_Pdg.clear();
 
 		int NMCParticles = MCParticle_Vx->size();
@@ -157,7 +157,7 @@ void PreTruthSelection::Loop() {
 
 			if (
 				MCParticle_StatusCode->at(WhichMCParticle) == 1 
-				&& MCParticle_Process->at(WhichMCParticle) == "primary"
+				//&& MCParticle_Process->at(WhichMCParticle) == "primary"
 				&& MCTruth_CCNC->at(0) == 0 // CC events
 			) {
 			
@@ -204,14 +204,14 @@ void PreTruthSelection::Loop() {
 				MCParticle_Phi.push_back(TruePhi_Deg);
 				MCParticle_CosTheta.push_back(TrueCosTheta);
 //				MCParticle_Length.push_back(TrueLength);
-				MCParticle_StartX.push_back(TVector3TrueStart.X());
-				MCParticle_StartY.push_back(TVector3TrueStart.Y());
-				MCParticle_StartZ.push_back(TVector3TrueStart.Z());
-				MCParticle_EndPointX.push_back(TVector3TrueEnd.X());
-				MCParticle_EndPointY.push_back(TVector3TrueEnd.Y());
-				MCParticle_EndPointZ.push_back(TVector3TrueEnd.Z());
-				MCParticle_StartContainment.push_back(TrueStartContainment);
-				MCParticle_EndContainment.push_back(TrueEndContainment);
+//				MCParticle_StartX.push_back(TVector3TrueStart.X());
+//				MCParticle_StartY.push_back(TVector3TrueStart.Y());
+//				MCParticle_StartZ.push_back(TVector3TrueStart.Z());
+//				MCParticle_EndPointX.push_back(TVector3TrueEnd.X());
+//				MCParticle_EndPointY.push_back(TVector3TrueEnd.Y());
+//				MCParticle_EndPointZ.push_back(TVector3TrueEnd.Z());
+//				MCParticle_StartContainment.push_back(TrueStartContainment);
+//				MCParticle_EndContainment.push_back(TrueEndContainment);
 				MCParticle_Pdg.push_back(MCParticle_PdgCode->at(WhichMCParticle));
 
 				StableMCParticles++;
