@@ -468,7 +468,8 @@ void PreSelection::Loop() {
 				CandidateMuonTrack_KE_MeV = sMuonRange2T->Eval(CandidateMuonTrackLength); // MeV
 				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV
 				CandidateMuonTrack_Momentum_MCS_MeV = tools.KEToP(MuonPdg,CandidateMuonTrack_KE_MeV); // MeV/c
-				CandidateMuonTrack_Momentum_MCS_GeV = CandidateMuonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
+//				CandidateMuonTrack_Momentum_MCS_GeV = CandidateMuonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
+				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateMuonTrackIndex); // GeV/c				
 				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
 			} else {
@@ -516,7 +517,8 @@ void PreSelection::Loop() {
 				CandidateProtonTrack_KE_MeV = sProtonRange2T->Eval(CandidateProtonTrackLength); // MeV
 				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV
 				CandidateProtonTrack_Momentum_MCS_MeV = tools.KEToP(ProtonPdg,CandidateProtonTrack_KE_MeV); // MeV/c
-				CandidateProtonTrack_Momentum_MCS_GeV = CandidateProtonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
+//				CandidateProtonTrack_Momentum_MCS_GeV = CandidateProtonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
+				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateProtonTrackIndex); // GeV/c
 				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
 
 			} else {
