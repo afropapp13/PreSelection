@@ -13,6 +13,7 @@
 	// -------------------------------------------------------
 
 	gROOT->ProcessLine(".L ../../myClasses/Tools.cxx+");
+	gROOT->ProcessLine(".L ../../myClasses/STV_Tools.cxx+");		
 
 	gROOT->ProcessLine(".L PreSelection.C+");
 	gROOT->ProcessLine(".L PreTruthSelection.C+");

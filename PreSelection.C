@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "ubana/myClasses/Tools.h"
+#include "ubana/myClasses/STV_Tools.h"
 
 using namespace std;
 using namespace Constants;
@@ -137,6 +138,24 @@ void PreSelection::Loop() {
 	std::vector<double> True_CandidateP_CosTheta;
 	std::vector<int> True_CandidateP_StartContainment;
 	std::vector<int> True_CandidateP_EndContainment;
+	
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+	
+	// STV & Energy Reconstruction
+	
+	std::vector<double> Reco_Pt;
+	std::vector<double> Reco_DeltaAlphaT;
+	std::vector<double> Reco_DeltaPhiT;
+	std::vector<double> Reco_ECal;
+	std::vector<double> Reco_EQE;
+	std::vector<double> Reco_Q2;	
+	
+	std::vector<double> True_Pt;
+	std::vector<double> True_DeltaAlphaT;
+	std::vector<double> True_DeltaPhiT;
+	std::vector<double> True_ECal;
+	std::vector<double> True_EQE;
+	std::vector<double> True_Q2;								
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------------------------------------------------	
@@ -216,6 +235,22 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
+	
+	tree->Branch("Reco_Pt",&Reco_Pt);
+	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
+	tree->Branch("Reco_DeltaPhiT",&Reco_DeltaPhiT);
+	tree->Branch("Reco_ECal",&Reco_ECal);
+	tree->Branch("Reco_EQE",&Reco_EQE);
+	tree->Branch("Reco_Q2",&Reco_Q2);
+	
+	tree->Branch("True_Pt",&True_Pt);
+	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
+	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
+	tree->Branch("True_ECal",&True_ECal);
+	tree->Branch("True_EQE",&True_EQE);
+	tree->Branch("True_Q2",&True_Q2);							
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 	Tools tools;
 
@@ -292,12 +327,6 @@ void PreSelection::Loop() {
 			BeamFlashes_TotalPE.push_back(FlashesBeam_TotalPE->at(WhichBeamFlash));
 
 		}
-
-		// --------------------------------------------------------------------------------------------------------------------------------
-
-
-// EventWeight to go here
-
 
 		// --------------------------------------------------------------------------------------------------------------------------------
 
@@ -403,6 +432,22 @@ void PreSelection::Loop() {
 		True_CandidateP_EndContainment.clear();
 
 		// -----------------------------------------------------------------------------------------------------------------------------
+		
+		Reco_Pt.clear();
+		Reco_DeltaAlphaT.clear();
+		Reco_DeltaPhiT.clear();
+		Reco_ECal.clear();
+		Reco_EQE.clear();
+		Reco_Q2.clear();
+		
+		True_Pt.clear();
+		True_DeltaAlphaT.clear();
+		True_DeltaPhiT.clear();
+		True_ECal.clear();
+		True_EQE.clear();
+		True_Q2.clear();														
+
+		// -----------------------------------------------------------------------------------------------------------------------------
 
 		for (int WhichTrackPair = 0; WhichTrackPair < NCandidateTrackPairs; WhichTrackPair++) {
 
@@ -413,12 +458,15 @@ void PreSelection::Loop() {
 
 			// Get the muon & proton candidates
 
-//			int CandidateMuonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
-//			int CandidateProtonTrackIndex = Track_Length->at(FirstCandidateTrackIndex) > Track_Length->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
+//			double FirstTrackLength = Track_Length->at(FirstCandidateTrackIndex);
+//			double SecondTrackLength = Track_Length->at(SecondCandidateTrackIndex);			
+//			int CandidateMuonTrackIndex = FirstTrackLength > SecondTrackLength? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
+//			int CandidateProtonTrackIndex = FirstTrackLength > SecondTrackLength? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
 
-			int CandidateMuonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) < Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? FirstCandidateTrackIndex :  SecondCandidateTrackIndex;
-			int CandidateProtonTrackIndex = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex) < Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex)? SecondCandidateTrackIndex :  FirstCandidateTrackIndex;
-
+			double FirstTrackThreePlanePID = Track_ParticleId_ProtonScore_ThreePlanePID->at(FirstCandidateTrackIndex);
+			double SecondTrackThreePlanePID = Track_ParticleId_ProtonScore_ThreePlanePID->at(SecondCandidateTrackIndex);
+			int CandidateMuonTrackIndex = FirstTrackThreePlanePID<SecondTrackThreePlanePID?FirstCandidateTrackIndex:SecondCandidateTrackIndex;
+			int CandidateProtonTrackIndex = FirstTrackThreePlanePID<SecondTrackThreePlanePID?SecondCandidateTrackIndex:FirstCandidateTrackIndex;
 
 			// ---------------------------------------------------------------------------------------------------------------------
 
@@ -427,8 +475,17 @@ void PreSelection::Loop() {
 			double CandidateMuonTrackTheta = Track_Theta->at(CandidateMuonTrackIndex); // rad
 			double CandidateMuonTrackCosTheta = cos(CandidateMuonTrackTheta);
 			double CandidateMuonTrackLength = Track_Length->at(CandidateMuonTrackIndex); // cm
-			TVector3 CandidateMuonTrackStart(Track_StartX->at(CandidateMuonTrackIndex),Track_StartY->at(CandidateMuonTrackIndex),Track_StartZ->at(CandidateMuonTrackIndex));
-			TVector3 CandidateMuonTrackEnd(Track_EndX->at(CandidateMuonTrackIndex),Track_EndY->at(CandidateMuonTrackIndex),Track_EndZ->at(CandidateMuonTrackIndex));
+			
+			double MuonTrackStartX = Track_StartX->at(CandidateMuonTrackIndex);
+			double MuonTrackStartY = Track_StartY->at(CandidateMuonTrackIndex);
+			double MuonTrackStartZ = Track_StartZ->at(CandidateMuonTrackIndex);
+			
+			double MuonTrackEndX = Track_EndX->at(CandidateMuonTrackIndex);
+			double MuonTrackEndY = Track_EndY->at(CandidateMuonTrackIndex);
+			double MuonTrackEndZ = Track_EndZ->at(CandidateMuonTrackIndex);						
+			
+			TVector3 CandidateMuonTrackStart(MuonTrackStartX,MuonTrackStartY,MuonTrackStartZ);
+			TVector3 CandidateMuonTrackEnd(MuonTrackEndX,MuonTrackEndY,MuonTrackEndZ);
 			bool CandidateMuonTrackStartContainment = tools.inFVVector(CandidateMuonTrackStart);
 			bool CandidateMuonTrackEndContainment = tools.inFVVector(CandidateMuonTrackStart);
 
@@ -437,8 +494,17 @@ void PreSelection::Loop() {
 			double CandidateProtonTrackTheta = Track_Theta->at(CandidateProtonTrackIndex); // rad
 			double CandidateProtonTrackCosTheta = cos(CandidateProtonTrackTheta);
 			double CandidateProtonTrackLength = Track_Length->at(CandidateProtonTrackIndex); // cm
-			TVector3 CandidateProtonTrackStart(Track_StartX->at(CandidateProtonTrackIndex),Track_StartY->at(CandidateProtonTrackIndex),Track_StartZ->at(CandidateProtonTrackIndex));
-			TVector3 CandidateProtonTrackEnd(Track_EndX->at(CandidateProtonTrackIndex),Track_EndY->at(CandidateProtonTrackIndex),Track_EndZ->at(CandidateProtonTrackIndex));
+			
+			double ProtonTrackStartX = Track_StartX->at(CandidateProtonTrackIndex);
+			double ProtonTrackStartY = Track_StartY->at(CandidateProtonTrackIndex);
+			double ProtonTrackStartZ = Track_StartZ->at(CandidateProtonTrackIndex);
+			
+			double ProtonTrackEndX = Track_EndX->at(CandidateProtonTrackIndex);
+			double ProtonTrackEndY = Track_EndY->at(CandidateProtonTrackIndex);
+			double ProtonTrackEndZ = Track_EndZ->at(CandidateProtonTrackIndex);			
+			
+			TVector3 CandidateProtonTrackStart(ProtonTrackStartX,ProtonTrackStartY,ProtonTrackStartZ);
+			TVector3 CandidateProtonTrackEnd(ProtonTrackEndX,ProtonTrackEndY,ProtonTrackEndZ);
 			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
 			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackStart);
 
@@ -463,7 +529,7 @@ void PreSelection::Loop() {
 								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateMuonTrackIndex),
 								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 
-			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
+			/*if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
 				CandidateMuonTrack_KE_MeV = sMuonRange2T->Eval(CandidateMuonTrackLength); // MeV
 				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV
@@ -472,7 +538,7 @@ void PreSelection::Loop() {
 				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateMuonTrackIndex); // GeV/c				
 				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
-			} else {
+			} else {*/
 
 				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_MCS->at(CandidateMuonTrackIndex); // GeV/c
 				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
@@ -480,7 +546,7 @@ void PreSelection::Loop() {
 				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
 				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
-			}
+			//}
 
 			CandidateMu_P.push_back(CandidateMuonTrack_Momentum_MCS_GeV);
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
@@ -546,6 +612,29 @@ void PreSelection::Loop() {
 			CandidateP_EndX.push_back(Track_EndX->at(CandidateProtonTrackIndex));
 			CandidateP_EndY.push_back(Track_EndY->at(CandidateProtonTrackIndex));
 			CandidateP_EndZ.push_back(Track_EndZ->at(CandidateProtonTrackIndex));						
+
+			// --------------------------------------------------------------------------------------------------------------------
+			
+			// STV & Energy Reconstruction
+			
+			TVector3 TVector3CandidateMuon(-1,-1,-1);
+			TVector3CandidateMuon.SetMag(CandidateMuonTrack_Momentum_MCS_GeV);
+			TVector3CandidateMuon.SetTheta(TMath::ACos(CandidateMuonTrackCosTheta));
+			TVector3CandidateMuon.SetPhi(Track_Phi->at(CandidateMuonTrackIndex));			
+
+			TVector3 TVector3CandidateProton(-1,-1,-1);
+			TVector3CandidateProton.SetMag(CandidateProtonTrack_Momentum_MCS_GeV);
+			TVector3CandidateProton.SetTheta(TMath::ACos(CandidateProtonTrackCosTheta));
+			TVector3CandidateProton.SetPhi(Track_Phi->at(CandidateProtonTrackIndex));
+
+			STV_Tools reco_stv_tool(TVector3CandidateMuon,TVector3CandidateProton,CandidateMuonTrack_E_GeV,CandidateProtonTrack_E_GeV);
+
+			Reco_Pt.push_back(reco_stv_tool.ReturnPt());
+			Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
+			Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
+			Reco_ECal.push_back(reco_stv_tool.ReturnECal());
+			Reco_EQE.push_back(reco_stv_tool.ReturnEQE());
+			Reco_Q2.push_back(reco_stv_tool.ReturnQ2());						
 
 			// --------------------------------------------------------------------------------------------------------------------
 			// --------------------------------------------------------------------------------------------------------------------
@@ -625,6 +714,31 @@ void PreSelection::Loop() {
 				True_CandidateP_CosTheta.push_back(TrueCandidateProtonTrackCosTheta);
 				True_CandidateP_StartContainment.push_back(TrueCandidateProtonTrackStartContainment);
 				True_CandidateP_EndContainment.push_back(TrueCandidateProtonTrackEndContainment);
+				
+				// --------------------------------------------------------------------------------------------------------------------
+				
+				// STV & Energy Reconstruction
+				
+				TVector3 True_TVector3CandidateMuon(-1,-1,-1);
+				True_TVector3CandidateMuon.SetMag(TrueCandidateMuonTrackMomentum_GeV);
+				True_TVector3CandidateMuon.SetTheta(TrueCandidateMuonTrackTheta);
+				True_TVector3CandidateMuon.SetPhi(TrueCandidateMuonTrackPhi);
+
+				TVector3 True_TVector3CandidateProton(-1,-1,-1);
+				True_TVector3CandidateProton.SetMag(TrueCandidateProtonTrackMomentum_GeV);
+				True_TVector3CandidateProton.SetTheta(TrueCandidateProtonTrackTheta);
+				True_TVector3CandidateProton.SetPhi(TrueCandidateProtonTrackPhi);			
+
+
+				STV_Tools true_stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,
+							 TrueCandidateMuonTrack_E_GeV,TrueCandidateProtonTrack_E_GeV);
+
+				True_Pt.push_back(true_stv_tool.ReturnPt());
+				True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
+				True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
+				True_ECal.push_back(true_stv_tool.ReturnECal());
+				True_EQE.push_back(true_stv_tool.ReturnEQE());
+				True_Q2.push_back(true_stv_tool.ReturnQ2());			
 
 
 			} // End of the backtracking to truth, only for overlays
@@ -691,7 +805,7 @@ void PreSelection::Loop() {
 	int precision = 2;
 
 	std::cout.precision(precision);
-	std::cout << "\n\nTotal of " << EventCounter << " events processed" << std::endl << std::endl;
+	std::cout << "\n\nGathered a total of " << EventCounter << " preselected events" << std::endl << std::endl;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 

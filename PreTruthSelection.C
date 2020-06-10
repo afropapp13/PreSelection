@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "ubana/myClasses/Tools.h"
+#include "ubana/myClasses/STV_Tools.h"
 
 using namespace std;
 using namespace Constants;
@@ -52,23 +53,55 @@ void PreTruthSelection::Loop() {
 
 	int NumberMCParticles;
 	int CC1p;
+	
+	// ------------------------------------------------------------------------------------------------------------------------------------------	
 
-	std::vector<int> MCParticle_Mode;
-	std::vector<double> MCParticle_Mom;
-//	std::vector<double> MCParticle_KE;
-	std::vector<double> MCParticle_Phi;
-	std::vector<double> MCParticle_CosTheta;
-	std::vector<double> MCParticle_Length;
-	std::vector<double> MCParticle_StartX;
-	std::vector<double> MCParticle_StartY;
-	std::vector<double> MCParticle_StartZ;
-	std::vector<double> MCParticle_EndPointX;
-	std::vector<double> MCParticle_EndPointY;
-	std::vector<double> MCParticle_EndPointZ;
-	std::vector<int> MCParticle_StartContainment;
-	std::vector<int> MCParticle_EndContainment;
-	std::vector<int> MCParticle_Pdg;
+	std::vector<int> Muon_MCParticle_Mode;
+	std::vector<double> Muon_MCParticle_Mom;
+//	std::vector<double> Muon_MCParticle_KE;
+	std::vector<double> Muon_MCParticle_Phi;
+	std::vector<double> Muon_MCParticle_CosTheta;
+	std::vector<double> Muon_MCParticle_Length;
+	std::vector<double> Muon_MCParticle_StartX;
+	std::vector<double> Muon_MCParticle_StartY;
+	std::vector<double> Muon_MCParticle_StartZ;
+	std::vector<double> Muon_MCParticle_EndX;
+	std::vector<double> Muon_MCParticle_EndY;
+	std::vector<double> Muon_MCParticle_EndZ;
+	std::vector<int> Muon_MCParticle_StartContainment;
+	std::vector<int> Muon_MCParticle_EndContainment;
+	std::vector<int> Muon_MCParticle_Pdg;
+	
+	// ------------------------------------------------------------------------------------------------------------------------------------------	
 
+	std::vector<int> Proton_MCParticle_Mode;
+	std::vector<double> Proton_MCParticle_Mom;
+//	std::vector<double> Proton_MCParticle_KE;
+	std::vector<double> Proton_MCParticle_Phi;
+	std::vector<double> Proton_MCParticle_CosTheta;
+	std::vector<double> Proton_MCParticle_Length;
+	std::vector<double> Proton_MCParticle_StartX;
+	std::vector<double> Proton_MCParticle_StartY;
+	std::vector<double> Proton_MCParticle_StartZ;
+	std::vector<double> Proton_MCParticle_EndX;
+	std::vector<double> Proton_MCParticle_EndY;
+	std::vector<double> Proton_MCParticle_EndZ;
+	std::vector<int> Proton_MCParticle_StartContainment;
+	std::vector<int> Proton_MCParticle_EndContainment;
+	std::vector<int> Proton_MCParticle_Pdg;
+	
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+	
+	// STV & Energy Reconstruction	
+	
+	std::vector<double> True_Pt;
+	std::vector<double> True_DeltaAlphaT;
+	std::vector<double> True_DeltaPhiT;
+	std::vector<double> True_ECal;
+	std::vector<double> True_EQE;
+	std::vector<double> True_Q2;
+
+	// ------------------------------------------------------------------------------------------------------------------------------------------	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("Weight",&Weight);
@@ -78,21 +111,51 @@ void PreTruthSelection::Loop() {
 
 	tree->Branch("NumberMCParticles",&NumberMCParticles);
 	tree->Branch("CC1p",&CC1p);
-	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
-	tree->Branch("MCParticle_Mom",&MCParticle_Mom);
-//	tree->Branch("MCParticle_KE",&MCParticle_KE);
-	tree->Branch("MCParticle_Phi",&MCParticle_Phi);
-	tree->Branch("MCParticle_CosTheta",&MCParticle_CosTheta);
-	tree->Branch("MCParticle_Length",&MCParticle_Length);
-	tree->Branch("MCParticle_StartX",&MCParticle_StartX);
-	tree->Branch("MCParticle_StartY",&MCParticle_StartY);
-	tree->Branch("MCParticle_StartZ",&MCParticle_StartZ);
-	tree->Branch("MCParticle_EndPointX",&MCParticle_EndPointX);
-	tree->Branch("MCParticle_EndPointY",&MCParticle_EndPointY);
-	tree->Branch("MCParticle_EndPointZ",&MCParticle_EndPointZ);
-	tree->Branch("MCParticle_StartContainment",&MCParticle_StartContainment);
-	tree->Branch("MCParticle_EndContainment",&MCParticle_EndContainment);
-	tree->Branch("MCParticle_Pdg",&MCParticle_Pdg);
+	
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+		
+	tree->Branch("Muon_MCParticle_Mode",&Muon_MCParticle_Mode);
+	tree->Branch("Muon_MCParticle_Mom",&Muon_MCParticle_Mom);
+//	tree->Branch("Muon_MCParticle_KE",&Muon_MCParticle_KE);
+	tree->Branch("Muon_MCParticle_Phi",&Muon_MCParticle_Phi);
+	tree->Branch("Muon_MCParticle_CosTheta",&Muon_MCParticle_CosTheta);
+	tree->Branch("Muon_MCParticle_Length",&Muon_MCParticle_Length);
+	tree->Branch("Muon_MCParticle_StartX",&Muon_MCParticle_StartX);
+	tree->Branch("Muon_MCParticle_StartY",&Muon_MCParticle_StartY);
+	tree->Branch("Muon_MCParticle_StartZ",&Muon_MCParticle_StartZ);
+	tree->Branch("Muon_MCParticle_EndX",&Muon_MCParticle_EndX);
+	tree->Branch("Muon_MCParticle_EndY",&Muon_MCParticle_EndY);
+	tree->Branch("Muon_MCParticle_EndZ",&Muon_MCParticle_EndZ);
+	tree->Branch("Muon_MCParticle_StartContainment",&Muon_MCParticle_StartContainment);
+	tree->Branch("Muon_MCParticle_EndContainment",&Muon_MCParticle_EndContainment);
+	tree->Branch("Muon_MCParticle_Pdg",&Muon_MCParticle_Pdg);
+	
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+		
+	tree->Branch("Proton_MCParticle_Mode",&Proton_MCParticle_Mode);
+	tree->Branch("Proton_MCParticle_Mom",&Proton_MCParticle_Mom);
+//	tree->Branch("Proton_MCParticle_KE",&Proton_MCParticle_KE);
+	tree->Branch("Proton_MCParticle_Phi",&Proton_MCParticle_Phi);
+	tree->Branch("Proton_MCParticle_CosTheta",&Proton_MCParticle_CosTheta);
+	tree->Branch("Proton_MCParticle_Length",&Proton_MCParticle_Length);
+	tree->Branch("Proton_MCParticle_StartX",&Proton_MCParticle_StartX);
+	tree->Branch("Proton_MCParticle_StartY",&Proton_MCParticle_StartY);
+	tree->Branch("Proton_MCParticle_StartZ",&Proton_MCParticle_StartZ);
+	tree->Branch("Proton_MCParticle_EndX",&Proton_MCParticle_EndX);
+	tree->Branch("Proton_MCParticle_EndY",&Proton_MCParticle_EndY);
+	tree->Branch("Proton_MCParticle_EndZ",&Proton_MCParticle_EndZ);
+	tree->Branch("Proton_MCParticle_StartContainment",&Proton_MCParticle_StartContainment);
+	tree->Branch("Proton_MCParticle_EndContainment",&Proton_MCParticle_EndContainment);
+	tree->Branch("Proton_MCParticle_Pdg",&Proton_MCParticle_Pdg);
+	
+	// -----------------------------------------------------------------------------------------------------------------------------------------
+	
+	tree->Branch("True_Pt",&True_Pt);
+	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
+	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
+	tree->Branch("True_ECal",&True_ECal);
+	tree->Branch("True_EQE",&True_EQE);
+	tree->Branch("True_Q2",&True_Q2);			
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -108,8 +171,6 @@ void PreTruthSelection::Loop() {
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
-//	for (Long64_t jentry=0; jentry<1002;jentry++) {
-//	for (Long64_t jentry=0; jentry<10002;jentry++) {
 
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 		Long64_t ientry = LoadTree(jentry); if (ientry < 0) break; nb = fChain->GetEntry(jentry); nbytes += nb;
@@ -125,29 +186,65 @@ void PreTruthSelection::Loop() {
 
 		// ------------------------------------------------------------------------------------------------------------------------------
 
-		// MCParticles
+		// Muon MCParticles
 
-		MCParticle_Mode.clear();
-		MCParticle_Mom.clear();
-//		MCParticle_KE.clear();
-		MCParticle_Phi.clear();
-		MCParticle_CosTheta.clear();
-		MCParticle_Length.clear();
-		MCParticle_StartX.clear();
-		MCParticle_StartY.clear();
-		MCParticle_StartZ.clear();
-		MCParticle_EndPointX.clear();
-		MCParticle_EndPointY.clear();
-		MCParticle_EndPointZ.clear();
-		MCParticle_StartContainment.clear();
-		MCParticle_EndContainment.clear();
-		MCParticle_Pdg.clear();
+		Muon_MCParticle_Mode.clear();
+		Muon_MCParticle_Mom.clear();
+//		Muon_MCParticle_KE.clear();
+		Muon_MCParticle_Phi.clear();
+		Muon_MCParticle_CosTheta.clear();
+		Muon_MCParticle_Length.clear();
+		Muon_MCParticle_StartX.clear();
+		Muon_MCParticle_StartY.clear();
+		Muon_MCParticle_StartZ.clear();
+		Muon_MCParticle_EndX.clear();
+		Muon_MCParticle_EndY.clear();
+		Muon_MCParticle_EndZ.clear();
+		Muon_MCParticle_StartContainment.clear();
+		Muon_MCParticle_EndContainment.clear();
+		Muon_MCParticle_Pdg.clear();
+		
+		// ------------------------------------------------------------------------------------------------------------------------------
+
+		// Proton MCParticles
+
+		Proton_MCParticle_Mode.clear();
+		Proton_MCParticle_Mom.clear();
+//		Proton_MCParticle_KE.clear();
+		Proton_MCParticle_Phi.clear();
+		Proton_MCParticle_CosTheta.clear();
+		Proton_MCParticle_Length.clear();
+		Proton_MCParticle_StartX.clear();
+		Proton_MCParticle_StartY.clear();
+		Proton_MCParticle_StartZ.clear();
+		Proton_MCParticle_EndX.clear();
+		Proton_MCParticle_EndY.clear();
+		Proton_MCParticle_EndZ.clear();
+		Proton_MCParticle_StartContainment.clear();
+		Proton_MCParticle_EndContainment.clear();
+		Proton_MCParticle_Pdg.clear();
+		
+		// -----------------------------------------------------------------------------------------------------------------------------
+		
+		True_Pt.clear();
+		True_DeltaAlphaT.clear();
+		True_DeltaPhiT.clear();
+		True_ECal.clear();
+		True_EQE.clear();
+		True_Q2.clear();			
+		
+		// ----------------------------------------------------------------------------------------------------------------------------	
 
 		int NMCParticles = MCParticle_Vx->size();
+		
+		// ------------------------------------------------------------------------------------------------------------------------------		
 
 		int StableMCParticles = 0;
 		int fCC1p = 0;
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
+		
+		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
+		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
 
 		// Loop over the MCParticles and determine the populations
 
@@ -156,63 +253,21 @@ void PreTruthSelection::Loop() {
 			// Demand stable final state particles and primary interactions
 
 			if (
-				MCParticle_StatusCode->at(WhichMCParticle) == 1 
-				//&& MCParticle_Process->at(WhichMCParticle) == "primary"
+				MCParticle_StatusCode->at(WhichMCParticle) == 1
 				&& MCTruth_CCNC->at(0) == 0 // CC events
 			) {
-			
-				double MCParticleStartX = MCParticle_Vx->at(WhichMCParticle);
-				double MCParticleStartY = MCParticle_Vy->at(WhichMCParticle);
-				double MCParticleStartZ = MCParticle_Vz->at(WhichMCParticle);
-				
-				double MCParticleEndX = MCParticle_EndX->at(WhichMCParticle);
-				double MCParticleEndY = MCParticle_EndY->at(WhichMCParticle);
-				double MCParticleEndZ = MCParticle_EndZ->at(WhichMCParticle);								
-
-				TVector3 TVector3TrueStart(MCParticleStartX,MCParticleStartY,MCParticleStartZ);
-				TVector3 TVector3TrueEnd(MCParticleEndX,MCParticleEndY,MCParticleEndZ);
-				TVector3 TVector3TrueChange = TVector3TrueEnd - TVector3TrueStart;
-				bool TrueStartContainment = tools.inFVVector(TVector3TrueStart);
-				bool TrueEndContainment = tools.inFVVector(TVector3TrueEnd);
-
-				double TrueLength = TVector3TrueChange.Mag();
-				double TrueTheta = TVector3TrueChange.Theta();
-				double TrueTheta_Deg = TVector3TrueChange.Theta()*180./TMath::Pi();
-				double TruePhi = TVector3TrueChange.Phi();
-				double TruePhi_Deg = TVector3TrueChange.Phi()*180./TMath::Pi();
-				double TrueCosTheta = TVector3TrueChange.CosTheta();
-				double TrueMomentum_GeV = MCParticle_P->at(WhichMCParticle); // GeV
-				double TrueMomentum_MeV = 1000. * TrueMomentum_GeV; // MeV
-				double TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(WhichMCParticle),TrueMomentum_MeV); // MeV
-				double TrueKE_GeV = TrueKE_MeV / 1000.; // GeV
 				
 				double MCParticleMomentum = MCParticle_P->at(WhichMCParticle);
 				int MCParticlePdg = MCParticle_PdgCode->at(WhichMCParticle);
 
 				if (MCParticlePdg == MuonPdg && MCParticleMomentum > ArrayNBinsMuonMomentum[0])
-					{ TrueMuonCounter++; }
+					{ TrueMuonCounter++; VectorTrueMuonIndex.push_back(WhichMCParticle); }
 
 				if (MCParticlePdg == ProtonPdg && MCParticleMomentum > ArrayNBinsProtonMomentum[0]) 
-					{ TrueProtonCounter++; }
+					{ TrueProtonCounter++; VectorTrueProtonIndex.push_back(WhichMCParticle); }
 
 				if (fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum > ChargedPionMomentumThres) 
 					{ TrueChargedPionCounter++; }
-
-				MCParticle_Mode.push_back(MCTruth_Mode->at(0));
-				MCParticle_Mom.push_back(TrueMomentum_GeV);
-//				MCParticle_KE.push_back(TrueKE_GeV);
-				MCParticle_Phi.push_back(TruePhi_Deg);
-				MCParticle_CosTheta.push_back(TrueCosTheta);
-				MCParticle_Length.push_back(TrueLength);
-				MCParticle_StartX.push_back(TVector3TrueStart.X());
-				MCParticle_StartY.push_back(TVector3TrueStart.Y());
-				MCParticle_StartZ.push_back(TVector3TrueStart.Z());
-				MCParticle_EndPointX.push_back(TVector3TrueEnd.X());
-				MCParticle_EndPointY.push_back(TVector3TrueEnd.Y());
-				MCParticle_EndPointZ.push_back(TVector3TrueEnd.Z());
-				MCParticle_StartContainment.push_back(TrueStartContainment);
-				MCParticle_EndContainment.push_back(TrueEndContainment);
-				MCParticle_Pdg.push_back(MCParticle_PdgCode->at(WhichMCParticle));
 
 				StableMCParticles++;
 
@@ -220,10 +275,181 @@ void PreTruthSelection::Loop() {
 
 		} // end of the loop over the MCParticles
 
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; CC1pCounter++; }
+		// --------------------------------------------------------------------------------------------------------------------------		
+
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) {
+		 
+			fCC1p = 1; 
+			CC1pCounter++; 
+			
+			// --------------------------------------------------------------------------------------------------------------------------
+			
+			// Muon MCParticle
+			
+			double Muon_MCParticleStartX = MCParticle_Vx->at(VectorTrueMuonIndex.at(0));
+			double Muon_MCParticleStartY = MCParticle_Vy->at(VectorTrueMuonIndex.at(0));
+			double Muon_MCParticleStartZ = MCParticle_Vz->at(VectorTrueMuonIndex.at(0));
+			
+			double Muon_MCParticleEndX = MCParticle_EndX->at(VectorTrueMuonIndex.at(0));
+			double Muon_MCParticleEndY = MCParticle_EndY->at(VectorTrueMuonIndex.at(0));
+			double Muon_MCParticleEndZ = MCParticle_EndZ->at(VectorTrueMuonIndex.at(0));		
+
+			TVector3 Muon_TVector3TrueStart(Muon_MCParticleStartX,Muon_MCParticleStartY,Muon_MCParticleStartZ);
+			TVector3 Muon_TVector3TrueEnd(Muon_MCParticleEndX,Muon_MCParticleEndY,Muon_MCParticleEndZ);
+			TVector3 Muon_TVector3TrueChange = Muon_TVector3TrueEnd - Muon_TVector3TrueStart;
+			bool Muon_TrueStartContainment = tools.inFVVector(Muon_TVector3TrueStart);
+			bool Muon_TrueEndContainment = tools.inFVVector(Muon_TVector3TrueEnd);
+
+			double Muon_TrueLength = Muon_TVector3TrueChange.Mag();
+			double Muon_TrueTheta = Muon_TVector3TrueChange.Theta();
+			double Muon_TrueTheta_Deg = Muon_TVector3TrueChange.Theta()*180./TMath::Pi();
+			double Muon_TruePhi = Muon_TVector3TrueChange.Phi();
+			double Muon_TruePhi_Deg = Muon_TVector3TrueChange.Phi()*180./TMath::Pi();
+			double Muon_TrueCosTheta = Muon_TVector3TrueChange.CosTheta();
+			double Muon_TrueMomentum_GeV = MCParticle_P->at(VectorTrueMuonIndex.at(0)); // GeV
+			double Muon_TrueMomentum_MeV = 1000. * Muon_TrueMomentum_GeV; // MeV
+			double Muon_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)),Muon_TrueMomentum_MeV); // MeV
+			double Muon_TrueKE_GeV = Muon_TrueKE_MeV / 1000.; // GeV
+			double Muon_TrueE_GeV = Muon_TrueKE_GeV + MuonMass_GeV; // GeV			
+			
+			Muon_MCParticle_Mode.push_back(MCTruth_Mode->at(0));
+			Muon_MCParticle_Mom.push_back(Muon_TrueMomentum_GeV);
+//			Muon_MCParticle_KE.push_back(Muon_TrueKE_GeV);
+			Muon_MCParticle_Phi.push_back(Muon_TruePhi_Deg);
+			Muon_MCParticle_CosTheta.push_back(Muon_TrueCosTheta);
+			Muon_MCParticle_Length.push_back(Muon_TrueLength);
+			Muon_MCParticle_StartX.push_back(Muon_TVector3TrueStart.X());
+			Muon_MCParticle_StartY.push_back(Muon_TVector3TrueStart.Y());
+			Muon_MCParticle_StartZ.push_back(Muon_TVector3TrueStart.Z());
+			Muon_MCParticle_EndX.push_back(Muon_TVector3TrueEnd.X());
+			Muon_MCParticle_EndY.push_back(Muon_TVector3TrueEnd.Y());
+			Muon_MCParticle_EndZ.push_back(Muon_TVector3TrueEnd.Z());
+			Muon_MCParticle_StartContainment.push_back(Muon_TrueStartContainment);
+			Muon_MCParticle_EndContainment.push_back(Muon_TrueEndContainment);
+			Muon_MCParticle_Pdg.push_back(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)));
+			
+			// --------------------------------------------------------------------------------------------------------------------------
+			
+			// Proton MCParticle
+			
+			double Proton_MCParticleStartX = MCParticle_Vx->at(VectorTrueProtonIndex.at(0));
+			double Proton_MCParticleStartY = MCParticle_Vy->at(VectorTrueProtonIndex.at(0));
+			double Proton_MCParticleStartZ = MCParticle_Vz->at(VectorTrueProtonIndex.at(0));
+			
+			double Proton_MCParticleEndX = MCParticle_EndX->at(VectorTrueProtonIndex.at(0));
+			double Proton_MCParticleEndY = MCParticle_EndY->at(VectorTrueProtonIndex.at(0));
+			double Proton_MCParticleEndZ = MCParticle_EndZ->at(VectorTrueProtonIndex.at(0));		
+
+			TVector3 Proton_TVector3TrueStart(Proton_MCParticleStartX,Proton_MCParticleStartY,Proton_MCParticleStartZ);
+			TVector3 Proton_TVector3TrueEnd(Proton_MCParticleEndX,Proton_MCParticleEndY,Proton_MCParticleEndZ);
+			TVector3 Proton_TVector3TrueChange = Proton_TVector3TrueEnd - Proton_TVector3TrueStart;
+			bool Proton_TrueStartContainment = tools.inFVVector(Proton_TVector3TrueStart);
+			bool Proton_TrueEndContainment = tools.inFVVector(Proton_TVector3TrueEnd);
+
+			double Proton_TrueLength = Proton_TVector3TrueChange.Mag();
+			double Proton_TrueTheta = Proton_TVector3TrueChange.Theta();
+			double Proton_TrueTheta_Deg = Proton_TVector3TrueChange.Theta()*180./TMath::Pi();
+			double Proton_TruePhi = Proton_TVector3TrueChange.Phi();
+			double Proton_TruePhi_Deg = Proton_TVector3TrueChange.Phi()*180./TMath::Pi();
+			double Proton_TrueCosTheta = Proton_TVector3TrueChange.CosTheta();
+			double Proton_TrueMomentum_GeV = MCParticle_P->at(VectorTrueProtonIndex.at(0)); // GeV
+			double Proton_TrueMomentum_MeV = 1000. * Proton_TrueMomentum_GeV; // MeV
+			double Proton_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueProtonIndex.at(0)),Proton_TrueMomentum_MeV); // MeV
+			double Proton_TrueKE_GeV = Proton_TrueKE_MeV / 1000.; // GeV
+			double Proton_TrueE_GeV = Proton_TrueKE_GeV + ProtonMass_GeV; // GeV						
+			
+			Proton_MCParticle_Mode.push_back(MCTruth_Mode->at(0));
+			Proton_MCParticle_Mom.push_back(Proton_TrueMomentum_GeV);
+//			Proton_MCParticle_KE.push_back(Proton_TrueKE_GeV);
+			Proton_MCParticle_Phi.push_back(Proton_TruePhi_Deg);
+			Proton_MCParticle_CosTheta.push_back(Proton_TrueCosTheta);
+			Proton_MCParticle_Length.push_back(Proton_TrueLength);
+			Proton_MCParticle_StartX.push_back(Proton_TVector3TrueStart.X());
+			Proton_MCParticle_StartY.push_back(Proton_TVector3TrueStart.Y());
+			Proton_MCParticle_StartZ.push_back(Proton_TVector3TrueStart.Z());
+			Proton_MCParticle_EndX.push_back(Proton_TVector3TrueEnd.X());
+			Proton_MCParticle_EndY.push_back(Proton_TVector3TrueEnd.Y());
+			Proton_MCParticle_EndZ.push_back(Proton_TVector3TrueEnd.Z());
+			Proton_MCParticle_StartContainment.push_back(Proton_TrueStartContainment);
+			Proton_MCParticle_EndContainment.push_back(Proton_TrueEndContainment);
+			Proton_MCParticle_Pdg.push_back(MCParticle_PdgCode->at(VectorTrueProtonIndex.at(0)));
+			
+			// --------------------------------------------------------------------------------------------------------------------
+			
+			// STV & Energy Reconstruction
+			
+			TVector3 True_TVector3CandidateMuon(-1,-1,-1);
+			True_TVector3CandidateMuon.SetMag(Muon_TrueMomentum_GeV);
+			True_TVector3CandidateMuon.SetTheta(Muon_TrueTheta);
+			True_TVector3CandidateMuon.SetPhi(Muon_TruePhi);
+
+			TVector3 True_TVector3CandidateProton(-1,-1,-1);
+			True_TVector3CandidateProton.SetMag(Proton_TrueMomentum_GeV);
+			True_TVector3CandidateProton.SetTheta(Proton_TrueTheta);
+			True_TVector3CandidateProton.SetPhi(Proton_TruePhi);
+
+			STV_Tools stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,Muon_TrueE_GeV,Proton_TrueE_GeV);
+
+			True_Pt.push_back(stv_tool.ReturnPt());
+			True_DeltaAlphaT.push_back(stv_tool.ReturnDeltaAlphaT());
+			True_DeltaPhiT.push_back(stv_tool.ReturnDeltaPhiT());
+			True_ECal.push_back(stv_tool.ReturnECal());
+			True_EQE.push_back(stv_tool.ReturnEQE());
+			True_Q2.push_back(stv_tool.ReturnQ2());					
+			
+		} else {
+		
+			double NotCC1pSignal = -999.;
+			int IntNotCC1pSignal = -999;			
+		
+			Muon_MCParticle_Mode.push_back(IntNotCC1pSignal);
+			Muon_MCParticle_Mom.push_back(NotCC1pSignal);
+//			Muon_MCParticle_KE.push_back(NotCC1pSignal);
+			Muon_MCParticle_Phi.push_back(NotCC1pSignal);
+			Muon_MCParticle_CosTheta.push_back(NotCC1pSignal);
+			Muon_MCParticle_Length.push_back(NotCC1pSignal);
+			Muon_MCParticle_StartX.push_back(NotCC1pSignal);
+			Muon_MCParticle_StartY.push_back(NotCC1pSignal);
+			Muon_MCParticle_StartZ.push_back(NotCC1pSignal);
+			Muon_MCParticle_EndX.push_back(NotCC1pSignal);
+			Muon_MCParticle_EndY.push_back(NotCC1pSignal);
+			Muon_MCParticle_EndZ.push_back(NotCC1pSignal);
+			Muon_MCParticle_StartContainment.push_back(IntNotCC1pSignal);
+			Muon_MCParticle_EndContainment.push_back(IntNotCC1pSignal);
+			Muon_MCParticle_Pdg.push_back(IntNotCC1pSignal);
+			
+			Proton_MCParticle_Mode.push_back(IntNotCC1pSignal);
+			Proton_MCParticle_Mom.push_back(NotCC1pSignal);
+//			Proton_MCParticle_KE.push_back(NotCC1pSignal);
+			Proton_MCParticle_Phi.push_back(NotCC1pSignal);
+			Proton_MCParticle_CosTheta.push_back(NotCC1pSignal);
+			Proton_MCParticle_Length.push_back(NotCC1pSignal);
+			Proton_MCParticle_StartX.push_back(NotCC1pSignal);
+			Proton_MCParticle_StartY.push_back(NotCC1pSignal);
+			Proton_MCParticle_StartZ.push_back(NotCC1pSignal);
+			Proton_MCParticle_EndX.push_back(NotCC1pSignal);
+			Proton_MCParticle_EndY.push_back(NotCC1pSignal);
+			Proton_MCParticle_EndZ.push_back(NotCC1pSignal);
+			Proton_MCParticle_StartContainment.push_back(IntNotCC1pSignal);
+			Proton_MCParticle_EndContainment.push_back(IntNotCC1pSignal);
+			Proton_MCParticle_Pdg.push_back(IntNotCC1pSignal);
+			
+			True_Pt.push_back(NotCC1pSignal);
+			True_DeltaAlphaT.push_back(NotCC1pSignal);
+			True_DeltaPhiT.push_back(NotCC1pSignal);
+			True_ECal.push_back(NotCC1pSignal);
+			True_EQE.push_back(NotCC1pSignal);
+			True_Q2.push_back(NotCC1pSignal);			
+			
+		}
+		
+		// --------------------------------------------------------------------------------------------------------------------------		
+		
 		CC1p = fCC1p;
 
-		NumberMCParticles = StableMCParticles;
+		NumberMCParticles = StableMCParticles;	
+		
+		// --------------------------------------------------------------------------------------------------------------------------		
 
 		EventCounter++;
 		tree->Fill();

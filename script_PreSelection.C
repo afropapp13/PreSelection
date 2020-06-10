@@ -5,11 +5,12 @@
 	WhichSampleArray.push_back("BeamOn9_Run1");
 	WhichSampleArray.push_back("ExtBNB9_Run1");
 	WhichSampleArray.push_back("OverlayDirt9_Run1");
-       	WhichSampleArray.push_back("Overlay9_Run1"); // CV
+       WhichSampleArray.push_back("Overlay9_Run1"); // CV
 	
 	// ----------------------------------------------------------------------------------
 
 	gROOT->ProcessLine(".L ../../myClasses/Tools.cxx+");
+	gROOT->ProcessLine(".L ../../myClasses/STV_Tools.cxx+");	
 
 	gROOT->ProcessLine(".L PreSelection.C+");
 	gROOT->ProcessLine(".L PreTruthSelection.C+");
