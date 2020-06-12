@@ -148,14 +148,18 @@ void PreSelection::Loop() {
 	std::vector<double> Reco_DeltaPhiT;
 	std::vector<double> Reco_ECal;
 	std::vector<double> Reco_EQE;
-	std::vector<double> Reco_Q2;	
+	std::vector<double> Reco_Q2;
+	std::vector<double> Reco_DeltaPhi;
+	std::vector<double> Reco_DeltaTheta;		
 	
 	std::vector<double> True_Pt;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_ECal;
 	std::vector<double> True_EQE;
-	std::vector<double> True_Q2;								
+	std::vector<double> True_Q2;		
+	std::vector<double> True_DeltaPhi;
+	std::vector<double> True_DeltaTheta;							
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------------------------------------------------	
@@ -242,13 +246,17 @@ void PreSelection::Loop() {
 	tree->Branch("Reco_ECal",&Reco_ECal);
 	tree->Branch("Reco_EQE",&Reco_EQE);
 	tree->Branch("Reco_Q2",&Reco_Q2);
+	tree->Branch("Reco_DeltaPhi",&Reco_DeltaPhi);
+	tree->Branch("Reco_DeltaTheta",&Reco_DeltaTheta);		
 	
 	tree->Branch("True_Pt",&True_Pt);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_ECal",&True_ECal);
 	tree->Branch("True_EQE",&True_EQE);
-	tree->Branch("True_Q2",&True_Q2);							
+	tree->Branch("True_Q2",&True_Q2);
+	tree->Branch("True_DeltaPhi",&True_DeltaPhi);
+	tree->Branch("True_DeltaTheta",&True_DeltaTheta);						
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -439,13 +447,17 @@ void PreSelection::Loop() {
 		Reco_ECal.clear();
 		Reco_EQE.clear();
 		Reco_Q2.clear();
+		Reco_DeltaPhi.clear();
+		Reco_DeltaTheta.clear();				
 		
 		True_Pt.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
 		True_ECal.clear();
 		True_EQE.clear();
-		True_Q2.clear();														
+		True_Q2.clear();
+		True_DeltaPhi.clear();
+		True_DeltaTheta.clear();															
 
 		// -----------------------------------------------------------------------------------------------------------------------------
 
@@ -634,8 +646,24 @@ void PreSelection::Loop() {
 			Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
 			Reco_ECal.push_back(reco_stv_tool.ReturnECal());
 			Reco_EQE.push_back(reco_stv_tool.ReturnEQE());
-			Reco_Q2.push_back(reco_stv_tool.ReturnQ2());						
+			Reco_Q2.push_back(reco_stv_tool.ReturnQ2());	
+			
+			// --------------------------------------------------------------------------------------------------------------------
 
+			// Relative Angles
+			
+			double DeltaPhi_Rad = TVector3CandidateMuon.DeltaPhi(TVector3CandidateProton);
+			double DeltaPhi_Deg = DeltaPhi_Rad * 180. / TMath::Pi();
+			if (DeltaPhi_Deg >= 360.) { DeltaPhi_Deg -= 360.; }
+			if (DeltaPhi_Deg < 0.) { DeltaPhi_Deg += 360.; }
+			Reco_DeltaPhi.push_back(DeltaPhi_Deg);
+			
+			double DeltaTheta_Rad = TVector3CandidateMuon.Angle(TVector3CandidateProton);
+			double DeltaTheta_Deg = DeltaTheta_Rad * 180. / TMath::Pi();
+			if (DeltaTheta_Deg >= 360.) { DeltaTheta_Deg -= 360.; }
+			if (DeltaTheta_Deg < 0.) { DeltaTheta_Deg += 360.; }
+			Reco_DeltaTheta.push_back(DeltaTheta_Deg);									
+			
 			// --------------------------------------------------------------------------------------------------------------------
 			// --------------------------------------------------------------------------------------------------------------------
 
@@ -738,8 +766,23 @@ void PreSelection::Loop() {
 				True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
 				True_ECal.push_back(true_stv_tool.ReturnECal());
 				True_EQE.push_back(true_stv_tool.ReturnEQE());
-				True_Q2.push_back(true_stv_tool.ReturnQ2());			
+				True_Q2.push_back(true_stv_tool.ReturnQ2());	
+				
+				// --------------------------------------------------------------------------------------------------------------------
 
+				// Relative Angles
+				
+				double True_DeltaPhi_Rad = True_TVector3CandidateMuon.DeltaPhi(True_TVector3CandidateProton);
+				double True_DeltaPhi_Deg = True_DeltaPhi_Rad * 180. / TMath::Pi();
+				if (True_DeltaPhi_Deg >= 360.) { True_DeltaPhi_Deg -= 360.; }
+				if (True_DeltaPhi_Deg < 0.) { True_DeltaPhi_Deg += 360.; }
+				True_DeltaPhi.push_back(True_DeltaPhi_Deg);
+				
+				double True_DeltaTheta_Rad = True_TVector3CandidateMuon.Angle(True_TVector3CandidateProton);
+				double True_DeltaTheta_Deg = True_DeltaTheta_Rad * 180. / TMath::Pi();
+				if (True_DeltaTheta_Deg >= 360.) { True_DeltaTheta_Deg -= 360.; }
+				if (True_DeltaTheta_Deg < 0.) { True_DeltaTheta_Deg += 360.; }
+				True_DeltaTheta.push_back(True_DeltaTheta_Deg);						
 
 			} // End of the backtracking to truth, only for overlays
 
@@ -765,7 +808,6 @@ void PreSelection::Loop() {
 
 			if (
 				MCParticle_StatusCode->at(WhichMCParticle) == 1 
-				//&& MCParticle_Process->at(WhichMCParticle) == "primary"
 				&& MCTruth_CCNC->at(0) == 0 // CC events				
 			) {
 
@@ -787,12 +829,7 @@ void PreSelection::Loop() {
 
 		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
 
-		if (
-			TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0
-			&& MCParticle_Vx->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vx->at(VectorTrueProtonIndex.at(0))
-			&& MCParticle_Vy->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vy->at(VectorTrueProtonIndex.at(0))
-			&& MCParticle_Vz->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vz->at(VectorTrueProtonIndex.at(0))			
-		) { fCC1p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
 
 		if (MCTruth_Mode->size() == 1) { fMCParticle_Mode = MCTruth_Mode->at(0); }
 
