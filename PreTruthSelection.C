@@ -277,7 +277,13 @@ void PreTruthSelection::Loop() {
 
 		// --------------------------------------------------------------------------------------------------------------------------		
 
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) {
+		if (
+			TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0
+			&& MCParticle_Vx->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vx->at(VectorTrueProtonIndex.at(0))
+			&& MCParticle_Vy->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vy->at(VectorTrueProtonIndex.at(0))
+			&& MCParticle_Vz->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vz->at(VectorTrueProtonIndex.at(0))			
+		) {
+			
 		 
 			fCC1p = 1; 
 			CC1pCounter++; 

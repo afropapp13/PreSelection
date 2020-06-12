@@ -755,6 +755,9 @@ void PreSelection::Loop() {
 
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
+		
+		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
+		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
 
@@ -770,10 +773,10 @@ void PreSelection::Loop() {
 				int MCParticlePdg = MCParticle_PdgCode->at(WhichMCParticle);
 
 				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= ArrayNBinsMuonMomentum[0] ) 
-					{ TrueMuonCounter++; }
+					{ TrueMuonCounter++;  VectorTrueMuonIndex.push_back(WhichMCParticle); }
 
 				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= ArrayNBinsProtonMomentum[0] ) 
-					{ TrueProtonCounter++; }
+					{ TrueProtonCounter++; VectorTrueProtonIndex.push_back(WhichMCParticle); }
 
 				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
 					{ TrueChargedPionCounter++; }
@@ -784,7 +787,12 @@ void PreSelection::Loop() {
 
 		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
 
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
+		if (
+			TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0
+			&& MCParticle_Vx->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vx->at(VectorTrueProtonIndex.at(0))
+			&& MCParticle_Vy->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vy->at(VectorTrueProtonIndex.at(0))
+			&& MCParticle_Vz->at(VectorTrueMuonIndex.at(0)) == MCParticle_Vz->at(VectorTrueProtonIndex.at(0))			
+		) { fCC1p = 1; }
 
 		if (MCTruth_Mode->size() == 1) { fMCParticle_Mode = MCTruth_Mode->at(0); }
 
