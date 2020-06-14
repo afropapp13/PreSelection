@@ -88,6 +88,12 @@ void PreSelection::Loop() {
 	std::vector<double> Vertex_Z;
 
 	std::vector<int> CandidateMu_Mode;
+	std::vector<double> CandidateMu_StartX;
+	std::vector<double> CandidateMu_StartY;
+	std::vector<double> CandidateMu_StartZ;
+	std::vector<double> CandidateMu_EndX;
+	std::vector<double> CandidateMu_EndY;
+	std::vector<double> CandidateMu_EndZ;				
 	std::vector<double> CandidateMu_P_Range;
 	std::vector<double> CandidateMu_P_MCS;	
 	std::vector<double> CandidateMu_Phi;
@@ -116,6 +122,12 @@ void PreSelection::Loop() {
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
 	std::vector<int> CandidateP_Mode;
+	std::vector<double> CandidateP_StartX;
+	std::vector<double> CandidateP_StartY;
+	std::vector<double> CandidateP_StartZ;
+	std::vector<double> CandidateP_EndX;
+	std::vector<double> CandidateP_EndY;
+	std::vector<double> CandidateP_EndZ;	
 	std::vector<double> CandidateP_P_Range;
 	std::vector<double> CandidateP_P_MCS;	
 	std::vector<double> CandidateP_Phi;
@@ -190,6 +202,12 @@ void PreSelection::Loop() {
 	tree->Branch("Vertex_Y",&Vertex_Y);
 	tree->Branch("Vertex_Z",&Vertex_Z);
 
+	tree->Branch("CandidateMu_StartX",&CandidateMu_StartX);
+	tree->Branch("CandidateMu_StartY",&CandidateMu_StartY);
+	tree->Branch("CandidateMu_StartZ",&CandidateMu_StartZ);
+	tree->Branch("CandidateMu_EndX",&CandidateMu_EndX);
+	tree->Branch("CandidateMu_EndY",&CandidateMu_EndY);
+	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);			
 	tree->Branch("CandidateMu_P_Range",&CandidateMu_P_Range);
 	tree->Branch("CandidateMu_P_MCS",&CandidateMu_P_MCS);	
 	tree->Branch("CandidateMu_Phi",&CandidateMu_Phi);
@@ -217,6 +235,12 @@ void PreSelection::Loop() {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
+	tree->Branch("CandidateP_StartX",&CandidateP_StartX);
+	tree->Branch("CandidateP_StartY",&CandidateP_StartY);
+	tree->Branch("CandidateP_StartZ",&CandidateP_StartZ);
+	tree->Branch("CandidateP_EndX",&CandidateP_EndX);
+	tree->Branch("CandidateP_EndY",&CandidateP_EndY);
+	tree->Branch("CandidateP_EndZ",&CandidateP_EndZ);
 	tree->Branch("CandidateP_P_Range",&CandidateP_P_Range);
 	tree->Branch("CandidateP_P_MCS",&CandidateP_P_MCS);	
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
@@ -392,6 +416,12 @@ void PreSelection::Loop() {
 		Vertex_Z.clear();
 
 		CandidateMu_Mode.clear();
+		CandidateMu_StartX.clear();
+		CandidateMu_StartY.clear();
+		CandidateMu_StartZ.clear();
+		CandidateMu_EndX.clear();
+		CandidateMu_EndY.clear();
+		CandidateMu_EndZ.clear();								
 		CandidateMu_P_Range.clear();
 		CandidateMu_P_MCS.clear();		
 		CandidateMu_Phi.clear();
@@ -420,6 +450,12 @@ void PreSelection::Loop() {
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		CandidateP_Mode.clear();
+		CandidateP_StartX.clear();
+		CandidateP_StartY.clear();
+		CandidateP_StartZ.clear();
+		CandidateP_EndX.clear();
+		CandidateP_EndY.clear();
+		CandidateP_EndZ.clear();		
 		CandidateP_P_Range.clear();
 		CandidateP_P_MCS.clear();		
 		CandidateP_Phi.clear();
@@ -524,9 +560,9 @@ void PreSelection::Loop() {
 			TVector3 CandidateProtonTrackStart(ProtonTrackStartX,ProtonTrackStartY,ProtonTrackStartZ);
 			TVector3 CandidateProtonTrackEnd(ProtonTrackEndX,ProtonTrackEndY,ProtonTrackEndZ);
 //			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
-//			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackStart);
-
-			// ---------------------------------------------------------------------------------------------------------------------
+//			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackStart);			
+			
+			// ---------------------------------------------------------------------------------------------------------------------		
 
 			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
 			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
@@ -566,6 +602,12 @@ void PreSelection::Loop() {
 
 			//}
 
+			CandidateMu_StartX.push_back(MuonTrackStartX);
+			CandidateMu_StartY.push_back(MuonTrackStartY);
+			CandidateMu_StartZ.push_back(MuonTrackStartZ);
+			CandidateMu_EndX.push_back(MuonTrackEndX);
+			CandidateMu_EndY.push_back(MuonTrackEndY);
+			CandidateMu_EndZ.push_back(MuonTrackEndZ);									
 			CandidateMu_P_MCS.push_back(CandidateMuonTrack_Momentum_MCS_GeV);
 			CandidateMu_P_Range.push_back(tools.KEToP(MuonPdg,sMuonRange2T->Eval(CandidateMuonTrackLength)));			
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
@@ -616,6 +658,13 @@ void PreSelection::Loop() {
 
 			}
 */
+
+			CandidateP_StartX.push_back(ProtonTrackStartX);
+			CandidateP_StartY.push_back(ProtonTrackStartY);
+			CandidateP_StartZ.push_back(ProtonTrackStartZ);
+			CandidateP_EndX.push_back(ProtonTrackEndX);
+			CandidateP_EndY.push_back(ProtonTrackEndY);
+			CandidateP_EndZ.push_back(ProtonTrackEndZ);
 			CandidateP_P_Range.push_back(CandidateProtonTrack_Momentum_MCS_GeV);
 			CandidateP_P_MCS.push_back(Track_Momentum_MCS->at(CandidateProtonTrackIndex));			
 			CandidateP_Phi.push_back(Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi()); // deg
