@@ -31,8 +31,9 @@ public :
    // Declaration of leaf types
    std::vector<double>  *EventWeight;
    std::vector<double>  *T2KEventWeight;
+//   std::vector<double>  *ROOTinoEventWeight;   
 //   std::vector<std::vector<std::string > > *EventWeightNames;
-   std::vector<std::vector<std::vector<double> > > *EventWeightValues;
+//   std::vector<std::vector<std::vector<double> > > *EventWeightValues;
 
    Int_t           isData;
    Int_t           RunNumber;
@@ -163,8 +164,9 @@ public :
 
    TBranch        *b_EventWeight;   //!
    TBranch        *b_T2KEventWeight;   //!
+//   TBranch        *b_ROOTinoEventWeight;   //!   
 //   TBranch        *b_EventWeightNames;   //!
-   TBranch        *b_EventWeightValues;   //!
+//   TBranch        *b_EventWeightValues;   //!
 
    TBranch        *b_isData;   //!
    TBranch        *b_RunNumber;   //!
@@ -388,8 +390,9 @@ void PreSelection::Init(TChain *tree)
    // Set object pointer
    EventWeight = 0;
    T2KEventWeight = 0;
+//   ROOTinoEventWeight = 0;   
 //   EventWeightNames = 0;
-   EventWeightValues = 0;
+//   EventWeightValues = 0;
 
    Track_Length = 0;
    Track_Phi = 0;
@@ -515,8 +518,9 @@ void PreSelection::Init(TChain *tree)
 
    fChain->SetBranchAddress("EventWeight", &EventWeight, &b_EventWeight);
    fChain->SetBranchAddress("T2KEventWeight", &T2KEventWeight, &b_T2KEventWeight);
+//   fChain->SetBranchAddress("ROOTinoEventWeight", &ROOTinoEventWeight, &b_ROOTinoEventWeight);   
 //   fChain->SetBranchAddress("EventWeightNames", &EventWeightNames, &b_EventWeightNames);
-   fChain->SetBranchAddress("EventWeightValues", &EventWeightValues, &b_EventWeightValues);
+//   fChain->SetBranchAddress("EventWeightValues", &EventWeightValues, &b_EventWeightValues);
 
    fChain->SetBranchAddress("isData", &isData, &b_isData);
    fChain->SetBranchAddress("RunNumber", &RunNumber, &b_RunNumber);

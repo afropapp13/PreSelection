@@ -259,10 +259,11 @@ void PreTruthSelection::Loop() {
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
 
-			// Demand stable final state particles and primary interactions
+			// Demand stable final state particles
 
 			if (
 				MCParticle_StatusCode->at(WhichMCParticle) == 1
+				&& MCParticle_Process->at(WhichMCParticle) == "primary"				
 				&& MCTruth_CCNC->at(0) == 0 // CC events
 			) {
 				
@@ -280,7 +281,7 @@ void PreTruthSelection::Loop() {
 
 				StableMCParticles++;
 
-			} // End of the demand stable final state particles and primary interactions
+			} // End of the demand stable final state particles
 
 		} // end of the loop over the MCParticles
 
