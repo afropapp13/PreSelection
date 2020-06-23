@@ -289,8 +289,7 @@ void PreSelection::Loop() {
 		double T2Kweight = T2KEventWeight->at(0);
 		T2KWeight = T2Kweight;
 		
-//		double ROOTinoweight = ROOTinoEventWeight->at(0);
-//		ROOTinoWeight = ROOTinoweight;
+		ROOTinoWeight = ROOTinoEventWeight->at(0);
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
 

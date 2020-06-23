@@ -48,6 +48,7 @@ void PreTruthSelection::Loop() {
 
 	double Weight;
 	double T2KWeight;
+	double ROOTinoWeight;		
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -109,6 +110,7 @@ void PreTruthSelection::Loop() {
 
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
+	tree->Branch("ROOTinoWeight",&ROOTinoWeight);		
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -189,6 +191,8 @@ void PreTruthSelection::Loop() {
 
 		double T2Kweight = T2KEventWeight->at(0); // MicroBooNE tune based on T2K 
 		T2KWeight = T2Kweight;
+		
+		ROOTinoWeight = ROOTinoEventWeight->at(0);		
 
 		// ------------------------------------------------------------------------------------------------------------------------------
 
