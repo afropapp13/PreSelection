@@ -67,6 +67,8 @@ void PreSelection::Loop() {
 	double T2KWeight;
 	double ROOTinoWeight;	
 	int CC1p;
+	int CC1p1pi;
+	int CC2p;		
 	int MCParticle_Mode;
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
@@ -171,6 +173,8 @@ void PreSelection::Loop() {
 	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("ROOTinoWeight",&ROOTinoWeight);	
 	tree->Branch("CC1p",&CC1p);
+	tree->Branch("CC1p1pi",&CC1p1pi);
+	tree->Branch("CC2p",&CC2p);	
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
@@ -281,16 +285,6 @@ void PreSelection::Loop() {
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 		Long64_t ientry = LoadTree(jentry); if (ientry < 0) break; nb = fChain->GetEntry(jentry); nbytes += nb;
 
-		// ---------------------------------------------------------------------------------------------------------------------------------
-
-		double weight = EventWeight->at(0);
-		Weight = weight;
-
-		double T2Kweight = T2KEventWeight->at(0);
-		T2KWeight = T2Kweight;
-		
-		ROOTinoWeight = ROOTinoEventWeight->at(0);
-
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		if ( EventPassedSwTrigger != 1) { continue; }
@@ -324,6 +318,16 @@ void PreSelection::Loop() {
 
 		NuScore = PFParticle_NuScore->at(0);
 		FlashScore = PFParticle_FlashScore->at(0);
+		
+		// ---------------------------------------------------------------------------------------------------------------------------------
+
+		double weight = EventWeight->at(0);
+		Weight = weight;
+
+		double T2Kweight = T2KEventWeight->at(0);
+		T2KWeight = T2Kweight;
+		
+		ROOTinoWeight = ROOTinoEventWeight->at(0);		
 
 		// ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -571,7 +575,7 @@ void PreSelection::Loop() {
 			//}
 									
 			CandidateMu_P_MCS.push_back(CandidateMuonTrack_Momentum_MCS_GeV);
-			CandidateMu_P_Range.push_back(tools.KEToP(MuonPdg,sMuonRange2T->Eval(CandidateMuonTrackLength)));			
+			CandidateMu_P_Range.push_back(tools.KEToP(0.001*MuonPdg,sMuonRange2T->Eval(CandidateMuonTrackLength)));			
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
 			CandidateMu_CosTheta.push_back(CandidateMuonTrackCosTheta);
 			CandidateMu_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
@@ -807,7 +811,7 @@ void PreSelection::Loop() {
 
 		// MCParticle Loop
 		
-		int fCC1p = 0, fMCParticle_Mode = -1;
+		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fMCParticle_Mode = -1;
 
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
@@ -844,10 +848,14 @@ void PreSelection::Loop() {
 		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
 
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1) { fCC1p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0) { fCC2p = 1; }				
 
 		if (MCTruth_Mode->size() == 1) { fMCParticle_Mode = MCTruth_Mode->at(0); }
 
 		CC1p = fCC1p;
+		CC1p1pi = fCC1p1pi;
+		CC2p = fCC2p;				
 		MCParticle_Mode = fMCParticle_Mode;
 
 		// ---------------------------------------------------------------------------------------------------------------------------------

@@ -54,6 +54,8 @@ void PreTruthSelection::Loop() {
 
 	int NumberMCParticles;
 	int CC1p;
+	int CC1p1pi;
+	int CC2p;		
 	
 	// ------------------------------------------------------------------------------------------------------------------------------------------	
 
@@ -116,6 +118,8 @@ void PreTruthSelection::Loop() {
 
 	tree->Branch("NumberMCParticles",&NumberMCParticles);
 	tree->Branch("CC1p",&CC1p);
+	tree->Branch("CC1p1pi",&CC1p1pi);
+	tree->Branch("CC2p",&CC2p);		
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 		
@@ -175,6 +179,8 @@ void PreTruthSelection::Loop() {
 
 	int EventCounter = 0;
 	int CC1pCounter = 0;
+	int CC1p1piCounter = 0;
+	int CC2pCounter = 0;		
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -254,6 +260,8 @@ void PreTruthSelection::Loop() {
 
 		int StableMCParticles = 0;
 		int fCC1p = 0;
+		int fCC1p1pi = 0;
+		int fCC2p = 0;				
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
@@ -290,6 +298,26 @@ void PreTruthSelection::Loop() {
 		} // end of the loop over the MCParticles
 
 		// --------------------------------------------------------------------------------------------------------------------------		
+
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1) {
+			
+		 
+			fCC1p1pi = 1; 
+			CC1p1piCounter++;
+			
+		}
+		
+		// --------------------------------------------------------------------------------------------------------------------------
+		
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0) {
+			
+		 
+			fCC2p = 1; 
+			CC2pCounter++;
+			
+		}
+		
+		// ------------------------------------------------------------------------------------------------------------------------		
 
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) {
 			
@@ -480,6 +508,8 @@ void PreTruthSelection::Loop() {
 		// --------------------------------------------------------------------------------------------------------------------------		
 		
 		CC1p = fCC1p;
+		CC1p1pi = fCC1p1pi;
+		CC2p = fCC2p;				
 
 		NumberMCParticles = StableMCParticles;	
 		
@@ -500,6 +530,8 @@ void PreTruthSelection::Loop() {
 	std::cout.precision(precision);
 	std::cout << "\n\nTotal of " << EventCounter << " events processed" << std::endl << std::endl;
 	std::cout << "\n\nTotal of " << CC1pCounter << " CC1p events processed" << std::endl << std::endl;	
+	std::cout << "\n\nTotal of " << CC1p1piCounter << " CC1p1pi events processed" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC2pCounter << " CC2p events processed" << std::endl << std::endl;				
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 
