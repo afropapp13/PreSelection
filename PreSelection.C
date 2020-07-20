@@ -65,10 +65,45 @@ void PreSelection::Loop() {
 //	int PassedSwTrigger;
 	double Weight;
 	double T2KWeight;
-	double ROOTinoWeight;	
+	double ROOTinoWeight;
+
+	std::vector<double> All_UBGenie;
+	std::vector<double> AxFFCCQEshape_UBGenie;
+	std::vector<double> DecayAngMEC_UBGenie;
+	std::vector<double> NormCCCOH_UBGenie;
+	std::vector<double> NormNCCOH_UBGenie;
+	std::vector<double> RPA_CCQE_Reduced_UBGenie;
+	std::vector<double> RPA_CCQE_UBGenie;
+	std::vector<double> ThetaDelta2NRad_UBGenie;
+	std::vector<double> Theta_Delta2Npi_UBGenie;
+	std::vector<double> VecFFCCQEshape_UBGenie;
+	std::vector<double> XSecShape_CCMEC_UBGenie;
+	std::vector<double> expskin_FluxUnisim;
+	std::vector<double> horncurrent_FluxUnisim;
+	std::vector<double> kminus_PrimaryHadronNormalization;
+	std::vector<double> kplus_PrimaryHadronFeynmanScaling;
+	std::vector<double> kzero_PrimaryHadronSanfordWang;
+	std::vector<double> nucleoninexsec_FluxUnisim;
+	std::vector<double> nucleonqexsec_FluxUnisim;
+	std::vector<double> nucleontotxsec_FluxUnisim;
+	std::vector<double> piminus_PrimaryHadronSWCentralSplineVariation;
+	std::vector<double> pioninexsec_FluxUnisim;
+	std::vector<double> pionqexsec_FluxUnisim;
+	std::vector<double> piontotxsec_FluxUnisim;
+	std::vector<double> piplus_PrimaryHadronSWCentralSplineVariation;
+	std::vector<double> reinteractions_piminus_Geant4;
+	std::vector<double> reinteractions_piplus_Geant4;
+	std::vector<double> reinteractions_proton_Geant4;
+	std::vector<double> xsr_scc_Fa3_SCC;
+	std::vector<double> xsr_scc_Fv3_SCC;
+	
 	int CC1p;
 	int CC1p1pi;
-	int CC2p;		
+	int CC2p;
+	int CC2p1pi;
+	int CC3p;
+	int CC3p1pi;
+	int CC3p2pi;
 	int MCParticle_Mode;
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
@@ -172,9 +207,45 @@ void PreSelection::Loop() {
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("ROOTinoWeight",&ROOTinoWeight);	
+
+	tree->Branch("All_UBGenie", &All_UBGenie);
+	tree->Branch("AxFFCCQEshape_UBGenie", &AxFFCCQEshape_UBGenie);
+	tree->Branch("DecayAngMEC_UBGenie", &DecayAngMEC_UBGenie);
+	tree->Branch("NormCCCOH_UBGenie", &NormCCCOH_UBGenie);
+	tree->Branch("NormNCCOH_UBGenie", &NormNCCOH_UBGenie);
+	tree->Branch("RPA_CCQE_Reduced_UBGenie", &RPA_CCQE_Reduced_UBGenie);
+	tree->Branch("RPA_CCQE_UBGenie", &RPA_CCQE_UBGenie);
+	tree->Branch("ThetaDelta2NRad_UBGenie", &ThetaDelta2NRad_UBGenie);
+	tree->Branch("Theta_Delta2Npi_UBGenie", &Theta_Delta2Npi_UBGenie);
+	tree->Branch("VecFFCCQEshape_UBGenie", &VecFFCCQEshape_UBGenie);
+	tree->Branch("XSecShape_CCMEC_UBGenie", &XSecShape_CCMEC_UBGenie);
+	tree->Branch("expskin_FluxUnisim", &expskin_FluxUnisim);
+	tree->Branch("horncurrent_FluxUnisim", &horncurrent_FluxUnisim);
+	tree->Branch("kminus_PrimaryHadronNormalization", &kminus_PrimaryHadronNormalization);
+	tree->Branch("kplus_PrimaryHadronFeynmanScaling", &kplus_PrimaryHadronFeynmanScaling);
+	tree->Branch("kzero_PrimaryHadronSanfordWang", &kzero_PrimaryHadronSanfordWang);
+	tree->Branch("nucleoninexsec_FluxUnisim", &nucleoninexsec_FluxUnisim);
+	tree->Branch("nucleonqexsec_FluxUnisim", &nucleonqexsec_FluxUnisim);
+	tree->Branch("nucleontotxsec_FluxUnisim", &nucleontotxsec_FluxUnisim);
+	tree->Branch("piminus_PrimaryHadronSWCentralSplineVariation", &piminus_PrimaryHadronSWCentralSplineVariation);
+	tree->Branch("pioninexsec_FluxUnisim", &pioninexsec_FluxUnisim);
+	tree->Branch("pionqexsec_FluxUnisim", &pionqexsec_FluxUnisim);
+	tree->Branch("piontotxsec_FluxUnisim", &piontotxsec_FluxUnisim);
+	tree->Branch("piplus_PrimaryHadronSWCentralSplineVariation", &piplus_PrimaryHadronSWCentralSplineVariation);
+	tree->Branch("reinteractions_piminus_Geant4", &reinteractions_piminus_Geant4);
+	tree->Branch("reinteractions_piplus_Geant4", &reinteractions_piplus_Geant4);
+	tree->Branch("reinteractions_proton_Geant4", &reinteractions_proton_Geant4);
+	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
+	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
+
+
 	tree->Branch("CC1p",&CC1p);
 	tree->Branch("CC1p1pi",&CC1p1pi);
-	tree->Branch("CC2p",&CC2p);	
+	tree->Branch("CC2p",&CC2p);
+	tree->Branch("CC2p1pi",&CC2p1pi);
+	tree->Branch("CC3p",&CC3p);
+	tree->Branch("CC3p1pi",&CC3p1pi);
+	tree->Branch("CC3p2pi",&CC3p2pi);	
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
@@ -328,6 +399,36 @@ void PreSelection::Loop() {
 		T2KWeight = T2Kweight;
 		
 		ROOTinoWeight = ROOTinoEventWeight->at(0);		
+
+		All_UBGenie = *All_UBGenie_EventWeight;
+		AxFFCCQEshape_UBGenie = *AxFFCCQEshape_UBGenie_EventWeight;
+		DecayAngMEC_UBGenie = *DecayAngMEC_UBGenie_EventWeight;
+		NormCCCOH_UBGenie = *NormCCCOH_UBGenie_EventWeight;
+		NormNCCOH_UBGenie = *NormNCCOH_UBGenie_EventWeight;
+		RPA_CCQE_Reduced_UBGenie = *RPA_CCQE_Reduced_UBGenie_EventWeight;
+		RPA_CCQE_UBGenie = *RPA_CCQE_UBGenie_EventWeight;
+		ThetaDelta2NRad_UBGenie = *ThetaDelta2NRad_UBGenie_EventWeight;
+		Theta_Delta2Npi_UBGenie = *Theta_Delta2Npi_UBGenie_EventWeight;
+		VecFFCCQEshape_UBGenie = *VecFFCCQEshape_UBGenie_EventWeight;
+		XSecShape_CCMEC_UBGenie = *XSecShape_CCMEC_UBGenie_EventWeight;
+		expskin_FluxUnisim = *expskin_FluxUnisim_EventWeight;
+		horncurrent_FluxUnisim = *horncurrent_FluxUnisim_EventWeight;
+		kminus_PrimaryHadronNormalization = *kminus_PrimaryHadronNormalization_EventWeight;
+		kplus_PrimaryHadronFeynmanScaling = *kplus_PrimaryHadronFeynmanScaling_EventWeight;
+		kzero_PrimaryHadronSanfordWang = *kzero_PrimaryHadronSanfordWang_EventWeight;
+		nucleoninexsec_FluxUnisim = *nucleoninexsec_FluxUnisim_EventWeight;
+		nucleonqexsec_FluxUnisim = *nucleonqexsec_FluxUnisim_EventWeight;
+		nucleontotxsec_FluxUnisim = *nucleontotxsec_FluxUnisim_EventWeight;
+		piminus_PrimaryHadronSWCentralSplineVariation = *piminus_PrimaryHadronSWCentralSplineVariation_EventWeight;
+		pioninexsec_FluxUnisim = *pioninexsec_FluxUnisim_EventWeight;
+		pionqexsec_FluxUnisim = *pionqexsec_FluxUnisim_EventWeight;
+		piontotxsec_FluxUnisim = *piontotxsec_FluxUnisim_EventWeight;
+		piplus_PrimaryHadronSWCentralSplineVariation = *piplus_PrimaryHadronSWCentralSplineVariation_EventWeight;
+		reinteractions_piminus_Geant4 = *reinteractions_piminus_Geant4_EventWeight;
+		reinteractions_piplus_Geant4 = *reinteractions_piplus_Geant4_EventWeight;
+		reinteractions_proton_Geant4 = *reinteractions_proton_Geant4_EventWeight;
+		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
+		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -574,8 +675,9 @@ void PreSelection::Loop() {
 
 			//}
 									
-			CandidateMu_P_MCS.push_back(CandidateMuonTrack_Momentum_MCS_GeV);
-			CandidateMu_P_Range.push_back(tools.KEToP(0.001*MuonPdg,sMuonRange2T->Eval(CandidateMuonTrackLength)));			
+			CandidateMu_P_MCS.push_back(Track_Momentum_MCS->at(CandidateMuonTrackIndex));
+//			CandidateMu_P_Range.push_back(tools.KEToP(0.001*MuonPdg,sMuonRange2T->Eval(CandidateMuonTrackLength)));			
+			CandidateMu_P_Range.push_back(Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex));			
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
 			CandidateMu_CosTheta.push_back(CandidateMuonTrackCosTheta);
 			CandidateMu_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
@@ -625,7 +727,7 @@ void PreSelection::Loop() {
 			}
 */
 
-			CandidateP_P_Range.push_back(CandidateProtonTrack_Momentum_MCS_GeV);
+			CandidateP_P_Range.push_back(Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex));
 			CandidateP_P_MCS.push_back(Track_Momentum_MCS->at(CandidateProtonTrackIndex));			
 			CandidateP_Phi.push_back(Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi()); // deg
 			CandidateP_CosTheta.push_back(CandidateProtonTrackCosTheta);
@@ -811,7 +913,7 @@ void PreSelection::Loop() {
 
 		// MCParticle Loop
 		
-		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fMCParticle_Mode = -1;
+		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fMCParticle_Mode = -1;
 
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
@@ -849,13 +951,22 @@ void PreSelection::Loop() {
 
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1) { fCC1p1pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0) { fCC2p = 1; }				
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0) { fCC2p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 1) { fCC2p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0) { fCC3p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1) { fCC3p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2) { fCC3p2pi = 1; }
 
 		if (MCTruth_Mode->size() == 1) { fMCParticle_Mode = MCTruth_Mode->at(0); }
 
 		CC1p = fCC1p;
 		CC1p1pi = fCC1p1pi;
-		CC2p = fCC2p;				
+		CC2p = fCC2p;
+		CC2p1pi = fCC2p1pi;
+		CC3p = fCC3p;
+		CC3p1pi = fCC3p1pi;
+		CC3p2pi = fCC3p2pi;			
+
 		MCParticle_Mode = fMCParticle_Mode;
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
