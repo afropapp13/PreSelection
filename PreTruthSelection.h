@@ -83,13 +83,13 @@ public :
    std::vector<double>  *MCParticle_E;
    std::vector<double>  *MCParticle_P;
    std::vector<double>  *MCParticle_Mass;
-   std::vector<int>     *MCParticle_AssMCTruth_Origin;
-   std::vector<int>     *MCParticle_AssMCTruth_NParticles;
-   std::vector<int>     *MCParticle_AssMCTruth_Nu_PdgCode;
-   std::vector<int>     *MCParticle_AssMCTruth_Lepton_PdgCode;
-   std::vector<int>     *MCParticle_AssMCTruth_CCNC;
-   std::vector<int>     *MCParticle_AssMCTruth_Mode;
-   std::vector<int>     *MCParticle_AssMCTruth_InteractionType;
+/*   std::vector<int>     *MCParticle_AssMCTruth_Origin;*/
+/*   std::vector<int>     *MCParticle_AssMCTruth_NParticles;*/
+/*   std::vector<int>     *MCParticle_AssMCTruth_Nu_PdgCode;*/
+/*   std::vector<int>     *MCParticle_AssMCTruth_Lepton_PdgCode;*/
+/*   std::vector<int>     *MCParticle_AssMCTruth_CCNC;*/
+/*   std::vector<int>     *MCParticle_AssMCTruth_Mode;*/
+/*   std::vector<int>     *MCParticle_AssMCTruth_InteractionType;*/
 
    std::vector<int>     *MCTruth_CCNC;
    std::vector<int>     *MCTruth_Mode;
@@ -151,13 +151,13 @@ public :
    TBranch        *b_MCParticle_E;   //!
    TBranch        *b_MCParticle_P;   //!
    TBranch        *b_MCParticle_Mass;   //!
-   TBranch        *b_MCParticle_AssMCTruth_Origin;   //!
-   TBranch        *b_MCParticle_AssMCTruth_NParticles;   //!
-   TBranch        *b_MCParticle_AssMCTruth_Nu_PdgCode;   //!
-   TBranch        *b_MCParticle_AssMCTruth_Lepton_PdgCode;   //!
-   TBranch        *b_MCParticle_AssMCTruth_CCNC;   //!
-   TBranch        *b_MCParticle_AssMCTruth_Mode;   //!
-   TBranch        *b_MCParticle_AssMCTruth_InteractionType;   //!
+/*   TBranch        *b_MCParticle_AssMCTruth_Origin;   //!*/
+/*   TBranch        *b_MCParticle_AssMCTruth_NParticles;   //!*/
+/*   TBranch        *b_MCParticle_AssMCTruth_Nu_PdgCode;   //!*/
+/*   TBranch        *b_MCParticle_AssMCTruth_Lepton_PdgCode;   //!*/
+/*   TBranch        *b_MCParticle_AssMCTruth_CCNC;   //!*/
+/*   TBranch        *b_MCParticle_AssMCTruth_Mode;   //!*/
+/*   TBranch        *b_MCParticle_AssMCTruth_InteractionType;   //!*/
 
    TBranch        *b_MCTruth_CCNC;   //!
    TBranch        *b_MCTruth_Mode;   //!
@@ -304,13 +304,13 @@ void PreTruthSelection::Init(TChain *tree)
    MCParticle_E = 0;
    MCParticle_P = 0;
    MCParticle_Mass = 0;
-   MCParticle_AssMCTruth_Origin = 0;
-   MCParticle_AssMCTruth_NParticles = 0;
-   MCParticle_AssMCTruth_Nu_PdgCode = 0;
-   MCParticle_AssMCTruth_Lepton_PdgCode = 0;
-   MCParticle_AssMCTruth_CCNC = 0;
-   MCParticle_AssMCTruth_Mode = 0;
-   MCParticle_AssMCTruth_InteractionType = 0;
+/*   MCParticle_AssMCTruth_Origin = 0;*/
+/*   MCParticle_AssMCTruth_NParticles = 0;*/
+/*   MCParticle_AssMCTruth_Nu_PdgCode = 0;*/
+/*   MCParticle_AssMCTruth_Lepton_PdgCode = 0;*/
+/*   MCParticle_AssMCTruth_CCNC = 0;*/
+/*   MCParticle_AssMCTruth_Mode = 0;*/
+/*   MCParticle_AssMCTruth_InteractionType = 0;*/
 
    MCTruth_CCNC = 0;
    MCTruth_Mode = 0;
@@ -375,13 +375,13 @@ void PreTruthSelection::Init(TChain *tree)
    fChain->SetBranchAddress("MCParticle_E", &MCParticle_E, &b_MCParticle_E);
    fChain->SetBranchAddress("MCParticle_P", &MCParticle_P, &b_MCParticle_P);
    fChain->SetBranchAddress("MCParticle_Mass", &MCParticle_Mass, &b_MCParticle_Mass);
-   fChain->SetBranchAddress("MCParticle_AssMCTruth_Origin", &MCParticle_AssMCTruth_Origin, &b_MCParticle_AssMCTruth_Origin);
-   fChain->SetBranchAddress("MCParticle_AssMCTruth_NParticles", &MCParticle_AssMCTruth_NParticles, &b_MCParticle_AssMCTruth_NParticles);
-   fChain->SetBranchAddress("MCParticle_AssMCTruth_Nu_PdgCode", &MCParticle_AssMCTruth_Nu_PdgCode, &b_MCParticle_AssMCTruth_Nu_PdgCode);
-   fChain->SetBranchAddress("MCParticle_AssMCTruth_Lepton_PdgCode", &MCParticle_AssMCTruth_Lepton_PdgCode, &b_MCParticle_AssMCTruth_Lepton_PdgCode);
-   fChain->SetBranchAddress("MCParticle_AssMCTruth_CCNC", &MCParticle_AssMCTruth_CCNC, &b_MCParticle_AssMCTruth_CCNC);
-   fChain->SetBranchAddress("MCParticle_AssMCTruth_Mode", &MCParticle_AssMCTruth_Mode, &b_MCParticle_AssMCTruth_Mode);
-   fChain->SetBranchAddress("MCParticle_AssMCTruth_InteractionType", &MCParticle_AssMCTruth_InteractionType, &b_MCParticle_AssMCTruth_InteractionType);
+/*   fChain->SetBranchAddress("MCParticle_AssMCTruth_Origin", &MCParticle_AssMCTruth_Origin, &b_MCParticle_AssMCTruth_Origin);*/
+/*   fChain->SetBranchAddress("MCParticle_AssMCTruth_NParticles", &MCParticle_AssMCTruth_NParticles, &b_MCParticle_AssMCTruth_NParticles);*/
+/*   fChain->SetBranchAddress("MCParticle_AssMCTruth_Nu_PdgCode", &MCParticle_AssMCTruth_Nu_PdgCode, &b_MCParticle_AssMCTruth_Nu_PdgCode);*/
+/*   fChain->SetBranchAddress("MCParticle_AssMCTruth_Lepton_PdgCode", &MCParticle_AssMCTruth_Lepton_PdgCode, &b_MCParticle_AssMCTruth_Lepton_PdgCode);*/
+/*   fChain->SetBranchAddress("MCParticle_AssMCTruth_CCNC", &MCParticle_AssMCTruth_CCNC, &b_MCParticle_AssMCTruth_CCNC);*/
+/*   fChain->SetBranchAddress("MCParticle_AssMCTruth_Mode", &MCParticle_AssMCTruth_Mode, &b_MCParticle_AssMCTruth_Mode);*/
+/*   fChain->SetBranchAddress("MCParticle_AssMCTruth_InteractionType", &MCParticle_AssMCTruth_InteractionType, &b_MCParticle_AssMCTruth_InteractionType);*/
 
    fChain->SetBranchAddress("MCTruth_CCNC", &MCTruth_CCNC, &b_MCTruth_CCNC);
    fChain->SetBranchAddress("MCTruth_Mode", &MCTruth_Mode, &b_MCTruth_Mode);
