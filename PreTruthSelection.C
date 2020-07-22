@@ -61,6 +61,7 @@ void PreTruthSelection::Loop() {
 	std::vector<double> Theta_Delta2Npi_UBGenie;
 	std::vector<double> VecFFCCQEshape_UBGenie;
 	std::vector<double> XSecShape_CCMEC_UBGenie;
+	
 	std::vector<double> expskin_FluxUnisim;
 	std::vector<double> horncurrent_FluxUnisim;
 	std::vector<double> kminus_PrimaryHadronNormalization;
@@ -74,6 +75,7 @@ void PreTruthSelection::Loop() {
 	std::vector<double> pionqexsec_FluxUnisim;
 	std::vector<double> piontotxsec_FluxUnisim;
 	std::vector<double> piplus_PrimaryHadronSWCentralSplineVariation;
+	
 	std::vector<double> reinteractions_piminus_Geant4;
 	std::vector<double> reinteractions_piplus_Geant4;
 	std::vector<double> reinteractions_proton_Geant4;
@@ -648,6 +650,7 @@ void PreTruthSelection::Loop() {
 		// --------------------------------------------------------------------------------------------------------------------------		
 
 		EventCounter++;
+		if (CC1p == 0) { continue; }
 		tree->Fill();
 
 	} // End of the loop over the number of events
