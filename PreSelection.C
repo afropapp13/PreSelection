@@ -72,7 +72,7 @@ void PreSelection::Loop() {
 	std::vector<double> DecayAngMEC_UBGenie;
 	std::vector<double> NormCCCOH_UBGenie;
 	std::vector<double> NormNCCOH_UBGenie;
-	std::vector<double> RPA_CCQE_Reduced_UBGenie;
+//	std::vector<double> RPA_CCQE_Reduced_UBGenie;
 	std::vector<double> RPA_CCQE_UBGenie;
 	std::vector<double> ThetaDelta2NRad_UBGenie;
 	std::vector<double> Theta_Delta2Npi_UBGenie;
@@ -94,8 +94,8 @@ void PreSelection::Loop() {
 	std::vector<double> reinteractions_piminus_Geant4;
 	std::vector<double> reinteractions_piplus_Geant4;
 	std::vector<double> reinteractions_proton_Geant4;
-	std::vector<double> xsr_scc_Fa3_SCC;
-	std::vector<double> xsr_scc_Fv3_SCC;
+//	std::vector<double> xsr_scc_Fa3_SCC;
+//	std::vector<double> xsr_scc_Fv3_SCC;
 	
 	int CC1p;
 	int CC1p1pi;
@@ -213,7 +213,7 @@ void PreSelection::Loop() {
 	tree->Branch("DecayAngMEC_UBGenie", &DecayAngMEC_UBGenie);
 	tree->Branch("NormCCCOH_UBGenie", &NormCCCOH_UBGenie);
 	tree->Branch("NormNCCOH_UBGenie", &NormNCCOH_UBGenie);
-	tree->Branch("RPA_CCQE_Reduced_UBGenie", &RPA_CCQE_Reduced_UBGenie);
+//	tree->Branch("RPA_CCQE_Reduced_UBGenie", &RPA_CCQE_Reduced_UBGenie);
 	tree->Branch("RPA_CCQE_UBGenie", &RPA_CCQE_UBGenie);
 	tree->Branch("ThetaDelta2NRad_UBGenie", &ThetaDelta2NRad_UBGenie);
 	tree->Branch("Theta_Delta2Npi_UBGenie", &Theta_Delta2Npi_UBGenie);
@@ -235,8 +235,8 @@ void PreSelection::Loop() {
 	tree->Branch("reinteractions_piminus_Geant4", &reinteractions_piminus_Geant4);
 	tree->Branch("reinteractions_piplus_Geant4", &reinteractions_piplus_Geant4);
 	tree->Branch("reinteractions_proton_Geant4", &reinteractions_proton_Geant4);
-	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
-	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
+//	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
+//	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
 
 
 	tree->Branch("CC1p",&CC1p);
@@ -405,7 +405,7 @@ void PreSelection::Loop() {
 		DecayAngMEC_UBGenie = *DecayAngMEC_UBGenie_EventWeight;
 		NormCCCOH_UBGenie = *NormCCCOH_UBGenie_EventWeight;
 		NormNCCOH_UBGenie = *NormNCCOH_UBGenie_EventWeight;
-		RPA_CCQE_Reduced_UBGenie = *RPA_CCQE_Reduced_UBGenie_EventWeight;
+//		RPA_CCQE_Reduced_UBGenie = *RPA_CCQE_Reduced_UBGenie_EventWeight;
 		RPA_CCQE_UBGenie = *RPA_CCQE_UBGenie_EventWeight;
 		ThetaDelta2NRad_UBGenie = *ThetaDelta2NRad_UBGenie_EventWeight;
 		Theta_Delta2Npi_UBGenie = *Theta_Delta2Npi_UBGenie_EventWeight;
@@ -427,8 +427,8 @@ void PreSelection::Loop() {
 		reinteractions_piminus_Geant4 = *reinteractions_piminus_Geant4_EventWeight;
 		reinteractions_piplus_Geant4 = *reinteractions_piplus_Geant4_EventWeight;
 		reinteractions_proton_Geant4 = *reinteractions_proton_Geant4_EventWeight;
-		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
-		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
+//		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
+//		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -613,8 +613,8 @@ void PreSelection::Loop() {
 			
 			TVector3 CandidateMuonTrackStart(MuonTrackStartX,MuonTrackStartY,MuonTrackStartZ);
 			TVector3 CandidateMuonTrackEnd(MuonTrackEndX,MuonTrackEndY,MuonTrackEndZ);
-//			bool CandidateMuonTrackStartContainment = tools.inFVVector(CandidateMuonTrackStart);
-//			bool CandidateMuonTrackEndContainment = tools.inFVVector(CandidateMuonTrackStart);
+			bool CandidateMuonTrackStartContainment = tools.inFVVector(CandidateMuonTrackStart);
+			bool CandidateMuonTrackEndContainment = tools.inFVVector(CandidateMuonTrackEnd);
 
 			// Candidate proton
 
@@ -633,7 +633,7 @@ void PreSelection::Loop() {
 			TVector3 CandidateProtonTrackStart(ProtonTrackStartX,ProtonTrackStartY,ProtonTrackStartZ);
 			TVector3 CandidateProtonTrackEnd(ProtonTrackEndX,ProtonTrackEndY,ProtonTrackEndZ);
 //			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
-//			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackStart);			
+//			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackEnd);			
 			
 			// ---------------------------------------------------------------------------------------------------------------------		
 
@@ -656,16 +656,16 @@ void PreSelection::Loop() {
 								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateMuonTrackIndex),
 								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 
-			/*if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
+			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
 				CandidateMuonTrack_KE_MeV = sMuonRange2T->Eval(CandidateMuonTrackLength); // MeV
 				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV
 				CandidateMuonTrack_Momentum_MCS_MeV = tools.KEToP(MuonPdg,CandidateMuonTrack_KE_MeV); // MeV/c
 //				CandidateMuonTrack_Momentum_MCS_GeV = CandidateMuonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
-				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateMuonTrackIndex); // GeV/c				
+				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
 				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
-			} else {*/
+			} else {
 
 				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_MCS->at(CandidateMuonTrackIndex); // GeV/c
 				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
@@ -673,7 +673,7 @@ void PreSelection::Loop() {
 				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
 				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
-			//}
+			}
 									
 			CandidateMu_P_MCS.push_back(Track_Momentum_MCS->at(CandidateMuonTrackIndex));
 //			CandidateMu_P_Range.push_back(tools.KEToP(0.001*MuonPdg,sMuonRange2T->Eval(CandidateMuonTrackLength)));			

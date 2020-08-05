@@ -38,7 +38,7 @@ public :
    vector<double>  *DecayAngMEC_UBGenie_EventWeight;
    vector<double>  *NormCCCOH_UBGenie_EventWeight;
    vector<double>  *NormNCCOH_UBGenie_EventWeight;
-   vector<double>  *RPA_CCQE_Reduced_UBGenie_EventWeight;
+//   vector<double>  *RPA_CCQE_Reduced_UBGenie_EventWeight;
    vector<double>  *RPA_CCQE_UBGenie_EventWeight;
    vector<double>  *ThetaDelta2NRad_UBGenie_EventWeight;
    vector<double>  *Theta_Delta2Npi_UBGenie_EventWeight;
@@ -200,7 +200,7 @@ public :
    TBranch        *b_DecayAngMEC_UBGenie_EventWeight;   //!      
    TBranch        *b_NormCCCOH_UBGenie_EventWeight;   //!        
    TBranch        *b_NormNCCOH_UBGenie_EventWeight;   //!        
-   TBranch        *b_RPA_CCQE_Reduced_UBGenie_EventWeight;   //! 
+//   TBranch        *b_RPA_CCQE_Reduced_UBGenie_EventWeight;   //! 
    TBranch        *b_RPA_CCQE_UBGenie_EventWeight;   //!         
    TBranch        *b_ThetaDelta2NRad_UBGenie_EventWeight;   //!  
    TBranch        *b_Theta_Delta2Npi_UBGenie_EventWeight;   //!  
@@ -455,7 +455,7 @@ void PreSelection::Init(TChain *tree)
    DecayAngMEC_UBGenie_EventWeight = 0;
    NormCCCOH_UBGenie_EventWeight = 0;
    NormNCCOH_UBGenie_EventWeight = 0;
-   RPA_CCQE_Reduced_UBGenie_EventWeight = 0;
+//   RPA_CCQE_Reduced_UBGenie_EventWeight = 0;
    RPA_CCQE_UBGenie_EventWeight = 0;
    ThetaDelta2NRad_UBGenie_EventWeight = 0;
    Theta_Delta2Npi_UBGenie_EventWeight = 0;
@@ -477,8 +477,8 @@ void PreSelection::Init(TChain *tree)
    reinteractions_piminus_Geant4_EventWeight = 0;
    reinteractions_piplus_Geant4_EventWeight = 0;
    reinteractions_proton_Geant4_EventWeight = 0;
-   xsr_scc_Fa3_SCC_EventWeight = 0;
-   xsr_scc_Fv3_SCC_EventWeight = 0;
+//   xsr_scc_Fa3_SCC_EventWeight = 0;
+//   xsr_scc_Fv3_SCC_EventWeight = 0;
 
    Track_Length = 0;
    Track_Phi = 0;
@@ -612,7 +612,7 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("DecayAngMEC_UBGenie_EventWeight", &DecayAngMEC_UBGenie_EventWeight, &b_DecayAngMEC_UBGenie_EventWeight);
    fChain->SetBranchAddress("NormCCCOH_UBGenie_EventWeight", &NormCCCOH_UBGenie_EventWeight, &b_NormCCCOH_UBGenie_EventWeight);
    fChain->SetBranchAddress("NormNCCOH_UBGenie_EventWeight", &NormNCCOH_UBGenie_EventWeight, &b_NormNCCOH_UBGenie_EventWeight);
-   fChain->SetBranchAddress("RPA_CCQE_Reduced_UBGenie_EventWeight", &RPA_CCQE_Reduced_UBGenie_EventWeight, &b_RPA_CCQE_Reduced_UBGenie_EventWeight);
+//   fChain->SetBranchAddress("RPA_CCQE_Reduced_UBGenie_EventWeight", &RPA_CCQE_Reduced_UBGenie_EventWeight, &b_RPA_CCQE_Reduced_UBGenie_EventWeight);
    fChain->SetBranchAddress("RPA_CCQE_UBGenie_EventWeight", &RPA_CCQE_UBGenie_EventWeight, &b_RPA_CCQE_UBGenie_EventWeight);
    fChain->SetBranchAddress("ThetaDelta2NRad_UBGenie_EventWeight", &ThetaDelta2NRad_UBGenie_EventWeight, &b_ThetaDelta2NRad_UBGenie_EventWeight);
    fChain->SetBranchAddress("Theta_Delta2Npi_UBGenie_EventWeight", &Theta_Delta2Npi_UBGenie_EventWeight, &b_Theta_Delta2Npi_UBGenie_EventWeight);
@@ -634,8 +634,8 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("reinteractions_piminus_Geant4_EventWeight", &reinteractions_piminus_Geant4_EventWeight, &b_reinteractions_piminus_Geant4_EventWeight);
    fChain->SetBranchAddress("reinteractions_piplus_Geant4_EventWeight", &reinteractions_piplus_Geant4_EventWeight, &b_reinteractions_piplus_Geant4_EventWeight);
    fChain->SetBranchAddress("reinteractions_proton_Geant4_EventWeight", &reinteractions_proton_Geant4_EventWeight, &b_reinteractions_proton_Geant4_EventWeight);
-   fChain->SetBranchAddress("xsr_scc_Fa3_SCC_EventWeight", &xsr_scc_Fa3_SCC_EventWeight, &b_xsr_scc_Fa3_SCC_EventWeight);
-   fChain->SetBranchAddress("xsr_scc_Fv3_SCC_EventWeight", &xsr_scc_Fv3_SCC_EventWeight, &b_xsr_scc_Fv3_SCC_EventWeight);
+//   fChain->SetBranchAddress("xsr_scc_Fa3_SCC_EventWeight", &xsr_scc_Fa3_SCC_EventWeight, &b_xsr_scc_Fa3_SCC_EventWeight);
+//   fChain->SetBranchAddress("xsr_scc_Fv3_SCC_EventWeight", &xsr_scc_Fv3_SCC_EventWeight, &b_xsr_scc_Fv3_SCC_EventWeight);
 
    fChain->SetBranchAddress("isData", &isData, &b_isData);
    fChain->SetBranchAddress("RunNumber", &RunNumber, &b_RunNumber);

@@ -55,7 +55,7 @@ void PreTruthSelection::Loop() {
 	std::vector<double> DecayAngMEC_UBGenie;
 	std::vector<double> NormCCCOH_UBGenie;
 	std::vector<double> NormNCCOH_UBGenie;
-	std::vector<double> RPA_CCQE_Reduced_UBGenie;
+//	std::vector<double> RPA_CCQE_Reduced_UBGenie;
 	std::vector<double> RPA_CCQE_UBGenie;
 	std::vector<double> ThetaDelta2NRad_UBGenie;
 	std::vector<double> Theta_Delta2Npi_UBGenie;
@@ -79,8 +79,8 @@ void PreTruthSelection::Loop() {
 	std::vector<double> reinteractions_piminus_Geant4;
 	std::vector<double> reinteractions_piplus_Geant4;
 	std::vector<double> reinteractions_proton_Geant4;
-	std::vector<double> xsr_scc_Fa3_SCC;
-	std::vector<double> xsr_scc_Fv3_SCC;		
+//	std::vector<double> xsr_scc_Fa3_SCC;
+//	std::vector<double> xsr_scc_Fv3_SCC;		
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -155,7 +155,7 @@ void PreTruthSelection::Loop() {
 	tree->Branch("DecayAngMEC_UBGenie", &DecayAngMEC_UBGenie);
 	tree->Branch("NormCCCOH_UBGenie", &NormCCCOH_UBGenie);
 	tree->Branch("NormNCCOH_UBGenie", &NormNCCOH_UBGenie);
-	tree->Branch("RPA_CCQE_Reduced_UBGenie", &RPA_CCQE_Reduced_UBGenie);
+//	tree->Branch("RPA_CCQE_Reduced_UBGenie", &RPA_CCQE_Reduced_UBGenie);
 	tree->Branch("RPA_CCQE_UBGenie", &RPA_CCQE_UBGenie);
 	tree->Branch("ThetaDelta2NRad_UBGenie", &ThetaDelta2NRad_UBGenie);
 	tree->Branch("Theta_Delta2Npi_UBGenie", &Theta_Delta2Npi_UBGenie);
@@ -177,8 +177,8 @@ void PreTruthSelection::Loop() {
 	tree->Branch("reinteractions_piminus_Geant4", &reinteractions_piminus_Geant4);
 	tree->Branch("reinteractions_piplus_Geant4", &reinteractions_piplus_Geant4);
 	tree->Branch("reinteractions_proton_Geant4", &reinteractions_proton_Geant4);
-	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
-	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
+//	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
+//	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -279,7 +279,7 @@ void PreTruthSelection::Loop() {
 		DecayAngMEC_UBGenie = *DecayAngMEC_UBGenie_EventWeight;
 		NormCCCOH_UBGenie = *NormCCCOH_UBGenie_EventWeight;
 		NormNCCOH_UBGenie = *NormNCCOH_UBGenie_EventWeight;
-		RPA_CCQE_Reduced_UBGenie = *RPA_CCQE_Reduced_UBGenie_EventWeight;
+//		RPA_CCQE_Reduced_UBGenie = *RPA_CCQE_Reduced_UBGenie_EventWeight;
 		RPA_CCQE_UBGenie = *RPA_CCQE_UBGenie_EventWeight;
 		ThetaDelta2NRad_UBGenie = *ThetaDelta2NRad_UBGenie_EventWeight;
 		Theta_Delta2Npi_UBGenie = *Theta_Delta2Npi_UBGenie_EventWeight;
@@ -301,8 +301,8 @@ void PreTruthSelection::Loop() {
 		reinteractions_piminus_Geant4 = *reinteractions_piminus_Geant4_EventWeight;
 		reinteractions_piplus_Geant4 = *reinteractions_piplus_Geant4_EventWeight;
 		reinteractions_proton_Geant4 = *reinteractions_proton_Geant4_EventWeight;
-		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
-		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
+//		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
+//		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
 
 		// ------------------------------------------------------------------------------------------------------------------------------
 
