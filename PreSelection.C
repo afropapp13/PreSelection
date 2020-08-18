@@ -104,6 +104,7 @@ void PreSelection::Loop() {
 	int CC3p;
 	int CC3p1pi;
 	int CC3p2pi;
+	
 	int MCParticle_Mode;
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
@@ -148,6 +149,15 @@ void PreSelection::Loop() {
 	std::vector<double> True_CandidateMu_P;
 	std::vector<double> True_CandidateMu_Phi;
 	std::vector<double> True_CandidateMu_CosTheta;
+	
+	std::vector<double> True_CandidateMu_StartX;
+	std::vector<double> True_CandidateMu_StartY;
+	std::vector<double> True_CandidateMu_StartZ;
+	
+	std::vector<double> True_CandidateMu_EndX;
+	std::vector<double> True_CandidateMu_EndY;
+	std::vector<double> True_CandidateMu_EndZ;				
+	
 //	std::vector<int> True_CandidateMu_StartContainment;
 //	std::vector<int> True_CandidateMu_EndContainment;
 
@@ -176,13 +186,26 @@ void PreSelection::Loop() {
 	std::vector<double> True_CandidateP_P;
 	std::vector<double> True_CandidateP_Phi;
 	std::vector<double> True_CandidateP_CosTheta;
+	
+	std::vector<double> True_CandidateP_StartX;
+	std::vector<double> True_CandidateP_StartY;
+	std::vector<double> True_CandidateP_StartZ;
+	
+	std::vector<double> True_CandidateP_EndX;
+	std::vector<double> True_CandidateP_EndY;
+	std::vector<double> True_CandidateP_EndZ;	
+	
 //	std::vector<int> True_CandidateP_StartContainment;
 //	std::vector<int> True_CandidateP_EndContainment;
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	
-	// STV & Energy Reconstruction
-	
+	// STV, Energy Reconstruction & Light Cone Vraiables
+
+	std::vector<double> Reco_kMiss;
+	std::vector<double> Reco_EMiss;
+	std::vector<double> Reco_PMissMinus;
+	std::vector<double> Reco_PMiss;
 	std::vector<double> Reco_Pt;
 	std::vector<double> Reco_DeltaAlphaT;
 	std::vector<double> Reco_DeltaPhiT;
@@ -192,6 +215,10 @@ void PreSelection::Loop() {
 	std::vector<double> Reco_DeltaPhi;
 	std::vector<double> Reco_DeltaTheta;		
 	
+	std::vector<double> True_kMiss;
+	std::vector<double> True_EMiss;
+	std::vector<double> True_PMissMinus;
+	std::vector<double> True_PMiss;	
 	std::vector<double> True_Pt;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
@@ -289,6 +316,15 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateMu_P",&True_CandidateMu_P);
 	tree->Branch("True_CandidateMu_Phi",&True_CandidateMu_Phi);
 	tree->Branch("True_CandidateMu_CosTheta",&True_CandidateMu_CosTheta);
+	
+	tree->Branch("True_CandidateMu_StartX",&True_CandidateMu_StartX);
+	tree->Branch("True_CandidateMu_StartY",&True_CandidateMu_StartY);	
+	tree->Branch("True_CandidateMu_StartZ",&True_CandidateMu_StartZ);
+	
+	tree->Branch("True_CandidateMu_EndX",&True_CandidateMu_EndX);
+	tree->Branch("True_CandidateMu_EndY",&True_CandidateMu_EndY);	
+	tree->Branch("True_CandidateMu_EndZ",&True_CandidateMu_EndZ);	
+	
 //	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
 //	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
@@ -316,11 +352,24 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateP_P",&True_CandidateP_P);
 	tree->Branch("True_CandidateP_Phi",&True_CandidateP_Phi);
 	tree->Branch("True_CandidateP_CosTheta",&True_CandidateP_CosTheta);
+	
+	tree->Branch("True_CandidateP_StartX",&True_CandidateP_StartX);
+	tree->Branch("True_CandidateP_StartY",&True_CandidateP_StartY);	
+	tree->Branch("True_CandidateP_StartZ",&True_CandidateP_StartZ);
+	
+	tree->Branch("True_CandidateP_EndX",&True_CandidateP_EndX);
+	tree->Branch("True_CandidateP_EndY",&True_CandidateP_EndY);	
+	tree->Branch("True_CandidateP_EndZ",&True_CandidateP_EndZ);	
+	
 //	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
 //	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
-	
+
+	tree->Branch("Reco_kMiss",&Reco_kMiss);
+	tree->Branch("Reco_PMissMinus",&Reco_PMissMinus);
+	tree->Branch("Reco_EMiss",&Reco_EMiss);
+	tree->Branch("Reco_PMiss",&Reco_PMiss);	
 	tree->Branch("Reco_Pt",&Reco_Pt);
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
 	tree->Branch("Reco_DeltaPhiT",&Reco_DeltaPhiT);
@@ -330,6 +379,10 @@ void PreSelection::Loop() {
 	tree->Branch("Reco_DeltaPhi",&Reco_DeltaPhi);
 	tree->Branch("Reco_DeltaTheta",&Reco_DeltaTheta);		
 	
+	tree->Branch("True_kMiss",&True_kMiss);
+	tree->Branch("True_PMissMinus",&True_PMissMinus);
+	tree->Branch("True_EMiss",&True_EMiss);
+	tree->Branch("True_PMiss",&True_PMiss);	
 	tree->Branch("True_Pt",&True_Pt);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
@@ -523,6 +576,15 @@ void PreSelection::Loop() {
 		True_CandidateMu_P.clear();
 		True_CandidateMu_Phi.clear();
 		True_CandidateMu_CosTheta.clear();
+		
+		True_CandidateMu_StartX.clear();
+		True_CandidateMu_StartY.clear();
+		True_CandidateMu_StartZ.clear();
+		
+		True_CandidateMu_EndX.clear();
+		True_CandidateMu_EndY.clear();
+		True_CandidateMu_EndZ.clear();				
+		
 //		True_CandidateMu_StartContainment.clear();
 //		True_CandidateMu_EndContainment.clear();
 
@@ -551,11 +613,24 @@ void PreSelection::Loop() {
 		True_CandidateP_P.clear();
 		True_CandidateP_Phi.clear();
 		True_CandidateP_CosTheta.clear();
+		
+		True_CandidateP_StartX.clear();
+		True_CandidateP_StartY.clear();
+		True_CandidateP_StartZ.clear();
+		
+		True_CandidateP_EndX.clear();
+		True_CandidateP_EndY.clear();
+		True_CandidateP_EndZ.clear();		
+		
 //		True_CandidateP_StartContainment.clear();
 //		True_CandidateP_EndContainment.clear();
 
 		// -----------------------------------------------------------------------------------------------------------------------------
-		
+
+		Reco_kMiss.clear();
+		Reco_EMiss.clear();
+		Reco_PMissMinus.clear();
+		Reco_PMiss.clear();	
 		Reco_Pt.clear();
 		Reco_DeltaAlphaT.clear();
 		Reco_DeltaPhiT.clear();
@@ -565,6 +640,10 @@ void PreSelection::Loop() {
 		Reco_DeltaPhi.clear();
 		Reco_DeltaTheta.clear();				
 		
+		True_kMiss.clear();
+		True_EMiss.clear();
+		True_PMissMinus.clear();
+		True_PMiss.clear();		
 		True_Pt.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
@@ -760,6 +839,10 @@ void PreSelection::Loop() {
 
 			STV_Tools reco_stv_tool(TVector3CandidateMuon,TVector3CandidateProton,CandidateMuonTrack_E_GeV,CandidateProtonTrack_E_GeV);
 
+			Reco_kMiss.push_back(reco_stv_tool.ReturnkMiss());
+			Reco_EMiss.push_back(reco_stv_tool.ReturnEMiss());
+			Reco_PMissMinus.push_back(reco_stv_tool.ReturnPMissMinus());
+			Reco_PMiss.push_back(reco_stv_tool.ReturnPMiss());
 			Reco_Pt.push_back(reco_stv_tool.ReturnPt());
 			Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
 			Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
@@ -822,6 +905,15 @@ void PreSelection::Loop() {
 				True_CandidateMu_P.push_back(TrueCandidateMuonTrackMomentum_GeV);
 				True_CandidateMu_Phi.push_back(TrueCandidateMuonTrackPhi_Deg); // deg
 				True_CandidateMu_CosTheta.push_back(TrueCandidateMuonTrackCosTheta);
+				
+				True_CandidateMu_StartX.push_back(CandidateMuonStartX);
+				True_CandidateMu_StartY.push_back(CandidateMuonStartY);
+				True_CandidateMu_StartZ.push_back(CandidateMuonStartZ);
+				
+				True_CandidateMu_EndX.push_back(CandidateMuonEndX);
+				True_CandidateMu_EndY.push_back(CandidateMuonEndY);
+				True_CandidateMu_EndZ.push_back(CandidateMuonEndZ);				
+				
 //				True_CandidateMu_StartContainment.push_back(TrueCandidateMuonTrackStartContainment);
 //				True_CandidateMu_EndContainment.push_back(TrueCandidateMuonTrackEndContainment);
 
@@ -859,6 +951,15 @@ void PreSelection::Loop() {
 				True_CandidateP_P.push_back(TrueCandidateProtonTrackMomentum_GeV);
 				True_CandidateP_Phi.push_back(TrueCandidateProtonTrackPhi_Deg); // deg
 				True_CandidateP_CosTheta.push_back(TrueCandidateProtonTrackCosTheta);
+				
+				True_CandidateP_StartX.push_back(CandidateProtonStartX);
+				True_CandidateP_StartY.push_back(CandidateProtonStartY);
+				True_CandidateP_StartZ.push_back(CandidateProtonStartZ);
+				
+				True_CandidateP_EndX.push_back(CandidateProtonEndX);
+				True_CandidateP_EndY.push_back(CandidateProtonEndY);
+				True_CandidateP_EndZ.push_back(CandidateProtonEndZ);				
+				
 //				True_CandidateP_StartContainment.push_back(TrueCandidateProtonTrackStartContainment);
 //				True_CandidateP_EndContainment.push_back(TrueCandidateProtonTrackEndContainment);
 				
@@ -880,6 +981,10 @@ void PreSelection::Loop() {
 				STV_Tools true_stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,
 							 TrueCandidateMuonTrack_E_GeV,TrueCandidateProtonTrack_E_GeV);
 
+				True_kMiss.push_back(true_stv_tool.ReturnkMiss());
+				True_EMiss.push_back(true_stv_tool.ReturnEMiss());
+				True_PMissMinus.push_back(true_stv_tool.ReturnPMissMinus());
+				True_PMiss.push_back(true_stv_tool.ReturnPMiss());
 				True_Pt.push_back(true_stv_tool.ReturnPt());
 				True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
 				True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());

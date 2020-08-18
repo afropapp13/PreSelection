@@ -131,8 +131,12 @@ void PreTruthSelection::Loop() {
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	
-	// STV & Energy Reconstruction	
-	
+	// STV, Energy Reconstruction & Light Cone Variables	
+
+	std::vector<double> True_kMiss;
+	std::vector<double> True_EMiss;
+	std::vector<double> True_PMissMinus;
+	std::vector<double> True_PMiss;	
 	std::vector<double> True_Pt;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
@@ -228,7 +232,11 @@ void PreTruthSelection::Loop() {
 	tree->Branch("Proton_MCParticle_Pdg",&Proton_MCParticle_Pdg);
 	
 	// -----------------------------------------------------------------------------------------------------------------------------------------
-	
+
+	tree->Branch("True_kMiss",&True_kMiss);
+	tree->Branch("True_EMiss",&True_EMiss);
+	tree->Branch("True_PMissMinus",&True_PMissMinus);
+	tree->Branch("True_PMiss",&True_PMiss);
 	tree->Branch("True_Pt",&True_Pt);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
@@ -345,7 +353,11 @@ void PreTruthSelection::Loop() {
 		Proton_MCParticle_Pdg.clear();
 		
 		// -----------------------------------------------------------------------------------------------------------------------------
-		
+
+		True_kMiss.clear();
+		True_EMiss.clear();
+		True_PMissMinus.clear();
+		True_PMiss.clear();		
 		True_Pt.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
@@ -563,6 +575,10 @@ void PreTruthSelection::Loop() {
 
 			STV_Tools stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,Muon_TrueE_GeV,Proton_TrueE_GeV);
 
+			True_kMiss.push_back(stv_tool.ReturnkMiss());
+			True_EMiss.push_back(stv_tool.ReturnEMiss());
+			True_PMissMinus.push_back(stv_tool.ReturnPMissMinus());
+			True_PMiss.push_back(stv_tool.ReturnPMiss());
 			True_Pt.push_back(stv_tool.ReturnPt());
 			True_DeltaAlphaT.push_back(stv_tool.ReturnDeltaAlphaT());
 			True_DeltaPhiT.push_back(stv_tool.ReturnDeltaPhiT());
@@ -622,7 +638,11 @@ void PreTruthSelection::Loop() {
 //			Proton_MCParticle_StartContainment.push_back(IntNotCC1pSignal);
 //			Proton_MCParticle_EndContainment.push_back(IntNotCC1pSignal);
 			Proton_MCParticle_Pdg.push_back(IntNotCC1pSignal);
-			
+
+			True_kMiss.push_back(NotCC1pSignal);
+			True_EMiss.push_back(NotCC1pSignal);
+			True_PMissMinus.push_back(NotCC1pSignal);
+			True_PMiss.push_back(NotCC1pSignal);			
 			True_Pt.push_back(NotCC1pSignal);
 			True_DeltaAlphaT.push_back(NotCC1pSignal);
 			True_DeltaPhiT.push_back(NotCC1pSignal);
