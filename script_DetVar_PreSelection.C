@@ -30,7 +30,7 @@
 	WhichSampleArray.push_back("Overlay9_Run3_WireModYZ");
 	WhichSampleArray.push_back("Overlay9_Run3_WireModThetaYZ");
 	WhichSampleArray.push_back("Overlay9_Run3_WireModThetaXZ");
-	WhichSampleArray.push_back("Overlay9_Run3_dEdx");
+//	WhichSampleArray.push_back("Overlay9_Run3_dEdx"); // Known issue, don't use it
 	WhichSampleArray.push_back("Overlay9_Run3_Recombination2");
 	WhichSampleArray.push_back("Overlay9_Run3_SCE");
 

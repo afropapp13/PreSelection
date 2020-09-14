@@ -450,10 +450,22 @@ void PreSelection::Loop() {
 
 		double T2Kweight = T2KEventWeight->at(0);
 		T2KWeight = T2Kweight;
-		
+
 		ROOTinoWeight = ROOTinoEventWeight->at(0);		
 
-		All_UBGenie = *All_UBGenie_EventWeight;
+		// Most of the multisims have a size of a 1000
+		// That is more than sufficient, we can do it with 100 universes
+
+		int MultiSimSize = 100;
+
+		// Genie xsection uncertainty weights
+		// All_UBGenie_EventWeight has 1000 universes
+		// Limit it to MultiSimSize
+		// Everything else is 2 universes
+
+                std::vector<double> Current_All_UBGenie((*All_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+MultiSimSize);
+                All_UBGenie = Current_All_UBGenie;
+
 		AxFFCCQEshape_UBGenie = *AxFFCCQEshape_UBGenie_EventWeight;
 		DecayAngMEC_UBGenie = *DecayAngMEC_UBGenie_EventWeight;
 		NormCCCOH_UBGenie = *NormCCCOH_UBGenie_EventWeight;
@@ -464,22 +476,77 @@ void PreSelection::Loop() {
 		Theta_Delta2Npi_UBGenie = *Theta_Delta2Npi_UBGenie_EventWeight;
 		VecFFCCQEshape_UBGenie = *VecFFCCQEshape_UBGenie_EventWeight;
 		XSecShape_CCMEC_UBGenie = *XSecShape_CCMEC_UBGenie_EventWeight;
-		expskin_FluxUnisim = *expskin_FluxUnisim_EventWeight;
-		horncurrent_FluxUnisim = *horncurrent_FluxUnisim_EventWeight;
-		kminus_PrimaryHadronNormalization = *kminus_PrimaryHadronNormalization_EventWeight;
-		kplus_PrimaryHadronFeynmanScaling = *kplus_PrimaryHadronFeynmanScaling_EventWeight;
-		kzero_PrimaryHadronSanfordWang = *kzero_PrimaryHadronSanfordWang_EventWeight;
-		nucleoninexsec_FluxUnisim = *nucleoninexsec_FluxUnisim_EventWeight;
-		nucleonqexsec_FluxUnisim = *nucleonqexsec_FluxUnisim_EventWeight;
-		nucleontotxsec_FluxUnisim = *nucleontotxsec_FluxUnisim_EventWeight;
-		piminus_PrimaryHadronSWCentralSplineVariation = *piminus_PrimaryHadronSWCentralSplineVariation_EventWeight;
-		pioninexsec_FluxUnisim = *pioninexsec_FluxUnisim_EventWeight;
-		pionqexsec_FluxUnisim = *pionqexsec_FluxUnisim_EventWeight;
-		piontotxsec_FluxUnisim = *piontotxsec_FluxUnisim_EventWeight;
-		piplus_PrimaryHadronSWCentralSplineVariation = *piplus_PrimaryHadronSWCentralSplineVariation_EventWeight;
-		reinteractions_piminus_Geant4 = *reinteractions_piminus_Geant4_EventWeight;
-		reinteractions_piplus_Geant4 = *reinteractions_piplus_Geant4_EventWeight;
-		reinteractions_proton_Geant4 = *reinteractions_proton_Geant4_EventWeight;
+
+		// Flux uncertainty weights
+		// All of them have 1000 universes
+		// Limit them to MultiSimSize
+
+                std::vector<double> Current_expskin_FluxUnisim_EventWeight((*expskin_FluxUnisim_EventWeight).begin(),(*expskin_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                expskin_FluxUnisim = Current_expskin_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_horncurrent_FluxUnisim_EventWeight((*horncurrent_FluxUnisim_EventWeight).begin(),(*horncurrent_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                horncurrent_FluxUnisim = Current_horncurrent_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_kminus_PrimaryHadronNormalization_EventWeight((*kminus_PrimaryHadronNormalization_EventWeight).begin(),\
+					(*kminus_PrimaryHadronNormalization_EventWeight).begin()+MultiSimSize);
+                kminus_PrimaryHadronNormalization = Current_kminus_PrimaryHadronNormalization_EventWeight;
+
+                std::vector<double> Current_kplus_PrimaryHadronFeynmanScaling_EventWeight((*kplus_PrimaryHadronFeynmanScaling_EventWeight).begin(),\
+					(*kplus_PrimaryHadronFeynmanScaling_EventWeight).begin()+MultiSimSize);
+                kplus_PrimaryHadronFeynmanScaling = Current_kplus_PrimaryHadronFeynmanScaling_EventWeight;
+
+                std::vector<double> Current_kzero_PrimaryHadronSanfordWang_EventWeight((*kzero_PrimaryHadronSanfordWang_EventWeight).begin(),\
+					(*kzero_PrimaryHadronSanfordWang_EventWeight).begin()+MultiSimSize);
+                kzero_PrimaryHadronSanfordWang = Current_kzero_PrimaryHadronSanfordWang_EventWeight;
+
+                std::vector<double> Current_nucleoninexsec_FluxUnisim_EventWeight((*nucleoninexsec_FluxUnisim_EventWeight).begin(),\
+					(*nucleoninexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                nucleoninexsec_FluxUnisim = Current_nucleoninexsec_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_nucleonqexsec_FluxUnisim_EventWeight((*nucleonqexsec_FluxUnisim_EventWeight).begin(),\
+					(*nucleonqexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                nucleonqexsec_FluxUnisim = Current_nucleoninexsec_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_nucleontotxsec_FluxUnisim_EventWeight((*nucleontotxsec_FluxUnisim_EventWeight).begin(),\
+					(*nucleontotxsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                nucleontotxsec_FluxUnisim = Current_nucleontotxsec_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_piminus_PrimaryHadronSWCentralSplineVariation_EventWeight((*piminus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin(),\
+					(*piminus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin()+MultiSimSize);
+                piminus_PrimaryHadronSWCentralSplineVariation = Current_piminus_PrimaryHadronSWCentralSplineVariation_EventWeight;
+
+                std::vector<double> Current_pioninexsec_FluxUnisim_EventWeight((*pioninexsec_FluxUnisim_EventWeight).begin(),\
+					(*pioninexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                pioninexsec_FluxUnisim = Current_pioninexsec_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_pionqexsec_FluxUnisim_EventWeight((*pionqexsec_FluxUnisim_EventWeight).begin(),\
+					(*pionqexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                pionqexsec_FluxUnisim = Current_pionqexsec_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_piontotxsec_FluxUnisim_EventWeight((*piontotxsec_FluxUnisim_EventWeight).begin(),\
+					(*piontotxsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+                piontotxsec_FluxUnisim = Current_pionqexsec_FluxUnisim_EventWeight;
+
+                std::vector<double> Current_piplus_PrimaryHadronSWCentralSplineVariation_EventWeight((*piplus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin(),\
+					(*piplus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin()+MultiSimSize);
+                piplus_PrimaryHadronSWCentralSplineVariation = Current_pionqexsec_FluxUnisim_EventWeight;
+
+		// G4 uncertainty weights
+		// They all have 1000 universes
+		// Limit them to 100
+
+                std::vector<double> Current_reinteractions_piminus_Geant4_EventWeight((*reinteractions_piminus_Geant4_EventWeight).begin(),\
+					(*reinteractions_piminus_Geant4_EventWeight).begin()+MultiSimSize);
+                reinteractions_piminus_Geant4 = Current_reinteractions_piminus_Geant4_EventWeight;
+
+                std::vector<double> Current_reinteractions_piplus_Geant4_EventWeight((*reinteractions_piplus_Geant4_EventWeight).begin(),\
+					(*reinteractions_piplus_Geant4_EventWeight).begin()+MultiSimSize);
+                reinteractions_piplus_Geant4 = Current_reinteractions_piplus_Geant4_EventWeight;
+
+                std::vector<double> Current_reinteractions_proton_Geant4_EventWeight((*reinteractions_proton_Geant4_EventWeight).begin(),\
+					(*reinteractions_proton_Geant4_EventWeight).begin()+MultiSimSize);
+                reinteractions_proton_Geant4 = Current_reinteractions_proton_Geant4_EventWeight;
+
 //		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
 //		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
 
