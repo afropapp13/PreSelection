@@ -38,7 +38,7 @@ void myPOT::Loop() {
 
   // Output File
 
-  TString FileName = "/uboone/data/users/apapadop/myEvents/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+"_POT.root";
+  TString FileName = "/uboone/data/users/apapadop/myEvents/mySamples/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+"_POT.root";
   TFile* OutputFile = new TFile(FileName,"recreate");
   OutputFile->cd();
   POTCountHist->Write();
