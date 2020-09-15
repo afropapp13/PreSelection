@@ -42,9 +42,9 @@ void PreSelection::Loop() {
 
 	// Momentum from range
 
-	TFile *fSpines = TFile::Open("Proton_Muon_Range_dEdx_LAr_TSplines.root","READ");
-	TSpline3* sMuonRange2T = (TSpline3*)fSpines->Get("sMuonRange2T");
-	TSpline3* sProtonRange2T = (TSpline3*)fSpines->Get("sProtonRange2T");
+//	TFile *fSpines = TFile::Open("Proton_Muon_Range_dEdx_LAr_TSplines.root","READ");
+//	TSpline3* sMuonRange2T = (TSpline3*)fSpines->Get("sMuonRange2T");
+//	TSpline3* sProtonRange2T = (TSpline3*)fSpines->Get("sProtonRange2T");
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -455,19 +455,11 @@ void PreSelection::Loop() {
 
 			ROOTinoWeight = ROOTinoEventWeight->at(0);		
 
-			// Most of the multisims have a size of a 1000
-			// That is more than sufficient, we can do it with 100 universes
-
-			int MultiSimSize = 100;
-
 			// Genie xsection uncertainty weights
-			// All_UBGenie_EventWeight has 1000 universes
-			// Limit it to MultiSimSize
+			// All_UBGenie_EventWeight has 100 universes
 			// Everything else is 2 universes
 
-		        std::vector<double> Current_All_UBGenie((*All_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+MultiSimSize);
-		        All_UBGenie = Current_All_UBGenie;
-
+		        All_UBGenie = *All_UBGenie_EventWeight;
 			AxFFCCQEshape_UBGenie = *AxFFCCQEshape_UBGenie_EventWeight;
 			DecayAngMEC_UBGenie = *DecayAngMEC_UBGenie_EventWeight;
 			NormCCCOH_UBGenie = *NormCCCOH_UBGenie_EventWeight;
@@ -482,6 +474,8 @@ void PreSelection::Loop() {
 			// Flux uncertainty weights
 			// All of them have 1000 universes
 			// Limit them to MultiSimSize
+
+			int MultiSimSize = 100;
 
 		        std::vector<double> Current_expskin_FluxUnisim_EventWeight((*expskin_FluxUnisim_EventWeight).begin(),(*expskin_FluxUnisim_EventWeight).begin()+MultiSimSize);
 		        expskin_FluxUnisim = Current_expskin_FluxUnisim_EventWeight;
@@ -808,12 +802,20 @@ void PreSelection::Loop() {
 
 			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
-				CandidateMuonTrack_KE_MeV = sMuonRange2T->Eval(CandidateMuonTrackLength); // MeV
-				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV
-				CandidateMuonTrack_Momentum_MCS_MeV = tools.KEToP(MuonPdg,CandidateMuonTrack_KE_MeV); // MeV/c
-//				CandidateMuonTrack_Momentum_MCS_GeV = CandidateMuonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
+//				CandidateMuonTrack_KE_MeV = sMuonRange2T->Eval(CandidateMuonTrackLength); // MeV
+//				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV
+//				CandidateMuonTrack_Momentum_MCS_MeV = tools.KEToP(MuonPdg,CandidateMuonTrack_KE_MeV); // MeV/c
+////				CandidateMuonTrack_Momentum_MCS_GeV = CandidateMuonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
+//				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
+//				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
+
 				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
+				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
+				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
+				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
 				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
+
+
 
 			} else {
 
@@ -859,12 +861,20 @@ void PreSelection::Loop() {
 
 /*			if (CandidateProtonTrackStartContainment == true && CandidateProtonTrackEndContainment == true) {*/
 
-				CandidateProtonTrack_KE_MeV = sProtonRange2T->Eval(CandidateProtonTrackLength); // MeV
-				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV
-				CandidateProtonTrack_Momentum_MCS_MeV = tools.KEToP(ProtonPdg,CandidateProtonTrack_KE_MeV); // MeV/c
-				CandidateProtonTrack_Momentum_MCS_GeV = CandidateProtonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
-//				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateProtonTrackIndex); // GeV/c
+//				CandidateProtonTrack_KE_MeV = sProtonRange2T->Eval(CandidateProtonTrackLength); // MeV
+//				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV
+//				CandidateProtonTrack_Momentum_MCS_MeV = tools.KEToP(ProtonPdg,CandidateProtonTrack_KE_MeV); // MeV/c
+//				CandidateProtonTrack_Momentum_MCS_GeV = CandidateProtonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
+////				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateProtonTrackIndex); // GeV/c
+//				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
+
+				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
+				CandidateProtonTrack_Momentum_MCS_MeV = 1000. * CandidateProtonTrack_Momentum_MCS_GeV; // MeV/c
+				CandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,CandidateProtonTrack_Momentum_MCS_MeV); // MeV/c
+				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV/c
 				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
+
+
 /*
 			} else {
 

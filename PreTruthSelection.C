@@ -287,16 +287,11 @@ void PreTruthSelection::Loop() {
 			// Most of the multisims have a size of a 1000
 			// That is more than sufficient, we can do it with 100 universes
 
-			int MultiSimSize = 100;
-
 			// Genie xsection uncertainty weights
-			// All_UBGenie_EventWeight has 1000 universes
-			// Limit it to MultiSimSize
+			// All_UBGenie_EventWeight has 100 universes
 			// Everything else is 2 universes
 
-		        std::vector<double> Current_All_UBGenie((*All_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+MultiSimSize);
-		        All_UBGenie = Current_All_UBGenie;
-
+		        All_UBGenie = *All_UBGenie_EventWeight;
 			AxFFCCQEshape_UBGenie = *AxFFCCQEshape_UBGenie_EventWeight;
 			DecayAngMEC_UBGenie = *DecayAngMEC_UBGenie_EventWeight;
 			NormCCCOH_UBGenie = *NormCCCOH_UBGenie_EventWeight;
@@ -307,6 +302,8 @@ void PreTruthSelection::Loop() {
 			Theta_Delta2Npi_UBGenie = *Theta_Delta2Npi_UBGenie_EventWeight;
 			VecFFCCQEshape_UBGenie = *VecFFCCQEshape_UBGenie_EventWeight;
 			XSecShape_CCMEC_UBGenie = *XSecShape_CCMEC_UBGenie_EventWeight;
+
+			int MultiSimSize = 100;
 
 			// Flux uncertainty weights
 			// All of them have 1000 universes
