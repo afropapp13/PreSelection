@@ -134,8 +134,8 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateMu_Chi2_YPlane;
 	std::vector<double> CandidateMu_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateMu_ThreePlaneChi2;
-//	std::vector<int> CandidateMu_StartContainment;
-//	std::vector<int> CandidateMu_EndContainment;
+	std::vector<int> CandidateMu_StartContainment;
+	std::vector<int> CandidateMu_EndContainment;
 	std::vector<double> CandidateMu_Length;
 	std::vector<int> CandidateMu_MCParticle_Pdg;
 	std::vector<double> CandidateMu_MCParticle_Purity;
@@ -158,8 +158,8 @@ void PreSelection::Loop() {
 	std::vector<double> True_CandidateMu_EndY;
 	std::vector<double> True_CandidateMu_EndZ;				
 	
-//	std::vector<int> True_CandidateMu_StartContainment;
-//	std::vector<int> True_CandidateMu_EndContainment;
+	std::vector<int> True_CandidateMu_StartContainment;
+	std::vector<int> True_CandidateMu_EndContainment;
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -171,8 +171,8 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateP_Chi2_YPlane;
 	std::vector<double> CandidateP_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateP_ThreePlaneChi2;
-//	std::vector<int> CandidateP_StartContainment;
-//	std::vector<int> CandidateP_EndContainment;
+	std::vector<int> CandidateP_StartContainment;
+	std::vector<int> CandidateP_EndContainment;
 	std::vector<double> CandidateP_Length;	
 	std::vector<int> CandidateP_MCParticle_Pdg;
 	std::vector<double> CandidateP_MCParticle_Purity;
@@ -195,8 +195,8 @@ void PreSelection::Loop() {
 	std::vector<double> True_CandidateP_EndY;
 	std::vector<double> True_CandidateP_EndZ;	
 	
-//	std::vector<int> True_CandidateP_StartContainment;
-//	std::vector<int> True_CandidateP_EndContainment;
+	std::vector<int> True_CandidateP_StartContainment;
+	std::vector<int> True_CandidateP_EndContainment;
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -301,8 +301,8 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateMu_Chi2_YPlane",&CandidateMu_Chi2_YPlane);
 	tree->Branch("CandidateMu_ThreePlaneLogLikelihood",&CandidateMu_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateMu_ThreePlaneChi2",&CandidateMu_ThreePlaneChi2);
-//	tree->Branch("CandidateMu_StartContainment",&CandidateMu_StartContainment);
-//	tree->Branch("CandidateMu_EndContainment",&CandidateMu_EndContainment);
+	tree->Branch("CandidateMu_StartContainment",&CandidateMu_StartContainment);
+	tree->Branch("CandidateMu_EndContainment",&CandidateMu_EndContainment);
 	tree->Branch("CandidateMu_Length",&CandidateMu_Length);	
 	tree->Branch("CandidateMu_MCParticle_Pdg",&CandidateMu_MCParticle_Pdg);
 	tree->Branch("CandidateMu_MCParticle_Purity",&CandidateMu_MCParticle_Purity);
@@ -325,8 +325,8 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateMu_EndY",&True_CandidateMu_EndY);	
 	tree->Branch("True_CandidateMu_EndZ",&True_CandidateMu_EndZ);	
 	
-//	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
-//	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
+	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
+	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -337,8 +337,8 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateP_Chi2_YPlane",&CandidateP_Chi2_YPlane);
 	tree->Branch("CandidateP_ThreePlaneLogLikelihood",&CandidateP_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateP_ThreePlaneChi2",&CandidateP_ThreePlaneChi2);
-//	tree->Branch("CandidateP_StartContainment",&CandidateP_StartContainment);
-//	tree->Branch("CandidateP_EndContainment",&CandidateP_EndContainment);
+	tree->Branch("CandidateP_StartContainment",&CandidateP_StartContainment);
+	tree->Branch("CandidateP_EndContainment",&CandidateP_EndContainment);
 	tree->Branch("CandidateP_Length",&CandidateP_Length);	
 	tree->Branch("CandidateP_MCParticle_Pdg",&CandidateP_MCParticle_Pdg);
 	tree->Branch("CandidateP_MCParticle_Purity",&CandidateP_MCParticle_Purity);
@@ -361,8 +361,8 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateP_EndY",&True_CandidateP_EndY);	
 	tree->Branch("True_CandidateP_EndZ",&True_CandidateP_EndZ);	
 	
-//	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
-//	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
+	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
+	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -626,8 +626,8 @@ void PreSelection::Loop() {
 		CandidateMu_Chi2_YPlane.clear();
 		CandidateMu_ThreePlaneLogLikelihood.clear();
 		CandidateMu_ThreePlaneChi2.clear();
-//		CandidateMu_StartContainment.clear();
-//		CandidateMu_EndContainment.clear();
+		CandidateMu_StartContainment.clear();
+		CandidateMu_EndContainment.clear();
 		CandidateMu_Length.clear();		
 		CandidateMu_MCParticle_Pdg.clear();
 		CandidateMu_MCParticle_Purity.clear();
@@ -650,8 +650,8 @@ void PreSelection::Loop() {
 		True_CandidateMu_EndY.clear();
 		True_CandidateMu_EndZ.clear();				
 		
-//		True_CandidateMu_StartContainment.clear();
-//		True_CandidateMu_EndContainment.clear();
+		True_CandidateMu_StartContainment.clear();
+		True_CandidateMu_EndContainment.clear();
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -663,8 +663,8 @@ void PreSelection::Loop() {
 		CandidateP_Chi2_YPlane.clear();
 		CandidateP_ThreePlaneLogLikelihood.clear();
 		CandidateP_ThreePlaneChi2.clear();
-//		CandidateP_StartContainment.clear();
-//		CandidateP_EndContainment.clear();
+		CandidateP_StartContainment.clear();
+		CandidateP_EndContainment.clear();
 		CandidateP_Length.clear();		
 		CandidateP_MCParticle_Pdg.clear();
 		CandidateP_MCParticle_Purity.clear();
@@ -687,8 +687,8 @@ void PreSelection::Loop() {
 		True_CandidateP_EndY.clear();
 		True_CandidateP_EndZ.clear();		
 		
-//		True_CandidateP_StartContainment.clear();
-//		True_CandidateP_EndContainment.clear();
+		True_CandidateP_StartContainment.clear();
+		True_CandidateP_EndContainment.clear();
 
 		// -----------------------------------------------------------------------------------------------------------------------------
 
@@ -776,8 +776,8 @@ void PreSelection::Loop() {
 			
 			TVector3 CandidateProtonTrackStart(ProtonTrackStartX,ProtonTrackStartY,ProtonTrackStartZ);
 			TVector3 CandidateProtonTrackEnd(ProtonTrackEndX,ProtonTrackEndY,ProtonTrackEndZ);
-//			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
-//			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackEnd);			
+			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
+			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackEnd);			
 			
 			// ---------------------------------------------------------------------------------------------------------------------		
 
@@ -835,8 +835,8 @@ void PreSelection::Loop() {
 			CandidateMu_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 			CandidateMu_ThreePlaneLogLikelihood.push_back(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateMuonTrackIndex));
 			CandidateMu_ThreePlaneChi2.push_back(CalCandidateMu_ThreePlaneChi2);
-//			CandidateMu_StartContainment.push_back(CandidateMuonTrackStartContainment);
-//			CandidateMu_EndContainment.push_back(CandidateMuonTrackEndContainment);
+			CandidateMu_StartContainment.push_back(CandidateMuonTrackStartContainment);
+			CandidateMu_EndContainment.push_back(CandidateMuonTrackEndContainment);
 			CandidateMu_Length.push_back(CandidateMuonTrackLength);
 			CandidateMu_StartX.push_back(Track_StartX->at(CandidateMuonTrackIndex));
 			CandidateMu_StartY.push_back(Track_StartY->at(CandidateMuonTrackIndex));
@@ -894,8 +894,8 @@ void PreSelection::Loop() {
 			CandidateP_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
 			CandidateP_ThreePlaneLogLikelihood.push_back(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateProtonTrackIndex));
 			CandidateP_ThreePlaneChi2.push_back(CalCandidateP_ThreePlaneChi2);
-//			CandidateP_StartContainment.push_back(CandidateProtonTrackStartContainment);
-//			CandidateP_EndContainment.push_back(CandidateProtonTrackEndContainment);
+			CandidateP_StartContainment.push_back(CandidateProtonTrackStartContainment);
+			CandidateP_EndContainment.push_back(CandidateProtonTrackEndContainment);
 			CandidateP_Length.push_back(CandidateProtonTrackLength);
 			CandidateP_StartX.push_back(Track_StartX->at(CandidateProtonTrackIndex));
 			CandidateP_StartY.push_back(Track_StartY->at(CandidateProtonTrackIndex));
@@ -969,8 +969,8 @@ void PreSelection::Loop() {
 				TVector3 TrueCandidateMuonTrackStart(CandidateMuonStartX,CandidateMuonStartY,CandidateMuonStartZ);
 				TVector3 TrueCandidateMuonTrackEnd(CandidateMuonEndX,CandidateMuonEndY,CandidateMuonEndZ);
 				TVector3 TrueCandidateMuonChange = TrueCandidateMuonTrackEnd - TrueCandidateMuonTrackStart;
-//				bool TrueCandidateMuonTrackStartContainment = tools.inFVVector(TrueCandidateMuonTrackStart);
-//				bool TrueCandidateMuonTrackEndContainment = tools.inFVVector(TrueCandidateMuonTrackEnd);
+				bool TrueCandidateMuonTrackStartContainment = tools.inFVVector(TrueCandidateMuonTrackStart);
+				bool TrueCandidateMuonTrackEndContainment = tools.inFVVector(TrueCandidateMuonTrackEnd);
 
 				double TrueCandidateMuonTrackPhi = TrueCandidateMuonChange.Phi(); // rad
 				double TrueCandidateMuonTrackPhi_Deg = TrueCandidateMuonTrackPhi * 180./ TMath::Pi(); // deg
@@ -995,8 +995,8 @@ void PreSelection::Loop() {
 				True_CandidateMu_EndY.push_back(CandidateMuonEndY);
 				True_CandidateMu_EndZ.push_back(CandidateMuonEndZ);				
 				
-//				True_CandidateMu_StartContainment.push_back(TrueCandidateMuonTrackStartContainment);
-//				True_CandidateMu_EndContainment.push_back(TrueCandidateMuonTrackEndContainment);
+				True_CandidateMu_StartContainment.push_back(TrueCandidateMuonTrackStartContainment);
+				True_CandidateMu_EndContainment.push_back(TrueCandidateMuonTrackEndContainment);
 
 				// --------------------------------------------------------------------------------------------------------------------
 
@@ -1015,8 +1015,8 @@ void PreSelection::Loop() {
 				TVector3 TrueCandidateProtonTrackStart(CandidateProtonStartX,CandidateProtonStartY,CandidateProtonStartZ);
 				TVector3 TrueCandidateProtonTrackEnd(CandidateProtonEndX,CandidateProtonEndY,CandidateProtonEndZ);
 				TVector3 TrueCandidateProtonChange = TrueCandidateProtonTrackEnd - TrueCandidateProtonTrackStart;
-//				bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
-//				bool TrueCandidateProtonTrackEndContainment = tools.inFVVector(TrueCandidateProtonTrackEnd);
+				bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
+				bool TrueCandidateProtonTrackEndContainment = tools.inFVVector(TrueCandidateProtonTrackEnd);
 
 				double TrueCandidateProtonTrackPhi = TrueCandidateProtonChange.Phi(); // rad
 				double TrueCandidateProtonTrackPhi_Deg = TrueCandidateProtonTrackPhi * 180./ TMath::Pi(); // deg
@@ -1041,8 +1041,8 @@ void PreSelection::Loop() {
 				True_CandidateP_EndY.push_back(CandidateProtonEndY);
 				True_CandidateP_EndZ.push_back(CandidateProtonEndZ);				
 				
-//				True_CandidateP_StartContainment.push_back(TrueCandidateProtonTrackStartContainment);
-//				True_CandidateP_EndContainment.push_back(TrueCandidateProtonTrackEndContainment);
+				True_CandidateP_StartContainment.push_back(TrueCandidateProtonTrackStartContainment);
+				True_CandidateP_EndContainment.push_back(TrueCandidateProtonTrackEndContainment);
 				
 				// --------------------------------------------------------------------------------------------------------------------
 				
@@ -1176,7 +1176,7 @@ void PreSelection::Loop() {
 	OutputFile->cd();
 	OutputFile->Write();
 	OutputFile->Close();
-	fSpines->Close();
+	//fSpines->Close();
 	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
 
 } // end of the program
