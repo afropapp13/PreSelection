@@ -107,8 +107,8 @@ void PreTruthSelection::Loop() {
 	std::vector<double> Muon_MCParticle_EndX;
 	std::vector<double> Muon_MCParticle_EndY;
 	std::vector<double> Muon_MCParticle_EndZ;
-//	std::vector<int> Muon_MCParticle_StartContainment;
-//	std::vector<int> Muon_MCParticle_EndContainment;
+	std::vector<int> Muon_MCParticle_StartContainment;
+	std::vector<int> Muon_MCParticle_EndContainment;
 	std::vector<int> Muon_MCParticle_Pdg;
 	
 	// ------------------------------------------------------------------------------------------------------------------------------------------	
@@ -125,8 +125,8 @@ void PreTruthSelection::Loop() {
 	std::vector<double> Proton_MCParticle_EndX;
 	std::vector<double> Proton_MCParticle_EndY;
 	std::vector<double> Proton_MCParticle_EndZ;
-//	std::vector<int> Proton_MCParticle_StartContainment;
-//	std::vector<int> Proton_MCParticle_EndContainment;
+	std::vector<int> Proton_MCParticle_StartContainment;
+	std::vector<int> Proton_MCParticle_EndContainment;
 	std::vector<int> Proton_MCParticle_Pdg;
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
@@ -209,8 +209,8 @@ void PreTruthSelection::Loop() {
 	tree->Branch("Muon_MCParticle_EndX",&Muon_MCParticle_EndX);
 	tree->Branch("Muon_MCParticle_EndY",&Muon_MCParticle_EndY);
 	tree->Branch("Muon_MCParticle_EndZ",&Muon_MCParticle_EndZ);
-//	tree->Branch("Muon_MCParticle_StartContainment",&Muon_MCParticle_StartContainment);
-//	tree->Branch("Muon_MCParticle_EndContainment",&Muon_MCParticle_EndContainment);
+	tree->Branch("Muon_MCParticle_StartContainment",&Muon_MCParticle_StartContainment);
+	tree->Branch("Muon_MCParticle_EndContainment",&Muon_MCParticle_EndContainment);
 	tree->Branch("Muon_MCParticle_Pdg",&Muon_MCParticle_Pdg);
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
@@ -227,8 +227,8 @@ void PreTruthSelection::Loop() {
 	tree->Branch("Proton_MCParticle_EndX",&Proton_MCParticle_EndX);
 	tree->Branch("Proton_MCParticle_EndY",&Proton_MCParticle_EndY);
 	tree->Branch("Proton_MCParticle_EndZ",&Proton_MCParticle_EndZ);
-//	tree->Branch("Proton_MCParticle_StartContainment",&Proton_MCParticle_StartContainment);
-//	tree->Branch("Proton_MCParticle_EndContainment",&Proton_MCParticle_EndContainment);
+	tree->Branch("Proton_MCParticle_StartContainment",&Proton_MCParticle_StartContainment);
+	tree->Branch("Proton_MCParticle_EndContainment",&Proton_MCParticle_EndContainment);
 	tree->Branch("Proton_MCParticle_Pdg",&Proton_MCParticle_Pdg);
 	
 	// -----------------------------------------------------------------------------------------------------------------------------------------
@@ -396,8 +396,8 @@ void PreTruthSelection::Loop() {
 		Muon_MCParticle_EndX.clear();
 		Muon_MCParticle_EndY.clear();
 		Muon_MCParticle_EndZ.clear();
-//		Muon_MCParticle_StartContainment.clear();
-//		Muon_MCParticle_EndContainment.clear();
+		Muon_MCParticle_StartContainment.clear();
+		Muon_MCParticle_EndContainment.clear();
 		Muon_MCParticle_Pdg.clear();
 		
 		// ------------------------------------------------------------------------------------------------------------------------------
@@ -416,8 +416,8 @@ void PreTruthSelection::Loop() {
 		Proton_MCParticle_EndX.clear();
 		Proton_MCParticle_EndY.clear();
 		Proton_MCParticle_EndZ.clear();
-//		Proton_MCParticle_StartContainment.clear();
-//		Proton_MCParticle_EndContainment.clear();
+		Proton_MCParticle_StartContainment.clear();
+		Proton_MCParticle_EndContainment.clear();
 		Proton_MCParticle_Pdg.clear();
 		
 		// -----------------------------------------------------------------------------------------------------------------------------
@@ -550,8 +550,8 @@ void PreTruthSelection::Loop() {
 			TVector3 Muon_TVector3TrueStart(Muon_MCParticleStartX,Muon_MCParticleStartY,Muon_MCParticleStartZ);
 			TVector3 Muon_TVector3TrueEnd(Muon_MCParticleEndX,Muon_MCParticleEndY,Muon_MCParticleEndZ);
 			TVector3 Muon_TVector3TrueChange = Muon_TVector3TrueEnd - Muon_TVector3TrueStart;
-//			bool Muon_TrueStartContainment = tools.inFVVector(Muon_TVector3TrueStart);
-//			bool Muon_TrueEndContainment = tools.inFVVector(Muon_TVector3TrueEnd);
+			bool Muon_TrueStartContainment = tools.inFVVector(Muon_TVector3TrueStart);
+			bool Muon_TrueEndContainment = tools.inFVVector(Muon_TVector3TrueEnd);
 
 			double Muon_TrueLength = Muon_TVector3TrueChange.Mag();
 			double Muon_TrueTheta = Muon_TVector3TrueChange.Theta();
@@ -577,8 +577,8 @@ void PreTruthSelection::Loop() {
 			Muon_MCParticle_EndX.push_back(Muon_TVector3TrueEnd.X());
 			Muon_MCParticle_EndY.push_back(Muon_TVector3TrueEnd.Y());
 			Muon_MCParticle_EndZ.push_back(Muon_TVector3TrueEnd.Z());
-//			Muon_MCParticle_StartContainment.push_back(Muon_TrueStartContainment);
-//			Muon_MCParticle_EndContainment.push_back(Muon_TrueEndContainment);
+			Muon_MCParticle_StartContainment.push_back(Muon_TrueStartContainment);
+			Muon_MCParticle_EndContainment.push_back(Muon_TrueEndContainment);
 			Muon_MCParticle_Pdg.push_back(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)));
 			
 			// --------------------------------------------------------------------------------------------------------------------------
@@ -596,8 +596,8 @@ void PreTruthSelection::Loop() {
 			TVector3 Proton_TVector3TrueStart(Proton_MCParticleStartX,Proton_MCParticleStartY,Proton_MCParticleStartZ);
 			TVector3 Proton_TVector3TrueEnd(Proton_MCParticleEndX,Proton_MCParticleEndY,Proton_MCParticleEndZ);
 			TVector3 Proton_TVector3TrueChange = Proton_TVector3TrueEnd - Proton_TVector3TrueStart;
-//			bool Proton_TrueStartContainment = tools.inFVVector(Proton_TVector3TrueStart);
-//			bool Proton_TrueEndContainment = tools.inFVVector(Proton_TVector3TrueEnd);
+			bool Proton_TrueStartContainment = tools.inFVVector(Proton_TVector3TrueStart);
+			bool Proton_TrueEndContainment = tools.inFVVector(Proton_TVector3TrueEnd);
 
 			double Proton_TrueLength = Proton_TVector3TrueChange.Mag();
 			double Proton_TrueTheta = Proton_TVector3TrueChange.Theta();
@@ -623,8 +623,8 @@ void PreTruthSelection::Loop() {
 			Proton_MCParticle_EndX.push_back(Proton_TVector3TrueEnd.X());
 			Proton_MCParticle_EndY.push_back(Proton_TVector3TrueEnd.Y());
 			Proton_MCParticle_EndZ.push_back(Proton_TVector3TrueEnd.Z());
-//			Proton_MCParticle_StartContainment.push_back(Proton_TrueStartContainment);
-//			Proton_MCParticle_EndContainment.push_back(Proton_TrueEndContainment);
+			Proton_MCParticle_StartContainment.push_back(Proton_TrueStartContainment);
+			Proton_MCParticle_EndContainment.push_back(Proton_TrueEndContainment);
 			Proton_MCParticle_Pdg.push_back(MCParticle_PdgCode->at(VectorTrueProtonIndex.at(0)));
 			
 			// --------------------------------------------------------------------------------------------------------------------
@@ -687,8 +687,8 @@ void PreTruthSelection::Loop() {
 			Muon_MCParticle_EndX.push_back(NotCC1pSignal);
 			Muon_MCParticle_EndY.push_back(NotCC1pSignal);
 			Muon_MCParticle_EndZ.push_back(NotCC1pSignal);
-//			Muon_MCParticle_StartContainment.push_back(IntNotCC1pSignal);
-//			Muon_MCParticle_EndContainment.push_back(IntNotCC1pSignal);
+			Muon_MCParticle_StartContainment.push_back(IntNotCC1pSignal);
+			Muon_MCParticle_EndContainment.push_back(IntNotCC1pSignal);
 			Muon_MCParticle_Pdg.push_back(IntNotCC1pSignal);
 			
 			Proton_MCParticle_Mode.push_back(IntNotCC1pSignal);
@@ -703,8 +703,8 @@ void PreTruthSelection::Loop() {
 			Proton_MCParticle_EndX.push_back(NotCC1pSignal);
 			Proton_MCParticle_EndY.push_back(NotCC1pSignal);
 			Proton_MCParticle_EndZ.push_back(NotCC1pSignal);
-//			Proton_MCParticle_StartContainment.push_back(IntNotCC1pSignal);
-//			Proton_MCParticle_EndContainment.push_back(IntNotCC1pSignal);
+			Proton_MCParticle_StartContainment.push_back(IntNotCC1pSignal);
+			Proton_MCParticle_EndContainment.push_back(IntNotCC1pSignal);
 			Proton_MCParticle_Pdg.push_back(IntNotCC1pSignal);
 
 			True_kMiss.push_back(NotCC1pSignal);
