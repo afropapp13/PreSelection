@@ -204,6 +204,20 @@ void TwoDPlots() {
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+	// PMiss
+
+	TH2D* hPMiss = new TH2D("hPMiss",";True P_{Miss} [GeV/c];Reco P_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+
+	tree->Draw("Reco_PMiss:True_PMiss>>hPMiss",qualifier,"goff");
+
+	TCanvas* PMissCanvas = new TCanvas("PMissCanvas","PMissCanvas",205,34,1024,768);
+	PMissCanvas->cd();
+	hPMiss->Draw("coltz");
+
+	PMissCanvas->SaveAs("myPlots/"+UBCodeVersion+"/PMissCanvas_"+RunNumber+".pdf");
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	// PMissMinus
 
 	TH2D* hPMissMinus = new TH2D("hPMissMinus",";True P^{-}_{Miss} [GeV/c];Reco P^{-}_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
@@ -248,7 +262,7 @@ void TwoDPlots() {
 
 	// DeltaPhi
 
-	TH2D* hDeltaPhi = new TH2D("hDeltaPhi",";True #Delta#phi_{#mu,p} [deg];Reco #Delta#phi_{#mu,p} [deg]",360,0,360,360,0,360);
+	TH2D* hDeltaPhi = new TH2D("hDeltaPhi",";True #delta#phi_{#mu,p} [deg];Reco #delta#phi_{#mu,p} [deg]",360,0,360,360,0,360);
 
 	tree->Draw("Reco_DeltaPhi:True_DeltaPhi>>hDeltaPhi",qualifier,"coltz");
 
@@ -262,7 +276,7 @@ void TwoDPlots() {
 
 	// DeltaTheta
 
-	TH2D* hDeltaTheta = new TH2D("hDeltaTheta",";True #Delta#theta_{#mu,p} [deg];Reco #Delta#theta_{#mu,p} [deg]",360,0,180,360,0,180);
+	TH2D* hDeltaTheta = new TH2D("hDeltaTheta",";True #delta#theta_{#mu,p} [deg];Reco #delta#theta_{#mu,p} [deg]",360,0,180,360,0,180);
 
 	tree->Draw("Reco_DeltaTheta:True_DeltaTheta>>hDeltaTheta",qualifier,"goff");
 
@@ -366,8 +380,6 @@ void TwoDPlots() {
 
 	TCanvas* MuonEndXCanvas = new TCanvas("MuonEndXCanvas","MuonEndXCanvas",205,34,1024,768);
 	MuonEndXCanvas->cd();
-	hMuonEndX->SetTitle("Candidate Muon Tracks");
-	hMuonEndX->SetTitleSize(0.08,"t");
 	hMuonEndX->Draw("coltz");
 
 	MuonEndXCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonEndXCanvas_"+RunNumber+".pdf");
