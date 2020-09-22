@@ -817,7 +817,7 @@ void PreSelection::Loop() {
 
 			} else {
 
-				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_MCS->at(CandidateMuonTrackIndex); // GeV/c
+				CandidateMuonTrack_Momentum = Track_Momentum_MCS->at(CandidateMuonTrackIndex); // GeV/c
 //				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
 //				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
 //				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
@@ -867,12 +867,12 @@ void PreSelection::Loop() {
 ////				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateProtonTrackIndex); // GeV/c
 //				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
 
-				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
+				CandidateProtonTrack_Momentum = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
 //				CandidateProtonTrack_Momentum_MCS_MeV = 1000. * CandidateProtonTrack_Momentum_MCS_GeV; // MeV/c
 //				CandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,CandidateProtonTrack_Momentum_MCS_MeV); // MeV/c
 //				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV/c
 //				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
-				CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV) ); // GeV/c
+				CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV/c
 
 
 /*
@@ -909,7 +909,7 @@ void PreSelection::Loop() {
 			// STV & Energy Reconstruction
 			
 			TVector3 TVector3CandidateMuon(-1,-1,-1);
-			TVector3CandidateMuon.SetMag(CandidateMuonTrack_Momentum_MCS_GeV);
+			TVector3CandidateMuon.SetMag(CandidateMuonTrack_Momentum);
 			TVector3CandidateMuon.SetTheta(TMath::ACos(CandidateMuonTrackCosTheta));
 			TVector3CandidateMuon.SetPhi(Track_Phi->at(CandidateMuonTrackIndex));			
 
