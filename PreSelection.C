@@ -914,7 +914,7 @@ void PreSelection::Loop() {
 			TVector3CandidateMuon.SetPhi(Track_Phi->at(CandidateMuonTrackIndex));			
 
 			TVector3 TVector3CandidateProton(-1,-1,-1);
-			TVector3CandidateProton.SetMag(CandidateProtonTrack_Momentum_MCS_GeV);
+			TVector3CandidateProton.SetMag(CandidateProtonTrack_Momentum);
 			TVector3CandidateProton.SetTheta(TMath::ACos(CandidateProtonTrackCosTheta));
 			TVector3CandidateProton.SetPhi(Track_Phi->at(CandidateProtonTrackIndex));
 

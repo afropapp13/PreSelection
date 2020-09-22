@@ -564,7 +564,7 @@ void PreTruthSelection::Loop() {
 //			double Muon_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)),Muon_TrueMomentum_MeV); // MeV
 //			double Muon_TrueKE_GeV = Muon_TrueKE_MeV / 1000.; // GeV
 //			double Muon_TrueE_GeV = Muon_TrueKE_GeV + MuonMass_GeV; // GeV			
-			double Muon_TrueE_GeV = Tath::Sqrt( TMath::Power(Muon_TrueMomentum_GeV,2.) + TMath::Power(MuonMass_GeV,2.) ); // GeV			
+			double Muon_TrueE_GeV = TMath::Sqrt( TMath::Power(Muon_TrueMomentum_GeV,2.) + TMath::Power(MuonMass_GeV,2.) ); // GeV			
 			
 			Muon_MCParticle_Mode.push_back(MCTruth_Mode->at(0));
 			Muon_MCParticle_Mom.push_back(Muon_TrueMomentum_GeV);
