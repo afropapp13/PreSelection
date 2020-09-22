@@ -560,10 +560,11 @@ void PreTruthSelection::Loop() {
 			double Muon_TruePhi_Deg = Muon_TVector3TrueChange.Phi()*180./TMath::Pi();
 			double Muon_TrueCosTheta = Muon_TVector3TrueChange.CosTheta();
 			double Muon_TrueMomentum_GeV = MCParticle_P->at(VectorTrueMuonIndex.at(0)); // GeV
-			double Muon_TrueMomentum_MeV = 1000. * Muon_TrueMomentum_GeV; // MeV
-			double Muon_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)),Muon_TrueMomentum_MeV); // MeV
-			double Muon_TrueKE_GeV = Muon_TrueKE_MeV / 1000.; // GeV
-			double Muon_TrueE_GeV = Muon_TrueKE_GeV + MuonMass_GeV; // GeV			
+//			double Muon_TrueMomentum_MeV = 1000. * Muon_TrueMomentum_GeV; // MeV
+//			double Muon_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)),Muon_TrueMomentum_MeV); // MeV
+//			double Muon_TrueKE_GeV = Muon_TrueKE_MeV / 1000.; // GeV
+//			double Muon_TrueE_GeV = Muon_TrueKE_GeV + MuonMass_GeV; // GeV			
+			double Muon_TrueE_GeV = Tath::Sqrt( TMath::Power(Muon_TrueMomentum_GeV,2.) + TMath::Power(MuonMass_GeV,2.) ); // GeV			
 			
 			Muon_MCParticle_Mode.push_back(MCTruth_Mode->at(0));
 			Muon_MCParticle_Mom.push_back(Muon_TrueMomentum_GeV);
@@ -607,9 +608,10 @@ void PreTruthSelection::Loop() {
 			double Proton_TrueCosTheta = Proton_TVector3TrueChange.CosTheta();
 			double Proton_TrueMomentum_GeV = MCParticle_P->at(VectorTrueProtonIndex.at(0)); // GeV
 			double Proton_TrueMomentum_MeV = 1000. * Proton_TrueMomentum_GeV; // MeV
-			double Proton_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueProtonIndex.at(0)),Proton_TrueMomentum_MeV); // MeV
-			double Proton_TrueKE_GeV = Proton_TrueKE_MeV / 1000.; // GeV
-			double Proton_TrueE_GeV = Proton_TrueKE_GeV + ProtonMass_GeV; // GeV						
+//			double Proton_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueProtonIndex.at(0)),Proton_TrueMomentum_MeV); // MeV
+//			double Proton_TrueKE_GeV = Proton_TrueKE_MeV / 1000.; // GeV
+//			double Proton_TrueE_GeV = Proton_TrueKE_GeV + ProtonMass_GeV; // GeV						
+			double Proton_TrueE_GeV = TMath::Sqrt( TMath::Power(Proton_TrueMomentum_GeV,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV						
 			
 			Proton_MCParticle_Mode.push_back(MCTruth_Mode->at(0));
 			Proton_MCParticle_Mom.push_back(Proton_TrueMomentum_GeV);

@@ -790,10 +790,10 @@ void PreSelection::Loop() {
 
 			// Muon
 
-			double CandidateMuonTrack_Momentum_MCS_GeV = -99.;
+			double CandidateMuonTrack_Momentum = -99.;
 			double CandidateMuonTrack_Momentum_MCS_MeV = -99.;
-			double CandidateMuonTrack_KE_MeV = -99.;
-			double CandidateMuonTrack_KE_GeV = -99.;
+//			double CandidateMuonTrack_KE_MeV = -99.;
+//			double CandidateMuonTrack_KE_GeV = -99.;
 			double CandidateMuonTrack_E_GeV = -99.;
 			double CalCandidateMu_ThreePlaneChi2 = ThreePlaneChi2(CandidateMuonTrackStart,CandidateMuonTrackEnd,
 								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateMuonTrackIndex),
@@ -809,23 +809,22 @@ void PreSelection::Loop() {
 //				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
 //				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
-				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
-				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
-				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
-				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
-				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
-
-
+				CandidateMuonTrack_Momentum = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
+//				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
+//				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
+//				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
+//				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
 			} else {
 
 				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_MCS->at(CandidateMuonTrackIndex); // GeV/c
-				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
-				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
-				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
-				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
+//				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
+//				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
+//				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
 
 			}
+
+			CandidateMuonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateMuonTrack_Momentum,2.) + TMath::Power(MuonMass_GeV,2.)); // GeV/c
 									
 			CandidateMu_P_MCS.push_back(Track_Momentum_MCS->at(CandidateMuonTrackIndex));
 //			CandidateMu_P_Range.push_back(tools.KEToP(0.001*MuonPdg,sMuonRange2T->Eval(CandidateMuonTrackLength)));			
@@ -849,10 +848,10 @@ void PreSelection::Loop() {
 
 			// Proton
 
-			double CandidateProtonTrack_Momentum_MCS_GeV = -99.;
-			double CandidateProtonTrack_Momentum_MCS_MeV = -99.;
-			double CandidateProtonTrack_KE_MeV = -99.;
-			double CandidateProtonTrack_KE_GeV = -99.;
+			double CandidateProtonTrack_Momentum = -99.;
+//			double CandidateProtonTrack_Momentum_MCS_MeV = -99.;
+//			double CandidateProtonTrack_KE_MeV = -99.;
+//			double CandidateProtonTrack_KE_GeV = -99.;
 			double CandidateProtonTrack_E_GeV = -99.;
 			double CalCandidateP_ThreePlaneChi2 = ThreePlaneChi2(CandidateProtonTrackStart,CandidateProtonTrackEnd,
 								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateProtonTrackIndex),
@@ -869,10 +868,11 @@ void PreSelection::Loop() {
 //				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
 
 				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
-				CandidateProtonTrack_Momentum_MCS_MeV = 1000. * CandidateProtonTrack_Momentum_MCS_GeV; // MeV/c
-				CandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,CandidateProtonTrack_Momentum_MCS_MeV); // MeV/c
-				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV/c
-				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
+//				CandidateProtonTrack_Momentum_MCS_MeV = 1000. * CandidateProtonTrack_Momentum_MCS_GeV; // MeV/c
+//				CandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,CandidateProtonTrack_Momentum_MCS_MeV); // MeV/c
+//				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV/c
+//				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
+				CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV) ); // GeV/c
 
 
 /*
@@ -977,11 +977,13 @@ void PreSelection::Loop() {
 				double TrueCandidateMuonTrackTheta = TrueCandidateMuonChange.Theta(); // rad
 				double TrueCandidateMuonTrackCosTheta = cos(TrueCandidateMuonTrackTheta);
 				double TrueCandidateMuonTrackLength = TrueCandidateMuonChange.Mag(); // cm
+
 				double TrueCandidateMuonTrackMomentum_GeV = Track_MCParticle_P->at(CandidateMuonTrackIndex); // GeV
-				double TrueCandidateMuonTrackMomentum_MeV = 1000.* TrueCandidateMuonTrackMomentum_GeV; // MeV
-				double TrueCandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,TrueCandidateMuonTrackMomentum_MeV); // MeV
-				double TrueCandidateMuonTrack_KE_GeV = TrueCandidateMuonTrack_KE_MeV / 1000.; // GeV
-				double TrueCandidateMuonTrack_E_GeV = TrueCandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV
+//				double TrueCandidateMuonTrackMomentum_MeV = 1000.* TrueCandidateMuonTrackMomentum_GeV; // MeV
+//				double TrueCandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,TrueCandidateMuonTrackMomentum_MeV); // MeV
+//				double TrueCandidateMuonTrack_KE_GeV = TrueCandidateMuonTrack_KE_MeV / 1000.; // GeV
+//				double TrueCandidateMuonTrack_E_GeV = TrueCandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV
+				double TrueCandidateMuonTrack_E_GeV = TMath::Sqrt( TMath::Power(TrueCandidateMuonTrackMomentum_GeV,2.) + TMath::Power(MuonMass_GeV,2.) ); // GeV
 
 				True_CandidateMu_P.push_back(TrueCandidateMuonTrackMomentum_GeV);
 				True_CandidateMu_Phi.push_back(TrueCandidateMuonTrackPhi_Deg); // deg
@@ -1023,11 +1025,13 @@ void PreSelection::Loop() {
 				double TrueCandidateProtonTrackTheta = TrueCandidateProtonChange.Theta(); // rad
 				double TrueCandidateProtonTrackCosTheta = cos(TrueCandidateProtonTrackTheta);
 				double TrueCandidateProtonTrackLength = TrueCandidateProtonChange.Mag(); // cm
+
 				double TrueCandidateProtonTrackMomentum_GeV = Track_MCParticle_P->at(CandidateProtonTrackIndex); // GeV
-				double TrueCandidateProtonTrackMomentum_MeV = 1000.* TrueCandidateProtonTrackMomentum_GeV; // MeV
-				double TrueCandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,TrueCandidateProtonTrackMomentum_MeV); // MeV
-				double TrueCandidateProtonTrack_KE_GeV = TrueCandidateProtonTrack_KE_MeV / 1000.; // GeV
-				double TrueCandidateProtonTrack_E_GeV = TrueCandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV
+//				double TrueCandidateProtonTrackMomentum_MeV = 1000.* TrueCandidateProtonTrackMomentum_GeV; // MeV
+//				double TrueCandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,TrueCandidateProtonTrackMomentum_MeV); // MeV
+//				double TrueCandidateProtonTrack_KE_GeV = TrueCandidateProtonTrack_KE_MeV / 1000.; // GeV
+//				double TrueCandidateProtonTrack_E_GeV = TrueCandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV
+				double TrueCandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(TrueCandidateProtonTrackMomentum_GeV,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV
 
 				True_CandidateP_P.push_back(TrueCandidateProtonTrackMomentum_GeV);
 				True_CandidateP_Phi.push_back(TrueCandidateProtonTrackPhi_Deg); // deg
