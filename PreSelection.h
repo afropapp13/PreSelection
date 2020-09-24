@@ -94,6 +94,9 @@ public :
 //   std::vector<std::string>  *Track_MCParticle_Process;
    std::vector<double>  *Track_MCParticle_E;
    std::vector<double>  *Track_MCParticle_P;
+   std::vector<double>  *Track_MCParticle_Px;
+   std::vector<double>  *Track_MCParticle_Py;
+   std::vector<double>  *Track_MCParticle_Pz;
    std::vector<double>  *Track_MCParticle_Mass;
    std::vector<double>  *Track_MCParticle_Purity;
    std::vector<int>     *Track_MCParticle_Origin;
@@ -257,6 +260,9 @@ public :
 //   TBranch        *b_Track_MCParticle_Process;   //!
    TBranch        *b_Track_MCParticle_E;   //!
    TBranch        *b_Track_MCParticle_P;   //!
+   TBranch        *b_Track_MCParticle_Px;   //!
+   TBranch        *b_Track_MCParticle_Py;   //!
+   TBranch        *b_Track_MCParticle_Pz;   //!
    TBranch        *b_Track_MCParticle_Mass;   //!
    TBranch        *b_Track_MCParticle_Purity;   //!
    TBranch        *b_Track_MCParticle_Origin;   //!
@@ -504,6 +510,9 @@ void PreSelection::Init(TChain *tree)
 //   Track_MCParticle_Process = 0;
    Track_MCParticle_E = 0;
    Track_MCParticle_P = 0;
+   Track_MCParticle_Px = 0;
+   Track_MCParticle_Py = 0;
+   Track_MCParticle_Pz = 0;
    Track_MCParticle_Mass = 0;
    Track_MCParticle_Purity = 0;
    Track_MCParticle_Origin = 0;
@@ -668,6 +677,9 @@ void PreSelection::Init(TChain *tree)
 //   fChain->SetBranchAddress("Track_MCParticle_Process", &Track_MCParticle_Process, &b_Track_MCParticle_Process);
    fChain->SetBranchAddress("Track_MCParticle_E", &Track_MCParticle_E, &b_Track_MCParticle_E);
    fChain->SetBranchAddress("Track_MCParticle_P", &Track_MCParticle_P, &b_Track_MCParticle_P);
+   fChain->SetBranchAddress("Track_MCParticle_Px", &Track_MCParticle_Px, &b_Track_MCParticle_Px);
+   fChain->SetBranchAddress("Track_MCParticle_Py", &Track_MCParticle_Py, &b_Track_MCParticle_Py);
+   fChain->SetBranchAddress("Track_MCParticle_Pz", &Track_MCParticle_Pz, &b_Track_MCParticle_Pz);
    fChain->SetBranchAddress("Track_MCParticle_Mass", &Track_MCParticle_Mass, &b_Track_MCParticle_Mass);
    fChain->SetBranchAddress("Track_MCParticle_Purity", &Track_MCParticle_Purity, &b_Track_MCParticle_Purity);
    fChain->SetBranchAddress("Track_MCParticle_Origin", &Track_MCParticle_Origin, &b_Track_MCParticle_Origin);

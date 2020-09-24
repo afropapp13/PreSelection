@@ -82,6 +82,9 @@ public :
    std::vector<std::string>  *MCParticle_Process;
    std::vector<double>  *MCParticle_E;
    std::vector<double>  *MCParticle_P;
+   std::vector<double>  *MCParticle_Px;
+   std::vector<double>  *MCParticle_Py;
+   std::vector<double>  *MCParticle_Pz;
    std::vector<double>  *MCParticle_Mass;
 /*   std::vector<int>     *MCParticle_AssMCTruth_Origin;*/
 /*   std::vector<int>     *MCParticle_AssMCTruth_NParticles;*/
@@ -150,6 +153,9 @@ public :
    TBranch        *b_MCParticle_Process;   //!
    TBranch        *b_MCParticle_E;   //!
    TBranch        *b_MCParticle_P;   //!
+   TBranch        *b_MCParticle_Px;   //!
+   TBranch        *b_MCParticle_Py;   //!
+   TBranch        *b_MCParticle_Pz;   //!
    TBranch        *b_MCParticle_Mass;   //!
 /*   TBranch        *b_MCParticle_AssMCTruth_Origin;   //!*/
 /*   TBranch        *b_MCParticle_AssMCTruth_NParticles;   //!*/
@@ -303,6 +309,9 @@ void PreTruthSelection::Init(TChain *tree)
    MCParticle_Process = 0;
    MCParticle_E = 0;
    MCParticle_P = 0;
+   MCParticle_Px = 0;
+   MCParticle_Py = 0;
+   MCParticle_Pz = 0;
    MCParticle_Mass = 0;
 /*   MCParticle_AssMCTruth_Origin = 0;*/
 /*   MCParticle_AssMCTruth_NParticles = 0;*/
@@ -374,6 +383,9 @@ void PreTruthSelection::Init(TChain *tree)
    fChain->SetBranchAddress("MCParticle_Process", &MCParticle_Process, &b_MCParticle_Process);
    fChain->SetBranchAddress("MCParticle_E", &MCParticle_E, &b_MCParticle_E);
    fChain->SetBranchAddress("MCParticle_P", &MCParticle_P, &b_MCParticle_P);
+   fChain->SetBranchAddress("MCParticle_Px", &MCParticle_Px, &b_MCParticle_Px);
+   fChain->SetBranchAddress("MCParticle_Py", &MCParticle_Py, &b_MCParticle_Py);
+   fChain->SetBranchAddress("MCParticle_Pz", &MCParticle_Pz, &b_MCParticle_Pz);
    fChain->SetBranchAddress("MCParticle_Mass", &MCParticle_Mass, &b_MCParticle_Mass);
 /*   fChain->SetBranchAddress("MCParticle_AssMCTruth_Origin", &MCParticle_AssMCTruth_Origin, &b_MCParticle_AssMCTruth_Origin);*/
 /*   fChain->SetBranchAddress("MCParticle_AssMCTruth_NParticles", &MCParticle_AssMCTruth_NParticles, &b_MCParticle_AssMCTruth_NParticles);*/

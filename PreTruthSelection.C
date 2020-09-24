@@ -100,7 +100,7 @@ void PreTruthSelection::Loop() {
 //	std::vector<double> Muon_MCParticle_KE;
 	std::vector<double> Muon_MCParticle_Phi;
 	std::vector<double> Muon_MCParticle_CosTheta;
-	std::vector<double> Muon_MCParticle_Length;
+//	std::vector<double> Muon_MCParticle_Length;
 	std::vector<double> Muon_MCParticle_StartX;
 	std::vector<double> Muon_MCParticle_StartY;
 	std::vector<double> Muon_MCParticle_StartZ;
@@ -202,7 +202,7 @@ void PreTruthSelection::Loop() {
 //	tree->Branch("Muon_MCParticle_KE",&Muon_MCParticle_KE);
 	tree->Branch("Muon_MCParticle_Phi",&Muon_MCParticle_Phi);
 	tree->Branch("Muon_MCParticle_CosTheta",&Muon_MCParticle_CosTheta);
-	tree->Branch("Muon_MCParticle_Length",&Muon_MCParticle_Length);
+//	tree->Branch("Muon_MCParticle_Length",&Muon_MCParticle_Length);
 	tree->Branch("Muon_MCParticle_StartX",&Muon_MCParticle_StartX);
 	tree->Branch("Muon_MCParticle_StartY",&Muon_MCParticle_StartY);
 	tree->Branch("Muon_MCParticle_StartZ",&Muon_MCParticle_StartZ);
@@ -389,7 +389,7 @@ void PreTruthSelection::Loop() {
 //		Muon_MCParticle_KE.clear();
 		Muon_MCParticle_Phi.clear();
 		Muon_MCParticle_CosTheta.clear();
-		Muon_MCParticle_Length.clear();
+//		Muon_MCParticle_Length.clear();
 		Muon_MCParticle_StartX.clear();
 		Muon_MCParticle_StartY.clear();
 		Muon_MCParticle_StartZ.clear();
@@ -538,6 +538,10 @@ void PreTruthSelection::Loop() {
 			// --------------------------------------------------------------------------------------------------------------------------
 			
 			// Muon MCParticle
+
+			double Muon_MCParticlePx = MCParticle_Px->at(VectorTrueMuonIndex.at(0));
+			double Muon_MCParticlePy = MCParticle_Py->at(VectorTrueMuonIndex.at(0));
+			double Muon_MCParticlePz = MCParticle_Pz->at(VectorTrueMuonIndex.at(0));
 			
 			double Muon_MCParticleStartX = MCParticle_Vx->at(VectorTrueMuonIndex.at(0));
 			double Muon_MCParticleStartY = MCParticle_Vy->at(VectorTrueMuonIndex.at(0));
@@ -549,16 +553,18 @@ void PreTruthSelection::Loop() {
 
 			TVector3 Muon_TVector3TrueStart(Muon_MCParticleStartX,Muon_MCParticleStartY,Muon_MCParticleStartZ);
 			TVector3 Muon_TVector3TrueEnd(Muon_MCParticleEndX,Muon_MCParticleEndY,Muon_MCParticleEndZ);
-			TVector3 Muon_TVector3TrueChange = Muon_TVector3TrueEnd - Muon_TVector3TrueStart;
+//			TVector3 Muon_TVector3TrueChange = Muon_TVector3TrueEnd - Muon_TVector3TrueStart;
+			TVector3 Muon_TVector3True(Muon_MCParticlePx,Muon_MCParticlePy,Muon_MCParticlePz);
+
 			bool Muon_TrueStartContainment = tools.inFVVector(Muon_TVector3TrueStart);
 			bool Muon_TrueEndContainment = tools.inFVVector(Muon_TVector3TrueEnd);
 
-			double Muon_TrueLength = Muon_TVector3TrueChange.Mag();
-			double Muon_TrueTheta = Muon_TVector3TrueChange.Theta();
-			double Muon_TrueTheta_Deg = Muon_TVector3TrueChange.Theta()*180./TMath::Pi();
-			double Muon_TruePhi = Muon_TVector3TrueChange.Phi();
-			double Muon_TruePhi_Deg = Muon_TVector3TrueChange.Phi()*180./TMath::Pi();
-			double Muon_TrueCosTheta = Muon_TVector3TrueChange.CosTheta();
+//			double Muon_TrueLength = Muon_TVector3True.Mag();
+			double Muon_TrueTheta = Muon_TVector3True.Theta();
+			double Muon_TrueTheta_Deg = Muon_TrueTheta * 180./TMath::Pi();
+			double Muon_TruePhi = Muon_TVector3True.Phi();
+			double Muon_TruePhi_Deg = Muon_TruePhi * 180./TMath::Pi();
+			double Muon_TrueCosTheta = Muon_TVector3True.CosTheta();
 			double Muon_TrueMomentum_GeV = MCParticle_P->at(VectorTrueMuonIndex.at(0)); // GeV
 //			double Muon_TrueMomentum_MeV = 1000. * Muon_TrueMomentum_GeV; // MeV
 //			double Muon_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)),Muon_TrueMomentum_MeV); // MeV
@@ -571,7 +577,7 @@ void PreTruthSelection::Loop() {
 //			Muon_MCParticle_KE.push_back(Muon_TrueKE_GeV);
 			Muon_MCParticle_Phi.push_back(Muon_TruePhi_Deg);
 			Muon_MCParticle_CosTheta.push_back(Muon_TrueCosTheta);
-			Muon_MCParticle_Length.push_back(Muon_TrueLength);
+//			Muon_MCParticle_Length.push_back(Muon_TrueLength);
 			Muon_MCParticle_StartX.push_back(Muon_TVector3TrueStart.X());
 			Muon_MCParticle_StartY.push_back(Muon_TVector3TrueStart.Y());
 			Muon_MCParticle_StartZ.push_back(Muon_TVector3TrueStart.Z());
@@ -585,6 +591,10 @@ void PreTruthSelection::Loop() {
 			// --------------------------------------------------------------------------------------------------------------------------
 			
 			// Proton MCParticle
+
+			double Proton_MCParticlePx = MCParticle_Px->at(VectorTrueProtonIndex.at(0));
+			double Proton_MCParticlePy = MCParticle_Py->at(VectorTrueProtonIndex.at(0));
+			double Proton_MCParticlePz = MCParticle_Pz->at(VectorTrueProtonIndex.at(0));
 			
 			double Proton_MCParticleStartX = MCParticle_Vx->at(VectorTrueProtonIndex.at(0));
 			double Proton_MCParticleStartY = MCParticle_Vy->at(VectorTrueProtonIndex.at(0));
@@ -596,18 +606,20 @@ void PreTruthSelection::Loop() {
 
 			TVector3 Proton_TVector3TrueStart(Proton_MCParticleStartX,Proton_MCParticleStartY,Proton_MCParticleStartZ);
 			TVector3 Proton_TVector3TrueEnd(Proton_MCParticleEndX,Proton_MCParticleEndY,Proton_MCParticleEndZ);
-			TVector3 Proton_TVector3TrueChange = Proton_TVector3TrueEnd - Proton_TVector3TrueStart;
+//			TVector3 Proton_TVector3TrueChange = Proton_TVector3TrueEnd - Proton_TVector3TrueStart;
+			TVector3 Proton_TVector3True(Proton_MCParticlePx,Proton_MCParticlePy,Proton_MCParticlePz);
+
 			bool Proton_TrueStartContainment = tools.inFVVector(Proton_TVector3TrueStart);
 			bool Proton_TrueEndContainment = tools.inFVVector(Proton_TVector3TrueEnd);
 
-			double Proton_TrueLength = Proton_TVector3TrueChange.Mag();
-			double Proton_TrueTheta = Proton_TVector3TrueChange.Theta();
-			double Proton_TrueTheta_Deg = Proton_TVector3TrueChange.Theta()*180./TMath::Pi();
-			double Proton_TruePhi = Proton_TVector3TrueChange.Phi();
-			double Proton_TruePhi_Deg = Proton_TVector3TrueChange.Phi()*180./TMath::Pi();
-			double Proton_TrueCosTheta = Proton_TVector3TrueChange.CosTheta();
+//			double Proton_TrueLength = Proton_TVector3TrueChange.Mag();
+			double Proton_TrueTheta = Proton_TVector3True.Theta();
+			double Proton_TrueTheta_Deg = Proton_TrueTheta * 180./TMath::Pi();
+			double Proton_TruePhi = Proton_TVector3True.Phi();
+			double Proton_TruePhi_Deg = Proton_TruePhi * 180./TMath::Pi();
+			double Proton_TrueCosTheta = Proton_TVector3True.CosTheta();
 			double Proton_TrueMomentum_GeV = MCParticle_P->at(VectorTrueProtonIndex.at(0)); // GeV
-			double Proton_TrueMomentum_MeV = 1000. * Proton_TrueMomentum_GeV; // MeV
+//			double Proton_TrueMomentum_MeV = 1000. * Proton_TrueMomentum_GeV; // MeV
 //			double Proton_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueProtonIndex.at(0)),Proton_TrueMomentum_MeV); // MeV
 //			double Proton_TrueKE_GeV = Proton_TrueKE_MeV / 1000.; // GeV
 //			double Proton_TrueE_GeV = Proton_TrueKE_GeV + ProtonMass_GeV; // GeV						
@@ -618,7 +630,7 @@ void PreTruthSelection::Loop() {
 //			Proton_MCParticle_KE.push_back(Proton_TrueKE_GeV);
 			Proton_MCParticle_Phi.push_back(Proton_TruePhi_Deg);
 			Proton_MCParticle_CosTheta.push_back(Proton_TrueCosTheta);
-			Proton_MCParticle_Length.push_back(Proton_TrueLength);
+//			Proton_MCParticle_Length.push_back(Proton_TrueLength);
 			Proton_MCParticle_StartX.push_back(Proton_TVector3TrueStart.X());
 			Proton_MCParticle_StartY.push_back(Proton_TVector3TrueStart.Y());
 			Proton_MCParticle_StartZ.push_back(Proton_TVector3TrueStart.Z());
@@ -682,7 +694,7 @@ void PreTruthSelection::Loop() {
 //			Muon_MCParticle_KE.push_back(NotCC1pSignal);
 			Muon_MCParticle_Phi.push_back(NotCC1pSignal);
 			Muon_MCParticle_CosTheta.push_back(NotCC1pSignal);
-			Muon_MCParticle_Length.push_back(NotCC1pSignal);
+//			Muon_MCParticle_Length.push_back(NotCC1pSignal);
 			Muon_MCParticle_StartX.push_back(NotCC1pSignal);
 			Muon_MCParticle_StartY.push_back(NotCC1pSignal);
 			Muon_MCParticle_StartZ.push_back(NotCC1pSignal);

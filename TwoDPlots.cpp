@@ -42,7 +42,7 @@ void TwoDPlots() {
 	TFile* OverlayFile = TFile::Open("/uboone/data/users/apapadop/myEvents/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+RunNumber+"_"+UBCodeVersion+".root","readonly");
 	TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-	TString qualifier = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1 && True_CandidateP_StartContainment == 1 && True_CandidateP_EndContainment == 1";
+	TString qualifier = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
