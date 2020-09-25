@@ -752,7 +752,7 @@ void PreTruthSelection::Loop() {
 		// --------------------------------------------------------------------------------------------------------------------------		
 
 		EventCounter++;
-		if (CC1p == 0 || Muon_MCParticle_StartContainment->at(0) == 0 ) { continue; }
+		if (CC1p == 0 || Muon_MCParticle_StartContainment.at(0) == 0 ) { continue; }
 		tree->Fill();
 
 	} // End of the loop over the number of events
