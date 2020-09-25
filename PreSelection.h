@@ -132,13 +132,13 @@ public :
    std::vector<double>  *Track_ParticleId_PlaneID;*/
    Int_t           NumberFlashesBeam;
    std::vector<double>  *FlashesBeam_Time;
-   std::vector<double>  *FlashesBeam_Twidth;
+/*   std::vector<double>  *FlashesBeam_Twidth;*/
 /*   std::vector<double>  *FlashesBeam_AbsTime;
    std::vector<int>     *FlashesBeam_Frame;*/
    std::vector<double>  *FlashesBeam_Ycenter;
-   std::vector<double>  *FlashesBeam_Ywidth;
+/*   std::vector<double>  *FlashesBeam_Ywidth;*/
    std::vector<double>  *FlashesBeam_Zcenter;
-   std::vector<double>  *FlashesBeam_Zwidth;
+/*   std::vector<double>  *FlashesBeam_Zwidth;*/
    std::vector<double>  *FlashesBeam_TotalPE;
 /*   std::vector<std::vector<double> > *FlashesBeam_WireCenters;
    std::vector<std::vector<double> > *FlashesBeam_WireWidths;
@@ -298,13 +298,13 @@ public :
    TBranch        *b_Track_ParticleId_PlaneID;   //!*/
    TBranch        *b_NumberFlashesBeam;   //!
    TBranch        *b_FlashesBeam_Time;   //!
-   TBranch        *b_FlashesBeam_Twidth;   //!
+/*   TBranch        *b_FlashesBeam_Twidth;   //!*/
 /*   TBranch        *b_FlashesBeam_AbsTime;   //!
    TBranch        *b_FlashesBeam_Frame;*/   //!
    TBranch        *b_FlashesBeam_Ycenter;   //!
-   TBranch        *b_FlashesBeam_Ywidth;   //!
+/*   TBranch        *b_FlashesBeam_Ywidth;   //!*/
    TBranch        *b_FlashesBeam_Zcenter;   //!
-   TBranch        *b_FlashesBeam_Zwidth;   //!
+/*   TBranch        *b_FlashesBeam_Zwidth;   //!*/
    TBranch        *b_FlashesBeam_TotalPE;   //!
 /*   TBranch        *b_FlashesBeam_WireCenters;   //!
    TBranch        *b_FlashesBeam_WireWidths;   //!
@@ -404,10 +404,7 @@ PreSelection::PreSelection(TString WhichSample, TChain *tree) : fChain(0)
 
 	TChain* fmyLocalChain = new TChain("myTTree");
 
-	int NFiles = 15;
-	for (int i = 1; i < NFiles+1; i++) {
-		fmyLocalChain->Add(Name+ToString(i)+".root");
-	}
+	fmyLocalChain->Add(Name+"*.root");
 
 	tree = fmyLocalChain;
 	std::cout << endl << "Total # " + fWhichSample  + " Entries = " << tree->GetEntries() << std::endl << std::endl;
@@ -546,13 +543,13 @@ void PreSelection::Init(TChain *tree)
    Track_ParticleId_MissingEavg = 0;
    Track_ParticleId_PlaneID = 0;*/
    FlashesBeam_Time = 0;
-   FlashesBeam_Twidth = 0;
+/*   FlashesBeam_Twidth = 0;*/
 /*   FlashesBeam_AbsTime = 0;
    FlashesBeam_Frame = 0;*/
    FlashesBeam_Ycenter = 0;
-   FlashesBeam_Ywidth = 0;
+/*   FlashesBeam_Ywidth = 0;*/
    FlashesBeam_Zcenter = 0;
-   FlashesBeam_Zwidth = 0;
+/*   FlashesBeam_Zwidth = 0;*/
    FlashesBeam_TotalPE = 0;
 /*   FlashesBeam_WireCenters = 0;
    FlashesBeam_WireWidths = 0;
@@ -715,13 +712,13 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("Track_ParticleId_PlaneID", &Track_ParticleId_PlaneID, &b_Track_ParticleId_PlaneID);*/
    fChain->SetBranchAddress("NumberFlashesBeam", &NumberFlashesBeam, &b_NumberFlashesBeam);
    fChain->SetBranchAddress("FlashesBeam_Time", &FlashesBeam_Time, &b_FlashesBeam_Time);
-   fChain->SetBranchAddress("FlashesBeam_Twidth", &FlashesBeam_Twidth, &b_FlashesBeam_Twidth);
+/*   fChain->SetBranchAddress("FlashesBeam_Twidth", &FlashesBeam_Twidth, &b_FlashesBeam_Twidth);*/
 /*   fChain->SetBranchAddress("FlashesBeam_AbsTime", &FlashesBeam_AbsTime, &b_FlashesBeam_AbsTime);
    fChain->SetBranchAddress("FlashesBeam_Frame", &FlashesBeam_Frame, &b_FlashesBeam_Frame);*/
    fChain->SetBranchAddress("FlashesBeam_Ycenter", &FlashesBeam_Ycenter, &b_FlashesBeam_Ycenter);
-   fChain->SetBranchAddress("FlashesBeam_Ywidth", &FlashesBeam_Ywidth, &b_FlashesBeam_Ywidth);
+/*   fChain->SetBranchAddress("FlashesBeam_Ywidth", &FlashesBeam_Ywidth, &b_FlashesBeam_Ywidth);*/
    fChain->SetBranchAddress("FlashesBeam_Zcenter", &FlashesBeam_Zcenter, &b_FlashesBeam_Zcenter);
-   fChain->SetBranchAddress("FlashesBeam_Zwidth", &FlashesBeam_Zwidth, &b_FlashesBeam_Zwidth);
+//   fChain->SetBranchAddress("FlashesBeam_Zwidth", &FlashesBeam_Zwidth, &b_FlashesBeam_Zwidth);
    fChain->SetBranchAddress("FlashesBeam_TotalPE", &FlashesBeam_TotalPE, &b_FlashesBeam_TotalPE);
 /*   fChain->SetBranchAddress("FlashesBeam_WireCenters", &FlashesBeam_WireCenters, &b_FlashesBeam_WireCenters);
    fChain->SetBranchAddress("FlashesBeam_WireWidths", &FlashesBeam_WireWidths, &b_FlashesBeam_WireWidths);

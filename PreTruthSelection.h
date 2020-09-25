@@ -214,10 +214,7 @@ PreTruthSelection::PreTruthSelection(TString WhichSample,TChain *tree) : fChain(
 
 	TChain* fmyLocalChain = new TChain("myTTree");
 
-	int NFiles = 15;
-	for (int i = 1; i < NFiles+1; i++) {
-		fmyLocalChain->Add(Name+ToString(i)+".root");
-	}
+	fmyLocalChain->Add(Name+"*.root");
 
 	tree = fmyLocalChain;
 	std::cout << std::endl << std::endl << "Total # " +fWhichSample + " Entries = " << tree->GetEntries() << std::endl << std::endl;
