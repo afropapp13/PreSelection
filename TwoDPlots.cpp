@@ -19,6 +19,14 @@ using namespace Constants;
 
 void TwoDPlots() {
 
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	TString UserID = "apapadop";
+
+	TString PlotsPath = "/uboone/data/users/"+UserID+"/mySTVAnalysis/myPlots/"+UBCodeVersion+"/Overlay9/"; 
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	gStyle->SetTitleSize(0.0,"t");
 	gStyle->SetTitleFont(132,"t");
 
@@ -58,7 +66,7 @@ void TwoDPlots() {
 	hMuonMomMCS->SetTitleSize(0.08,"t");
 	hMuonMomMCS->Draw("coltz");
 
-	MuonMomentumMCSCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonMomentumMCS2DCanvas_"+RunNumber+".pdf");
+	MuonMomentumMCSCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonMomentumMCS2DCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -74,7 +82,7 @@ void TwoDPlots() {
 	hMuonMomRange->SetTitleSize(0.08,"t");
 	hMuonMomRange->Draw("coltz");
 
-	MuonMomentumRangeCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonMomentum2DRangeCanvas_"+RunNumber+".pdf");
+	MuonMomentumRangeCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonMomentum2DRangeCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -88,7 +96,7 @@ void TwoDPlots() {
 	MuonCosThetaCanvas->cd();
 	hMuonCosTheta->Draw("coltz");
 
-	MuonCosThetaCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonCosThetaCanvas_"+RunNumber+".pdf");
+	MuonCosThetaCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonCosThetaCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -102,7 +110,7 @@ void TwoDPlots() {
 	MuonPhiCanvas->cd();
 	hMuonPhi->Draw("coltz");
 
-	MuonPhiCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonPhiCanvas_"+RunNumber+".pdf");
+	MuonPhiCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonPhiCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -116,7 +124,7 @@ void TwoDPlots() {
 	ProtonMomentumRangeCanvas->cd();
 	hProtonMomRange->Draw("coltz");
 
-	ProtonMomentumRangeCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonMomentum2DRangeCanvas_"+RunNumber+".pdf");
+	ProtonMomentumRangeCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonMomentum2DRangeCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -130,7 +138,7 @@ void TwoDPlots() {
 	ProtonCosThetaCanvas->cd();
 	hProtonCosTheta->Draw("coltz");
 
-	ProtonCosThetaCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonCosThetaCanvas_"+RunNumber+".pdf");
+	ProtonCosThetaCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonCosThetaCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -144,7 +152,7 @@ void TwoDPlots() {
 	ProtonPhiCanvas->cd();
 	hProtonPhi->Draw("coltz");
 
-	ProtonPhiCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonPhiCanvas_"+RunNumber+".pdf");
+	ProtonPhiCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonPhiCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -158,7 +166,7 @@ void TwoDPlots() {
 	tree->Draw("Reco_Pt:True_Pt>>hPt",qualifier,"goff");
 	hPt->Draw("coltz");
 
-	PtCanvas->SaveAs("myPlots/"+UBCodeVersion+"/PtCanvas_"+RunNumber+".pdf");
+	PtCanvas->SaveAs(PlotsPath+UBCodeVersion+"/PtCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -172,7 +180,7 @@ void TwoDPlots() {
 	DeltaAlphaTCanvas->cd();
 	hDeltaAlphaT->Draw("coltz");
 
-	DeltaAlphaTCanvas->SaveAs("myPlots/"+UBCodeVersion+"/DeltaAlphaTCanvas_"+RunNumber+".pdf");
+	DeltaAlphaTCanvas->SaveAs(PlotsPath+UBCodeVersion+"/DeltaAlphaTCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -186,7 +194,7 @@ void TwoDPlots() {
 	DeltaPhiTCanvas->cd();
 	hDeltaPhiT->Draw("coltz");
 
-	DeltaPhiTCanvas->SaveAs("myPlots/"+UBCodeVersion+"/DeltaPhiTCanvas_"+RunNumber+".pdf");
+	DeltaPhiTCanvas->SaveAs(PlotsPath+UBCodeVersion+"/DeltaPhiTCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -200,7 +208,7 @@ void TwoDPlots() {
 	kMissCanvas->cd();
 	hkMiss->Draw("coltz");
 
-	kMissCanvas->SaveAs("myPlots/"+UBCodeVersion+"/kMissCanvas_"+RunNumber+".pdf");
+	kMissCanvas->SaveAs(PlotsPath+UBCodeVersion+"/kMissCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -214,7 +222,7 @@ void TwoDPlots() {
 	PMissCanvas->cd();
 	hPMiss->Draw("coltz");
 
-	PMissCanvas->SaveAs("myPlots/"+UBCodeVersion+"/PMissCanvas_"+RunNumber+".pdf");
+	PMissCanvas->SaveAs(PlotsPath+UBCodeVersion+"/PMissCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -228,7 +236,7 @@ void TwoDPlots() {
 	PMissMinusCanvas->cd();
 	hPMissMinus->Draw("coltz");
 
-	PMissMinusCanvas->SaveAs("myPlots/"+UBCodeVersion+"/PMissMinusCanvas_"+RunNumber+".pdf");
+	PMissMinusCanvas->SaveAs(PlotsPath+UBCodeVersion+"/PMissMinusCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -256,7 +264,7 @@ void TwoDPlots() {
 	EQECanvas->cd();
 	hEQE->Draw("coltz");
 
-	EQECanvas->SaveAs("myPlots/"+UBCodeVersion+"/EQECanvas_"+RunNumber+".pdf");
+	EQECanvas->SaveAs(PlotsPath+UBCodeVersion+"/EQECanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -270,7 +278,7 @@ void TwoDPlots() {
 	DeltaPhiCanvas->cd();
 	hDeltaPhi->Draw("coltz");
 
-	DeltaPhiCanvas->SaveAs("myPlots/"+UBCodeVersion+"/DeltaPhiCanvas_"+RunNumber+".pdf");
+	DeltaPhiCanvas->SaveAs(PlotsPath+UBCodeVersion+"/DeltaPhiCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -284,7 +292,7 @@ void TwoDPlots() {
 	DeltaThetaCanvas->cd();
 	hDeltaTheta->Draw("coltz");
 
-	DeltaThetaCanvas->SaveAs("myPlots/"+UBCodeVersion+"/DeltaThetaCanvas_"+RunNumber+".pdf");
+	DeltaThetaCanvas->SaveAs(PlotsPath+UBCodeVersion+"/DeltaThetaCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -298,7 +306,7 @@ void TwoDPlots() {
 	MuonStartXCanvas->cd();
 	hMuonStartX->Draw("coltz");
 
-	MuonStartXCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonStartXCanvas_"+RunNumber+".pdf");
+	MuonStartXCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonStartXCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -312,7 +320,7 @@ void TwoDPlots() {
 	MuonStartYCanvas->cd();
 	hMuonStartY->Draw("coltz");
 
-	MuonStartYCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonStartYCanvas_"+RunNumber+".pdf");\
+	MuonStartYCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonStartYCanvas_"+RunNumber+".pdf");\
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -326,7 +334,7 @@ void TwoDPlots() {
 	MuonStartZCanvas->cd();
 	hMuonStartZ->Draw("coltz");
 
-	MuonStartZCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonStartZCanvas_"+RunNumber+".pdf");
+	MuonStartZCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonStartZCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -340,7 +348,7 @@ void TwoDPlots() {
 	ProtonStartXCanvas->cd();
 	hProtonStartX->Draw("coltz");
 
-	ProtonStartXCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonStartXCanvas_"+RunNumber+".pdf");
+	ProtonStartXCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonStartXCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -354,7 +362,7 @@ void TwoDPlots() {
 	ProtonStartYCanvas->cd();
 	hProtonStartY->Draw("coltz");
 
-	ProtonStartYCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonStartYCanvas_"+RunNumber+".pdf");\
+	ProtonStartYCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonStartYCanvas_"+RunNumber+".pdf");\
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -368,7 +376,7 @@ void TwoDPlots() {
 	ProtonStartZCanvas->cd();
 	hProtonStartZ->Draw("coltz");
 
-	ProtonStartZCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonStartZCanvas_"+RunNumber+".pdf");
+	ProtonStartZCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonStartZCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -382,7 +390,7 @@ void TwoDPlots() {
 	MuonEndXCanvas->cd();
 	hMuonEndX->Draw("coltz");
 
-	MuonEndXCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonEndXCanvas_"+RunNumber+".pdf");
+	MuonEndXCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonEndXCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -396,7 +404,7 @@ void TwoDPlots() {
 	MuonEndYCanvas->cd();
 	hMuonEndY->Draw("coltz");
 
-	MuonEndYCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonEndYCanvas_"+RunNumber+".pdf");\
+	MuonEndYCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonEndYCanvas_"+RunNumber+".pdf");\
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -410,7 +418,7 @@ void TwoDPlots() {
 	MuonEndZCanvas->cd();
 	hMuonEndZ->Draw("coltz");
 
-	MuonEndZCanvas->SaveAs("myPlots/"+UBCodeVersion+"/MuonEndZCanvas_"+RunNumber+".pdf");
+	MuonEndZCanvas->SaveAs(PlotsPath+UBCodeVersion+"/MuonEndZCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -424,7 +432,7 @@ void TwoDPlots() {
 	ProtonEndXCanvas->cd();
 	hProtonEndX->Draw("coltz");
 
-	ProtonEndXCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonEndXCanvas_"+RunNumber+".pdf");
+	ProtonEndXCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonEndXCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -438,7 +446,7 @@ void TwoDPlots() {
 	ProtonEndYCanvas->cd();
 	hProtonEndY->Draw("coltz");
 
-	ProtonEndYCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonEndYCanvas_"+RunNumber+".pdf");
+	ProtonEndYCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonEndYCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -452,7 +460,7 @@ void TwoDPlots() {
 	ProtonEndZCanvas->cd();
 	hProtonEndZ->Draw("coltz");
 
-	ProtonEndZCanvas->SaveAs("myPlots/"+UBCodeVersion+"/ProtonEndZCanvas_"+RunNumber+".pdf");
+	ProtonEndZCanvas->SaveAs(PlotsPath+UBCodeVersion+"/ProtonEndZCanvas_"+RunNumber+".pdf");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
