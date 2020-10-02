@@ -130,6 +130,18 @@ public :
    std::vector<double>  *Track_ParticleId_MissingE;
    std::vector<double>  *Track_ParticleId_MissingEavg;
    std::vector<double>  *Track_ParticleId_PlaneID;*/
+   
+   std::vector<std::vector<double> > *Track_PlaneID;
+   std::vector<std::vector<double> > *Track_Start_Wire;
+   std::vector<std::vector<double> > *Track_Start_Time;
+   std::vector<std::vector<double> > *Track_End_Wire;
+   std::vector<std::vector<double> > *Track_End_Time;
+   std::vector<int>     *Track_NumberAssHits;
+   std::vector<std::vector<double> > *Track_AssHit_Integral;
+   std::vector<std::vector<double> > *Track_AssHit_PeakTime;
+   std::vector<std::vector<double> > *Track_AssHit_Wire;
+   std::vector<std::vector<int> > *Track_AssHit_WireID_Plane;   
+   
    Int_t           NumberFlashesBeam;
    std::vector<double>  *FlashesBeam_Time;
 /*   std::vector<double>  *FlashesBeam_Twidth;*/
@@ -176,6 +188,7 @@ public :
    vector<int>     *PFParticle_NumberNuMuDaughters;
    vector<vector<int> > *PFParticle_NumberNuMuDaughtersPdgCode;
    vector<vector<double>> *TracksFromCurrentPFParticleStartX;
+   vector<vector<double> > *TracksFromCurrentPFParticleTrackScore;
 
    std::vector<double>  *MCParticle_Vx;
    std::vector<double>  *MCParticle_Vy;
@@ -296,6 +309,18 @@ public :
    TBranch        *b_Track_ParticleId_MissingE;   //!
    TBranch        *b_Track_ParticleId_MissingEavg;   //!
    TBranch        *b_Track_ParticleId_PlaneID;   //!*/
+
+   TBranch        *b_Track_PlaneID;   //!      
+   TBranch        *b_Track_Start_Wire;   //!
+   TBranch        *b_Track_Start_Time;   //!
+   TBranch        *b_Track_End_Wire;   //!
+   TBranch        *b_Track_End_Time;   //!
+   TBranch        *b_Track_NumberAssHits;   //!
+   TBranch        *b_Track_AssHit_Integral;   //!
+   TBranch        *b_Track_AssHit_PeakTime;   //!
+   TBranch        *b_Track_AssHit_Wire;   //!
+   TBranch        *b_Track_AssHit_WireID_Plane;   //!   
+   
    TBranch        *b_NumberFlashesBeam;   //!
    TBranch        *b_FlashesBeam_Time;   //!
 /*   TBranch        *b_FlashesBeam_Twidth;   //!*/
@@ -342,6 +367,7 @@ public :
    TBranch        *b_PFParticle_NumberNuMuDaughters;   //!
    TBranch        *b_PFParticle_NumberNuMuDaughtersPdgCode;   //!
    TBranch        *b_TracksFromCurrentPFParticleStartX;   //!
+   TBranch        *b_TracksFromCurrentPFParticleTrackScore;   //!
 
    TBranch        *b_MCParticle_Vx;   //!
    TBranch        *b_MCParticle_Vy;   //!
@@ -542,6 +568,19 @@ void PreSelection::Init(TChain *tree)
    Track_ParticleId_MissingE = 0;
    Track_ParticleId_MissingEavg = 0;
    Track_ParticleId_PlaneID = 0;*/
+   
+   Track_PlaneID = 0;
+   Track_Start_Wire = 0;
+   Track_Start_Time = 0;
+   Track_End_Wire = 0;
+   Track_End_Time = 0;
+
+   Track_NumberAssHits = 0;
+   Track_AssHit_Integral = 0;
+   Track_AssHit_PeakTime = 0;
+   Track_AssHit_Wire = 0;
+   Track_AssHit_WireID_Plane = 0;   
+   
    FlashesBeam_Time = 0;
 /*   FlashesBeam_Twidth = 0;*/
 /*   FlashesBeam_AbsTime = 0;
@@ -586,6 +625,7 @@ void PreSelection::Init(TChain *tree)
    PFParticle_NumberNuMuDaughters = 0;
    PFParticle_NumberNuMuDaughtersPdgCode = 0;
    TracksFromCurrentPFParticleStartX = 0;
+   TracksFromCurrentPFParticleTrackScore = 0;   
 
    MCParticle_Vx = 0;
    MCParticle_Vy = 0;
@@ -711,6 +751,19 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("Track_ParticleId_MissingEavg", &Track_ParticleId_MissingEavg, &b_Track_ParticleId_MissingEavg);
    fChain->SetBranchAddress("Track_ParticleId_PlaneID", &Track_ParticleId_PlaneID, &b_Track_ParticleId_PlaneID);*/
    fChain->SetBranchAddress("NumberFlashesBeam", &NumberFlashesBeam, &b_NumberFlashesBeam);
+   
+   fChain->SetBranchAddress("Track_PlaneID", &Track_PlaneID, &b_Track_PlaneID);
+   fChain->SetBranchAddress("Track_Start_Wire", &Track_Start_Wire, &b_Track_Start_Wire);
+   fChain->SetBranchAddress("Track_Start_Time", &Track_Start_Time, &b_Track_Start_Time);
+   fChain->SetBranchAddress("Track_End_Wire", &Track_End_Wire, &b_Track_End_Wire);
+   fChain->SetBranchAddress("Track_End_Time", &Track_End_Time, &b_Track_End_Time);
+   fChain->SetBranchAddress("Track_NumberAssHits", &Track_NumberAssHits, &b_Track_NumberAssHits);
+   fChain->SetBranchAddress("Track_AssHit_Integral", &Track_AssHit_Integral, &b_Track_AssHit_Integral);
+   fChain->SetBranchAddress("Track_AssHit_PeakTime", &Track_AssHit_PeakTime, &b_Track_AssHit_PeakTime);
+   fChain->SetBranchAddress("Track_AssHit_Wire", &Track_AssHit_Wire, &b_Track_AssHit_Wire);
+   fChain->SetBranchAddress("Track_AssHit_WireID_Plane", &Track_AssHit_WireID_Plane, &b_Track_AssHit_WireID_Plane);
+   
+   
    fChain->SetBranchAddress("FlashesBeam_Time", &FlashesBeam_Time, &b_FlashesBeam_Time);
 /*   fChain->SetBranchAddress("FlashesBeam_Twidth", &FlashesBeam_Twidth, &b_FlashesBeam_Twidth);*/
 /*   fChain->SetBranchAddress("FlashesBeam_AbsTime", &FlashesBeam_AbsTime, &b_FlashesBeam_AbsTime);
@@ -757,6 +810,7 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("PFParticle_NumberNuMuDaughters", &PFParticle_NumberNuMuDaughters, &b_PFParticle_NumberNuMuDaughters);
    fChain->SetBranchAddress("PFParticle_NumberNuMuDaughtersPdgCode", &PFParticle_NumberNuMuDaughtersPdgCode, &b_PFParticle_NumberNuMuDaughtersPdgCode);
    fChain->SetBranchAddress("TracksFromCurrentPFParticleStartX", &TracksFromCurrentPFParticleStartX, &b_TracksFromCurrentPFParticleStartX);
+   fChain->SetBranchAddress("TracksFromCurrentPFParticleTrackScore", &TracksFromCurrentPFParticleTrackScore, &b_TracksFromCurrentPFParticleTrackScore);
 
    fChain->SetBranchAddress("MCParticle_Vx", &MCParticle_Vx, &b_MCParticle_Vx);
    fChain->SetBranchAddress("MCParticle_Vy", &MCParticle_Vy, &b_MCParticle_Vy);
