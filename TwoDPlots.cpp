@@ -464,4 +464,22 @@ void TwoDPlots() {
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+	// Bonus Plot: 1D μ-p distance 
+
+	TH1D* hMuPDistance = new TH1D("hMuPDistance",";reco #mu-p distance [cm]",23,-0.5,11.5);
+
+	tree->Draw("CandidateMuP_Distance>>hMuPDistance",qualifier,"goff");
+
+	TCanvas* CandidateMuP_DistanceCanvas = new TCanvas("CandidateMuP_DistanceCanvas","CandidateMuP_DistanceCanvas",205,34,1024,768);
+	CandidateMuP_DistanceCanvas->SetLeftMargin(0.15);
+	CandidateMuP_DistanceCanvas->cd();
+	hMuPDistance->SetTitle("MicroBooNE Simulation (CC1p Events)");
+	hMuPDistance->GetYaxis()->SetTitle("# Pairs / Bin");
+	hMuPDistance->GetYaxis()->SetTitleOffset(1.35);
+	hMuPDistance->SetLineColor(kBlue-6);
+	hMuPDistance->SetFillColor(kBlue-6);
+	hMuPDistance->Draw("hist");
+
+	CandidateMuP_DistanceCanvas->SaveAs(PlotsPath+"CandidateMuP_DistanceCanvas_"+RunNumber+".pdf");
+
 } // End of the program 

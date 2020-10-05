@@ -26,6 +26,8 @@ using namespace Constants;
 
 double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2);
 
+double Sphere(double FracPlane0,double FracPlane1,double FracPlane2);
+
 void PreSelection::Loop() {
 
 	if (fChain == 0) { return; } 
@@ -121,6 +123,8 @@ void PreSelection::Loop() {
 	std::vector<double> BeamFlashes_TotalPE;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
+
+	std::vector<double> VertexActivity_50x100;
 
 	std::vector<double> CandidateMuP_Distance;
 	std::vector<double> Vertex_X;
@@ -298,6 +302,7 @@ void PreSelection::Loop() {
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 
+	tree->Branch("VertexActivity_50x100",&VertexActivity_50x100);
 	tree->Branch("CandidateMuP_Distance",&CandidateMuP_Distance);
 	tree->Branch("Vertex_X",&Vertex_X);
 	tree->Branch("Vertex_Y",&Vertex_Y);
@@ -589,22 +594,21 @@ void PreSelection::Loop() {
 		// --------------------------------------------------------------------------------------------------------------------------------
 
 		// Hits for vertex activity
-/*
 
-		std::vector<double> Hits_Integral; Hits_Integral.clear();
-		std::vector<double> Hits_PeakTime; Hits_PeakTime.clear();
-		std::vector<double> Hits_Wire; Hits_Wire.clear();
-		std::vector<double> Hits_Plane; Hits_Plane.clear();
+		std::vector<double> HitsIntegral; HitsIntegral.clear();
+		std::vector<double> HitsPeakTime; HitsPeakTime.clear();
+		std::vector<double> HitsWire; HitsWire.clear();
+		std::vector<double> HitsPlane; HitsPlane.clear();
 
 		for (int WhichHit = 0; WhichHit < NumberHits; WhichHit++) {
 
-			Hits_Integral.push_back(Hit_Integral->at(WhichHit));
-			Hits_PeakTime.push_back(Hit_PeakTime->at(WhichHit));
-			Hits_Wire.push_back(Hit_Wire->at(WhichHit));
-			Hits_Plane.push_back(Hit_Plane->at(WhichHit));
+			HitsIntegral.push_back(Hit_Integral->at(WhichHit));
+			HitsPeakTime.push_back(Hit_PeakTime->at(WhichHit));
+			HitsWire.push_back(Hit_Wire->at(WhichHit));
+			HitsPlane.push_back(Hit_WireID_Plane->at(WhichHit));
 	
 		}
-*/
+
 		// --------------------------------------------------------------------------------------------------------------------------------
 
 		// Tracks
@@ -626,11 +630,15 @@ void PreSelection::Loop() {
 
 		// Wires & Ticks
 
-		std::vector<std::vector<double> > TrackPlaneID; TrackPlaneID.clear();
-		std::vector<std::vector<double> > TrackStartWire; TrackStartWire.clear();
-		std::vector<std::vector<double> > TrackStartTime; TrackStartTime.clear();
-		std::vector<std::vector<double> > TrackEndWire; TrackEndWire.clear();
-		std::vector<std::vector<double> > TrackEndTime; TrackEndTime.clear();
+//		std::vector<std::vector<double> > TrackPlaneID; TrackPlaneID.clear();
+//		std::vector<std::vector<double> > TrackStartWire; TrackStartWire.clear();
+//		std::vector<std::vector<double> > TrackStartTime; TrackStartTime.clear();
+//		std::vector<std::vector<double> > TrackEndWire; TrackEndWire.clear();
+//		std::vector<std::vector<double> > TrackEndTime; TrackEndTime.clear();
+
+		std::vector<TVector3> VertexPlane; VertexPlane.clear();
+		std::vector<TVector3> VertexWire; VertextWire.clear();
+		std::vector<TVector3> VertexTime; VertexTime.clear();
 
 		for (int WhichTrack = 0; WhichTrack < NumberTracks; WhichTrack++) {
 
@@ -650,22 +658,49 @@ void PreSelection::Loop() {
 
 				// Track Associated Hits
 
-//				for (int WhichAssHit = 0; WhichAssHit < Track_NumberAssHits->at(WhichTrack); WhichAssHit++) {
+				for (int WhichAssHit = 0; WhichAssHit < Track_NumberAssHits->at(WhichTrack); WhichAssHit++) {
 
-//					TrackAssHits_Integral.push_back(Track_AssHit_Integral->at(WhichTrack).at(WhichAssHit));
-//					TrackAssHits_PeakTime.push_back(Track_AssHit_PeakTime->at(WhichTrack).at(WhichAssHit));
-//					TrackAssHits_Wire.push_back(Track_AssHit_Wire->at(WhichTrack).at(WhichAssHit));
-//					TrackAssHits_Plane.push_back(Track_AssHit_WireID_Plane->at(WhichTrack).at(WhichAssHit));
+					TrackAssHits_Integral.push_back(Track_AssHit_Integral->at(WhichTrack).at(WhichAssHit));
+					TrackAssHits_PeakTime.push_back(Track_AssHit_PeakTime->at(WhichTrack).at(WhichAssHit));
+					TrackAssHits_Wire.push_back(Track_AssHit_Wire->at(WhichTrack).at(WhichAssHit));
+					TrackAssHits_Plane.push_back(Track_AssHit_WireID_Plane->at(WhichTrack).at(WhichAssHit));
 
-//				}
+				}
 
 				// Wires & Ticks
 
-				TrackPlaneID.push_back(Track_PlaneID->at(WhichTrack));
-				TrackStartWire.push_back(Track_Start_Wire->at(WhichTrack));
-				TrackEndWire.push_back(Track_End_Wire->at(WhichTrack));
-				TrackStartTime.push_back(Track_Start_Time->at(WhichTrack));
-				TrackEndTime.push_back(Track_End_Time->at(WhichTrack));
+//				TrackPlaneID.push_back(Track_PlaneID->at(WhichTrack));
+//				TrackStartWire.push_back(Track_Start_Wire->at(WhichTrack));
+//				TrackEndWire.push_back(Track_End_Wire->at(WhichTrack));
+//				TrackStartTime.push_back(Track_Start_Time->at(WhichTrack));
+//				TrackEndTime.push_back(Track_End_Time->at(WhichTrack));
+
+				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) {
+
+					TVector3 VertexPositionVector(VertexFromCurrentPFParticlePosition->at(0).at(0).X(),VertexFromCurrentPFParticlePosition->at(0).at(0).Y(),VertexFromCurrentPFParticlePosition->at(0).at(0).Z());
+					TVector3 VertexPlaneVector(VertexFromCurrentPFParticlePlane->at(0).at(0).X(),VertexFromCurrentPFParticlePlane->at(0).at(0).Y(),VertexFromCurrentPFParticlePlane->at(0).at(0).Z());
+					TVector3 VertexWireVector(VertexFromCurrentPFParticleWire->at(0).at(0).X(),VertexFromCurrentPFParticleWire->at(0).at(0).Y(),VertexFromCurrentPFParticleWire->at(0).at(0).Z());
+					TVector3 VertexTimeVector(VertexFromCurrentPFParticleTime->at(0).at(0).X(),VertexFromCurrentPFParticleTime->at(0).at(0).Y(),VertexFromCurrentPFParticleTime->at(0).at(0).Z());
+
+					VertexPosition.push_back( VertexPositionVector );
+					VertexPlane.push_back( VertexPlaneVector );
+					VertexWire.push_back( VertexPlaneWire );
+					vertexTime.push_back( VertexTimeVector );
+
+				} else {
+
+
+					TVector3 VertexPositionVector(VertexFromCurrentPFParticlePosition->at(0).at(1).X(),VertexFromCurrentPFParticlePosition->at(0).at(1).Y(),VertexFromCurrentPFParticlePosition->at(0).at(1).Z());
+					TVector3 VertexPlaneVector(VertexFromCurrentPFParticlePlane->at(0).at(1).X(),VertexFromCurrentPFParticlePlane->at(0).at(1).Y(),VertexFromCurrentPFParticlePlane->at(0).at(1).Z());
+					TVector3 VertexWireVector(VertexFromCurrentPFParticleWire->at(0).at(1).X(),VertexFromCurrentPFParticleWire->at(0).at(1).Y(),VertexFromCurrentPFParticleWire->at(0).at(1).Z());
+					TVector3 VertexTimeVector(VertexFromCurrentPFParticleTime->at(0).at(1).X(),VertexFromCurrentPFParticleTime->at(0).at(1).Y(),VertexFromCurrentPFParticleTime->at(0).at(1).Z());
+
+					VertexPosition.push_back( VertexPositionVector );
+					VertexPlane.push_back( VertexPlaneVector );
+					VertexWire.push_back( VertexPlaneWire );
+					vertexTime.push_back( VertexTimeVector );
+
+				}
 
 			}
 			
@@ -679,50 +714,47 @@ void PreSelection::Loop() {
 		double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
 		TrackPairDistance.push_back(fTrackPairDistance);
 
-		TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
+		if ( VertexPosition.at(0) != VertexPosition.at(1) ) { cout << "Different pandora vertices !!!" << endl; continue;}
+		TVector3 VertexPositionV3 = VertexPosition.at(0);
 		TrackPairVertexPosition.push_back(VertexPositionV3);
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
-
-		// Candidate Vertex Tick & Wire
-
-		double CandidateVertexWireX = (TrackStartWire.at(0).at(0) + TrackStartWire.at(1).at(0))*0.5;
-		double CandidateVertexWireY = (TrackStartWire.at(0).at(1) + TrackStartWire.at(1).at(1))*0.5;
-		double CandidateVertexWireZ = (TrackStartWire.at(0).at(2) + TrackStartWire.at(1).at(2))*0.5;
-
-		double CandidateVertexTimeX = (TrackStartTime.at(0).at(0) + TrackStartTime.at(1).at(0))*0.5;
-		double CandidateVertexTimeY = (TrackStartTime.at(0).at(1) + TrackStartTime.at(1).at(1))*0.5;
-		double CandidateVertexTimeZ = (TrackStartTime.at(0).at(2) + TrackStartTime.at(1).at(2))*0.5;
-
-		TVector3 CandidateVertexWire(CandidateVertexWireX,CandidateVertexWireY,CandidateVertexWireZ);
-		TVector3 CandidateVertexTime(CandidateVertexTimeX,CandidateVertexTimeY,CandidateVertexTimeZ);
-
-		// See cosmic rejection paper
-
-		double BoxWires = 50;
-		double BoxTicks = 100;
-
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
-		// Charge deposition in box from track associated hits
-
-//		Box_Tools TrackChargeBox(TrackAssHits_Integral,TrackAssHits_PeakTime,TrackAssHits_Wire,TrackAssHits_Plane,BoxWires,BoxTicks,CandidateVertexWire,CandidateVertexTime);
-//		double TrackChargeBox_Plane0 = TrackChargeBox.GetChargeDepPlane0();
-//		double TrackChargeBox_Plane1 = TrackChargeBox.GetChargeDepPlane1();
-//		double TrackChargeBox_Plane2 = TrackChargeBox.GetChargeDepPlane2();
+		// Cosmic rejection paper for vertex activity
+		// https://arxiv.org/abs/1812.05679
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------
 
-		// Charge deposition in box from all hits
+		// Charge deposition in box from track associated hits in a Wires x Ticks = 50 x 100 box
 
-//		Box_Tools AllHitsChargeBox(Hits_Integral,Hits_PeakTime,Hits_Wire,Hits_Plane,BoxWires,BoxTicks,CandidateVertexWire,CandidateVertexTime);
-//		double AllHitsChargeBox_Plane0 = AllHitsChargeBox.GetChargeDepPlane0();
-//		double AllHitsChargeBox_Plane1 = AllHitsChargeBox.GetChargeDepPlane1();
-//		double AllHitsChargeBox_Plane2 = AllHitsChargeBox.GetChargeDepPlane2();
+		Box_Tools TrackChargeBox_50x100(TrackAssHits_Integral,TrackAssHits_PeakTime,TrackAssHits_Wire,TrackAssHits_Plane,50,100,VertexWire.at(0),VertexTime.at(0));
+		double TrackChargeBox_Plane0_50x100 = TrackChargeBox_50x100.GetChargeDepPlane0();
+		double TrackChargeBox_Plane1_50x100 = TrackChargeBox_50x100.GetChargeDepPlane1();
+		double TrackChargeBox_Plane2_50x100 = TrackChargeBox_50x100.GetChargeDepPlane2();
 
+		// Charge deposition in box from all hits in a Wires x Ticks = 50 x 100 box
+
+		Box_Tools AllHitsChargeBox_50x100(HitsIntegral,HitsPeakTime,HitsWire,HitsPlane,50,100,VertexWire.at(0),VertexTime.at(0));
+		double AllHitsChargeBox_Plane0_50x100 = AllHitsChargeBox_50x100.GetChargeDepPlane0();
+		double AllHitsChargeBox_Plane1_50x100 = AllHitsChargeBox_50x100.GetChargeDepPlane1();
+		double AllHitsChargeBox_Plane2_50x100 = AllHitsChargeBox_50x100.GetChargeDepPlane2();
+
+		// Fractional charge on each plane & charge deposition in sphere  in a Wires x Ticks = 50 x 100 box
+
+		double FracChargePlane0_50x100 = TrackChargeBox_Plane0_50x100 / AllHitsChargeBox_Plane0_50x100;
+		double FracChargePlane1_50x100 = TrackChargeBox_Plane1_50x100 / AllHitsChargeBox_Plane1_50x100;
+		double FracChargePlane2_50x100 = TrackChargeBox_Plane2_50x100 / AllHitsChargeBox_Plane2_50x100;
+
+		double SphereDeposition_50x100 = Sphere(FracChargePlane0_50x100,FracChargePlane1_50x100,FracChargePlane2_50x100);	
+
+		// -----------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		// Loop over the candidate track pairs
+
+		VertexActivity_50x100.clear();
 
 		CandidateMuP_Distance.clear();
 		Vertex_X.clear();
@@ -860,6 +892,15 @@ void PreSelection::Loop() {
 
 			// ---------------------------------------------------------------------------------------------------------------------
 
+			// Track Score
+
+			int MuonInPair = -99, ProtonInPair = -99;
+
+			if (CandidateMuonTrackIndex == FirstCandidateTrackIndex) { MuonInPair = 0; ProtonInPair = 1; }
+			else { MuonInPair = 1; ProtonInPair = 0; }
+
+			// ---------------------------------------------------------------------------------------------------------------------
+
 			// Candidate muon
 
 			double CandidateMuonTrackTheta = Track_Theta->at(CandidateMuonTrackIndex); // rad
@@ -899,6 +940,8 @@ void PreSelection::Loop() {
 			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackEnd);			
 			
 			// ---------------------------------------------------------------------------------------------------------------------		
+
+			VertexActivity_50x100.push_back(SphereDeposition_50x100);	
 
 			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
 			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
@@ -945,7 +988,7 @@ void PreSelection::Loop() {
 
 			CandidateMuonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateMuonTrack_Momentum,2.) + TMath::Power(MuonMass_GeV,2.)); // GeV/c
 
-			CandidateMu_TrackScore.push_back(TracksFromCurrentPFParticleTrackScore->at(0).at(CandidateMuonTrackIndex));	
+			CandidateMu_TrackScore.push_back(TracksFromCurrentPFParticleTrackScore->at(0).at(MuonInPair));	
 			CandidateMu_P_Range.push_back(Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex));						
 			CandidateMu_P_MCS.push_back(Track_Momentum_MCS->at(CandidateMuonTrackIndex));
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
@@ -1006,7 +1049,7 @@ void PreSelection::Loop() {
 			}
 */
 
-			CandidateP_TrackScore.push_back(TracksFromCurrentPFParticleTrackScore->at(0).at(CandidateProtonTrackIndex));
+			CandidateP_TrackScore.push_back(TracksFromCurrentPFParticleTrackScore->at(0).at(ProtonInPair));
 			CandidateP_P_Range.push_back(Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex));
 			CandidateP_P_MCS.push_back(Track_Momentum_MCS->at(CandidateProtonTrackIndex));			
 			CandidateP_Phi.push_back(Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi()); // deg
@@ -1347,6 +1390,16 @@ double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,d
 	else PID_Chi2P_3pl = (ww0 * Chi2_Plane0 + ww1 * Chi2_Plane0 + ww2 * Chi2_Plane0) / (ww0 + ww1 + ww2);
 
 	return PID_Chi2P_3pl;
+
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+double Sphere(double FracPlane0,double FracPlane1,double FracPlane2) {
+
+	double SphereDep = TMath::Sqrt( TMath::Power(FracPlane0-1.,2.) + TMath::Power(FracPlane1-1.,2.) + TMath::Power(FracPlane2-1.,2.) );
+
+	return SphereDep;
 
 }
 
