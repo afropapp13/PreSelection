@@ -483,17 +483,38 @@ void PreSelection::Loop() {
 			// All_UBGenie_EventWeight has 100 universes
 			// Everything else is 2 universes
 
-		        All_UBGenie = *All_UBGenie_EventWeight;
-			AxFFCCQEshape_UBGenie = *AxFFCCQEshape_UBGenie_EventWeight;
-			DecayAngMEC_UBGenie = *DecayAngMEC_UBGenie_EventWeight;
-			NormCCCOH_UBGenie = *NormCCCOH_UBGenie_EventWeight;
+		        std::vector<double> Current_All_UBGenie_EventWeight((*All_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+100);
+		        All_UBGenie = Current_All_UBGenie_EventWeight;
+
+		        std::vector<double> Current_AxFFCCQEshape_UBGenie_EventWeight((*AxFFCCQEshape_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+2);
+			AxFFCCQEshape_UBGenie = Current_AxFFCCQEshape_UBGenie_EventWeight;
+
+		        std::vector<double> Current_DecayAngMEC_UBGenie_EventWeight((*DecayAngMEC_UBGenie_EventWeight).begin(),(*DecayAngMEC_UBGenie_EventWeight).begin()+2);
+			DecayAngMEC_UBGenie = Current_DecayAngMEC_UBGenie_EventWeight;
+
+		        std::vector<double> Current_NormCCCOH_UBGenie_EventWeight((*NormCCCOH_UBGenie_EventWeight).begin(),(*NormCCCOH_UBGenie_EventWeight).begin()+2);
+			NormCCCOH_UBGenie = Current_NormCCCOH_UBGenie_EventWeight;
+
+		        std::vector<double> Current_NormNCCOH_UBGenie_EventWeight((*NormNCCOH_UBGenie_EventWeight).begin(),(*NormNCCOH_UBGenie_EventWeight).begin()+2);
 			NormNCCOH_UBGenie = *NormNCCOH_UBGenie_EventWeight;
-	//		RPA_CCQE_Reduced_UBGenie = *RPA_CCQE_Reduced_UBGenie_EventWeight;
-			RPA_CCQE_UBGenie = *RPA_CCQE_UBGenie_EventWeight;
-			ThetaDelta2NRad_UBGenie = *ThetaDelta2NRad_UBGenie_EventWeight;
-			Theta_Delta2Npi_UBGenie = *Theta_Delta2Npi_UBGenie_EventWeight;
-			VecFFCCQEshape_UBGenie = *VecFFCCQEshape_UBGenie_EventWeight;
-			XSecShape_CCMEC_UBGenie = *XSecShape_CCMEC_UBGenie_EventWeight;
+
+//		        std::vector<double> Current_RPA_CCQE_Reduced_UBGenie_EventWeight((*RPA_CCQE_Reduced_UBGenie_EventWeight).begin(),(*RPA_CCQE_Reduced_UBGenie_EventWeight).begin()+2);
+//			RPA_CCQE_Reduced_UBGenie = Current_RPA_CCQE_Reduced_UBGenie_EventWeight;
+
+		        std::vector<double> Current_RPA_CCQE_UBGenie_EventWeight((*RPA_CCQE_UBGenie_EventWeight).begin(),(*RPA_CCQE_UBGenie_EventWeight).begin()+2);
+			RPA_CCQE_UBGenie = Current_RPA_CCQE_UBGenie_EventWeight;
+
+		        std::vector<double> Current_ThetaDelta2NRad_UBGenie_EventWeight((*ThetaDelta2NRad_UBGenie_EventWeight).begin(),(*ThetaDelta2NRad_UBGenie_EventWeight).begin()+2);
+			ThetaDelta2NRad_UBGenie = Current_ThetaDelta2NRad_UBGenie_EventWeight;
+
+		        std::vector<double> Current_Theta_Delta2Npi_UBGenie_EventWeight((*Theta_Delta2Npi_UBGenie_EventWeight).begin(),(*Theta_Delta2Npi_UBGenie_EventWeight).begin()+2);
+			Theta_Delta2Npi_UBGenie = Current_Theta_Delta2Npi_UBGenie_EventWeight;
+
+		        std::vector<double> Current_VecFFCCQEshape_UBGenie_EventWeight((*VecFFCCQEshape_UBGenie_EventWeight).begin(),(*VecFFCCQEshape_UBGenie_EventWeight).begin()+2);
+			VecFFCCQEshape_UBGenie = Current_VecFFCCQEshape_UBGenie_EventWeight;
+
+		        std::vector<double> Current_XSecShape_CCMEC_UBGenie_EventWeight((*XSecShape_CCMEC_UBGenie_EventWeight).begin(),(*XSecShape_CCMEC_UBGenie_EventWeight).begin()+2);
+			XSecShape_CCMEC_UBGenie = Current_XSecShape_CCMEC_UBGenie_EventWeight;
 
 			// Flux uncertainty weights
 			// All of them have 1000 universes
@@ -636,8 +657,9 @@ void PreSelection::Loop() {
 //		std::vector<std::vector<double> > TrackEndWire; TrackEndWire.clear();
 //		std::vector<std::vector<double> > TrackEndTime; TrackEndTime.clear();
 
+		std::vector<TVector3> VertexPosition; VertexPosition.clear();
 		std::vector<TVector3> VertexPlane; VertexPlane.clear();
-		std::vector<TVector3> VertexWire; VertextWire.clear();
+		std::vector<TVector3> VertexWire; VertexWire.clear();
 		std::vector<TVector3> VertexTime; VertexTime.clear();
 
 		for (int WhichTrack = 0; WhichTrack < NumberTracks; WhichTrack++) {
@@ -675,30 +697,30 @@ void PreSelection::Loop() {
 //				TrackStartTime.push_back(Track_Start_Time->at(WhichTrack));
 //				TrackEndTime.push_back(Track_End_Time->at(WhichTrack));
 
-				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) {
+				if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) ) {
 
-					TVector3 VertexPositionVector(VertexFromCurrentPFParticlePosition->at(0).at(0).X(),VertexFromCurrentPFParticlePosition->at(0).at(0).Y(),VertexFromCurrentPFParticlePosition->at(0).at(0).Z());
-					TVector3 VertexPlaneVector(VertexFromCurrentPFParticlePlane->at(0).at(0).X(),VertexFromCurrentPFParticlePlane->at(0).at(0).Y(),VertexFromCurrentPFParticlePlane->at(0).at(0).Z());
-					TVector3 VertexWireVector(VertexFromCurrentPFParticleWire->at(0).at(0).X(),VertexFromCurrentPFParticleWire->at(0).at(0).Y(),VertexFromCurrentPFParticleWire->at(0).at(0).Z());
-					TVector3 VertexTimeVector(VertexFromCurrentPFParticleTime->at(0).at(0).X(),VertexFromCurrentPFParticleTime->at(0).at(0).Y(),VertexFromCurrentPFParticleTime->at(0).at(0).Z());
+					TVector3 VertexPositionVector(VertexFromCurrentPFParticlePositionX->at(0).at(0),VertexFromCurrentPFParticlePositionY->at(0).at(0),VertexFromCurrentPFParticlePositionZ->at(0).at(0));
+					TVector3 VertexPlaneVector(VertexFromCurrentPFParticlePlaneX->at(0).at(0),VertexFromCurrentPFParticlePlaneY->at(0).at(0),VertexFromCurrentPFParticlePlaneZ->at(0).at(0));
+					TVector3 VertexWireVector(VertexFromCurrentPFParticleWireX->at(0).at(0),VertexFromCurrentPFParticleWireY->at(0).at(0),VertexFromCurrentPFParticleWireZ->at(0).at(0));
+					TVector3 VertexTimeVector(VertexFromCurrentPFParticleTimeX->at(0).at(0),VertexFromCurrentPFParticleTimeY->at(0).at(0),VertexFromCurrentPFParticleTimeZ->at(0).at(0));
 
 					VertexPosition.push_back( VertexPositionVector );
 					VertexPlane.push_back( VertexPlaneVector );
-					VertexWire.push_back( VertexPlaneWire );
-					vertexTime.push_back( VertexTimeVector );
+					VertexWire.push_back( VertexWireVector );
+					VertexTime.push_back( VertexTimeVector );
 
 				} else {
 
 
-					TVector3 VertexPositionVector(VertexFromCurrentPFParticlePosition->at(0).at(1).X(),VertexFromCurrentPFParticlePosition->at(0).at(1).Y(),VertexFromCurrentPFParticlePosition->at(0).at(1).Z());
-					TVector3 VertexPlaneVector(VertexFromCurrentPFParticlePlane->at(0).at(1).X(),VertexFromCurrentPFParticlePlane->at(0).at(1).Y(),VertexFromCurrentPFParticlePlane->at(0).at(1).Z());
-					TVector3 VertexWireVector(VertexFromCurrentPFParticleWire->at(0).at(1).X(),VertexFromCurrentPFParticleWire->at(0).at(1).Y(),VertexFromCurrentPFParticleWire->at(0).at(1).Z());
-					TVector3 VertexTimeVector(VertexFromCurrentPFParticleTime->at(0).at(1).X(),VertexFromCurrentPFParticleTime->at(0).at(1).Y(),VertexFromCurrentPFParticleTime->at(0).at(1).Z());
+					TVector3 VertexPositionVector(VertexFromCurrentPFParticlePositionX->at(0).at(0),VertexFromCurrentPFParticlePositionY->at(0).at(0),VertexFromCurrentPFParticlePositionZ->at(0).at(1));
+					TVector3 VertexPlaneVector(VertexFromCurrentPFParticlePlaneX->at(0).at(0),VertexFromCurrentPFParticlePlaneY->at(0).at(0),VertexFromCurrentPFParticlePlaneZ->at(0).at(1));
+					TVector3 VertexWireVector(VertexFromCurrentPFParticleWireX->at(0).at(0),VertexFromCurrentPFParticleWireY->at(0).at(0),VertexFromCurrentPFParticleWireZ->at(0).at(1));
+					TVector3 VertexTimeVector(VertexFromCurrentPFParticleTimeX->at(0).at(0),VertexFromCurrentPFParticleTimeY->at(0).at(0),VertexFromCurrentPFParticleTimeZ->at(0).at(1));
 
 					VertexPosition.push_back( VertexPositionVector );
 					VertexPlane.push_back( VertexPlaneVector );
-					VertexWire.push_back( VertexPlaneWire );
-					vertexTime.push_back( VertexTimeVector );
+					VertexWire.push_back( VertexWireVector );
+					VertexTime.push_back( VertexTimeVector );
 
 				}
 
@@ -714,8 +736,9 @@ void PreSelection::Loop() {
 		double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
 		TrackPairDistance.push_back(fTrackPairDistance);
 
-		if ( VertexPosition.at(0) != VertexPosition.at(1) ) { cout << "Different pandora vertices !!!" << endl; continue;}
-		TVector3 VertexPositionV3 = VertexPosition.at(0);
+//		if ( VertexPosition.at(0) != VertexPosition.at(1) ) { cout << "Different pandora vertices !!!" << endl; continue;}
+//		TVector3 VertexPositionV3 = VertexPosition.at(0);
+		TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
 		TrackPairVertexPosition.push_back(VertexPositionV3);
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
@@ -743,9 +766,17 @@ void PreSelection::Loop() {
 
 		// Fractional charge on each plane & charge deposition in sphere  in a Wires x Ticks = 50 x 100 box
 
-		double FracChargePlane0_50x100 = TrackChargeBox_Plane0_50x100 / AllHitsChargeBox_Plane0_50x100;
-		double FracChargePlane1_50x100 = TrackChargeBox_Plane1_50x100 / AllHitsChargeBox_Plane1_50x100;
-		double FracChargePlane2_50x100 = TrackChargeBox_Plane2_50x100 / AllHitsChargeBox_Plane2_50x100;
+		double FracChargePlane0_50x100 = -99.;
+		double FracChargePlane1_50x100 = -99.;
+		double FracChargePlane2_50x100 = -99.;
+
+		if (AllHitsChargeBox_Plane0_50x100 > 0 && AllHitsChargeBox_Plane1_50x100 > 0 && AllHitsChargeBox_Plane2_50x100 > 0) {
+
+			FracChargePlane0_50x100 = TrackChargeBox_Plane0_50x100 / AllHitsChargeBox_Plane0_50x100; 
+			FracChargePlane1_50x100 = TrackChargeBox_Plane1_50x100 / AllHitsChargeBox_Plane1_50x100;
+			FracChargePlane2_50x100 = TrackChargeBox_Plane2_50x100 / AllHitsChargeBox_Plane2_50x100;
+
+		}
 
 		double SphereDeposition_50x100 = Sphere(FracChargePlane0_50x100,FracChargePlane1_50x100,FracChargePlane2_50x100);	
 
