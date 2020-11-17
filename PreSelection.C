@@ -486,7 +486,7 @@ void PreSelection::Loop() {
 		        std::vector<double> Current_All_UBGenie_EventWeight((*All_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+100);
 		        All_UBGenie = Current_All_UBGenie_EventWeight;
 
-		        std::vector<double> Current_AxFFCCQEshape_UBGenie_EventWeight((*AxFFCCQEshape_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+2);
+		        std::vector<double> Current_AxFFCCQEshape_UBGenie_EventWeight((*AxFFCCQEshape_UBGenie_EventWeight).begin(),(*AxFFCCQEshape_UBGenie_EventWeight).begin()+2);
 			AxFFCCQEshape_UBGenie = Current_AxFFCCQEshape_UBGenie_EventWeight;
 
 		        std::vector<double> Current_DecayAngMEC_UBGenie_EventWeight((*DecayAngMEC_UBGenie_EventWeight).begin(),(*DecayAngMEC_UBGenie_EventWeight).begin()+2);
@@ -738,7 +738,8 @@ void PreSelection::Loop() {
 
 //		if ( VertexPosition.at(0) != VertexPosition.at(1) ) { cout << "Different pandora vertices !!!" << endl; continue;}
 //		TVector3 VertexPositionV3 = VertexPosition.at(0);
-		TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
+//		TVector3 VertexPositionV3 = (VectorTrackStart.at(0) + VectorTrackStart.at(1))*0.5;
+		TVector3 VertexPositionV3 = VertexPosition.at(0);
 		TrackPairVertexPosition.push_back(VertexPositionV3);
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
@@ -770,13 +771,13 @@ void PreSelection::Loop() {
 		double FracChargePlane1_50x100 = -99.;
 		double FracChargePlane2_50x100 = -99.;
 
-		if (AllHitsChargeBox_Plane0_50x100 > 0 && AllHitsChargeBox_Plane1_50x100 > 0 && AllHitsChargeBox_Plane2_50x100 > 0) {
+                if (AllHitsChargeBox_Plane0_50x100 > 0 && AllHitsChargeBox_Plane1_50x100 > 0 && AllHitsChargeBox_Plane2_50x100 > 0) {
 
-			FracChargePlane0_50x100 = TrackChargeBox_Plane0_50x100 / AllHitsChargeBox_Plane0_50x100; 
-			FracChargePlane1_50x100 = TrackChargeBox_Plane1_50x100 / AllHitsChargeBox_Plane1_50x100;
-			FracChargePlane2_50x100 = TrackChargeBox_Plane2_50x100 / AllHitsChargeBox_Plane2_50x100;
+                        FracChargePlane0_50x100 = TrackChargeBox_Plane0_50x100 / AllHitsChargeBox_Plane0_50x100;
+                        FracChargePlane1_50x100 = TrackChargeBox_Plane1_50x100 / AllHitsChargeBox_Plane1_50x100;
+                        FracChargePlane2_50x100 = TrackChargeBox_Plane2_50x100 / AllHitsChargeBox_Plane2_50x100;
 
-		}
+                }
 
 		double SphereDeposition_50x100 = Sphere(FracChargePlane0_50x100,FracChargePlane1_50x100,FracChargePlane2_50x100);	
 
