@@ -84,6 +84,8 @@ void PreTruthSelection::Loop() {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
+	double True_Ev;
+
 	int NumberMCParticles;
 	int CC1p;
 	int CC1p1pi;
@@ -91,7 +93,8 @@ void PreTruthSelection::Loop() {
 	int CC2p1pi;
 	int CC3p;
 	int CC3p1pi;
-	int CC3p2pi;		
+	int CC3p2pi;
+	int NumberPi0;		
 	
 	// ------------------------------------------------------------------------------------------------------------------------------------------	
 
@@ -186,6 +189,8 @@ void PreTruthSelection::Loop() {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
+	tree->Branch("True_Ev",&True_Ev);
+
 	tree->Branch("NumberMCParticles",&NumberMCParticles);
 	tree->Branch("CC1p",&CC1p);
 	tree->Branch("CC1p1pi",&CC1p1pi);
@@ -193,7 +198,8 @@ void PreTruthSelection::Loop() {
 	tree->Branch("CC2p1pi",&CC2p1pi);
 	tree->Branch("CC3p",&CC3p);
 	tree->Branch("CC3p1pi",&CC3p1pi);
-	tree->Branch("CC3p2pi",&CC3p2pi);		
+	tree->Branch("CC3p2pi",&CC3p2pi);
+	tree->Branch("NumberPi0",&NumberPi0);		
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 		
@@ -450,7 +456,7 @@ void PreTruthSelection::Loop() {
 		int fCC3p = 0;	
 		int fCC3p1pi = 0;
 		int fCC3p2pi = 0;			
-		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0;
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
 		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
@@ -458,6 +464,18 @@ void PreTruthSelection::Loop() {
 		// Loop over the MCParticles and determine the populations
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
+
+			// Identify the numu & store its true energy 
+
+			if (
+				MCParticle_StatusCode->at(WhichMCParticle) == 1 
+				&& MCParticle_Process->at(WhichMCParticle) == "primary"				
+				&& MCParticle_PdgCode->at(WhichMCParticle) == NuMuPdg				
+			) {
+
+				True_Ev = MCParticle_P->at(WhichMCParticle);
+
+			}
 
 			// Demand stable final state particles
 
@@ -478,6 +496,8 @@ void PreTruthSelection::Loop() {
 
 				if (fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum > ChargedPionMomentumThres) 
 					{ TrueChargedPionCounter++; }
+
+				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
 
 				StableMCParticles++;
 
@@ -748,6 +768,7 @@ void PreTruthSelection::Loop() {
 		CC3p2pi = fCC3p2pi;			
 
 		NumberMCParticles = StableMCParticles;	
+		NumberPi0 = TruePi0Counter;
 		
 		// --------------------------------------------------------------------------------------------------------------------------		
 

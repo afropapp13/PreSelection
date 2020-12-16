@@ -41,13 +41,13 @@ void PreSelection::Loop() {
 	std::vector<TVector3> VectorMCParticleStart;
 	std::vector<TVector3> VectorMCParticleEnd;
 
-	// -------------------------------------------------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------------------------------------------------
 
-	// Momentum from range
+	// Txt file to keep track of the event reduction at each stage
 
-//	TFile *fSpines = TFile::Open("Proton_Muon_Range_dEdx_LAr_TSplines.root","READ");
-//	TSpline3* sMuonRange2T = (TSpline3*)fSpines->Get("sMuonRange2T");
-//	TSpline3* sProtonRange2T = (TSpline3*)fSpines->Get("sProtonRange2T");
+	TString TxtName = "/uboone/data/users/apapadop/myEvents/myTxtFiles/"+UBCodeVersion+"/TxtPreSelection_"+fWhichSample+"_"+UBCodeVersion+".txt";
+	ofstream myTxtFile;
+	myTxtFile.open(TxtName);	
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -109,6 +109,10 @@ void PreSelection::Loop() {
 	int CC3p2pi;
 	
 	int MCParticle_Mode;
+
+	double True_Ev;
+
+	int NumberPi0;		
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -278,7 +282,6 @@ void PreSelection::Loop() {
 //	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
 //	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
 
-
 	tree->Branch("CC1p",&CC1p);
 	tree->Branch("CC1p1pi",&CC1p1pi);
 	tree->Branch("CC2p",&CC2p);
@@ -287,6 +290,10 @@ void PreSelection::Loop() {
 	tree->Branch("CC3p1pi",&CC3p1pi);
 	tree->Branch("CC3p2pi",&CC3p2pi);	
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
+
+	tree->Branch("NumberPi0",&NumberPi0);		
+
+	tree->Branch("True_Ev",&True_Ev);
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -425,6 +432,23 @@ void PreSelection::Loop() {
 	// Event Counters
 
 	int EventCounter = 0;
+	int TotalCounter = 0;
+	int SWTriggerCounter = 0;
+	int OneNuMuPFParticleCounter = 0;
+	int DaughterCounter = 0;
+	int TrackLikeDaughterCounter = 0;
+	int MatchedTrackPFParticleCounter = 0;
+	int NuFlashScoreCounter = 0;
+	int FlashCounter = 0;
+	int PairCounter = 0;
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	TH1D* NuMuSlicesPlot = new TH1D("NuMuSlicesPlot",";# #nu slices",6,-0.5,5.5);
+	TH1D* NDaughtersPlot = new TH1D("NDaughtersPlot",";# daughters",6,-0.5,5.5);
+	TH1D* NTrackLikeDaughtersPlot = new TH1D("NTrackLikeDaughtersPlot",";# track-like daughters",6,-0.5,5.5);
+	TH1D* NFlashPlot = new TH1D("NFlashPlot",";# flashes",6,-0.5,5.5);
+	TH1D* NPairsPlot = new TH1D("NPairsPlot",";# candidate pairs",6,-0.5,5.5);
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -433,22 +457,33 @@ void PreSelection::Loop() {
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 		Long64_t ientry = LoadTree(jentry); if (ientry < 0) break; nb = fChain->GetEntry(jentry); nbytes += nb;
 
+		TotalCounter++;
+
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		if ( EventPassedSwTrigger != 1) { continue; }
+		SWTriggerCounter++;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
-		// Numu Slices
+		// Excactly 1 numu slice
 
+		NuMuSlicesPlot->Fill(NumberNuMuPFParticles);
 		if (NumberNuMuPFParticles != 1) { continue; }
+		OneNuMuPFParticleCounter++;
 
 		int NNuMuDaughters = PFParticle_NumberNuMuDaughters->at(0);
 
+		NDaughtersPlot->Fill(NNuMuDaughters);
 		if (NNuMuDaughters != 2) { continue; } // Demand exactly 2 daughter particles
+		DaughterCounter++;
+
 		int FirstPFParticleDaughter = 0;
 		int SecondPFParticleDaughter = 1;
+
+		NTrackLikeDaughtersPlot->Fill(TracksFromCurrentPFParticleStartX->at(0).size());
 		if (TracksFromCurrentPFParticleStartX->at(0).size() != 2) { continue; } // Demand exactly 2 track-like daughter particles
+		TrackLikeDaughterCounter++;
 
 		// MuonPdg in this case / Pandora = Track-like object
 		
@@ -457,12 +492,15 @@ void PreSelection::Loop() {
 		if (TracksFromCurrentPFParticleStartX->at(0).at(0) == -99.) { continue; }
 		if (TracksFromCurrentPFParticleStartX->at(0).at(1) == -99.) { continue; }
 
+		MatchedTrackPFParticleCounter++;
+
 		// ----------------------------------------------------------------------------------------------------------------------------------
 
 		// Making sure that we have NuScore & FlashScore
 
 		if (PFParticle_NuScore->size() != 1) { continue; }
 		if (PFParticle_FlashScore->size() != 1) { continue; }
+		NuFlashScoreCounter++;
 
 		NuScore = PFParticle_NuScore->at(0);
 		FlashScore = PFParticle_FlashScore->at(0);
@@ -597,7 +635,10 @@ void PreSelection::Loop() {
 
 		// Beam Flashes
 
+		NFlashPlot->Fill(NumberFlashesBeam);
 		if (NumberFlashesBeam != 1) { continue; }
+		FlashCounter++;
+
 		NBeamFlashes = NumberFlashesBeam;
 
 		BeamFlashes_YCenter.clear();
@@ -731,7 +772,10 @@ void PreSelection::Loop() {
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		int NCandidateTrackPairs = FirstTrackIndex.size();
+
+		NPairsPlot->Fill(NCandidateTrackPairs);
 		if (NCandidateTrackPairs != 1) { continue; }
+		PairCounter++;
 
 		double fTrackPairDistance = (VectorTrackStart.at(0) - VectorTrackStart.at(1)).Mag();
 		TrackPairDistance.push_back(fTrackPairDistance);
@@ -903,6 +947,10 @@ void PreSelection::Loop() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------
 
+		bool ParticlesBelowThreshold = false;
+
+		int EventCandidatePairs = 0;
+
 		for (int WhichTrackPair = 0; WhichTrackPair < NCandidateTrackPairs; WhichTrackPair++) {
 
 			// Track indices
@@ -986,8 +1034,6 @@ void PreSelection::Loop() {
 
 			double CandidateMuonTrack_Momentum = -99.;
 			double CandidateMuonTrack_Momentum_MCS_MeV = -99.;
-//			double CandidateMuonTrack_KE_MeV = -99.;
-//			double CandidateMuonTrack_KE_GeV = -99.;
 			double CandidateMuonTrack_E_GeV = -99.;
 			double CalCandidateMu_ThreePlaneChi2 = ThreePlaneChi2(CandidateMuonTrackStart,CandidateMuonTrackEnd,
 								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateMuonTrackIndex),
@@ -996,27 +1042,15 @@ void PreSelection::Loop() {
 
 			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
-//				CandidateMuonTrack_KE_MeV = sMuonRange2T->Eval(CandidateMuonTrackLength); // MeV
-//				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV
-//				CandidateMuonTrack_Momentum_MCS_MeV = tools.KEToP(MuonPdg,CandidateMuonTrack_KE_MeV); // MeV/c
-////				CandidateMuonTrack_Momentum_MCS_GeV = CandidateMuonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
-//				CandidateMuonTrack_Momentum_MCS_GeV = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
-//				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
-
 				CandidateMuonTrack_Momentum = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
-//				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
-//				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
-//				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
-//				CandidateMuonTrack_E_GeV = CandidateMuonTrack_KE_GeV + MuonMass_GeV; // GeV/c
 
 			} else {
 
 				CandidateMuonTrack_Momentum = Track_Momentum_MCS->at(CandidateMuonTrackIndex); // GeV/c
-//				CandidateMuonTrack_Momentum_MCS_MeV = 1000. * CandidateMuonTrack_Momentum_MCS_GeV; // MeV/c
-//				CandidateMuonTrack_KE_MeV = tools.PToKE(MuonPdg,CandidateMuonTrack_Momentum_MCS_MeV); // MeV/c
-//				CandidateMuonTrack_KE_GeV = CandidateMuonTrack_KE_MeV / 1000.; // GeV/c
 
 			}
+
+			if (CandidateMuonTrack_Momentum < ArrayNBinsMuonMomentum[0]) { ParticlesBelowThreshold = true; } 
 
 			CandidateMuonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateMuonTrack_Momentum,2.) + TMath::Power(MuonMass_GeV,2.)); // GeV/c
 
@@ -1043,43 +1077,17 @@ void PreSelection::Loop() {
 			// Proton
 
 			double CandidateProtonTrack_Momentum = -99.;
-//			double CandidateProtonTrack_Momentum_MCS_MeV = -99.;
-//			double CandidateProtonTrack_KE_MeV = -99.;
-//			double CandidateProtonTrack_KE_GeV = -99.;
 			double CandidateProtonTrack_E_GeV = -99.;
 			double CalCandidateP_ThreePlaneChi2 = ThreePlaneChi2(CandidateProtonTrackStart,CandidateProtonTrackEnd,
 								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateProtonTrackIndex),
 								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateProtonTrackIndex),
 								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
 
-/*			if (CandidateProtonTrackStartContainment == true && CandidateProtonTrackEndContainment == true) {*/
+			CandidateProtonTrack_Momentum = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
 
-//				CandidateProtonTrack_KE_MeV = sProtonRange2T->Eval(CandidateProtonTrackLength); // MeV
-//				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV
-//				CandidateProtonTrack_Momentum_MCS_MeV = tools.KEToP(ProtonPdg,CandidateProtonTrack_KE_MeV); // MeV/c
-//				CandidateProtonTrack_Momentum_MCS_GeV = CandidateProtonTrack_Momentum_MCS_MeV / 1000.; // GeV/c
-////				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum->at(CandidateProtonTrackIndex); // GeV/c
-//				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
+			if (CandidateProtonTrack_Momentum < ArrayNBinsProtonMomentum[0]) { ParticlesBelowThreshold = true; } 
 
-				CandidateProtonTrack_Momentum = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
-//				CandidateProtonTrack_Momentum_MCS_MeV = 1000. * CandidateProtonTrack_Momentum_MCS_GeV; // MeV/c
-//				CandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,CandidateProtonTrack_Momentum_MCS_MeV); // MeV/c
-//				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV/c
-//				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
-				CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV/c
-
-
-/*
-			} else {
-
-				CandidateProtonTrack_Momentum_MCS_GeV = Track_Momentum_MCS->at(CandidateProtonTrackIndex); // GeV/c
-				CandidateProtonTrack_Momentum_MCS_MeV = 1000. * CandidateProtonTrack_Momentum_MCS_GeV; // MeV/c
-				CandidateProtonTrack_KE_MeV = tools.PToKE(ProtonPdg,CandidateProtonTrack_Momentum_MCS_MeV); // MeV/c
-				CandidateProtonTrack_KE_GeV = CandidateProtonTrack_KE_MeV / 1000.; // GeV/c
-				CandidateProtonTrack_E_GeV = CandidateProtonTrack_KE_GeV + ProtonMass_GeV; // GeV/c
-
-			}
-*/
+			CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV/c
 
 			CandidateP_TrackScore.push_back(TracksFromCurrentPFParticleTrackScore->at(0).at(ProtonInPair));
 			CandidateP_P_Range.push_back(Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex));
@@ -1305,9 +1313,16 @@ void PreSelection::Loop() {
 
 			} // End of the backtracking to truth, only for overlays
 
-			EventCounter++;
+			EventCandidatePairs++;
 
 		} // End of the loop over the candidate track pairs
+
+		// If the candidate pair includes particles below threshold
+		// there is no point in storing the event
+
+		if (ParticlesBelowThreshold) { continue; }
+
+		EventCounter += EventCandidatePairs;
 
 		// ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1315,13 +1330,25 @@ void PreSelection::Loop() {
 		
 		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fMCParticle_Mode = -1;
 
-		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
 		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
+
+			// Identify the numu & store its true energy 
+
+			if (
+				MCParticle_StatusCode->at(WhichMCParticle) == 1 
+				&& MCParticle_Process->at(WhichMCParticle) == "primary"				
+				&& MCParticle_PdgCode->at(WhichMCParticle) == NuMuPdg				
+			) {
+
+				True_Ev = MCParticle_P->at(WhichMCParticle);
+
+			}
 
 			// Demand stable final state particles and primary interactions
 
@@ -1342,6 +1369,8 @@ void PreSelection::Loop() {
 
 				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
 					{ TrueChargedPionCounter++; }
+
+				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
 
 			} // End of the demand stable final state particles and primary interactions
 
@@ -1369,6 +1398,8 @@ void PreSelection::Loop() {
 
 		MCParticle_Mode = fMCParticle_Mode;
 
+		NumberPi0 = TruePi0Counter;
+
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		tree->Fill();
@@ -1387,11 +1418,27 @@ void PreSelection::Loop() {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
+	// To be saved in the txt file
+
+	myTxtFile << "\n\nStarting with " << TotalCounter << " events" << std::endl << std::endl;
+	myTxtFile << "\n\n" << SWTriggerCounter << " events passing SW trigger" << std::endl << std::endl;
+	myTxtFile << "\n\n" << OneNuMuPFParticleCounter << " events passing 1 numu PFParticle requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << DaughterCounter << " events passing 2 daughter requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << TrackLikeDaughterCounter << " events passing 2 track-like daughter requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << MatchedTrackPFParticleCounter << " events passing 2 matched track-like daughter requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << NuFlashScoreCounter << " events passing nu/flash score requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << FlashCounter << " events passing 1 flash requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << PairCounter << " events passing 1 candidate pair requirement" << std::endl << std::endl;
+	myTxtFile << "\n\nGathered a total of " << EventCounter << " preselected events" << std::endl << std::endl;
+
+	// ------------------------------------------------------------------------------------------------------------------------------------------
+
 	OutputFile->cd();
 	OutputFile->Write();
 	OutputFile->Close();
 	//fSpines->Close();
 	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
+	myTxtFile.close();
 
 } // end of the program
 
