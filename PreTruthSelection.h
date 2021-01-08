@@ -97,6 +97,10 @@ public :
    std::vector<int>     *MCTruth_CCNC;
    std::vector<int>     *MCTruth_Mode;
    std::vector<int>     *MCTruth_InteractionType;
+   std::vector<double>     *MCTruth_Particle_Nu_E;
+   std::vector<double>     *MCTruth_Particle_Nu_Vx;
+   std::vector<double>     *MCTruth_Particle_Nu_Vy;
+   std::vector<double>     *MCTruth_Particle_Nu_Vz;
 
    // List of branches
 
@@ -168,6 +172,10 @@ public :
    TBranch        *b_MCTruth_CCNC;   //!
    TBranch        *b_MCTruth_Mode;   //!
    TBranch        *b_MCTruth_InteractionType;   //!
+   TBranch        *b_MCTruth_Particle_Nu_E;   //!
+   TBranch        *b_MCTruth_Particle_Nu_Vx;   //!
+   TBranch        *b_MCTruth_Particle_Nu_Vy;   //!
+   TBranch        *b_MCTruth_Particle_Nu_Vz;   //!
 
    //PreTruthSelection(TTree *tree=0);
    PreTruthSelection(TString WhichSample,TChain *tree=0);
@@ -321,6 +329,10 @@ void PreTruthSelection::Init(TChain *tree)
    MCTruth_CCNC = 0;
    MCTruth_Mode = 0;
    MCTruth_InteractionType = 0;
+   MCTruth_Particle_Nu_E = 0;
+   MCTruth_Particle_Nu_Vx = 0;
+   MCTruth_Particle_Nu_Vy = 0;
+   MCTruth_Particle_Nu_Vz = 0;
 
    // Set branch addresses and branch pointers
    if (!tree) return;
@@ -395,6 +407,10 @@ void PreTruthSelection::Init(TChain *tree)
    fChain->SetBranchAddress("MCTruth_CCNC", &MCTruth_CCNC, &b_MCTruth_CCNC);
    fChain->SetBranchAddress("MCTruth_Mode", &MCTruth_Mode, &b_MCTruth_Mode);
    fChain->SetBranchAddress("MCTruth_InteractionType", &MCTruth_InteractionType, &b_MCTruth_InteractionType);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_E", &MCTruth_Particle_Nu_E, &b_MCTruth_Particle_Nu_E);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_Vx", &MCTruth_Particle_Nu_Vx, &b_MCTruth_Particle_Nu_Vx);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_Vy", &MCTruth_Particle_Nu_Vy, &b_MCTruth_Particle_Nu_Vy);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_Vz", &MCTruth_Particle_Nu_Vz, &b_MCTruth_Particle_Nu_Vz);
 
    Notify();
 }

@@ -111,6 +111,9 @@ void PreSelection::Loop() {
 	int MCParticle_Mode;
 
 	double True_Ev;
+	double True_Vx;
+	double True_Vy;
+	double True_Vz;
 
 	int NumberPi0;		
 
@@ -143,6 +146,7 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateMu_CosTheta;
 	std::vector<double> CandidateMu_Chi2_YPlane;
 	std::vector<double> CandidateMu_ThreePlaneLogLikelihood;
+	std::vector<double> CandidateMu_LLR_PID;
 	std::vector<double> CandidateMu_ThreePlaneChi2;
 	std::vector<int> CandidateMu_StartContainment;
 	std::vector<int> CandidateMu_EndContainment;
@@ -184,6 +188,7 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateP_CosTheta;
 	std::vector<double> CandidateP_Chi2_YPlane;
 	std::vector<double> CandidateP_ThreePlaneLogLikelihood;
+	std::vector<double> CandidateP_LLR_PID;
 	std::vector<double> CandidateP_ThreePlaneChi2;
 	std::vector<int> CandidateP_StartContainment;
 	std::vector<int> CandidateP_EndContainment;
@@ -294,6 +299,9 @@ void PreSelection::Loop() {
 	tree->Branch("NumberPi0",&NumberPi0);		
 
 	tree->Branch("True_Ev",&True_Ev);
+	tree->Branch("True_Vx",&True_Vx);
+	tree->Branch("True_Vy",&True_Vy);
+	tree->Branch("True_Vz",&True_Vz);
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -324,6 +332,7 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateMu_CosTheta",&CandidateMu_CosTheta);
 	tree->Branch("CandidateMu_Chi2_YPlane",&CandidateMu_Chi2_YPlane);
 	tree->Branch("CandidateMu_ThreePlaneLogLikelihood",&CandidateMu_ThreePlaneLogLikelihood);
+	tree->Branch("CandidateMu_LLR_PID",&CandidateMu_LLR_PID);
 	tree->Branch("CandidateMu_ThreePlaneChi2",&CandidateMu_ThreePlaneChi2);
 	tree->Branch("CandidateMu_StartContainment",&CandidateMu_StartContainment);
 	tree->Branch("CandidateMu_EndContainment",&CandidateMu_EndContainment);
@@ -364,6 +373,7 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateP_CosTheta",&CandidateP_CosTheta);
 	tree->Branch("CandidateP_Chi2_YPlane",&CandidateP_Chi2_YPlane);
 	tree->Branch("CandidateP_ThreePlaneLogLikelihood",&CandidateP_ThreePlaneLogLikelihood);
+	tree->Branch("CandidateP_LLR_PID",&CandidateP_LLR_PID);
 	tree->Branch("CandidateP_ThreePlaneChi2",&CandidateP_ThreePlaneChi2);
 	tree->Branch("CandidateP_StartContainment",&CandidateP_StartContainment);
 	tree->Branch("CandidateP_EndContainment",&CandidateP_EndContainment);
@@ -441,6 +451,8 @@ void PreSelection::Loop() {
 	int NuFlashScoreCounter = 0;
 	int FlashCounter = 0;
 	int PairCounter = 0;
+	int MomentumThresholdCounter = 0;
+	int ContainmentCounter = 0;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -515,119 +527,130 @@ void PreSelection::Loop() {
 			double T2Kweight = T2KEventWeight->at(0);
 			T2KWeight = T2Kweight;
 
-			ROOTinoWeight = ROOTinoEventWeight->at(0);		
+			ROOTinoWeight = ROOTinoEventWeight->at(0);	
 
-			// Genie xsection uncertainty weights
-			// All_UBGenie_EventWeight has 100 universes
-			// Everything else is 2 universes
+			// We need the EventWeight weights only for the nominal samples, not for the detector variations
 
-		        std::vector<double> Current_All_UBGenie_EventWeight((*All_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+100);
-		        All_UBGenie = Current_All_UBGenie_EventWeight;
+			if ( 
+				fWhichSample == "Overlay9_Run1" || fWhichSample == "Overlay9_Run2" || fWhichSample == "Overlay9_Run3" || 
+				fWhichSample == "Overlay9_Run4" || fWhichSample == "Overlay9_Run5" ||
+				fWhichSample == "OverlayDirt9_Run1" || fWhichSample == "OverlayDirt9_Run2" || fWhichSample == "OverlayDirt9_Run3" || 
+				fWhichSample == "OverlayDirt9_Run4" || fWhichSample == "OverlayDirt9_Run5"				 
+			) {	
 
-		        std::vector<double> Current_AxFFCCQEshape_UBGenie_EventWeight((*AxFFCCQEshape_UBGenie_EventWeight).begin(),(*AxFFCCQEshape_UBGenie_EventWeight).begin()+2);
-			AxFFCCQEshape_UBGenie = Current_AxFFCCQEshape_UBGenie_EventWeight;
+				// Genie xsection uncertainty weights
+				// All_UBGenie_EventWeight has 100 universes
+				// Everything else is 2 universes
 
-		        std::vector<double> Current_DecayAngMEC_UBGenie_EventWeight((*DecayAngMEC_UBGenie_EventWeight).begin(),(*DecayAngMEC_UBGenie_EventWeight).begin()+2);
-			DecayAngMEC_UBGenie = Current_DecayAngMEC_UBGenie_EventWeight;
+				std::vector<double> Current_All_UBGenie_EventWeight((*All_UBGenie_EventWeight).begin(),(*All_UBGenie_EventWeight).begin()+100);
+				All_UBGenie = Current_All_UBGenie_EventWeight;
 
-		        std::vector<double> Current_NormCCCOH_UBGenie_EventWeight((*NormCCCOH_UBGenie_EventWeight).begin(),(*NormCCCOH_UBGenie_EventWeight).begin()+2);
-			NormCCCOH_UBGenie = Current_NormCCCOH_UBGenie_EventWeight;
+				std::vector<double> Current_AxFFCCQEshape_UBGenie_EventWeight((*AxFFCCQEshape_UBGenie_EventWeight).begin(),(*AxFFCCQEshape_UBGenie_EventWeight).begin()+2);
+				AxFFCCQEshape_UBGenie = Current_AxFFCCQEshape_UBGenie_EventWeight;
 
-		        std::vector<double> Current_NormNCCOH_UBGenie_EventWeight((*NormNCCOH_UBGenie_EventWeight).begin(),(*NormNCCOH_UBGenie_EventWeight).begin()+2);
-			NormNCCOH_UBGenie = *NormNCCOH_UBGenie_EventWeight;
+				std::vector<double> Current_DecayAngMEC_UBGenie_EventWeight((*DecayAngMEC_UBGenie_EventWeight).begin(),(*DecayAngMEC_UBGenie_EventWeight).begin()+2);
+				DecayAngMEC_UBGenie = Current_DecayAngMEC_UBGenie_EventWeight;
 
-//		        std::vector<double> Current_RPA_CCQE_Reduced_UBGenie_EventWeight((*RPA_CCQE_Reduced_UBGenie_EventWeight).begin(),(*RPA_CCQE_Reduced_UBGenie_EventWeight).begin()+2);
-//			RPA_CCQE_Reduced_UBGenie = Current_RPA_CCQE_Reduced_UBGenie_EventWeight;
+				std::vector<double> Current_NormCCCOH_UBGenie_EventWeight((*NormCCCOH_UBGenie_EventWeight).begin(),(*NormCCCOH_UBGenie_EventWeight).begin()+2);
+				NormCCCOH_UBGenie = Current_NormCCCOH_UBGenie_EventWeight;
 
-		        std::vector<double> Current_RPA_CCQE_UBGenie_EventWeight((*RPA_CCQE_UBGenie_EventWeight).begin(),(*RPA_CCQE_UBGenie_EventWeight).begin()+2);
-			RPA_CCQE_UBGenie = Current_RPA_CCQE_UBGenie_EventWeight;
+				std::vector<double> Current_NormNCCOH_UBGenie_EventWeight((*NormNCCOH_UBGenie_EventWeight).begin(),(*NormNCCOH_UBGenie_EventWeight).begin()+2);
+				NormNCCOH_UBGenie = *NormNCCOH_UBGenie_EventWeight;
 
-		        std::vector<double> Current_ThetaDelta2NRad_UBGenie_EventWeight((*ThetaDelta2NRad_UBGenie_EventWeight).begin(),(*ThetaDelta2NRad_UBGenie_EventWeight).begin()+2);
-			ThetaDelta2NRad_UBGenie = Current_ThetaDelta2NRad_UBGenie_EventWeight;
+	//		        std::vector<double> Current_RPA_CCQE_Reduced_UBGenie_EventWeight((*RPA_CCQE_Reduced_UBGenie_EventWeight).begin(),(*RPA_CCQE_Reduced_UBGenie_EventWeight).begin()+2);
+	//			RPA_CCQE_Reduced_UBGenie = Current_RPA_CCQE_Reduced_UBGenie_EventWeight;
 
-		        std::vector<double> Current_Theta_Delta2Npi_UBGenie_EventWeight((*Theta_Delta2Npi_UBGenie_EventWeight).begin(),(*Theta_Delta2Npi_UBGenie_EventWeight).begin()+2);
-			Theta_Delta2Npi_UBGenie = Current_Theta_Delta2Npi_UBGenie_EventWeight;
+				std::vector<double> Current_RPA_CCQE_UBGenie_EventWeight((*RPA_CCQE_UBGenie_EventWeight).begin(),(*RPA_CCQE_UBGenie_EventWeight).begin()+2);
+				RPA_CCQE_UBGenie = Current_RPA_CCQE_UBGenie_EventWeight;
 
-		        std::vector<double> Current_VecFFCCQEshape_UBGenie_EventWeight((*VecFFCCQEshape_UBGenie_EventWeight).begin(),(*VecFFCCQEshape_UBGenie_EventWeight).begin()+2);
-			VecFFCCQEshape_UBGenie = Current_VecFFCCQEshape_UBGenie_EventWeight;
+				std::vector<double> Current_ThetaDelta2NRad_UBGenie_EventWeight((*ThetaDelta2NRad_UBGenie_EventWeight).begin(),(*ThetaDelta2NRad_UBGenie_EventWeight).begin()+2);
+				ThetaDelta2NRad_UBGenie = Current_ThetaDelta2NRad_UBGenie_EventWeight;
 
-		        std::vector<double> Current_XSecShape_CCMEC_UBGenie_EventWeight((*XSecShape_CCMEC_UBGenie_EventWeight).begin(),(*XSecShape_CCMEC_UBGenie_EventWeight).begin()+2);
-			XSecShape_CCMEC_UBGenie = Current_XSecShape_CCMEC_UBGenie_EventWeight;
+				std::vector<double> Current_Theta_Delta2Npi_UBGenie_EventWeight((*Theta_Delta2Npi_UBGenie_EventWeight).begin(),(*Theta_Delta2Npi_UBGenie_EventWeight).begin()+2);
+				Theta_Delta2Npi_UBGenie = Current_Theta_Delta2Npi_UBGenie_EventWeight;
 
-			// Flux uncertainty weights
-			// All of them have 1000 universes
-			// Limit them to MultiSimSize
+				std::vector<double> Current_VecFFCCQEshape_UBGenie_EventWeight((*VecFFCCQEshape_UBGenie_EventWeight).begin(),(*VecFFCCQEshape_UBGenie_EventWeight).begin()+2);
+				VecFFCCQEshape_UBGenie = Current_VecFFCCQEshape_UBGenie_EventWeight;
 
-			int MultiSimSize = 100;
+				std::vector<double> Current_XSecShape_CCMEC_UBGenie_EventWeight((*XSecShape_CCMEC_UBGenie_EventWeight).begin(),(*XSecShape_CCMEC_UBGenie_EventWeight).begin()+2);
+				XSecShape_CCMEC_UBGenie = Current_XSecShape_CCMEC_UBGenie_EventWeight;
 
-		        std::vector<double> Current_expskin_FluxUnisim_EventWeight((*expskin_FluxUnisim_EventWeight).begin(),(*expskin_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        expskin_FluxUnisim = Current_expskin_FluxUnisim_EventWeight;
+				// Flux uncertainty weights
+				// All of them have 1000 universes
+				// Limit them to MultiSimSize
 
-		        std::vector<double> Current_horncurrent_FluxUnisim_EventWeight((*horncurrent_FluxUnisim_EventWeight).begin(),(*horncurrent_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        horncurrent_FluxUnisim = Current_horncurrent_FluxUnisim_EventWeight;
+				int MultiSimSize = 100;
 
-		        std::vector<double> Current_kminus_PrimaryHadronNormalization_EventWeight((*kminus_PrimaryHadronNormalization_EventWeight).begin(),\
-						(*kminus_PrimaryHadronNormalization_EventWeight).begin()+MultiSimSize);
-		        kminus_PrimaryHadronNormalization = Current_kminus_PrimaryHadronNormalization_EventWeight;
+				std::vector<double> Current_expskin_FluxUnisim_EventWeight((*expskin_FluxUnisim_EventWeight).begin(),(*expskin_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				expskin_FluxUnisim = Current_expskin_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_kplus_PrimaryHadronFeynmanScaling_EventWeight((*kplus_PrimaryHadronFeynmanScaling_EventWeight).begin(),\
-						(*kplus_PrimaryHadronFeynmanScaling_EventWeight).begin()+MultiSimSize);
-		        kplus_PrimaryHadronFeynmanScaling = Current_kplus_PrimaryHadronFeynmanScaling_EventWeight;
+				std::vector<double> Current_horncurrent_FluxUnisim_EventWeight((*horncurrent_FluxUnisim_EventWeight).begin(),(*horncurrent_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				horncurrent_FluxUnisim = Current_horncurrent_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_kzero_PrimaryHadronSanfordWang_EventWeight((*kzero_PrimaryHadronSanfordWang_EventWeight).begin(),\
-						(*kzero_PrimaryHadronSanfordWang_EventWeight).begin()+MultiSimSize);
-		        kzero_PrimaryHadronSanfordWang = Current_kzero_PrimaryHadronSanfordWang_EventWeight;
+				std::vector<double> Current_kminus_PrimaryHadronNormalization_EventWeight((*kminus_PrimaryHadronNormalization_EventWeight).begin(),\
+							(*kminus_PrimaryHadronNormalization_EventWeight).begin()+MultiSimSize);
+				kminus_PrimaryHadronNormalization = Current_kminus_PrimaryHadronNormalization_EventWeight;
 
-		        std::vector<double> Current_nucleoninexsec_FluxUnisim_EventWeight((*nucleoninexsec_FluxUnisim_EventWeight).begin(),\
-						(*nucleoninexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        nucleoninexsec_FluxUnisim = Current_nucleoninexsec_FluxUnisim_EventWeight;
+				std::vector<double> Current_kplus_PrimaryHadronFeynmanScaling_EventWeight((*kplus_PrimaryHadronFeynmanScaling_EventWeight).begin(),\
+							(*kplus_PrimaryHadronFeynmanScaling_EventWeight).begin()+MultiSimSize);
+				kplus_PrimaryHadronFeynmanScaling = Current_kplus_PrimaryHadronFeynmanScaling_EventWeight;
 
-		        std::vector<double> Current_nucleonqexsec_FluxUnisim_EventWeight((*nucleonqexsec_FluxUnisim_EventWeight).begin(),\
-						(*nucleonqexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        nucleonqexsec_FluxUnisim = Current_nucleoninexsec_FluxUnisim_EventWeight;
+				std::vector<double> Current_kzero_PrimaryHadronSanfordWang_EventWeight((*kzero_PrimaryHadronSanfordWang_EventWeight).begin(),\
+							(*kzero_PrimaryHadronSanfordWang_EventWeight).begin()+MultiSimSize);
+				kzero_PrimaryHadronSanfordWang = Current_kzero_PrimaryHadronSanfordWang_EventWeight;
 
-		        std::vector<double> Current_nucleontotxsec_FluxUnisim_EventWeight((*nucleontotxsec_FluxUnisim_EventWeight).begin(),\
-						(*nucleontotxsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        nucleontotxsec_FluxUnisim = Current_nucleontotxsec_FluxUnisim_EventWeight;
+				std::vector<double> Current_nucleoninexsec_FluxUnisim_EventWeight((*nucleoninexsec_FluxUnisim_EventWeight).begin(),\
+							(*nucleoninexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				nucleoninexsec_FluxUnisim = Current_nucleoninexsec_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_piminus_PrimaryHadronSWCentralSplineVariation_EventWeight((*piminus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin(),\
-						(*piminus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin()+MultiSimSize);
-		        piminus_PrimaryHadronSWCentralSplineVariation = Current_piminus_PrimaryHadronSWCentralSplineVariation_EventWeight;
+				std::vector<double> Current_nucleonqexsec_FluxUnisim_EventWeight((*nucleonqexsec_FluxUnisim_EventWeight).begin(),\
+							(*nucleonqexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				nucleonqexsec_FluxUnisim = Current_nucleoninexsec_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_pioninexsec_FluxUnisim_EventWeight((*pioninexsec_FluxUnisim_EventWeight).begin(),\
-						(*pioninexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        pioninexsec_FluxUnisim = Current_pioninexsec_FluxUnisim_EventWeight;
+				std::vector<double> Current_nucleontotxsec_FluxUnisim_EventWeight((*nucleontotxsec_FluxUnisim_EventWeight).begin(),\
+							(*nucleontotxsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				nucleontotxsec_FluxUnisim = Current_nucleontotxsec_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_pionqexsec_FluxUnisim_EventWeight((*pionqexsec_FluxUnisim_EventWeight).begin(),\
-						(*pionqexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        pionqexsec_FluxUnisim = Current_pionqexsec_FluxUnisim_EventWeight;
+				std::vector<double> Current_piminus_PrimaryHadronSWCentralSplineVariation_EventWeight((*piminus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin(),\
+							(*piminus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin()+MultiSimSize);
+				piminus_PrimaryHadronSWCentralSplineVariation = Current_piminus_PrimaryHadronSWCentralSplineVariation_EventWeight;
 
-		        std::vector<double> Current_piontotxsec_FluxUnisim_EventWeight((*piontotxsec_FluxUnisim_EventWeight).begin(),\
-						(*piontotxsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
-		        piontotxsec_FluxUnisim = Current_pionqexsec_FluxUnisim_EventWeight;
+				std::vector<double> Current_pioninexsec_FluxUnisim_EventWeight((*pioninexsec_FluxUnisim_EventWeight).begin(),\
+							(*pioninexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				pioninexsec_FluxUnisim = Current_pioninexsec_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_piplus_PrimaryHadronSWCentralSplineVariation_EventWeight((*piplus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin(),\
-						(*piplus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin()+MultiSimSize);
-		        piplus_PrimaryHadronSWCentralSplineVariation = Current_pionqexsec_FluxUnisim_EventWeight;
+				std::vector<double> Current_pionqexsec_FluxUnisim_EventWeight((*pionqexsec_FluxUnisim_EventWeight).begin(),\
+							(*pionqexsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				pionqexsec_FluxUnisim = Current_pionqexsec_FluxUnisim_EventWeight;
 
-			// G4 uncertainty weights
-			// They all have 1000 universes
-			// Limit them to 100
+				std::vector<double> Current_piontotxsec_FluxUnisim_EventWeight((*piontotxsec_FluxUnisim_EventWeight).begin(),\
+							(*piontotxsec_FluxUnisim_EventWeight).begin()+MultiSimSize);
+				piontotxsec_FluxUnisim = Current_pionqexsec_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_reinteractions_piminus_Geant4_EventWeight((*reinteractions_piminus_Geant4_EventWeight).begin(),\
-						(*reinteractions_piminus_Geant4_EventWeight).begin()+MultiSimSize);
-		        reinteractions_piminus_Geant4 = Current_reinteractions_piminus_Geant4_EventWeight;
+				std::vector<double> Current_piplus_PrimaryHadronSWCentralSplineVariation_EventWeight((*piplus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin(),\
+							(*piplus_PrimaryHadronSWCentralSplineVariation_EventWeight).begin()+MultiSimSize);
+				piplus_PrimaryHadronSWCentralSplineVariation = Current_pionqexsec_FluxUnisim_EventWeight;
 
-		        std::vector<double> Current_reinteractions_piplus_Geant4_EventWeight((*reinteractions_piplus_Geant4_EventWeight).begin(),\
-						(*reinteractions_piplus_Geant4_EventWeight).begin()+MultiSimSize);
-		        reinteractions_piplus_Geant4 = Current_reinteractions_piplus_Geant4_EventWeight;
+				// G4 uncertainty weights
+				// They all have 1000 universes
+				// Limit them to 100
 
-		        std::vector<double> Current_reinteractions_proton_Geant4_EventWeight((*reinteractions_proton_Geant4_EventWeight).begin(),\
-						(*reinteractions_proton_Geant4_EventWeight).begin()+MultiSimSize);
-		        reinteractions_proton_Geant4 = Current_reinteractions_proton_Geant4_EventWeight;
+				std::vector<double> Current_reinteractions_piminus_Geant4_EventWeight((*reinteractions_piminus_Geant4_EventWeight).begin(),\
+							(*reinteractions_piminus_Geant4_EventWeight).begin()+MultiSimSize);
+				reinteractions_piminus_Geant4 = Current_reinteractions_piminus_Geant4_EventWeight;
 
-	//		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
-	//		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
+				std::vector<double> Current_reinteractions_piplus_Geant4_EventWeight((*reinteractions_piplus_Geant4_EventWeight).begin(),\
+							(*reinteractions_piplus_Geant4_EventWeight).begin()+MultiSimSize);
+				reinteractions_piplus_Geant4 = Current_reinteractions_piplus_Geant4_EventWeight;
+
+				std::vector<double> Current_reinteractions_proton_Geant4_EventWeight((*reinteractions_proton_Geant4_EventWeight).begin(),\
+							(*reinteractions_proton_Geant4_EventWeight).begin()+MultiSimSize);
+				reinteractions_proton_Geant4 = Current_reinteractions_proton_Geant4_EventWeight;
+
+		//		xsr_scc_Fa3_SCC = *xsr_scc_Fa3_SCC_EventWeight;
+		//		xsr_scc_Fv3_SCC = *xsr_scc_Fv3_SCC_EventWeight;
+
+			}
 
 		}
 
@@ -845,6 +868,7 @@ void PreSelection::Loop() {
 		CandidateMu_CosTheta.clear();
 		CandidateMu_Chi2_YPlane.clear();
 		CandidateMu_ThreePlaneLogLikelihood.clear();
+		CandidateMu_LLR_PID.clear();
 		CandidateMu_ThreePlaneChi2.clear();
 		CandidateMu_StartContainment.clear();
 		CandidateMu_EndContainment.clear();
@@ -886,6 +910,7 @@ void PreSelection::Loop() {
 		CandidateP_CosTheta.clear();
 		CandidateP_Chi2_YPlane.clear();
 		CandidateP_ThreePlaneLogLikelihood.clear();
+		CandidateP_LLR_PID.clear();
 		CandidateP_ThreePlaneChi2.clear();
 		CandidateP_StartContainment.clear();
 		CandidateP_EndContainment.clear();
@@ -948,10 +973,14 @@ void PreSelection::Loop() {
 		// -----------------------------------------------------------------------------------------------------------------------------
 
 		bool ParticlesBelowThreshold = false;
+		bool UncontainedParticles = false;
 
 		int EventCandidatePairs = 0;
 
 		for (int WhichTrackPair = 0; WhichTrackPair < NCandidateTrackPairs; WhichTrackPair++) {
+
+			ParticlesBelowThreshold = false;
+			UncontainedParticles = false;
 
 			// Track indices
 
@@ -1040,6 +1069,8 @@ void PreSelection::Loop() {
 								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateMuonTrackIndex),
 								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 
+			if (CandidateMuonTrackStartContainment == false) { UncontainedParticles = true; } 
+
 			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
 				CandidateMuonTrack_Momentum = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
@@ -1061,6 +1092,7 @@ void PreSelection::Loop() {
 			CandidateMu_CosTheta.push_back(CandidateMuonTrackCosTheta);
 			CandidateMu_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 			CandidateMu_ThreePlaneLogLikelihood.push_back(log(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateMuonTrackIndex)));
+			CandidateMu_LLR_PID.push_back(Track_LLR_PID->at(CandidateMuonTrackIndex));
 			CandidateMu_ThreePlaneChi2.push_back(CalCandidateMu_ThreePlaneChi2);
 			CandidateMu_StartContainment.push_back(CandidateMuonTrackStartContainment);
 			CandidateMu_EndContainment.push_back(CandidateMuonTrackEndContainment);
@@ -1085,6 +1117,7 @@ void PreSelection::Loop() {
 
 			CandidateProtonTrack_Momentum = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
 
+			if (CandidateProtonTrackStartContainment == false) { UncontainedParticles = true; } 
 			if (CandidateProtonTrack_Momentum < ArrayNBinsProtonMomentum[0]) { ParticlesBelowThreshold = true; } 
 
 			CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV/c
@@ -1096,6 +1129,7 @@ void PreSelection::Loop() {
 			CandidateP_CosTheta.push_back(CandidateProtonTrackCosTheta);
 			CandidateP_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
 			CandidateP_ThreePlaneLogLikelihood.push_back(log(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateProtonTrackIndex)));
+			CandidateP_LLR_PID.push_back(Track_LLR_PID->at(CandidateProtonTrackIndex));
 			CandidateP_ThreePlaneChi2.push_back(CalCandidateP_ThreePlaneChi2);
 			CandidateP_StartContainment.push_back(CandidateProtonTrackStartContainment);
 			CandidateP_EndContainment.push_back(CandidateProtonTrackEndContainment);
@@ -1322,7 +1356,33 @@ void PreSelection::Loop() {
 
 		if (ParticlesBelowThreshold) { continue; }
 
+		MomentumThresholdCounter++;
+
+		if (UncontainedParticles) { continue; }
+
+		ContainmentCounter++;
+
 		EventCounter += EventCandidatePairs;
+
+		// ------------------------------------------------------------------------------------------------------------------------------------
+
+		double MCTruth_Data = -99.;
+
+		if (MCTruth_Particle_Nu_E->size() == 1) {
+
+			True_Ev = MCTruth_Particle_Nu_E->at(0);
+			True_Vx = MCTruth_Particle_Nu_Vx->at(0);
+			True_Vy = MCTruth_Particle_Nu_Vy->at(0);
+			True_Vz = MCTruth_Particle_Nu_Vz->at(0);
+
+		} else {
+
+			True_Ev = MCTruth_Data;
+			True_Vx = MCTruth_Data;
+			True_Vy = MCTruth_Data;
+			True_Vz = MCTruth_Data;
+
+		}
 
 		// ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1337,18 +1397,6 @@ void PreSelection::Loop() {
 		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
-
-			// Identify the numu & store its true energy 
-
-			if (
-				MCParticle_StatusCode->at(WhichMCParticle) == 1 
-				&& MCParticle_Process->at(WhichMCParticle) == "primary"				
-				&& MCParticle_PdgCode->at(WhichMCParticle) == NuMuPdg				
-			) {
-
-				True_Ev = MCParticle_P->at(WhichMCParticle);
-
-			}
 
 			// Demand stable final state particles and primary interactions
 
@@ -1376,6 +1424,8 @@ void PreSelection::Loop() {
 
 		} // end of the loop over the simb::MCParticles
 
+		// ------------------------------------------------------------------------------------------------
+
 		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
 
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
@@ -1385,6 +1435,16 @@ void PreSelection::Loop() {
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0) { fCC3p = 1; }
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1) { fCC3p1pi = 1; }
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2) { fCC3p2pi = 1; }
+
+		// ------------------------------------------------------------------------------------------------
+
+		// Don't forget to check the true vertex containment for signal CC1p events
+
+		TVector3 TrueNu_Vertex(True_Vx,True_Vy,True_Vz);
+		bool TrueNu_Vertex_Containment = tools.inFVVector(TrueNu_Vertex);
+		if (TrueNu_Vertex_Containment == 0) { fCC1p = 0; }
+
+		// ------------------------------------------------------------------------------------------------
 
 		if (MCTruth_Mode->size() == 1) { fMCParticle_Mode = MCTruth_Mode->at(0); }
 
@@ -1403,6 +1463,8 @@ void PreSelection::Loop() {
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		tree->Fill();
+
+		// ---------------------------------------------------------------------------------------------------------------------------------
 
 	} // End of the loop over the number of events
 
@@ -1429,6 +1491,8 @@ void PreSelection::Loop() {
 	myTxtFile << "\n\n" << NuFlashScoreCounter << " events passing nu/flash score requirement" << std::endl << std::endl;
 	myTxtFile << "\n\n" << FlashCounter << " events passing 1 flash requirement" << std::endl << std::endl;
 	myTxtFile << "\n\n" << PairCounter << " events passing 1 candidate pair requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << MomentumThresholdCounter << " events passing momentum requirement" << std::endl << std::endl;
+	myTxtFile << "\n\n" << ContainmentCounter << " events passing containment requirement" << std::endl << std::endl;
 	myTxtFile << "\n\nGathered a total of " << EventCounter << " preselected events" << std::endl << std::endl;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------

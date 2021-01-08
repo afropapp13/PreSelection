@@ -187,9 +187,15 @@ public :
    std::vector<double> *Track_ParticleId_ProtonScore_Chi2_VPlane;
    std::vector<double> *Track_ParticleId_PionScore_Chi2_VPlane;
 
+   std::vector<double> *Track_LLR_PID;
+
    std::vector<int>     *MCTruth_CCNC;
    std::vector<int>     *MCTruth_Mode;
    std::vector<int>     *MCTruth_InteractionType;
+   std::vector<double>     *MCTruth_Particle_Nu_E;
+   std::vector<double>     *MCTruth_Particle_Nu_Vx;
+   std::vector<double>     *MCTruth_Particle_Nu_Vy;
+   std::vector<double>     *MCTruth_Particle_Nu_Vz;
 
    Int_t           NumberNuMuPFParticles;
    vector<int>     *PFParticle_NumberNuMuDaughters;
@@ -369,29 +375,35 @@ public :
    TBranch        *b_MCParticle_AssMCTruth_Y;   //!
    TBranch        *b_MCParticle_AssMCTruth_W;*/   //!
 
-   TBranch        *b_Track_ParticleId_MIPScore_ThreePlanePID;
-   TBranch        *b_Track_ParticleId_MuonScore_ThreePlanePID;
+//   TBranch        *b_Track_ParticleId_MIPScore_ThreePlanePID;
+//   TBranch        *b_Track_ParticleId_MuonScore_ThreePlanePID;
    TBranch        *b_Track_ParticleId_ProtonScore_ThreePlanePID;
-   TBranch        *b_Track_ParticleId_PionScore_ThreePlanePID;
+//   TBranch        *b_Track_ParticleId_PionScore_ThreePlanePID;
 
-   TBranch        *b_Track_ParticleId_MIPScore_Chi2_YPlane;
-   TBranch        *b_Track_ParticleId_MuonScore_Chi2_YPlane;
+//   TBranch        *b_Track_ParticleId_MIPScore_Chi2_YPlane;
+//   TBranch        *b_Track_ParticleId_MuonScore_Chi2_YPlane;
    TBranch        *b_Track_ParticleId_ProtonScore_Chi2_YPlane;
-   TBranch        *b_Track_ParticleId_PionScore_Chi2_YPlane;
+//   TBranch        *b_Track_ParticleId_PionScore_Chi2_YPlane;
 
-   TBranch        *b_Track_ParticleId_MIPScore_Chi2_UPlane;
-   TBranch        *b_Track_ParticleId_MuonScore_Chi2_UPlane;
+//   TBranch        *b_Track_ParticleId_MIPScore_Chi2_UPlane;
+//   TBranch        *b_Track_ParticleId_MuonScore_Chi2_UPlane;
    TBranch        *b_Track_ParticleId_ProtonScore_Chi2_UPlane;
-   TBranch        *b_Track_ParticleId_PionScore_Chi2_UPlane;
+//   TBranch        *b_Track_ParticleId_PionScore_Chi2_UPlane;
 
-   TBranch        *b_Track_ParticleId_MIPScore_Chi2_VPlane;
-   TBranch        *b_Track_ParticleId_MuonScore_Chi2_VPlane;
+//   TBranch        *b_Track_ParticleId_MIPScore_Chi2_VPlane;
+//   TBranch        *b_Track_ParticleId_MuonScore_Chi2_VPlane;
    TBranch        *b_Track_ParticleId_ProtonScore_Chi2_VPlane;
-   TBranch        *b_Track_ParticleId_PionScore_Chi2_VPlane;
+//   TBranch        *b_Track_ParticleId_PionScore_Chi2_VPlane;
+
+   TBranch        *b_Track_LLR_PID;
 
    TBranch        *b_MCTruth_CCNC;   //!
    TBranch        *b_MCTruth_Mode;   //!
    TBranch        *b_MCTruth_InteractionType;   //!
+   TBranch        *b_MCTruth_Particle_Nu_E;   //!
+   TBranch        *b_MCTruth_Particle_Nu_Vx;   //!
+   TBranch        *b_MCTruth_Particle_Nu_Vy;   //!
+   TBranch        *b_MCTruth_Particle_Nu_Vz;   //!
 
    TBranch        *b_NumberNuMuPFParticles;   //!
    TBranch        *b_PFParticle_NumberNuMuDaughters;   //!
@@ -649,29 +661,35 @@ void PreSelection::Init(TChain *tree)
    MCParticle_AssMCTruth_Y = 0;
    MCParticle_AssMCTruth_W = 0;*/
 
-   Track_ParticleId_MIPScore_ThreePlanePID = 0;
-   Track_ParticleId_MuonScore_ThreePlanePID = 0;
+//   Track_ParticleId_MIPScore_ThreePlanePID = 0;
+//   Track_ParticleId_MuonScore_ThreePlanePID = 0;
    Track_ParticleId_ProtonScore_ThreePlanePID = 0;
-   Track_ParticleId_PionScore_ThreePlanePID = 0;
+//   Track_ParticleId_PionScore_ThreePlanePID = 0;
 
-   Track_ParticleId_MIPScore_Chi2_YPlane = 0;
-   Track_ParticleId_MuonScore_Chi2_YPlane = 0;
+//   Track_ParticleId_MIPScore_Chi2_YPlane = 0;
+//   Track_ParticleId_MuonScore_Chi2_YPlane = 0;
    Track_ParticleId_ProtonScore_Chi2_YPlane = 0;
-   Track_ParticleId_PionScore_Chi2_YPlane = 0;
+//   Track_ParticleId_PionScore_Chi2_YPlane = 0;
 
-   Track_ParticleId_MIPScore_Chi2_UPlane = 0;
-   Track_ParticleId_MuonScore_Chi2_UPlane = 0;
+//   Track_ParticleId_MIPScore_Chi2_UPlane = 0;
+//   Track_ParticleId_MuonScore_Chi2_UPlane = 0;
    Track_ParticleId_ProtonScore_Chi2_UPlane = 0;
-   Track_ParticleId_PionScore_Chi2_UPlane = 0;
+//   Track_ParticleId_PionScore_Chi2_UPlane = 0;
 
-   Track_ParticleId_MIPScore_Chi2_VPlane = 0;
-   Track_ParticleId_MuonScore_Chi2_VPlane = 0;
+//   Track_ParticleId_MIPScore_Chi2_VPlane = 0;
+//   Track_ParticleId_MuonScore_Chi2_VPlane = 0;
    Track_ParticleId_ProtonScore_Chi2_VPlane = 0;
-   Track_ParticleId_PionScore_Chi2_VPlane = 0;
+//   Track_ParticleId_PionScore_Chi2_VPlane = 0;
+
+   Track_LLR_PID = 0;
 
    MCTruth_CCNC = 0;
    MCTruth_Mode = 0;
    MCTruth_InteractionType = 0;
+   MCTruth_Particle_Nu_E = 0;
+   MCTruth_Particle_Nu_Vx = 0;
+   MCTruth_Particle_Nu_Vy = 0;
+   MCTruth_Particle_Nu_Vz = 0;
 
    PFParticle_NumberNuMuDaughters = 0;
    PFParticle_NumberNuMuDaughtersPdgCode = 0;
@@ -854,29 +872,35 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("MCParticle_AssMCTruth_Y", &MCParticle_AssMCTruth_Y, &b_MCParticle_AssMCTruth_Y);
    fChain->SetBranchAddress("MCParticle_AssMCTruth_W", &MCParticle_AssMCTruth_W, &b_MCParticle_AssMCTruth_W);*/
 
-   fChain->SetBranchAddress("Track_ParticleId_MIPScore_ThreePlanePID", &Track_ParticleId_MIPScore_ThreePlanePID, &b_Track_ParticleId_MIPScore_ThreePlanePID);
-   fChain->SetBranchAddress("Track_ParticleId_MuonScore_ThreePlanePID", &Track_ParticleId_MuonScore_ThreePlanePID, &b_Track_ParticleId_MuonScore_ThreePlanePID);
+//   fChain->SetBranchAddress("Track_ParticleId_MIPScore_ThreePlanePID", &Track_ParticleId_MIPScore_ThreePlanePID, &b_Track_ParticleId_MIPScore_ThreePlanePID);
+//   fChain->SetBranchAddress("Track_ParticleId_MuonScore_ThreePlanePID", &Track_ParticleId_MuonScore_ThreePlanePID, &b_Track_ParticleId_MuonScore_ThreePlanePID);
    fChain->SetBranchAddress("Track_ParticleId_ProtonScore_ThreePlanePID", &Track_ParticleId_ProtonScore_ThreePlanePID, &b_Track_ParticleId_ProtonScore_ThreePlanePID);
-   fChain->SetBranchAddress("Track_ParticleId_PionScore_ThreePlanePID", &Track_ParticleId_PionScore_ThreePlanePID, &b_Track_ParticleId_PionScore_ThreePlanePID);
+//   fChain->SetBranchAddress("Track_ParticleId_PionScore_ThreePlanePID", &Track_ParticleId_PionScore_ThreePlanePID, &b_Track_ParticleId_PionScore_ThreePlanePID);
 
-   fChain->SetBranchAddress("Track_ParticleId_MIPScore_Chi2_YPlane", &Track_ParticleId_MIPScore_Chi2_YPlane, &b_Track_ParticleId_MIPScore_Chi2_YPlane);
-   fChain->SetBranchAddress("Track_ParticleId_MuonScore_Chi2_YPlane", &Track_ParticleId_MuonScore_Chi2_YPlane, &b_Track_ParticleId_MuonScore_Chi2_YPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_MIPScore_Chi2_YPlane", &Track_ParticleId_MIPScore_Chi2_YPlane, &b_Track_ParticleId_MIPScore_Chi2_YPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_MuonScore_Chi2_YPlane", &Track_ParticleId_MuonScore_Chi2_YPlane, &b_Track_ParticleId_MuonScore_Chi2_YPlane);
    fChain->SetBranchAddress("Track_ParticleId_ProtonScore_Chi2_YPlane", &Track_ParticleId_ProtonScore_Chi2_YPlane, &b_Track_ParticleId_ProtonScore_Chi2_YPlane);
-   fChain->SetBranchAddress("Track_ParticleId_PionScore_Chi2_YPlane", &Track_ParticleId_PionScore_Chi2_YPlane, &b_Track_ParticleId_PionScore_Chi2_YPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_PionScore_Chi2_YPlane", &Track_ParticleId_PionScore_Chi2_YPlane, &b_Track_ParticleId_PionScore_Chi2_YPlane);
 
-   fChain->SetBranchAddress("Track_ParticleId_MIPScore_Chi2_UPlane", &Track_ParticleId_MIPScore_Chi2_UPlane, &b_Track_ParticleId_MIPScore_Chi2_UPlane);
-   fChain->SetBranchAddress("Track_ParticleId_MuonScore_Chi2_UPlane", &Track_ParticleId_MuonScore_Chi2_UPlane, &b_Track_ParticleId_MuonScore_Chi2_UPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_MIPScore_Chi2_UPlane", &Track_ParticleId_MIPScore_Chi2_UPlane, &b_Track_ParticleId_MIPScore_Chi2_UPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_MuonScore_Chi2_UPlane", &Track_ParticleId_MuonScore_Chi2_UPlane, &b_Track_ParticleId_MuonScore_Chi2_UPlane);
    fChain->SetBranchAddress("Track_ParticleId_ProtonScore_Chi2_UPlane", &Track_ParticleId_ProtonScore_Chi2_UPlane, &b_Track_ParticleId_ProtonScore_Chi2_UPlane);
-   fChain->SetBranchAddress("Track_ParticleId_PionScore_Chi2_UPlane", &Track_ParticleId_PionScore_Chi2_UPlane, &b_Track_ParticleId_PionScore_Chi2_UPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_PionScore_Chi2_UPlane", &Track_ParticleId_PionScore_Chi2_UPlane, &b_Track_ParticleId_PionScore_Chi2_UPlane);
 
-   fChain->SetBranchAddress("Track_ParticleId_MIPScore_Chi2_VPlane", &Track_ParticleId_MIPScore_Chi2_VPlane, &b_Track_ParticleId_MIPScore_Chi2_VPlane);
-   fChain->SetBranchAddress("Track_ParticleId_MuonScore_Chi2_VPlane", &Track_ParticleId_MuonScore_Chi2_VPlane, &b_Track_ParticleId_MuonScore_Chi2_VPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_MIPScore_Chi2_VPlane", &Track_ParticleId_MIPScore_Chi2_VPlane, &b_Track_ParticleId_MIPScore_Chi2_VPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_MuonScore_Chi2_VPlane", &Track_ParticleId_MuonScore_Chi2_VPlane, &b_Track_ParticleId_MuonScore_Chi2_VPlane);
    fChain->SetBranchAddress("Track_ParticleId_ProtonScore_Chi2_VPlane", &Track_ParticleId_ProtonScore_Chi2_VPlane, &b_Track_ParticleId_ProtonScore_Chi2_VPlane);
-   fChain->SetBranchAddress("Track_ParticleId_PionScore_Chi2_VPlane", &Track_ParticleId_PionScore_Chi2_VPlane, &b_Track_ParticleId_PionScore_Chi2_VPlane);
+//   fChain->SetBranchAddress("Track_ParticleId_PionScore_Chi2_VPlane", &Track_ParticleId_PionScore_Chi2_VPlane, &b_Track_ParticleId_PionScore_Chi2_VPlane);
+
+   fChain->SetBranchAddress("Track_LLR_PID", &Track_LLR_PID, &b_Track_LLR_PID);
 
    fChain->SetBranchAddress("MCTruth_CCNC", &MCTruth_CCNC, &b_MCTruth_CCNC);
    fChain->SetBranchAddress("MCTruth_Mode", &MCTruth_Mode, &b_MCTruth_Mode);
    fChain->SetBranchAddress("MCTruth_InteractionType", &MCTruth_InteractionType, &b_MCTruth_InteractionType);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_E", &MCTruth_Particle_Nu_E, &b_MCTruth_Particle_Nu_E);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_Vx", &MCTruth_Particle_Nu_Vx, &b_MCTruth_Particle_Nu_Vx);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_Vy", &MCTruth_Particle_Nu_Vy, &b_MCTruth_Particle_Nu_Vy);
+   fChain->SetBranchAddress("MCTruth_Particle_Nu_Vz", &MCTruth_Particle_Nu_Vz, &b_MCTruth_Particle_Nu_Vz);
 
    fChain->SetBranchAddress("NumberNuMuPFParticles", &NumberNuMuPFParticles, &b_NumberNuMuPFParticles);
 
