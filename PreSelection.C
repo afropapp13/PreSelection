@@ -1464,7 +1464,7 @@ void PreSelection::Loop() {
 
 		NumberPi0 = TruePi0Counter;
 
-		NumberNeutron = TrueNeutronCounter;
+		NumberNeutrons = TrueNeutronCounter;
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 

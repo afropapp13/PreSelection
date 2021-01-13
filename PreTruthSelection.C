@@ -99,7 +99,7 @@ void PreTruthSelection::Loop() {
 	int CC3p2pi;
 
 	int NumberPi0;
-	int NumberNeutron;		
+	int NumberNeutrons;		
 	
 	// ------------------------------------------------------------------------------------------------------------------------------------------	
 
@@ -793,7 +793,7 @@ void PreTruthSelection::Loop() {
 
 		NumberMCParticles = StableMCParticles;	
 		NumberPi0 = TruePi0Counter;
-		NumberNeutron = TrueNeutronCounter;
+		NumberNeutrons = TrueNeutronCounter;
 		
 		// --------------------------------------------------------------------------------------------------------------------------		
 
