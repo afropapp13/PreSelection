@@ -19,12 +19,6 @@ using namespace Constants;
 
 void TwoDPlots() {
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-
-	TString UserID = "apapadop";
-
-	TString PlotsPath = "/uboone/data/users/"+UserID+"/mySTVAnalysis/myPlots/"+UBCodeVersion+"/Overlay9/"; 
-
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	gStyle->SetTitleSize(0.0,"t");
@@ -41,445 +35,517 @@ void TwoDPlots() {
 
 	gROOT->ForceStyle();
 
-	TString RunNumber = "Run1";
-//	TString RunNumber = "Run2";
-	TString RunNumber = "Run3";
-//	TString RunNumber = "Run4";
-//	TString RunNumber = "Run5";
-
-	TFile* OverlayFile = TFile::Open("/uboone/data/users/apapadop/myEvents/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+RunNumber+"_"+UBCodeVersion+".root","readonly");
-	TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
-
-	TString qualifier = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
-
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// Muon Momentum MCS
+	std::vector<TString> Runs{"Run1"};
+//	std::vector<TString> Runs{"Run1","Run3"};
+//	std::vector<TString> Runs{"Run1","Run2","Run3","Run4","Run5"};
 
-	TH2D* hMuonMomMCS = new TH2D("hMuonMomMCS",";True Muon Momentum [GeV/c]; MCS Reco Muon Momentum [GeV/c]",400,0,2,400,0,2);
+	const int NRuns = Runs.size();
 
-	tree->Draw("CandidateMu_P_MCS:True_CandidateMu_P>>hMuonMomMCS",qualifier+ " && CandidateMu_EndContainment == 0","goff");
+	for (int WhichRun = 0; WhichRun < NRuns; WhichRun++) {
 
-	TCanvas* MuonMomentumMCSCanvas = new TCanvas("MuonMomentumMCSCanvas","MuonMomentumMCSCanvas",205,34,1024,768);
-	MuonMomentumMCSCanvas->cd();
-	hMuonMomMCS->SetTitle("Exiting Candidate Muon Tracks");
-	hMuonMomMCS->SetTitleSize(0.08,"t");
-	hMuonMomMCS->Draw("coltz");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	MuonMomentumMCSCanvas->SaveAs(PlotsPath+"MuonMomentumMCS2DCanvas_"+RunNumber+".pdf");
+		TFile* OverlayFile = TFile::Open("/uboone/data/users/apapadop/myEvents/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
+		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TString qualifier = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
 
-	// Muon Momentum Range
+		TLatex *text = new TLatex();
+		text->SetTextFont(FontStyle);
+		text->SetTextSize(0.05);
 
-	TH2D* hMuonMomRange = new TH2D("hMuonMomRange",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",400,0,2,400,0,2);
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
+		// Muon Momentum MCS
 
-	TCanvas* MuonMomentumRangeCanvas = new TCanvas("MuonMomentumRangeCanvas","MuonMomentumRangeCanvas",205,34,1024,768);
-	MuonMomentumRangeCanvas->cd();
-	hMuonMomRange->SetTitle("Contained Candidate Muon Tracks");
-	hMuonMomRange->SetTitleSize(0.08,"t");
-	hMuonMomRange->Draw("coltz");
+		TH2D* hMuonMomMCS = new TH2D("hMuonMomMCS",";True Muon Momentum [GeV/c]; MCS Reco Muon Momentum [GeV/c]",400,0,2,400,0,2);
 
-	MuonMomentumRangeCanvas->SaveAs(PlotsPath+"MuonMomentum2DRangeCanvas_"+RunNumber+".pdf");
+		tree->Draw("CandidateMu_P_MCS:True_CandidateMu_P>>hMuonMomMCS",qualifier+ " && CandidateMu_EndContainment == 0","goff");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TCanvas* MuonMomentumMCSCanvas = new TCanvas("MuonMomentumMCSCanvas","MuonMomentumMCSCanvas",205,34,1024,768);
+		MuonMomentumMCSCanvas->cd();
+		hMuonMomMCS->SetTitle("Exiting Candidate Muon Tracks");
+		hMuonMomMCS->SetTitleSize(0.08,"t");
+		hMuonMomMCS->Draw("coltz");
 
-	// Muon CosTheta
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TH2D* hMuonCosTheta = new TH2D("hMuonCosTheta",";True Muon cos(#theta);Reco Muon cos(#theta)",400,-1,1,400,-1,1);
+		MuonMomentumMCSCanvas->SaveAs(PlotPath+"MuonMomentumMCS2DCanvas_"+Runs[WhichRun]+".pdf");
 
-	tree->Draw("CandidateMu_CosTheta:True_CandidateMu_CosTheta>>hMuonCosTheta",qualifier,"goff");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TCanvas* MuonCosThetaCanvas = new TCanvas("MuonCosThetaCanvas","MuonCosThetaCanvas",205,34,1024,768);
-	MuonCosThetaCanvas->cd();
-	hMuonCosTheta->Draw("coltz");
+		// Muon Momentum Range
 
-	MuonCosThetaCanvas->SaveAs(PlotsPath+"MuonCosThetaCanvas_"+RunNumber+".pdf");
+		TH2D* hMuonMomRange = new TH2D("hMuonMomRange",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",400,0,2,400,0,2);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
 
-	// Muon Phi
+		TCanvas* MuonMomentumRangeCanvas = new TCanvas("MuonMomentumRangeCanvas","MuonMomentumRangeCanvas",205,34,1024,768);
+		MuonMomentumRangeCanvas->cd();
+		hMuonMomRange->SetTitle("Contained Candidate Muon Tracks");
+		hMuonMomRange->SetTitleSize(0.08,"t");
+		hMuonMomRange->Draw("coltz");
 
-	TH2D* hMuonPhi = new TH2D("hMuonPhi",";True Muon #phi [deg];Reco Muon #phi [deg]",360,-180,180,360,-180,180);
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	tree->Draw("CandidateMu_Phi:True_CandidateMu_Phi>>hMuonPhi",qualifier,"goff");
+		MuonMomentumRangeCanvas->SaveAs(PlotPath+"MuonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
 
-	TCanvas* MuonPhiCanvas = new TCanvas("MuonPhiCanvas","MuonPhiCanvas",205,34,1024,768);
-	MuonPhiCanvas->cd();
-	hMuonPhi->Draw("coltz");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	MuonPhiCanvas->SaveAs(PlotsPath+"MuonPhiCanvas_"+RunNumber+".pdf");
+		// Muon CosTheta
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TH2D* hMuonCosTheta = new TH2D("hMuonCosTheta",";True Muon cos(#theta);Reco Muon cos(#theta)",400,-1,1,400,-1,1);
 
-	// Proton Momentum Range
+		tree->Draw("CandidateMu_CosTheta:True_CandidateMu_CosTheta>>hMuonCosTheta",qualifier,"goff");
 
-	TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",400,0,2,400,0,2);
+		TCanvas* MuonCosThetaCanvas = new TCanvas("MuonCosThetaCanvas","MuonCosThetaCanvas",205,34,1024,768);
+		MuonCosThetaCanvas->cd();
+		hMuonCosTheta->Draw("coltz");
 
-	tree->Draw("CandidateP_P_Range:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TCanvas* ProtonMomentumRangeCanvas = new TCanvas("ProtonMomentumRangeCanvas","ProtonMomentumRangeCanvas",205,34,1024,768);
-	ProtonMomentumRangeCanvas->cd();
-	hProtonMomRange->Draw("coltz");
+		MuonCosThetaCanvas->SaveAs(PlotPath+"MuonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
 
-	ProtonMomentumRangeCanvas->SaveAs(PlotsPath+"ProtonMomentum2DRangeCanvas_"+RunNumber+".pdf");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Muon Phi
 
-	// Proton CosTheta
+		TH2D* hMuonPhi = new TH2D("hMuonPhi",";True Muon #phi [deg];Reco Muon #phi [deg]",360,-180,180,360,-180,180);
 
-	TH2D* hProtonCosTheta = new TH2D("hProtonCosTheta",";True Proton cos(#theta);Reco Proton cos(#theta)",400,-1,1,400,-1,1);
+		tree->Draw("CandidateMu_Phi:True_CandidateMu_Phi>>hMuonPhi",qualifier,"goff");
 
-	tree->Draw("CandidateP_CosTheta:True_CandidateP_CosTheta>>hProtonCosTheta",qualifier,"goff");
+		TCanvas* MuonPhiCanvas = new TCanvas("MuonPhiCanvas","MuonPhiCanvas",205,34,1024,768);
+		MuonPhiCanvas->cd();
+		hMuonPhi->Draw("coltz");
 
-	TCanvas* ProtonCosThetaCanvas = new TCanvas("ProtonCosThetaCanvas","ProtonCosThetaCanvas",205,34,1024,768);
-	ProtonCosThetaCanvas->cd();
-	hProtonCosTheta->Draw("coltz");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	ProtonCosThetaCanvas->SaveAs(PlotsPath+"ProtonCosThetaCanvas_"+RunNumber+".pdf");
+		MuonPhiCanvas->SaveAs(PlotPath+"MuonPhiCanvas_"+Runs[WhichRun]+".pdf");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// Proton Phi
+		// Proton Momentum Range
 
-	TH2D* hProtonPhi = new TH2D("hProtonPhi",";True Proton #phi [deg];Reco Proton #phi [deg]",360,-180,180,360,-180,180);
+		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",400,0,2,400,0,2);
 
-	tree->Draw("CandidateP_Phi:True_CandidateP_Phi>>hProtonPhi",qualifier,"goff");
+		tree->Draw("CandidateP_P_Range:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
 
-	TCanvas* ProtonPhiCanvas = new TCanvas("ProtonPhiCanvas","ProtonPhiCanvas",205,34,1024,768);
-	ProtonPhiCanvas->cd();
-	hProtonPhi->Draw("coltz");
+		TCanvas* ProtonMomentumRangeCanvas = new TCanvas("ProtonMomentumRangeCanvas","ProtonMomentumRangeCanvas",205,34,1024,768);
+		ProtonMomentumRangeCanvas->cd();
+		hProtonMomRange->Draw("coltz");
 
-	ProtonPhiCanvas->SaveAs(PlotsPath+"ProtonPhiCanvas_"+RunNumber+".pdf");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		ProtonMomentumRangeCanvas->SaveAs(PlotPath+"ProtonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
 
-	// Transverse Missing Momentum
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TH2D* hPt = new TH2D("hPt",";True P_{T} [GeV/c];Reco P_{T} [GeV/c]",400,0,1,400,0,1);
+		// Proton CosTheta
 
-	TCanvas* PtCanvas = new TCanvas("PTCanvas","PTCanvas",205,34,1024,768);
-	PtCanvas->cd();
+		TH2D* hProtonCosTheta = new TH2D("hProtonCosTheta",";True Proton cos(#theta);Reco Proton cos(#theta)",400,-1,1,400,-1,1);
 
-	tree->Draw("Reco_Pt:True_Pt>>hPt",qualifier,"goff");
-	hPt->Draw("coltz");
+		tree->Draw("CandidateP_CosTheta:True_CandidateP_CosTheta>>hProtonCosTheta",qualifier,"goff");
 
-	PtCanvas->SaveAs(PlotsPath+"PtCanvas_"+RunNumber+".pdf");
+		TCanvas* ProtonCosThetaCanvas = new TCanvas("ProtonCosThetaCanvas","ProtonCosThetaCanvas",205,34,1024,768);
+		ProtonCosThetaCanvas->cd();
+		hProtonCosTheta->Draw("coltz");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// Delta AlphaT
+		ProtonCosThetaCanvas->SaveAs(PlotPath+"ProtonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
 
-	TH2D* hDeltaAlphaT = new TH2D("hDeltaAlphaT",";True #delta#alpha_{T} [deg];Reco #delta#alpha_{T} [deg]",360,0,180,360,0,180);
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>hDeltaAlphaT",qualifier,"goff");
+		// Proton Phi
 
-	TCanvas* DeltaAlphaTCanvas = new TCanvas("DeltaAlphaTCanvas","DeltaAlphaTCanvas",205,34,1024,768);
-	DeltaAlphaTCanvas->cd();
-	hDeltaAlphaT->Draw("coltz");
+		TH2D* hProtonPhi = new TH2D("hProtonPhi",";True Proton #phi [deg];Reco Proton #phi [deg]",360,-180,180,360,-180,180);
 
-	DeltaAlphaTCanvas->SaveAs(PlotsPath+"DeltaAlphaTCanvas_"+RunNumber+".pdf");
+		tree->Draw("CandidateP_Phi:True_CandidateP_Phi>>hProtonPhi",qualifier,"goff");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TCanvas* ProtonPhiCanvas = new TCanvas("ProtonPhiCanvas","ProtonPhiCanvas",205,34,1024,768);
+		ProtonPhiCanvas->cd();
+		hProtonPhi->Draw("coltz");
 
-	// Delta PhiT
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TH2D* hDeltaPhiT = new TH2D("hDeltaPhiT",";True #delta#phi_{T} [deg];Reco #delta#phi_{T} [deg]",360,0,180,360,0,180);
+		ProtonPhiCanvas->SaveAs(PlotPath+"ProtonPhiCanvas_"+Runs[WhichRun]+".pdf");
 
-	tree->Draw("Reco_DeltaPhiT:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TCanvas* DeltaPhiTCanvas = new TCanvas("DeltaPhiTCanvas","DeltaPhiTCanvas",205,34,1024,768);
-	DeltaPhiTCanvas->cd();
-	hDeltaPhiT->Draw("coltz");
+		// Transverse Missing Momentum
 
-	DeltaPhiTCanvas->SaveAs(PlotsPath+"DeltaPhiTCanvas_"+RunNumber+".pdf");
+		TH2D* hPt = new TH2D("hPt",";True P_{T} [GeV/c];Reco P_{T} [GeV/c]",400,0,1,400,0,1);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TCanvas* PtCanvas = new TCanvas("PTCanvas","PTCanvas",205,34,1024,768);
+		PtCanvas->cd();
 
-	// kMiss
+		tree->Draw("Reco_Pt:True_Pt>>hPt",qualifier,"goff");
+		hPt->Draw("coltz");
 
-	TH2D* hkMiss = new TH2D("hkMiss",";True k_{Miss} [GeV/c];Reco k_{Miss} [GeV/c]",400,0,1,400,0,1);
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	tree->Draw("Reco_kMiss:True_kMiss>>hkMiss",qualifier,"goff");
+		PtCanvas->SaveAs(PlotPath+"PtCanvas_"+Runs[WhichRun]+".pdf");
 
-	TCanvas* kMissCanvas = new TCanvas("kMissCanvas","kMissCanvas",205,34,1024,768);
-	kMissCanvas->cd();
-	hkMiss->Draw("coltz");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	kMissCanvas->SaveAs(PlotsPath+"kMissCanvas_"+RunNumber+".pdf");
+		// Delta AlphaT
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TH2D* hDeltaAlphaT = new TH2D("hDeltaAlphaT",";True #delta#alpha_{T} [deg];Reco #delta#alpha_{T} [deg]",360,0,180,360,0,180);
 
-	// PMiss
+		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>hDeltaAlphaT",qualifier,"goff");
 
-	TH2D* hPMiss = new TH2D("hPMiss",";True P_{Miss} [GeV/c];Reco P_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+		TCanvas* DeltaAlphaTCanvas = new TCanvas("DeltaAlphaTCanvas","DeltaAlphaTCanvas",205,34,1024,768);
+		DeltaAlphaTCanvas->cd();
+		hDeltaAlphaT->Draw("coltz");
 
-	tree->Draw("Reco_PMiss:True_PMiss>>hPMiss",qualifier,"goff");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TCanvas* PMissCanvas = new TCanvas("PMissCanvas","PMissCanvas",205,34,1024,768);
-	PMissCanvas->cd();
-	hPMiss->Draw("coltz");
+		DeltaAlphaTCanvas->SaveAs(PlotPath+"DeltaAlphaTCanvas_"+Runs[WhichRun]+".pdf");
 
-	PMissCanvas->SaveAs(PlotsPath+"PMissCanvas_"+RunNumber+".pdf");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Delta PhiT
 
-	// PMissMinus
+		TH2D* hDeltaPhiT = new TH2D("hDeltaPhiT",";True #delta#phi_{T} [deg];Reco #delta#phi_{T} [deg]",360,0,180,360,0,180);
 
-	TH2D* hPMissMinus = new TH2D("hPMissMinus",";True P^{-}_{Miss} [GeV/c];Reco P^{-}_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+		tree->Draw("Reco_DeltaPhiT:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
 
-	tree->Draw("Reco_PMissMinus:True_PMissMinus>>hPMissMinus",qualifier,"goff");
+		TCanvas* DeltaPhiTCanvas = new TCanvas("DeltaPhiTCanvas","DeltaPhiTCanvas",205,34,1024,768);
+		DeltaPhiTCanvas->cd();
+		hDeltaPhiT->Draw("coltz");
 
-	TCanvas* PMissMinusCanvas = new TCanvas("PMissMinusCanvas","PMissMinusCanvas",205,34,1024,768);
-	PMissMinusCanvas->cd();
-	hPMissMinus->Draw("coltz");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	PMissMinusCanvas->SaveAs(PlotsPath+"PMissMinusCanvas_"+RunNumber+".pdf");
+		DeltaPhiTCanvas->SaveAs(PlotPath+"DeltaPhiTCanvas_"+Runs[WhichRun]+".pdf");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// ECal
+		// kMiss
 
-	TH2D* hECal = new TH2D("hECal",";True E^{cal} [GeV];Reco E^{cal} [GeV]",400,0,2,400,0,2);
+		TH2D* hkMiss = new TH2D("hkMiss",";True k_{Miss} [GeV/c];Reco k_{Miss} [GeV/c]",400,0,1,400,0,1);
 
-	tree->Draw("Reco_ECal:True_ECal>>hECal",qualifier,"goff");
+		tree->Draw("Reco_kMiss:True_kMiss>>hkMiss",qualifier,"goff");
 
-	TCanvas* ECalCanvas = new TCanvas("ECalCanvas","ECalCanvas",205,34,1024,768);
-	ECalCanvas->cd();
-	hECal->Draw("coltz");
+		TCanvas* kMissCanvas = new TCanvas("kMissCanvas","kMissCanvas",205,34,1024,768);
+		kMissCanvas->cd();
+		hkMiss->Draw("coltz");
 
-	ECalCanvas->SaveAs(PlotsPath+"ECalCanvas_"+RunNumber+".pdf");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		kMissCanvas->SaveAs(PlotPath+"kMissCanvas_"+Runs[WhichRun]+".pdf");
 
-	// EQE
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TH2D* hEQE = new TH2D("hEQE",";True E^{QE} [GeV];Reco E^{QE} [GeV]",400,0,2,400,0,2);
+		// PMiss
 
-	tree->Draw("Reco_EQE:True_EQE>>hEQE",qualifier,"goff");
+		TH2D* hPMiss = new TH2D("hPMiss",";True P_{Miss} [GeV/c];Reco P_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
 
-	TCanvas* EQECanvas = new TCanvas("EQECanvas","EQECanvas",205,34,1024,768);
-	EQECanvas->cd();
-	hEQE->Draw("coltz");
+		tree->Draw("Reco_PMiss:True_PMiss>>hPMiss",qualifier,"goff");
 
-	EQECanvas->SaveAs(PlotsPath+"EQECanvas_"+RunNumber+".pdf");
+		TCanvas* PMissCanvas = new TCanvas("PMissCanvas","PMissCanvas",205,34,1024,768);
+		PMissCanvas->cd();
+		hPMiss->Draw("coltz");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// DeltaPhi
+		PMissCanvas->SaveAs(PlotPath+"PMissCanvas_"+Runs[WhichRun]+".pdf");
 
-	TH2D* hDeltaPhi = new TH2D("hDeltaPhi",";True #delta#phi_{#mu,p} [deg];Reco #delta#phi_{#mu,p} [deg]",360,0,360,360,0,360);
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	tree->Draw("Reco_DeltaPhi:True_DeltaPhi>>hDeltaPhi",qualifier,"coltz");
+		// PMissMinus
 
-	TCanvas* DeltaPhiCanvas = new TCanvas("DeltaPhiCanvas","DeltaPhiCanvas",205,34,1024,768);
-	DeltaPhiCanvas->cd();
-	hDeltaPhi->Draw("coltz");
+		TH2D* hPMissMinus = new TH2D("hPMissMinus",";True P^{-}_{Miss} [GeV/c];Reco P^{-}_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
 
-	DeltaPhiCanvas->SaveAs(PlotsPath+"DeltaPhiCanvas_"+RunNumber+".pdf");
+		tree->Draw("Reco_PMissMinus:True_PMissMinus>>hPMissMinus",qualifier,"goff");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TCanvas* PMissMinusCanvas = new TCanvas("PMissMinusCanvas","PMissMinusCanvas",205,34,1024,768);
+		PMissMinusCanvas->cd();
+		hPMissMinus->Draw("coltz");
 
-	// DeltaTheta
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TH2D* hDeltaTheta = new TH2D("hDeltaTheta",";True #delta#theta_{#mu,p} [deg];Reco #delta#theta_{#mu,p} [deg]",360,0,180,360,0,180);
+		PMissMinusCanvas->SaveAs(PlotPath+"PMissMinusCanvas_"+Runs[WhichRun]+".pdf");
 
-	tree->Draw("Reco_DeltaTheta:True_DeltaTheta>>hDeltaTheta",qualifier,"goff");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TCanvas* DeltaThetaCanvas = new TCanvas("DeltaThetaCanvas","DeltaThetaCanvas",205,34,1024,768);
-	DeltaThetaCanvas->cd();
-	hDeltaTheta->Draw("coltz");
+		// ECal
 
-	DeltaThetaCanvas->SaveAs(PlotsPath+"DeltaThetaCanvas_"+RunNumber+".pdf");
+		TH2D* hECal = new TH2D("hECal",";True E^{cal} [GeV];Reco E^{cal} [GeV]",400,0,2,400,0,2);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		tree->Draw("Reco_ECal:True_ECal>>hECal",qualifier,"goff");
 
-	// Muon Start X
+		TCanvas* ECalCanvas = new TCanvas("ECalCanvas","ECalCanvas",205,34,1024,768);
+		ECalCanvas->cd();
+		hECal->Draw("coltz");
 
-	TH2D* hMuonStartX = new TH2D("hMuonStartX",";True Muon Start X [cm];Reco Muon Start X [cm]",300,-10,290,300,-10,290);
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	tree->Draw("CandidateMu_StartX:True_CandidateMu_StartX>>hMuonStartX",qualifier,"goff");
+		ECalCanvas->SaveAs(PlotPath+"ECalCanvas_"+Runs[WhichRun]+".pdf");
 
-	TCanvas* MuonStartXCanvas = new TCanvas("MuonStartXCanvas","MuonStartXCanvas",205,34,1024,768);
-	MuonStartXCanvas->cd();
-	hMuonStartX->Draw("coltz");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	MuonStartXCanvas->SaveAs(PlotsPath+"MuonStartXCanvas_"+RunNumber+".pdf");
+		// EQE
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TH2D* hEQE = new TH2D("hEQE",";True E^{QE} [GeV];Reco E^{QE} [GeV]",400,0,2,400,0,2);
 
-	// Muon Start Y
+		tree->Draw("Reco_EQE:True_EQE>>hEQE",qualifier,"goff");
 
-	TH2D* hMuonStartY = new TH2D("hMuonStartY",";True Muon Start Y [cm];Reco Muon Start Y [cm]",300,-150,150,300,-150,150);
+		TCanvas* EQECanvas = new TCanvas("EQECanvas","EQECanvas",205,34,1024,768);
+		EQECanvas->cd();
+		hEQE->Draw("coltz");
 
-	tree->Draw("CandidateMu_StartY:True_CandidateMu_StartY>>hMuonStartY",qualifier,"goff");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TCanvas* MuonStartYCanvas = new TCanvas("MuonStartYCanvas","MuonStartYCanvas",205,34,1024,768);
-	MuonStartYCanvas->cd();
-	hMuonStartY->Draw("coltz");
+		EQECanvas->SaveAs(PlotPath+"EQECanvas_"+Runs[WhichRun]+".pdf");
 
-	MuonStartYCanvas->SaveAs(PlotsPath+"MuonStartYCanvas_"+RunNumber+".pdf");\
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// DeltaPhi
 
-	// Muon Start Z
+		TH2D* hDeltaPhi = new TH2D("hDeltaPhi",";True #delta#phi_{#mu,p} [deg];Reco #delta#phi_{#mu,p} [deg]",360,0,360,360,0,360);
 
-	TH2D* hMuonStartZ = new TH2D("hMuonStartZ",";True Muon Start Z [cm];Reco Muon Start Z [cm]",1200,-50,1150,1200,-50,1150);
+		tree->Draw("Reco_DeltaPhi:True_DeltaPhi>>hDeltaPhi",qualifier,"coltz");
 
-	tree->Draw("CandidateMu_StartZ:True_CandidateMu_StartZ>>hMuonStartZ",qualifier,"goff");
+		TCanvas* DeltaPhiCanvas = new TCanvas("DeltaPhiCanvas","DeltaPhiCanvas",205,34,1024,768);
+		DeltaPhiCanvas->cd();
+		hDeltaPhi->Draw("coltz");
 
-	TCanvas* MuonStartZCanvas = new TCanvas("MuonStartZCanvas","MuonStartZCanvas",205,34,1024,768);
-	MuonStartZCanvas->cd();
-	hMuonStartZ->Draw("coltz");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	MuonStartZCanvas->SaveAs(PlotsPath+"MuonStartZCanvas_"+RunNumber+".pdf");
+		DeltaPhiCanvas->SaveAs(PlotPath+"DeltaPhiCanvas_"+Runs[WhichRun]+".pdf");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// Proton Start X
+		// DeltaTheta
 
-	TH2D* hProtonStartX = new TH2D("hProtonStartX",";True Proton Start X [cm];Reco Proton Start X [cm]",300,-10,290,300,-10,290);
+		TH2D* hDeltaTheta = new TH2D("hDeltaTheta",";True #delta#theta_{#mu,p} [deg];Reco #delta#theta_{#mu,p} [deg]",360,0,180,360,0,180);
 
-	tree->Draw("CandidateP_StartX:True_CandidateP_StartX>>hProtonStartX",qualifier,"goff");
+		tree->Draw("Reco_DeltaTheta:True_DeltaTheta>>hDeltaTheta",qualifier,"goff");
 
-	TCanvas* ProtonStartXCanvas = new TCanvas("ProtonStartXCanvas","ProtonStartXCanvas",205,34,1024,768);
-	ProtonStartXCanvas->cd();
-	hProtonStartX->Draw("coltz");
+		TCanvas* DeltaThetaCanvas = new TCanvas("DeltaThetaCanvas","DeltaThetaCanvas",205,34,1024,768);
+		DeltaThetaCanvas->cd();
+		hDeltaTheta->Draw("coltz");
 
-	ProtonStartXCanvas->SaveAs(PlotsPath+"ProtonStartXCanvas_"+RunNumber+".pdf");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		DeltaThetaCanvas->SaveAs(PlotPath+"DeltaThetaCanvas_"+Runs[WhichRun]+".pdf");
 
-	// Proton Start Y
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TH2D* hProtonStartY = new TH2D("hProtonStartY",";True Proton Start Y [cm];Reco Proton Start Y [cm]",300,-150,150,300,-150,150);
+		// Muon Start X
 
-	tree->Draw("CandidateP_StartY:True_CandidateP_StartY>>hProtonStartY",qualifier,"goff");
+		TH2D* hMuonStartX = new TH2D("hMuonStartX",";True Muon Start X [cm];Reco Muon Start X [cm]",300,-10,290,300,-10,290);
 
-	TCanvas* ProtonStartYCanvas = new TCanvas("ProtonStartYCanvas","ProtonStartYCanvas",205,34,1024,768);
-	ProtonStartYCanvas->cd();
-	hProtonStartY->Draw("coltz");
+		tree->Draw("CandidateMu_StartX:True_CandidateMu_StartX>>hMuonStartX",qualifier,"goff");
 
-	ProtonStartYCanvas->SaveAs(PlotsPath+"ProtonStartYCanvas_"+RunNumber+".pdf");\
+		TCanvas* MuonStartXCanvas = new TCanvas("MuonStartXCanvas","MuonStartXCanvas",205,34,1024,768);
+		MuonStartXCanvas->cd();
+		hMuonStartX->Draw("coltz");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// Proton Start Z
+		MuonStartXCanvas->SaveAs(PlotPath+"MuonStartXCanvas_"+Runs[WhichRun]+".pdf");
 
-	TH2D* hProtonStartZ = new TH2D("hProtonStartZ",";True Proton Start Z [cm];Reco Proton Start Z [cm]",1200,-50,1150,1200,-50,1150);
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	tree->Draw("CandidateP_StartZ:True_CandidateP_StartZ>>hProtonStartZ",qualifier,"goff");
+		// Muon Start Y
 
-	TCanvas* ProtonStartZCanvas = new TCanvas("ProtonStartZCanvas","ProtonStartZCanvas",205,34,1024,768);
-	ProtonStartZCanvas->cd();
-	hProtonStartZ->Draw("coltz");
+		TH2D* hMuonStartY = new TH2D("hMuonStartY",";True Muon Start Y [cm];Reco Muon Start Y [cm]",300,-150,150,300,-150,150);
 
-	ProtonStartZCanvas->SaveAs(PlotsPath+"ProtonStartZCanvas_"+RunNumber+".pdf");
+		tree->Draw("CandidateMu_StartY:True_CandidateMu_StartY>>hMuonStartY",qualifier,"goff");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TCanvas* MuonStartYCanvas = new TCanvas("MuonStartYCanvas","MuonStartYCanvas",205,34,1024,768);
+		MuonStartYCanvas->cd();
+		hMuonStartY->Draw("coltz");
 
-	//  Muon End X
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TH2D* hMuonEndX = new TH2D("hMuonEndX",";True Muon End X [cm];Reco Muon End X [cm]",300,-10,290,300,-10,290);
+		MuonStartYCanvas->SaveAs(PlotPath+"MuonStartYCanvas_"+Runs[WhichRun]+".pdf");\
 
-	tree->Draw("CandidateMu_EndX:True_CandidateMu_EndX>>hMuonEndX",qualifier+" && CandidateMu_EndContainment == 1","goff");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TCanvas* MuonEndXCanvas = new TCanvas("MuonEndXCanvas","MuonEndXCanvas",205,34,1024,768);
-	MuonEndXCanvas->cd();
-	hMuonEndX->Draw("coltz");
+		// Muon Start Z
 
-	MuonEndXCanvas->SaveAs(PlotsPath+"MuonEndXCanvas_"+RunNumber+".pdf");
+		TH2D* hMuonStartZ = new TH2D("hMuonStartZ",";True Muon Start Z [cm];Reco Muon Start Z [cm]",1200,-50,1150,1200,-50,1150);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		tree->Draw("CandidateMu_StartZ:True_CandidateMu_StartZ>>hMuonStartZ",qualifier,"goff");
 
-	// Muon End Y
+		TCanvas* MuonStartZCanvas = new TCanvas("MuonStartZCanvas","MuonStartZCanvas",205,34,1024,768);
+		MuonStartZCanvas->cd();
+		hMuonStartZ->Draw("coltz");
 
-	TH2D* hMuonEndY = new TH2D("hMuonEndY",";True Muon End Y [cm];Reco Muon End Y [cm]",300,-150,150,300,-150,150);
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	tree->Draw("CandidateMu_EndY:True_CandidateMu_EndY>>hMuonEndY",qualifier,"goff");
+		MuonStartZCanvas->SaveAs(PlotPath+"MuonStartZCanvas_"+Runs[WhichRun]+".pdf");
 
-	TCanvas* MuonEndYCanvas = new TCanvas("MuonEndYCanvas","MuonEndYCanvas",205,34,1024,768);
-	MuonEndYCanvas->cd();
-	hMuonEndY->Draw("coltz");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	MuonEndYCanvas->SaveAs(PlotsPath+"MuonEndYCanvas_"+RunNumber+".pdf");\
+		// Proton Start X
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		TH2D* hProtonStartX = new TH2D("hProtonStartX",";True Proton Start X [cm];Reco Proton Start X [cm]",300,-10,290,300,-10,290);
 
-	// Muon End Z
+		tree->Draw("CandidateP_StartX:True_CandidateP_StartX>>hProtonStartX",qualifier,"goff");
 
-	TH2D* hMuonEndZ = new TH2D("hMuonEndZ",";True Muon End Z [cm];Reco Muon End Z [cm]",1200,-50,1150,1200,-50,1150);
+		TCanvas* ProtonStartXCanvas = new TCanvas("ProtonStartXCanvas","ProtonStartXCanvas",205,34,1024,768);
+		ProtonStartXCanvas->cd();
+		hProtonStartX->Draw("coltz");
 
-	tree->Draw("CandidateMu_EndZ:True_CandidateMu_EndZ>>hMuonEndZ",qualifier,"goff");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	TCanvas* MuonEndZCanvas = new TCanvas("MuonEndZCanvas","MuonEndZCanvas",205,34,1024,768);
-	MuonEndZCanvas->cd();
-	hMuonEndZ->Draw("coltz");
+		ProtonStartXCanvas->SaveAs(PlotPath+"ProtonStartXCanvas_"+Runs[WhichRun]+".pdf");
 
-	MuonEndZCanvas->SaveAs(PlotsPath+"MuonEndZCanvas_"+RunNumber+".pdf");
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Proton Start Y
 
-	// Proton End X
+		TH2D* hProtonStartY = new TH2D("hProtonStartY",";True Proton Start Y [cm];Reco Proton Start Y [cm]",300,-150,150,300,-150,150);
 
-	TH2D* hProtonEndX = new TH2D("hProtonEndX",";True Proton End X [cm];Reco Proton End X [cm]",300,-10,290,300,-10,290);
+		tree->Draw("CandidateP_StartY:True_CandidateP_StartY>>hProtonStartY",qualifier,"goff");
 
-	tree->Draw("CandidateP_EndX:True_CandidateP_EndX>>hProtonEndX",qualifier,"goff");
+		TCanvas* ProtonStartYCanvas = new TCanvas("ProtonStartYCanvas","ProtonStartYCanvas",205,34,1024,768);
+		ProtonStartYCanvas->cd();
+		hProtonStartY->Draw("coltz");
 
-	TCanvas* ProtonEndXCanvas = new TCanvas("ProtonEndXCanvas","ProtonEndXCanvas",205,34,1024,768);
-	ProtonEndXCanvas->cd();
-	hProtonEndX->Draw("coltz");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	ProtonEndXCanvas->SaveAs(PlotsPath+"ProtonEndXCanvas_"+RunNumber+".pdf");
+		ProtonStartYCanvas->SaveAs(PlotPath+"ProtonStartYCanvas_"+Runs[WhichRun]+".pdf");\
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// Proton End Y
+		// Proton Start Z
 
-	TH2D* hProtonEndY = new TH2D("hProtonEndY",";True Proton End Y [cm];Reco Proton End Y [cm]",300,-150,150,300,-150,150);
+		TH2D* hProtonStartZ = new TH2D("hProtonStartZ",";True Proton Start Z [cm];Reco Proton Start Z [cm]",1200,-50,1150,1200,-50,1150);
 
-	tree->Draw("CandidateP_EndY:True_CandidateP_EndY>>hProtonEndY",qualifier,"goff");
+		tree->Draw("CandidateP_StartZ:True_CandidateP_StartZ>>hProtonStartZ",qualifier,"goff");
 
-	TCanvas* ProtonEndYCanvas = new TCanvas("ProtonEndYCanvas","ProtonEndYCanvas",205,34,1024,768);
-	ProtonEndYCanvas->cd();
-	hProtonEndY->Draw("coltz");
+		TCanvas* ProtonStartZCanvas = new TCanvas("ProtonStartZCanvas","ProtonStartZCanvas",205,34,1024,768);
+		ProtonStartZCanvas->cd();
+		hProtonStartZ->Draw("coltz");
 
-	ProtonEndYCanvas->SaveAs(PlotsPath+"ProtonEndYCanvas_"+RunNumber+".pdf");
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		ProtonStartZCanvas->SaveAs(PlotPath+"ProtonStartZCanvas_"+Runs[WhichRun]+".pdf");
 
-	// Proton End Z
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	TH2D* hProtonEndZ = new TH2D("hProtonEndZ",";True Proton End Z [cm];Reco Proton End Z [cm]",1200,-50,1150,1200,-50,1150);
+		//  Muon End X
 
-	tree->Draw("CandidateP_EndZ:True_CandidateP_EndZ>>hProtonEndZ",qualifier,"goff");
+		TH2D* hMuonEndX = new TH2D("hMuonEndX",";True Muon End X [cm];Reco Muon End X [cm]",300,-10,290,300,-10,290);
 
-	TCanvas* ProtonEndZCanvas = new TCanvas("ProtonEndZCanvas","ProtonEndZCanvas",205,34,1024,768);
-	ProtonEndZCanvas->cd();
-	hProtonEndZ->Draw("coltz");
+		tree->Draw("CandidateMu_EndX:True_CandidateMu_EndX>>hMuonEndX",qualifier+" && CandidateMu_EndContainment == 1","goff");
 
-	ProtonEndZCanvas->SaveAs(PlotsPath+"ProtonEndZCanvas_"+RunNumber+".pdf");
+		TCanvas* MuonEndXCanvas = new TCanvas("MuonEndXCanvas","MuonEndXCanvas",205,34,1024,768);
+		MuonEndXCanvas->cd();
+		hMuonEndX->Draw("coltz");
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-	// Bonus Plot: 1D μ-p distance 
+		MuonEndXCanvas->SaveAs(PlotPath+"MuonEndXCanvas_"+Runs[WhichRun]+".pdf");
 
-	TH1D* hMuPDistance = new TH1D("hMuPDistance",";reco #mu-p distance [cm]",23,-0.5,11.5);
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	tree->Draw("CandidateMuP_Distance>>hMuPDistance",qualifier,"goff");
+		// Muon End Y
 
-	TCanvas* CandidateMuP_DistanceCanvas = new TCanvas("CandidateMuP_DistanceCanvas","CandidateMuP_DistanceCanvas",205,34,1024,768);
-	CandidateMuP_DistanceCanvas->SetLeftMargin(0.15);
-	CandidateMuP_DistanceCanvas->cd();
-	hMuPDistance->SetTitle("MicroBooNE Simulation (CC1p Events)");
-	hMuPDistance->GetYaxis()->SetTitle("# Pairs / Bin");
-	hMuPDistance->GetYaxis()->SetTitleOffset(1.35);
-	hMuPDistance->SetLineColor(kBlue-6);
-	hMuPDistance->SetFillColor(kBlue-6);
-	hMuPDistance->Draw("hist");
+		TH2D* hMuonEndY = new TH2D("hMuonEndY",";True Muon End Y [cm];Reco Muon End Y [cm]",300,-150,150,300,-150,150);
 
-	CandidateMuP_DistanceCanvas->SaveAs(PlotsPath+"CandidateMuP_DistanceCanvas_"+RunNumber+".pdf");
+		tree->Draw("CandidateMu_EndY:True_CandidateMu_EndY>>hMuonEndY",qualifier,"goff");
+
+		TCanvas* MuonEndYCanvas = new TCanvas("MuonEndYCanvas","MuonEndYCanvas",205,34,1024,768);
+		MuonEndYCanvas->cd();
+		hMuonEndY->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
+
+		MuonEndYCanvas->SaveAs(PlotPath+"MuonEndYCanvas_"+Runs[WhichRun]+".pdf");\
+
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// Muon End Z
+
+		TH2D* hMuonEndZ = new TH2D("hMuonEndZ",";True Muon End Z [cm];Reco Muon End Z [cm]",1200,-50,1150,1200,-50,1150);
+
+		tree->Draw("CandidateMu_EndZ:True_CandidateMu_EndZ>>hMuonEndZ",qualifier,"goff");
+
+		TCanvas* MuonEndZCanvas = new TCanvas("MuonEndZCanvas","MuonEndZCanvas",205,34,1024,768);
+		MuonEndZCanvas->cd();
+		hMuonEndZ->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
+
+		MuonEndZCanvas->SaveAs(PlotPath+"MuonEndZCanvas_"+Runs[WhichRun]+".pdf");
+
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// Proton End X
+
+		TH2D* hProtonEndX = new TH2D("hProtonEndX",";True Proton End X [cm];Reco Proton End X [cm]",300,-10,290,300,-10,290);
+
+		tree->Draw("CandidateP_EndX:True_CandidateP_EndX>>hProtonEndX",qualifier,"goff");
+
+		TCanvas* ProtonEndXCanvas = new TCanvas("ProtonEndXCanvas","ProtonEndXCanvas",205,34,1024,768);
+		ProtonEndXCanvas->cd();
+		hProtonEndX->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
+
+		ProtonEndXCanvas->SaveAs(PlotPath+"ProtonEndXCanvas_"+Runs[WhichRun]+".pdf");
+
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// Proton End Y
+
+		TH2D* hProtonEndY = new TH2D("hProtonEndY",";True Proton End Y [cm];Reco Proton End Y [cm]",300,-150,150,300,-150,150);
+
+		tree->Draw("CandidateP_EndY:True_CandidateP_EndY>>hProtonEndY",qualifier,"goff");
+
+		TCanvas* ProtonEndYCanvas = new TCanvas("ProtonEndYCanvas","ProtonEndYCanvas",205,34,1024,768);
+		ProtonEndYCanvas->cd();
+		hProtonEndY->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
+
+		ProtonEndYCanvas->SaveAs(PlotPath+"ProtonEndYCanvas_"+Runs[WhichRun]+".pdf");
+
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// Proton End Z
+
+		TH2D* hProtonEndZ = new TH2D("hProtonEndZ",";True Proton End Z [cm];Reco Proton End Z [cm]",1200,-50,1150,1200,-50,1150);
+
+		tree->Draw("CandidateP_EndZ:True_CandidateP_EndZ>>hProtonEndZ",qualifier,"goff");
+
+		TCanvas* ProtonEndZCanvas = new TCanvas("ProtonEndZCanvas","ProtonEndZCanvas",205,34,1024,768);
+		ProtonEndZCanvas->cd();
+		hProtonEndZ->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
+
+		ProtonEndZCanvas->SaveAs(PlotPath+"ProtonEndZCanvas_"+Runs[WhichRun]+".pdf");
+
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		// Bonus Plot: 1D μ-p distance 
+
+		TH1D* hMuPDistance = new TH1D("hMuPDistance",";reco #mu-p distance [cm]",23,-0.5,11.5);
+
+		tree->Draw("CandidateMuP_Distance>>hMuPDistance",qualifier,"goff");
+
+		TCanvas* CandidateMuP_DistanceCanvas = new TCanvas("CandidateMuP_DistanceCanvas","CandidateMuP_DistanceCanvas",205,34,1024,768);
+		CandidateMuP_DistanceCanvas->SetLeftMargin(0.15);
+		CandidateMuP_DistanceCanvas->cd();
+		hMuPDistance->SetTitle("MicroBooNE Simulation (CC1p Events)");
+		hMuPDistance->GetYaxis()->SetTitle("# Pairs / Bin");
+		hMuPDistance->GetYaxis()->SetTitleOffset(1.35);
+		hMuPDistance->SetLineColor(kBlue-6);
+		hMuPDistance->SetFillColor(kBlue-6);
+		hMuPDistance->Draw("hist");
+
+		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
+
+		CandidateMuP_DistanceCanvas->SaveAs(PlotPath+"CandidateMuP_DistanceCanvas_"+Runs[WhichRun]+".pdf");
+
+	} // End of the loop over the runs
 
 } // End of the program 

@@ -53,7 +53,7 @@ void PreSelection::Loop() {
 
 	// Output Files
 
-	TString FileName = "/uboone/data/users/apapadop/myEvents/mySamples/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
+	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -115,7 +115,8 @@ void PreSelection::Loop() {
 	double True_Vy;
 	double True_Vz;
 
-	int NumberPi0;		
+	int NumberPi0;
+	int NumberNeutrons;
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -296,7 +297,8 @@ void PreSelection::Loop() {
 	tree->Branch("CC3p2pi",&CC3p2pi);	
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 
-	tree->Branch("NumberPi0",&NumberPi0);		
+	tree->Branch("NumberPi0",&NumberPi0);
+	tree->Branch("NumberNeutrons",&NumberNeutrons);
 
 	tree->Branch("True_Ev",&True_Ev);
 	tree->Branch("True_Vx",&True_Vx);
@@ -1390,7 +1392,7 @@ void PreSelection::Loop() {
 		
 		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fMCParticle_Mode = -1;
 
-		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
@@ -1419,6 +1421,8 @@ void PreSelection::Loop() {
 					{ TrueChargedPionCounter++; }
 
 				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
+
+				if (MCParticlePdg == NeutronPdg) { TrueNeutronCounter++; }
 
 			} // End of the demand stable final state particles and primary interactions
 
@@ -1460,6 +1464,8 @@ void PreSelection::Loop() {
 
 		NumberPi0 = TruePi0Counter;
 
+		NumberNeutron = TrueNeutronCounter;
+
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		tree->Fill();
@@ -1482,18 +1488,18 @@ void PreSelection::Loop() {
 
 	// To be saved in the txt file
 
-	myTxtFile << "\n\nStarting with " << TotalCounter << " events" << std::endl << std::endl;
-	myTxtFile << "\n\n" << SWTriggerCounter << " events passing SW trigger" << std::endl << std::endl;
-	myTxtFile << "\n\n" << OneNuMuPFParticleCounter << " events passing 1 numu PFParticle requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << DaughterCounter << " events passing 2 daughter requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << TrackLikeDaughterCounter << " events passing 2 track-like daughter requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << MatchedTrackPFParticleCounter << " events passing 2 matched track-like daughter requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << NuFlashScoreCounter << " events passing nu/flash score requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << FlashCounter << " events passing 1 flash requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << PairCounter << " events passing 1 candidate pair requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << MomentumThresholdCounter << " events passing momentum requirement" << std::endl << std::endl;
-	myTxtFile << "\n\n" << ContainmentCounter << " events passing containment requirement" << std::endl << std::endl;
-	myTxtFile << "\n\nGathered a total of " << EventCounter << " preselected events" << std::endl << std::endl;
+	myTxtFile << "\n\nStarting with " << TotalCounter << " events (" << int(100.*double(TotalCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << SWTriggerCounter << " events passing SW trigger (" << int(100.*double(SWTriggerCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << OneNuMuPFParticleCounter << " events passing 1 numu PFParticle requirement (" << int(100.*double(OneNuMuPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << DaughterCounter << " events passing 2 daughter requirement (" << int(100.*double(DaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << TrackLikeDaughterCounter << " events passing 2 track-like daughter requirement (" << int(100.*double(TrackLikeDaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << MatchedTrackPFParticleCounter << " events passing 2 matched track-like daughter requirement (" << int(100.*double(MatchedTrackPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << NuFlashScoreCounter << " events passing nu/flash score requirement (" << int(100.*double(NuFlashScoreCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << FlashCounter << " events passing 1 flash requirement (" << int(100.*double(FlashCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << PairCounter << " events passing 1 candidate pair requirement (" << int(100.*double(PairCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << MomentumThresholdCounter << " events passing momentum requirement (" << int(100.*double(MomentumThresholdCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << ContainmentCounter << " events passing containment requirement (" << int(100.*double(ContainmentCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nGathered a total of " << EventCounter << " preselected events (" << int(100.*double(EventCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 

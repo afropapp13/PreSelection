@@ -34,7 +34,7 @@ void PreTruthSelection::Loop() {
 
 	// Output Files
 
-	TString FileName = "/uboone/data/users/apapadop/myEvents/mySamples/"+UBCodeVersion+"/PreTruthSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
+	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreTruthSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -97,7 +97,9 @@ void PreTruthSelection::Loop() {
 	int CC3p;
 	int CC3p1pi;
 	int CC3p2pi;
-	int NumberPi0;		
+
+	int NumberPi0;
+	int NumberNeutron;		
 	
 	// ------------------------------------------------------------------------------------------------------------------------------------------	
 
@@ -205,7 +207,9 @@ void PreTruthSelection::Loop() {
 	tree->Branch("CC3p",&CC3p);
 	tree->Branch("CC3p1pi",&CC3p1pi);
 	tree->Branch("CC3p2pi",&CC3p2pi);
-	tree->Branch("NumberPi0",&NumberPi0);		
+
+	tree->Branch("NumberPi0",&NumberPi0);
+	tree->Branch("NumberNeutrons",&NumberNeutrons);
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 		
@@ -275,6 +279,7 @@ void PreTruthSelection::Loop() {
 	int CC3pCounter = 0;
 	int CC3p1piCounter = 0;
 	int CC3p2piCounter = 0;	
+	int ContainedEventCounter = 0;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -469,6 +474,7 @@ void PreTruthSelection::Loop() {
 		TVector3 TrueNu_Vertex(True_Vx,True_Vy,True_Vz);
 		bool TrueNu_Vertex_Containment = tools.inFVVector(TrueNu_Vertex);
 		if (TrueNu_Vertex_Containment == 0) { continue; }
+		ContainedEventCounter++;
 		
 		// ----------------------------------------------------------------------------------------------------------------------------	
 
@@ -484,7 +490,7 @@ void PreTruthSelection::Loop() {
 		int fCC3p = 0;	
 		int fCC3p1pi = 0;
 		int fCC3p2pi = 0;			
-		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0;
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
 		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
@@ -514,6 +520,8 @@ void PreTruthSelection::Loop() {
 					{ TrueChargedPionCounter++; }
 
 				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
+
+				if (MCParticlePdg == NeutronPdg) { TrueNeutronCounter++; }
 
 				StableMCParticles++;
 
@@ -785,12 +793,13 @@ void PreTruthSelection::Loop() {
 
 		NumberMCParticles = StableMCParticles;	
 		NumberPi0 = TruePi0Counter;
+		NumberNeutron = TrueNeutronCounter;
 		
 		// --------------------------------------------------------------------------------------------------------------------------		
 
 		EventCounter++;
 		// True vertex containment has been established in previous continue statement
-		// Now we have to establish that we satisfy the CC1p ssignal definition
+		// Now we have to establish that we satisfy the CC1p signal definition
 		if (CC1p == 0 /*|| Muon_MCParticle_StartContainment.at(0) == 0*/ ) { continue; }
 		tree->Fill();
 
@@ -804,14 +813,15 @@ void PreTruthSelection::Loop() {
 	int precision = 2;
 
 	std::cout.precision(precision);
-	std::cout << "\n\nTotal of " << EventCounter << " events processed" << std::endl << std::endl;
-	std::cout << "\n\nTotal of " << CC1pCounter << " CC1p events processed" << std::endl << std::endl;	
-	std::cout << "\n\nTotal of " << CC1p1piCounter << " CC1p1pi events processed" << std::endl << std::endl;
-	std::cout << "\n\nTotal of " << CC2pCounter << " CC2p events processed" << std::endl << std::endl;
-	std::cout << "\n\nTotal of " << CC2p1piCounter << " CC2p1pi events processed" << std::endl << std::endl;
-	std::cout << "\n\nTotal of " << CC3pCounter << " CC3p events processed" << std::endl << std::endl;
-	std::cout << "\n\nTotal of " << CC3p1piCounter << " CC3p1pi events processed" << std::endl << std::endl;
-	std::cout << "\n\nTotal of " << CC3p2piCounter << " CC3p2pi events processed" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << EventCounter << " events processed (" << int(100.*double(EventCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << ContainedEventCounter << " contained events processed (" << int(100.*double(ContainedEventCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC1pCounter << " CC1p events processed (" << int(100.*double(CC1pCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;	
+	std::cout << "\n\nTotal of " << CC1p1piCounter << " CC1p1pi events processed (" << int(100.*double(CC1p1piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC2pCounter << " CC2p events processed (" << int(100.*double(CC2pCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC2p1piCounter << " CC2p1pi events processed (" << int(100.*double(CC2p1piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC3pCounter << " CC3p events processed (" << int(100.*double(CC3pCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC3p1piCounter << " CC3p1pi events processed (" << int(100.*double(CC3p1piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC3p2piCounter << " CC3p2pi events processed (" << int(100.*double(CC3p2piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 
