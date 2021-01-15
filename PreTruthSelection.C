@@ -30,6 +30,14 @@ void PreTruthSelection::Loop() {
 
 	TH1D::SetDefaultSumw2();
 
+	// ---------------------------------------------------------------------------------------------------------------------------------------
+
+	// Txt file to keep track of the event reduction at each stage
+
+	TString TxtName = "/uboone/data/users/apapadop/myEvents/myTxtFiles/"+UBCodeVersion+"/TxtPreTruthSelection_"+fWhichSample+"_"+UBCodeVersion+".txt";
+	ofstream myTxtFile;
+	myTxtFile.open(TxtName);
+
 	// --------------------------------------------------------------------------------------------------------------------------------------------------
 
 	// Output Files
@@ -825,10 +833,23 @@ void PreTruthSelection::Loop() {
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 
+	myTxtFile << "\n\nTotal of " << EventCounter << " events processed (" << int(100.*double(EventCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << ContainedEventCounter << " contained events processed (" << int(100.*double(ContainedEventCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC1pCounter << " CC1p events processed (" << int(100.*double(CC1pCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;	
+	myTxtFile << "\n\nTotal of " << CC1p1piCounter << " CC1p1pi events processed (" << int(100.*double(CC1p1piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC2pCounter << " CC2p events processed (" << int(100.*double(CC2pCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC2p1piCounter << " CC2p1pi events processed (" << int(100.*double(CC2p1piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC3pCounter << " CC3p events processed (" << int(100.*double(CC3pCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC3p1piCounter << " CC3p1pi events processed (" << int(100.*double(CC3p1piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC3p2piCounter << " CC3p2pi events processed (" << int(100.*double(CC3p2piCounter)/double(EventCounter)) << " %)" << std::endl << std::endl;
+
+	// --------------------------------------------------------------------------------------------------------------------------------------------
+
 	OutputFile->cd();
 	OutputFile->Write();
 	OutputFile->Close();
 	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
+	myTxtFile.close();
 
 } // end of the program
 
