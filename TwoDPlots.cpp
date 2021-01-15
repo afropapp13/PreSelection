@@ -37,8 +37,8 @@ void TwoDPlots() {
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	std::vector<TString> Runs{"Run1"};
-//	std::vector<TString> Runs{"Run1","Run3"};
+//	std::vector<TString> Runs{"Run1"};
+	std::vector<TString> Runs{"Run1","Run3"};
 //	std::vector<TString> Runs{"Run1","Run2","Run3","Run4","Run5"};
 
 	const int NRuns = Runs.size();
@@ -47,7 +47,7 @@ void TwoDPlots() {
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		TFile* OverlayFile = TFile::Open("/uboone/data/users/apapadop/myEvents/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
+		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
 		TString qualifier = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
@@ -64,7 +64,7 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_P_MCS:True_CandidateMu_P>>hMuonMomMCS",qualifier+ " && CandidateMu_EndContainment == 0","goff");
 
-		TCanvas* MuonMomentumMCSCanvas = new TCanvas("MuonMomentumMCSCanvas","MuonMomentumMCSCanvas",205,34,1024,768);
+		TCanvas* MuonMomentumMCSCanvas = new TCanvas("MuonMomentumMCSCanvas_"+Runs[WhichRun],"MuonMomentumMCSCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumMCSCanvas->cd();
 		hMuonMomMCS->SetTitle("Exiting Candidate Muon Tracks");
 		hMuonMomMCS->SetTitleSize(0.08,"t");
@@ -73,6 +73,7 @@ void TwoDPlots() {
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonMomentumMCSCanvas->SaveAs(PlotPath+"MuonMomentumMCS2DCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonMomentumMCSCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -82,7 +83,7 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
 
-		TCanvas* MuonMomentumRangeCanvas = new TCanvas("MuonMomentumRangeCanvas","MuonMomentumRangeCanvas",205,34,1024,768);
+		TCanvas* MuonMomentumRangeCanvas = new TCanvas("MuonMomentumRangeCanvas_"+Runs[WhichRun],"MuonMomentumRangeCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumRangeCanvas->cd();
 		hMuonMomRange->SetTitle("Contained Candidate Muon Tracks");
 		hMuonMomRange->SetTitleSize(0.08,"t");
@@ -91,6 +92,7 @@ void TwoDPlots() {
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonMomentumRangeCanvas->SaveAs(PlotPath+"MuonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonMomentumRangeCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -100,13 +102,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_CosTheta:True_CandidateMu_CosTheta>>hMuonCosTheta",qualifier,"goff");
 
-		TCanvas* MuonCosThetaCanvas = new TCanvas("MuonCosThetaCanvas","MuonCosThetaCanvas",205,34,1024,768);
+		TCanvas* MuonCosThetaCanvas = new TCanvas("MuonCosThetaCanvas_"+Runs[WhichRun],"MuonCosThetaCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonCosThetaCanvas->cd();
 		hMuonCosTheta->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonCosThetaCanvas->SaveAs(PlotPath+"MuonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonCosThetaCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -116,13 +119,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_Phi:True_CandidateMu_Phi>>hMuonPhi",qualifier,"goff");
 
-		TCanvas* MuonPhiCanvas = new TCanvas("MuonPhiCanvas","MuonPhiCanvas",205,34,1024,768);
+		TCanvas* MuonPhiCanvas = new TCanvas("MuonPhiCanvas_"+Runs[WhichRun],"MuonPhiCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonPhiCanvas->cd();
 		hMuonPhi->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonPhiCanvas->SaveAs(PlotPath+"MuonPhiCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonPhiCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -132,13 +136,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_P_Range:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
 
-		TCanvas* ProtonMomentumRangeCanvas = new TCanvas("ProtonMomentumRangeCanvas","ProtonMomentumRangeCanvas",205,34,1024,768);
+		TCanvas* ProtonMomentumRangeCanvas = new TCanvas("ProtonMomentumRangeCanvas_"+Runs[WhichRun],"ProtonMomentumRangeCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonMomentumRangeCanvas->cd();
 		hProtonMomRange->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonMomentumRangeCanvas->SaveAs(PlotPath+"ProtonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonMomentumRangeCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -148,13 +153,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_CosTheta:True_CandidateP_CosTheta>>hProtonCosTheta",qualifier,"goff");
 
-		TCanvas* ProtonCosThetaCanvas = new TCanvas("ProtonCosThetaCanvas","ProtonCosThetaCanvas",205,34,1024,768);
+		TCanvas* ProtonCosThetaCanvas = new TCanvas("ProtonCosThetaCanvas_"+Runs[WhichRun],"ProtonCosThetaCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonCosThetaCanvas->cd();
 		hProtonCosTheta->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonCosThetaCanvas->SaveAs(PlotPath+"ProtonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonCosThetaCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -164,13 +170,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_Phi:True_CandidateP_Phi>>hProtonPhi",qualifier,"goff");
 
-		TCanvas* ProtonPhiCanvas = new TCanvas("ProtonPhiCanvas","ProtonPhiCanvas",205,34,1024,768);
+		TCanvas* ProtonPhiCanvas = new TCanvas("ProtonPhiCanvas_"+Runs[WhichRun],"ProtonPhiCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonPhiCanvas->cd();
 		hProtonPhi->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonPhiCanvas->SaveAs(PlotPath+"ProtonPhiCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonPhiCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -178,7 +185,7 @@ void TwoDPlots() {
 
 		TH2D* hPt = new TH2D("hPt",";True P_{T} [GeV/c];Reco P_{T} [GeV/c]",400,0,1,400,0,1);
 
-		TCanvas* PtCanvas = new TCanvas("PTCanvas","PTCanvas",205,34,1024,768);
+		TCanvas* PtCanvas = new TCanvas("PTCanvas_"+Runs[WhichRun],"PTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtCanvas->cd();
 
 		tree->Draw("Reco_Pt:True_Pt>>hPt",qualifier,"goff");
@@ -187,6 +194,7 @@ void TwoDPlots() {
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		PtCanvas->SaveAs(PlotPath+"PtCanvas_"+Runs[WhichRun]+".pdf");
+		delete PtCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -196,13 +204,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>hDeltaAlphaT",qualifier,"goff");
 
-		TCanvas* DeltaAlphaTCanvas = new TCanvas("DeltaAlphaTCanvas","DeltaAlphaTCanvas",205,34,1024,768);
+		TCanvas* DeltaAlphaTCanvas = new TCanvas("DeltaAlphaTCanvas_"+Runs[WhichRun],"DeltaAlphaTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaAlphaTCanvas->cd();
 		hDeltaAlphaT->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		DeltaAlphaTCanvas->SaveAs(PlotPath+"DeltaAlphaTCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaAlphaTCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -212,13 +221,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_DeltaPhiT:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
 
-		TCanvas* DeltaPhiTCanvas = new TCanvas("DeltaPhiTCanvas","DeltaPhiTCanvas",205,34,1024,768);
+		TCanvas* DeltaPhiTCanvas = new TCanvas("DeltaPhiTCanvas_"+Runs[WhichRun],"DeltaPhiTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaPhiTCanvas->cd();
 		hDeltaPhiT->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		DeltaPhiTCanvas->SaveAs(PlotPath+"DeltaPhiTCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPhiTCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -228,13 +238,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_kMiss:True_kMiss>>hkMiss",qualifier,"goff");
 
-		TCanvas* kMissCanvas = new TCanvas("kMissCanvas","kMissCanvas",205,34,1024,768);
+		TCanvas* kMissCanvas = new TCanvas("kMissCanvas_"+Runs[WhichRun],"kMissCanvas_"+Runs[WhichRun],205,34,1024,768);
 		kMissCanvas->cd();
 		hkMiss->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		kMissCanvas->SaveAs(PlotPath+"kMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete kMissCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -244,13 +255,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_PMiss:True_PMiss>>hPMiss",qualifier,"goff");
 
-		TCanvas* PMissCanvas = new TCanvas("PMissCanvas","PMissCanvas",205,34,1024,768);
+		TCanvas* PMissCanvas = new TCanvas("PMissCanvas_"+Runs[WhichRun],"PMissCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PMissCanvas->cd();
 		hPMiss->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		PMissCanvas->SaveAs(PlotPath+"PMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete PMissCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -260,13 +272,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_PMissMinus:True_PMissMinus>>hPMissMinus",qualifier,"goff");
 
-		TCanvas* PMissMinusCanvas = new TCanvas("PMissMinusCanvas","PMissMinusCanvas",205,34,1024,768);
+		TCanvas* PMissMinusCanvas = new TCanvas("PMissMinusCanvas_"+Runs[WhichRun],"PMissMinusCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PMissMinusCanvas->cd();
 		hPMissMinus->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		PMissMinusCanvas->SaveAs(PlotPath+"PMissMinusCanvas_"+Runs[WhichRun]+".pdf");
+		delete PMissMinusCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -276,13 +289,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_ECal:True_ECal>>hECal",qualifier,"goff");
 
-		TCanvas* ECalCanvas = new TCanvas("ECalCanvas","ECalCanvas",205,34,1024,768);
+		TCanvas* ECalCanvas = new TCanvas("ECalCanvas_"+Runs[WhichRun],"ECalCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ECalCanvas->cd();
 		hECal->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ECalCanvas->SaveAs(PlotPath+"ECalCanvas_"+Runs[WhichRun]+".pdf");
+		delete ECalCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -292,13 +306,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_EQE:True_EQE>>hEQE",qualifier,"goff");
 
-		TCanvas* EQECanvas = new TCanvas("EQECanvas","EQECanvas",205,34,1024,768);
+		TCanvas* EQECanvas = new TCanvas("EQECanvas_"+Runs[WhichRun],"EQECanvas_"+Runs[WhichRun],205,34,1024,768);
 		EQECanvas->cd();
 		hEQE->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		EQECanvas->SaveAs(PlotPath+"EQECanvas_"+Runs[WhichRun]+".pdf");
+		delete EQECanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -308,13 +323,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_DeltaPhi:True_DeltaPhi>>hDeltaPhi",qualifier,"coltz");
 
-		TCanvas* DeltaPhiCanvas = new TCanvas("DeltaPhiCanvas","DeltaPhiCanvas",205,34,1024,768);
+		TCanvas* DeltaPhiCanvas = new TCanvas("DeltaPhiCanvas_"+Runs[WhichRun],"DeltaPhiCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaPhiCanvas->cd();
 		hDeltaPhi->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		DeltaPhiCanvas->SaveAs(PlotPath+"DeltaPhiCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPhiCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -324,13 +340,14 @@ void TwoDPlots() {
 
 		tree->Draw("Reco_DeltaTheta:True_DeltaTheta>>hDeltaTheta",qualifier,"goff");
 
-		TCanvas* DeltaThetaCanvas = new TCanvas("DeltaThetaCanvas","DeltaThetaCanvas",205,34,1024,768);
+		TCanvas* DeltaThetaCanvas = new TCanvas("DeltaThetaCanvas_"+Runs[WhichRun],"DeltaThetaCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaThetaCanvas->cd();
 		hDeltaTheta->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		DeltaThetaCanvas->SaveAs(PlotPath+"DeltaThetaCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaThetaCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -340,13 +357,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_StartX:True_CandidateMu_StartX>>hMuonStartX",qualifier,"goff");
 
-		TCanvas* MuonStartXCanvas = new TCanvas("MuonStartXCanvas","MuonStartXCanvas",205,34,1024,768);
+		TCanvas* MuonStartXCanvas = new TCanvas("MuonStartXCanvas_"+Runs[WhichRun],"MuonStartXCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonStartXCanvas->cd();
 		hMuonStartX->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonStartXCanvas->SaveAs(PlotPath+"MuonStartXCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonStartXCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -356,13 +374,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_StartY:True_CandidateMu_StartY>>hMuonStartY",qualifier,"goff");
 
-		TCanvas* MuonStartYCanvas = new TCanvas("MuonStartYCanvas","MuonStartYCanvas",205,34,1024,768);
+		TCanvas* MuonStartYCanvas = new TCanvas("MuonStartYCanvas_"+Runs[WhichRun],"MuonStartYCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonStartYCanvas->cd();
 		hMuonStartY->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-		MuonStartYCanvas->SaveAs(PlotPath+"MuonStartYCanvas_"+Runs[WhichRun]+".pdf");\
+		MuonStartYCanvas->SaveAs(PlotPath+"MuonStartYCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonStartYCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -372,13 +391,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_StartZ:True_CandidateMu_StartZ>>hMuonStartZ",qualifier,"goff");
 
-		TCanvas* MuonStartZCanvas = new TCanvas("MuonStartZCanvas","MuonStartZCanvas",205,34,1024,768);
+		TCanvas* MuonStartZCanvas = new TCanvas("MuonStartZCanvas_"+Runs[WhichRun],"MuonStartZCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonStartZCanvas->cd();
 		hMuonStartZ->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonStartZCanvas->SaveAs(PlotPath+"MuonStartZCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonStartZCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -388,13 +408,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_StartX:True_CandidateP_StartX>>hProtonStartX",qualifier,"goff");
 
-		TCanvas* ProtonStartXCanvas = new TCanvas("ProtonStartXCanvas","ProtonStartXCanvas",205,34,1024,768);
+		TCanvas* ProtonStartXCanvas = new TCanvas("ProtonStartXCanvas_"+Runs[WhichRun],"ProtonStartXCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonStartXCanvas->cd();
 		hProtonStartX->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonStartXCanvas->SaveAs(PlotPath+"ProtonStartXCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonStartXCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -404,13 +425,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_StartY:True_CandidateP_StartY>>hProtonStartY",qualifier,"goff");
 
-		TCanvas* ProtonStartYCanvas = new TCanvas("ProtonStartYCanvas","ProtonStartYCanvas",205,34,1024,768);
+		TCanvas* ProtonStartYCanvas = new TCanvas("ProtonStartYCanvas_"+Runs[WhichRun],"ProtonStartYCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonStartYCanvas->cd();
 		hProtonStartY->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-		ProtonStartYCanvas->SaveAs(PlotPath+"ProtonStartYCanvas_"+Runs[WhichRun]+".pdf");\
+		ProtonStartYCanvas->SaveAs(PlotPath+"ProtonStartYCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonStartYCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -420,13 +442,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_StartZ:True_CandidateP_StartZ>>hProtonStartZ",qualifier,"goff");
 
-		TCanvas* ProtonStartZCanvas = new TCanvas("ProtonStartZCanvas","ProtonStartZCanvas",205,34,1024,768);
+		TCanvas* ProtonStartZCanvas = new TCanvas("ProtonStartZCanvas_"+Runs[WhichRun],"ProtonStartZCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonStartZCanvas->cd();
 		hProtonStartZ->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonStartZCanvas->SaveAs(PlotPath+"ProtonStartZCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonStartZCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -436,13 +459,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_EndX:True_CandidateMu_EndX>>hMuonEndX",qualifier+" && CandidateMu_EndContainment == 1","goff");
 
-		TCanvas* MuonEndXCanvas = new TCanvas("MuonEndXCanvas","MuonEndXCanvas",205,34,1024,768);
+		TCanvas* MuonEndXCanvas = new TCanvas("MuonEndXCanvas_"+Runs[WhichRun],"MuonEndXCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonEndXCanvas->cd();
 		hMuonEndX->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonEndXCanvas->SaveAs(PlotPath+"MuonEndXCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonEndXCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -452,13 +476,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_EndY:True_CandidateMu_EndY>>hMuonEndY",qualifier,"goff");
 
-		TCanvas* MuonEndYCanvas = new TCanvas("MuonEndYCanvas","MuonEndYCanvas",205,34,1024,768);
+		TCanvas* MuonEndYCanvas = new TCanvas("MuonEndYCanvas_"+Runs[WhichRun],"MuonEndYCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonEndYCanvas->cd();
 		hMuonEndY->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
-		MuonEndYCanvas->SaveAs(PlotPath+"MuonEndYCanvas_"+Runs[WhichRun]+".pdf");\
+		MuonEndYCanvas->SaveAs(PlotPath+"MuonEndYCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonEndYCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -468,13 +493,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMu_EndZ:True_CandidateMu_EndZ>>hMuonEndZ",qualifier,"goff");
 
-		TCanvas* MuonEndZCanvas = new TCanvas("MuonEndZCanvas","MuonEndZCanvas",205,34,1024,768);
+		TCanvas* MuonEndZCanvas = new TCanvas("MuonEndZCanvas_"+Runs[WhichRun],"MuonEndZCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonEndZCanvas->cd();
 		hMuonEndZ->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		MuonEndZCanvas->SaveAs(PlotPath+"MuonEndZCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonEndZCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -484,13 +510,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_EndX:True_CandidateP_EndX>>hProtonEndX",qualifier,"goff");
 
-		TCanvas* ProtonEndXCanvas = new TCanvas("ProtonEndXCanvas","ProtonEndXCanvas",205,34,1024,768);
+		TCanvas* ProtonEndXCanvas = new TCanvas("ProtonEndXCanvas_"+Runs[WhichRun],"ProtonEndXCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonEndXCanvas->cd();
 		hProtonEndX->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonEndXCanvas->SaveAs(PlotPath+"ProtonEndXCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonEndXCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -500,13 +527,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_EndY:True_CandidateP_EndY>>hProtonEndY",qualifier,"goff");
 
-		TCanvas* ProtonEndYCanvas = new TCanvas("ProtonEndYCanvas","ProtonEndYCanvas",205,34,1024,768);
+		TCanvas* ProtonEndYCanvas = new TCanvas("ProtonEndYCanvas_"+Runs[WhichRun],"ProtonEndYCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonEndYCanvas->cd();
 		hProtonEndY->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonEndYCanvas->SaveAs(PlotPath+"ProtonEndYCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonEndYCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -516,13 +544,14 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateP_EndZ:True_CandidateP_EndZ>>hProtonEndZ",qualifier,"goff");
 
-		TCanvas* ProtonEndZCanvas = new TCanvas("ProtonEndZCanvas","ProtonEndZCanvas",205,34,1024,768);
+		TCanvas* ProtonEndZCanvas = new TCanvas("ProtonEndZCanvas_"+Runs[WhichRun],"ProtonEndZCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonEndZCanvas->cd();
 		hProtonEndZ->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		ProtonEndZCanvas->SaveAs(PlotPath+"ProtonEndZCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonEndZCanvas;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -532,7 +561,7 @@ void TwoDPlots() {
 
 		tree->Draw("CandidateMuP_Distance>>hMuPDistance",qualifier,"goff");
 
-		TCanvas* CandidateMuP_DistanceCanvas = new TCanvas("CandidateMuP_DistanceCanvas","CandidateMuP_DistanceCanvas",205,34,1024,768);
+		TCanvas* CandidateMuP_DistanceCanvas = new TCanvas("CandidateMuP_DistanceCanvas_"+Runs[WhichRun],"CandidateMuP_DistanceCanvas_"+Runs[WhichRun],205,34,1024,768);
 		CandidateMuP_DistanceCanvas->SetLeftMargin(0.15);
 		CandidateMuP_DistanceCanvas->cd();
 		hMuPDistance->SetTitle("MicroBooNE Simulation (CC1p Events)");
@@ -545,6 +574,7 @@ void TwoDPlots() {
 		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
 
 		CandidateMuP_DistanceCanvas->SaveAs(PlotPath+"CandidateMuP_DistanceCanvas_"+Runs[WhichRun]+".pdf");
+		delete CandidateMuP_DistanceCanvas;
 
 	} // End of the loop over the runs
 
