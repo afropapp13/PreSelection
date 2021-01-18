@@ -464,6 +464,9 @@ void PreSelection::Loop() {
 	TH1D* NFlashPlot = new TH1D("NFlashPlot",";# flashes",6,-0.5,5.5);
 	TH1D* NPairsPlot = new TH1D("NPairsPlot",";# candidate pairs",6,-0.5,5.5);
 
+	TH1D* SamdefEventPlot = new TH1D("SamdefEventPlot",";# samdef events",1,0,1);
+	SamdefEventPlot->SetBinContent(1,nentries);
+
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -1488,7 +1491,7 @@ void PreSelection::Loop() {
 
 	// To be saved in the txt file
 
-	myTxtFile << "\n\nStarting with " << TotalCounter << " events (" << int(100.*double(TotalCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nStarting with " << TotalCounter << " samdef events (" << int(100.*double(TotalCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\n" << SWTriggerCounter << " events passing SW trigger (" << int(100.*double(SWTriggerCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\n" << OneNuMuPFParticleCounter << " events passing 1 numu PFParticle requirement (" << int(100.*double(OneNuMuPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\n" << DaughterCounter << " events passing 2 daughter requirement (" << int(100.*double(DaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;

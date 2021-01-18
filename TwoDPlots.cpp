@@ -183,7 +183,7 @@ void TwoDPlots() {
 
 		// Transverse Missing Momentum
 
-		TH2D* hPt = new TH2D("hPt",";True P_{T} [GeV/c];Reco P_{T} [GeV/c]",400,0,1,400,0,1);
+		TH2D* hPt = new TH2D("hPt",";True #deltap_{T} [GeV/c];Reco #deltap_{T} [GeV/c]",400,0,1,400,0,1);
 
 		TCanvas* PtCanvas = new TCanvas("PTCanvas_"+Runs[WhichRun],"PTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtCanvas->cd();

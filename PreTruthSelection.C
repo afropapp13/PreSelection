@@ -819,7 +819,7 @@ void PreTruthSelection::Loop() {
 	int precision = 2;
 
 	std::cout.precision(precision);
-	std::cout << "\n\nTotal of " << nentries << " events processed (" << int(100.*double(nentries)/double(nentries)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << nentries << " samdef events processed (" << int(100.*double(nentries)/double(nentries)) << " %)" << std::endl << std::endl;
 	std::cout << "\n\nTotal of " << ContainedEventCounter << " contained events processed (" << int(100.*double(ContainedEventCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 	std::cout << "\n\nTotal of " << CC1pCounter << " CC1p events processed (" << int(100.*double(CC1pCounter)/double(nentries)) << " %)" << std::endl << std::endl;	
 	std::cout << "\n\nTotal of " << CC1p1piCounter << " CC1p1pi events processed (" << int(100.*double(CC1p1piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
