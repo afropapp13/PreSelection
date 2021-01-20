@@ -99,7 +99,8 @@ void PreSelection::Loop() {
 	std::vector<double> reinteractions_proton_Geant4;
 //	std::vector<double> xsr_scc_Fa3_SCC;
 //	std::vector<double> xsr_scc_Fv3_SCC;
-	
+
+	int NC;	
 	int CC1p;
 	int CC1p1pi;
 	int CC2p;
@@ -288,6 +289,7 @@ void PreSelection::Loop() {
 //	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
 //	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
 
+	tree->Branch("NC",&NC);
 	tree->Branch("CC1p",&CC1p);
 	tree->Branch("CC1p1pi",&CC1p1pi);
 	tree->Branch("CC2p",&CC2p);
@@ -1393,7 +1395,7 @@ void PreSelection::Loop() {
 
 		// MCParticle Loop
 		
-		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fMCParticle_Mode = -1;
+		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fMCParticle_Mode = -1, fNC = 0;
 
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
@@ -1429,6 +1431,9 @@ void PreSelection::Loop() {
 
 			} // End of the demand stable final state particles and primary interactions
 
+			if (MCTruth_CCNC->at(0) == 1 // NC events				
+			) { fNC = 1; }
+
 		} // end of the loop over the simb::MCParticles
 
 		// ------------------------------------------------------------------------------------------------
@@ -1455,6 +1460,7 @@ void PreSelection::Loop() {
 
 		if (MCTruth_Mode->size() == 1) { fMCParticle_Mode = MCTruth_Mode->at(0); }
 
+		NC = fNC;
 		CC1p = fCC1p;
 		CC1p1pi = fCC1p1pi;
 		CC2p = fCC2p;
