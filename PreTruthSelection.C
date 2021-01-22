@@ -105,9 +105,15 @@ void PreTruthSelection::Loop() {
 	int CC3p;
 	int CC3p1pi;
 	int CC3p2pi;
+	int CC3p3pi;
+	int CC4p0pi;
+	int CC4p1pi;
 
 	int NumberPi0;
 	int NumberNeutrons;		
+	int NumberProtons;
+	int NumberMuons;
+	int NumberChargedPions;
 	
 	// ------------------------------------------------------------------------------------------------------------------------------------------	
 
@@ -215,9 +221,15 @@ void PreTruthSelection::Loop() {
 	tree->Branch("CC3p",&CC3p);
 	tree->Branch("CC3p1pi",&CC3p1pi);
 	tree->Branch("CC3p2pi",&CC3p2pi);
+	tree->Branch("CC3p3pi",&CC3p3pi);
+	tree->Branch("CC4p0pi",&CC4p0pi);
+	tree->Branch("CC4p1pi",&CC4p1pi);
 
 	tree->Branch("NumberPi0",&NumberPi0);
 	tree->Branch("NumberNeutrons",&NumberNeutrons);
+	tree->Branch("NumberProtons",&NumberProtons);
+	tree->Branch("NumberMuons",&NumberMuons);
+	tree->Branch("NumberChargedPions",&NumberChargedPions);
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 		
@@ -286,6 +298,9 @@ void PreTruthSelection::Loop() {
 	int CC3pCounter = 0;
 	int CC3p1piCounter = 0;
 	int CC3p2piCounter = 0;	
+	int CC3p3piCounter = 0;	
+	int CC4p0piCounter = 0;	
+	int CC4p1piCounter = 0;	
 	int ContainedEventCounter = 0;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
@@ -497,6 +512,9 @@ void PreTruthSelection::Loop() {
 		int fCC3p = 0;	
 		int fCC3p1pi = 0;
 		int fCC3p2pi = 0;			
+		int fCC3p3pi = 0;
+		int fCC4p0pi = 0;
+		int fCC4p1pi = 0;
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0;
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
@@ -576,6 +594,27 @@ void PreTruthSelection::Loop() {
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2) {
 			fCC3p2pi = 1; 
 			CC3p2piCounter++;
+		}
+
+		// --------------------------------------------------------------------------------------------------------------------------
+		
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3) {
+			fCC3p3pi = 1; 
+			CC3p3piCounter++;
+		}
+
+		// --------------------------------------------------------------------------------------------------------------------------
+		
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0) {
+			fCC4p0pi = 1; 
+			CC4p0piCounter++;
+		}
+
+		// --------------------------------------------------------------------------------------------------------------------------
+		
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1) {
+			fCC4p1pi = 1; 
+			CC4p1piCounter++;
 		}
 		
 		// ------------------------------------------------------------------------------------------------------------------------		
@@ -797,10 +836,16 @@ void PreTruthSelection::Loop() {
 		CC3p = fCC3p;
 		CC3p1pi = fCC3p1pi;
 		CC3p2pi = fCC3p2pi;			
+		CC3p3pi = fCC3p3pi;			
+		CC4p0pi = fCC4p0pi;			
+		CC4p1pi = fCC4p1pi;			
 
 		NumberMCParticles = StableMCParticles;	
 		NumberPi0 = TruePi0Counter;
 		NumberNeutrons = TrueNeutronCounter;
+		NumberProtons = TrueProtonCounter;
+		NumberMuons = TrueMuonCounter;
+		NumberChargedPions = TrueChargedPionCounter;
 		
 		// --------------------------------------------------------------------------------------------------------------------------		
 
@@ -828,6 +873,9 @@ void PreTruthSelection::Loop() {
 	std::cout << "\n\nTotal of " << CC3pCounter << " CC3p events processed (" << int(100.*double(CC3pCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 	std::cout << "\n\nTotal of " << CC3p1piCounter << " CC3p1pi events processed (" << int(100.*double(CC3p1piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 	std::cout << "\n\nTotal of " << CC3p2piCounter << " CC3p2pi events processed (" << int(100.*double(CC3p2piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC3p3piCounter << " CC3p3pi events processed (" << int(100.*double(CC3p3piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC4p0piCounter << " CC4p0pi events processed (" << int(100.*double(CC4p0piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
+	std::cout << "\n\nTotal of " << CC4p1piCounter << " CC4p1pi events processed (" << int(100.*double(CC4p1piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -840,6 +888,9 @@ void PreTruthSelection::Loop() {
 	myTxtFile << "\n\nTotal of " << CC3pCounter << " CC3p events processed (" << int(100.*double(CC3pCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\nTotal of " << CC3p1piCounter << " CC3p1pi events processed (" << int(100.*double(CC3p1piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\nTotal of " << CC3p2piCounter << " CC3p2pi events processed (" << int(100.*double(CC3p2piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC3p3piCounter << " CC3p3pi events processed (" << int(100.*double(CC3p3piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC4p0piCounter << " CC4p0pi events processed (" << int(100.*double(CC4p0piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nTotal of " << CC4p1piCounter << " CC4p1pi events processed (" << int(100.*double(CC4p1piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 

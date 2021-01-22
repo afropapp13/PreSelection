@@ -108,6 +108,9 @@ void PreSelection::Loop() {
 	int CC3p;
 	int CC3p1pi;
 	int CC3p2pi;
+	int CC3p3pi;
+	int CC4p0pi;
+	int CC4p1pi;
 	
 	int MCParticle_Mode;
 
@@ -118,6 +121,9 @@ void PreSelection::Loop() {
 
 	int NumberPi0;
 	int NumberNeutrons;
+	int NumberProtons;
+	int NumberMuons;
+	int NumberChargedPions;
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -297,10 +303,16 @@ void PreSelection::Loop() {
 	tree->Branch("CC3p",&CC3p);
 	tree->Branch("CC3p1pi",&CC3p1pi);
 	tree->Branch("CC3p2pi",&CC3p2pi);	
+	tree->Branch("CC3p3pi",&CC3p3pi);	
+	tree->Branch("CC4p0pi",&CC4p0pi);	
+	tree->Branch("CC4p1pi",&CC4p1pi);	
 	tree->Branch("MCParticle_Mode",&MCParticle_Mode);
 
 	tree->Branch("NumberPi0",&NumberPi0);
 	tree->Branch("NumberNeutrons",&NumberNeutrons);
+	tree->Branch("NumberProtons",&NumberProtons);
+	tree->Branch("NumberMuons",&NumberMuons);
+	tree->Branch("NumberChargedPions",&NumberChargedPions);
 
 	tree->Branch("True_Ev",&True_Ev);
 	tree->Branch("True_Vx",&True_Vx);
@@ -467,7 +479,7 @@ void PreSelection::Loop() {
 	TH1D* NPairsPlot = new TH1D("NPairsPlot",";# candidate pairs",6,-0.5,5.5);
 
 	TH1D* SamdefEventPlot = new TH1D("SamdefEventPlot",";# samdef events",1,0,1);
-	SamdefEventPlot->SetBinContent(1,nentries);
+	SamdefEventPlot->SetBinContent(1,fChain->GetEntries());
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1395,7 +1407,7 @@ void PreSelection::Loop() {
 
 		// MCParticle Loop
 		
-		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fMCParticle_Mode = -1, fNC = 0;
+		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fCC3p3pi = 0, fCC4p0pi = 0, fCC4p1pi = 0, fMCParticle_Mode = -1, fNC = 0;
 
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0;
 		int NMCParticles = MCParticle_PdgCode->size();
@@ -1447,6 +1459,9 @@ void PreSelection::Loop() {
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0) { fCC3p = 1; }
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1) { fCC3p1pi = 1; }
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2) { fCC3p2pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3) { fCC3p3pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0) { fCC4p0pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1) { fCC4p1pi = 1; }
 
 		// ------------------------------------------------------------------------------------------------
 
@@ -1468,12 +1483,17 @@ void PreSelection::Loop() {
 		CC3p = fCC3p;
 		CC3p1pi = fCC3p1pi;
 		CC3p2pi = fCC3p2pi;			
+		CC3p3pi = fCC3p3pi;
+		CC4p0pi = fCC4p0pi;
+		CC4p1pi = fCC4p1pi;
 
 		MCParticle_Mode = fMCParticle_Mode;
 
 		NumberPi0 = TruePi0Counter;
-
 		NumberNeutrons = TrueNeutronCounter;
+		NumberProtons = TrueProtonCounter;
+		NumberMuons = TrueMuonCounter;
+		NumberChargedPions = TrueChargedPionCounter;
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
