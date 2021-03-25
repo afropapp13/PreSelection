@@ -302,6 +302,10 @@ void PreTruthSelection::Loop() {
 	int CC4p0piCounter = 0;	
 	int CC4p1piCounter = 0;	
 	int ContainedEventCounter = 0;
+	int MultipleMCTruth = 0;
+
+	TH1D* SamdefEventPlot = new TH1D("SamdefEventPlot",";# samdef events",1,0,1);
+	SamdefEventPlot->SetBinContent(1,fChain->GetEntries());
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -497,6 +501,8 @@ void PreTruthSelection::Loop() {
 		bool TrueNu_Vertex_Containment = tools.inFVVector(TrueNu_Vertex);
 		if (TrueNu_Vertex_Containment == 0) { continue; }
 		ContainedEventCounter++;
+
+		if (MCTruth_Particle_Nu_E->size() != 1) { MultipleMCTruth++; }		
 		
 		// ----------------------------------------------------------------------------------------------------------------------------	
 
@@ -891,6 +897,7 @@ void PreTruthSelection::Loop() {
 	myTxtFile << "\n\nTotal of " << CC3p3piCounter << " CC3p3pi events processed (" << int(100.*double(CC3p3piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\nTotal of " << CC4p0piCounter << " CC4p0pi events processed (" << int(100.*double(CC4p0piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\nTotal of " << CC4p1piCounter << " CC4p1pi events processed (" << int(100.*double(CC4p1piCounter)/double(nentries)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n\n\nMultiple MCTruth " << MultipleMCTruth << " (" << int(100.*double(MultipleMCTruth)/double(CC1pCounter)) << " %)" << std::endl << std::endl;
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 

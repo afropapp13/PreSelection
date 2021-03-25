@@ -70,6 +70,10 @@ void PreSelection::Loop() {
 	double T2KWeight;
 	double ROOTinoWeight;
 
+	int Run;
+	int SubRun;
+	int Event;
+
 	std::vector<double> All_UBGenie;
 	std::vector<double> AxFFCCQEshape_UBGenie;
 	std::vector<double> DecayAngMEC_UBGenie;
@@ -264,6 +268,10 @@ void PreSelection::Loop() {
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("ROOTinoWeight",&ROOTinoWeight);	
+
+	tree->Branch("Run",&Run);
+	tree->Branch("SubRun",&SubRun);
+	tree->Branch("Event",&Event);	
 
 	tree->Branch("All_UBGenie", &All_UBGenie);
 	tree->Branch("AxFFCCQEshape_UBGenie", &AxFFCCQEshape_UBGenie);
@@ -469,6 +477,7 @@ void PreSelection::Loop() {
 	int PairCounter = 0;
 	int MomentumThresholdCounter = 0;
 	int ContainmentCounter = 0;
+	int MultipleMCTruth = 0;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -535,6 +544,10 @@ void PreSelection::Loop() {
 
 		NuScore = PFParticle_NuScore->at(0);
 		FlashScore = PFParticle_FlashScore->at(0);
+
+		Run = RunNumber;
+		SubRun = SubRunNumber;
+		Event = SubRunEvent;
 		
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1387,6 +1400,8 @@ void PreSelection::Loop() {
 
 		double MCTruth_Data = -99.;
 
+		if (MCTruth_Particle_Nu_E->size() != 1) { MultipleMCTruth++; }
+
 		if (MCTruth_Particle_Nu_E->size() == 1) {
 
 			True_Ev = MCTruth_Particle_Nu_E->at(0);
@@ -1529,6 +1544,9 @@ void PreSelection::Loop() {
 	myTxtFile << "\n\n" << MomentumThresholdCounter << " events passing momentum requirement (" << int(100.*double(MomentumThresholdCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\n" << ContainmentCounter << " events passing containment requirement (" << int(100.*double(ContainmentCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
 	myTxtFile << "\n\nGathered a total of " << EventCounter << " preselected events (" << int(100.*double(EventCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+
+	myTxtFile << "\n\n\n\nMultiple MCTruth events " << MultipleMCTruth << " (" << int(100.*double(MultipleMCTruth)/double(EventCounter)) << " %)" << std::endl << std::endl;
+
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
