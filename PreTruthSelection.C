@@ -58,6 +58,10 @@ void PreTruthSelection::Loop() {
 	double T2KWeight;
 	double ROOTinoWeight;
 
+	int Run;
+	int SubRun;
+	int Event;
+
 	std::vector<double> All_UBGenie;
 	std::vector<double> AxFFCCQEshape_UBGenie;
 	std::vector<double> DecayAngMEC_UBGenie;
@@ -175,6 +179,10 @@ void PreTruthSelection::Loop() {
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("ROOTinoWeight",&ROOTinoWeight);	
+
+	tree->Branch("Run",&Run);
+	tree->Branch("SubRun",&SubRun);
+	tree->Branch("Event",&Event);
 
 	tree->Branch("All_UBGenie", &All_UBGenie);
 	tree->Branch("AxFFCCQEshape_UBGenie", &AxFFCCQEshape_UBGenie);
@@ -433,6 +441,12 @@ void PreTruthSelection::Loop() {
 			}
 
 		}
+
+		// ------------------------------------------------------------------------------------------------------------------------------
+
+		Run = RunNumber;
+		SubRun = SubRunNumber;
+		Event = SubRunEvent;
 
 		// ------------------------------------------------------------------------------------------------------------------------------
 
