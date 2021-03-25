@@ -446,7 +446,7 @@ void PreTruthSelection::Loop() {
 
 		Run = RunNumber;
 		SubRun = SubRunNumber;
-		Event = SubRunEvent;
+		Event = EventNumber;
 
 		// ------------------------------------------------------------------------------------------------------------------------------
 

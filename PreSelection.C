@@ -547,7 +547,7 @@ void PreSelection::Loop() {
 
 		Run = RunNumber;
 		SubRun = SubRunNumber;
-		Event = SubRunEvent;
+		Event = EventNumber;
 		
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
