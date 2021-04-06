@@ -19,7 +19,7 @@ using namespace Constants;
 
 void TwoDPlots() {
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 	gStyle->SetTitleSize(0.0,"t");
 	gStyle->SetTitleFont(132,"t");
@@ -35,7 +35,7 @@ void TwoDPlots() {
 
 	gROOT->ForceStyle();
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 //	std::vector<TString> Runs{"Run1"};
 	std::vector<TString> Runs{"Run1","Run3"};
@@ -45,22 +45,44 @@ void TwoDPlots() {
 
 	for (int WhichRun = 0; WhichRun < NRuns; WhichRun++) {
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------------
 
 		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-		TString qualifier = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
+		TString CC1p = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212"; 
+
+		TString Containment = "CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
+
+		TString ProtonMom = "CandidateP_P_Range > " + TString(std::to_string(ArrayNBinsProtonMomentum[0])) + " && CandidateP_P_Range < "\
+		+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum])) + " && True_CandidateP_P > "+ TString(std::to_string(ArrayNBinsProtonMomentum[0]))\
+		+ " && True_CandidateP_P < "+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum]));
+
+		TString DeltaPT = "Reco_Pt > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && Reco_Pt < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]))\
+		+ " && True_Pt > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && True_Pt < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]));
+ 
+		TString DeltaPhiT = "Reco_DeltaPhiT > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && Reco_DeltaPhiT < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT]))\
+		+ " && True_DeltaPhiT > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && True_DeltaPhiT < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT])); 
+
+		TString MuonMom = "True_CandidateMu_P > "+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && True_CandidateMu_P < "\
+		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum]))\
+		+ " && ( ( CandidateMu_EndContainment == 1 && CandidateMu_P_Range > "\
+		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_Range < "\
+		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) || ( CandidateMu_EndContainment == 0 && CandidateMu_P_MCS > "\
+		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_MCS < "\
+		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) )" ;
+
+		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom;
 
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------------
 
 		// Muon Momentum MCS
 
-		TH2D* hMuonMomMCS = new TH2D("hMuonMomMCS",";True Muon Momentum [GeV/c]; MCS Reco Muon Momentum [GeV/c]",400,0,2,400,0,2);
+		TH2D* hMuonMomMCS = new TH2D("hMuonMomMCS",";True Muon Momentum [GeV/c]; MCS Reco Muon Momentum [GeV/c]",460,0,1.8,360,0,1.8);
 
 		tree->Draw("CandidateMu_P_MCS:True_CandidateMu_P>>hMuonMomMCS",qualifier+ " && CandidateMu_EndContainment == 0","goff");
 
@@ -75,11 +97,11 @@ void TwoDPlots() {
 		MuonMomentumMCSCanvas->SaveAs(PlotPath+"MuonMomentumMCS2DCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonMomentumMCSCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// ---------------------------------------------------------------------------------------------------------------------------------------
 
 		// Muon Momentum Range
 
-		TH2D* hMuonMomRange = new TH2D("hMuonMomRange",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",400,0,2,400,0,2);
+		TH2D* hMuonMomRange = new TH2D("hMuonMomRange",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",360,0,1.8,360,0,1.8);
 
 		tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
 
@@ -94,7 +116,7 @@ void TwoDPlots() {
 		MuonMomentumRangeCanvas->SaveAs(PlotPath+"MuonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonMomentumRangeCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------------------
 
 		// Muon CosTheta
 
@@ -111,7 +133,7 @@ void TwoDPlots() {
 		MuonCosThetaCanvas->SaveAs(PlotPath+"MuonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonCosThetaCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Muon Phi
 
@@ -128,11 +150,11 @@ void TwoDPlots() {
 		MuonPhiCanvas->SaveAs(PlotPath+"MuonPhiCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonPhiCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton Momentum Range
 
-		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",400,0,2,400,0,2);
+		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",280,0,1.4,280,0,1.4);
 
 		tree->Draw("CandidateP_P_Range:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
 
@@ -145,7 +167,7 @@ void TwoDPlots() {
 		ProtonMomentumRangeCanvas->SaveAs(PlotPath+"ProtonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonMomentumRangeCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton CosTheta
 
@@ -162,7 +184,7 @@ void TwoDPlots() {
 		ProtonCosThetaCanvas->SaveAs(PlotPath+"ProtonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonCosThetaCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton Phi
 
@@ -179,7 +201,7 @@ void TwoDPlots() {
 		ProtonPhiCanvas->SaveAs(PlotPath+"ProtonPhiCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonPhiCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Transverse Missing Momentum
 
@@ -196,7 +218,7 @@ void TwoDPlots() {
 		PtCanvas->SaveAs(PlotPath+"PtCanvas_"+Runs[WhichRun]+".pdf");
 		delete PtCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Delta AlphaT
 
@@ -213,11 +235,11 @@ void TwoDPlots() {
 		DeltaAlphaTCanvas->SaveAs(PlotPath+"DeltaAlphaTCanvas_"+Runs[WhichRun]+".pdf");
 		delete DeltaAlphaTCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Delta PhiT
 
-		TH2D* hDeltaPhiT = new TH2D("hDeltaPhiT",";True #delta#phi_{T} [deg];Reco #delta#phi_{T} [deg]",360,0,180,360,0,180);
+		TH2D* hDeltaPhiT = new TH2D("hDeltaPhiT",";True #delta#phi_{T} [deg];Reco #delta#phi_{T} [deg]",270,0,135,270,0,135);
 
 		tree->Draw("Reco_DeltaPhiT:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
 
@@ -230,7 +252,7 @@ void TwoDPlots() {
 		DeltaPhiTCanvas->SaveAs(PlotPath+"DeltaPhiTCanvas_"+Runs[WhichRun]+".pdf");
 		delete DeltaPhiTCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// kMiss
 
@@ -247,7 +269,7 @@ void TwoDPlots() {
 		kMissCanvas->SaveAs(PlotPath+"kMissCanvas_"+Runs[WhichRun]+".pdf");
 		delete kMissCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// PMiss
 
@@ -264,7 +286,7 @@ void TwoDPlots() {
 		PMissCanvas->SaveAs(PlotPath+"PMissCanvas_"+Runs[WhichRun]+".pdf");
 		delete PMissCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// PMissMinus
 
@@ -281,7 +303,7 @@ void TwoDPlots() {
 		PMissMinusCanvas->SaveAs(PlotPath+"PMissMinusCanvas_"+Runs[WhichRun]+".pdf");
 		delete PMissMinusCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// ECal
 
@@ -298,7 +320,7 @@ void TwoDPlots() {
 		ECalCanvas->SaveAs(PlotPath+"ECalCanvas_"+Runs[WhichRun]+".pdf");
 		delete ECalCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// EQE
 
@@ -315,13 +337,13 @@ void TwoDPlots() {
 		EQECanvas->SaveAs(PlotPath+"EQECanvas_"+Runs[WhichRun]+".pdf");
 		delete EQECanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// DeltaPhi
 
 		TH2D* hDeltaPhi = new TH2D("hDeltaPhi",";True #delta#phi_{#mu,p} [deg];Reco #delta#phi_{#mu,p} [deg]",360,0,360,360,0,360);
 
-		tree->Draw("Reco_DeltaPhi:True_DeltaPhi>>hDeltaPhi",qualifier,"coltz");
+		tree->Draw("Reco_DeltaPhi:True_DeltaPhi>>hDeltaPhi",qualifier,"goff");
 
 		TCanvas* DeltaPhiCanvas = new TCanvas("DeltaPhiCanvas_"+Runs[WhichRun],"DeltaPhiCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaPhiCanvas->cd();
@@ -332,7 +354,7 @@ void TwoDPlots() {
 		DeltaPhiCanvas->SaveAs(PlotPath+"DeltaPhiCanvas_"+Runs[WhichRun]+".pdf");
 		delete DeltaPhiCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// DeltaTheta
 
@@ -349,7 +371,7 @@ void TwoDPlots() {
 		DeltaThetaCanvas->SaveAs(PlotPath+"DeltaThetaCanvas_"+Runs[WhichRun]+".pdf");
 		delete DeltaThetaCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Muon Start X
 
@@ -366,7 +388,7 @@ void TwoDPlots() {
 		MuonStartXCanvas->SaveAs(PlotPath+"MuonStartXCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonStartXCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Muon Start Y
 
@@ -383,7 +405,7 @@ void TwoDPlots() {
 		MuonStartYCanvas->SaveAs(PlotPath+"MuonStartYCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonStartYCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Muon Start Z
 
@@ -400,7 +422,7 @@ void TwoDPlots() {
 		MuonStartZCanvas->SaveAs(PlotPath+"MuonStartZCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonStartZCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton Start X
 
@@ -417,7 +439,7 @@ void TwoDPlots() {
 		ProtonStartXCanvas->SaveAs(PlotPath+"ProtonStartXCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonStartXCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton Start Y
 
@@ -434,7 +456,7 @@ void TwoDPlots() {
 		ProtonStartYCanvas->SaveAs(PlotPath+"ProtonStartYCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonStartYCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton Start Z
 
@@ -451,7 +473,7 @@ void TwoDPlots() {
 		ProtonStartZCanvas->SaveAs(PlotPath+"ProtonStartZCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonStartZCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		//  Muon End X
 
@@ -468,7 +490,7 @@ void TwoDPlots() {
 		MuonEndXCanvas->SaveAs(PlotPath+"MuonEndXCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonEndXCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Muon End Y
 
@@ -485,7 +507,7 @@ void TwoDPlots() {
 		MuonEndYCanvas->SaveAs(PlotPath+"MuonEndYCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonEndYCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Muon End Z
 
@@ -502,7 +524,7 @@ void TwoDPlots() {
 		MuonEndZCanvas->SaveAs(PlotPath+"MuonEndZCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonEndZCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton End X
 
@@ -519,7 +541,7 @@ void TwoDPlots() {
 		ProtonEndXCanvas->SaveAs(PlotPath+"ProtonEndXCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonEndXCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton End Y
 
@@ -536,7 +558,7 @@ void TwoDPlots() {
 		ProtonEndYCanvas->SaveAs(PlotPath+"ProtonEndYCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonEndYCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Proton End Z
 
@@ -553,7 +575,7 @@ void TwoDPlots() {
 		ProtonEndZCanvas->SaveAs(PlotPath+"ProtonEndZCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonEndZCanvas;
 
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+		// --------------------------------------------------------------------------------------------------------
 
 		// Bonus Plot: 1D μ-p distance 
 
