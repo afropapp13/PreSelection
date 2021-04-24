@@ -576,70 +576,70 @@ void PreTruthSelection::Loop() {
 
 		// --------------------------------------------------------------------------------------------------------------------------		
 
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) {
 			fCC1p1pi = 1; 
 			CC1p1piCounter++;
 		}
 		
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) {
 			fCC2p = 1; 
 			CC2pCounter++;
 		}
 
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 1) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) {
 			fCC2p1pi = 1; 
 			CC2p1piCounter++;
 		}
 
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) {
 			fCC3p = 1; 
 			CC3pCounter++;
 		}
 
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) {
 			fCC3p1pi = 1; 
 			CC3p1piCounter++;
 		}
 
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2 && TruePi0Counter == 0) {
 			fCC3p2pi = 1; 
 			CC3p2piCounter++;
 		}
 
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3 && TruePi0Counter == 0) {
 			fCC3p3pi = 1; 
 			CC3p3piCounter++;
 		}
 
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) {
 			fCC4p0pi = 1; 
 			CC4p0piCounter++;
 		}
 
 		// --------------------------------------------------------------------------------------------------------------------------
 		
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) {
 			fCC4p1pi = 1; 
 			CC4p1piCounter++;
 		}
 		
 		// ------------------------------------------------------------------------------------------------------------------------		
 
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) {
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) {
 			
 		 
 			fCC1p = 1; 

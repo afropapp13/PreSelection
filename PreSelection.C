@@ -1467,16 +1467,16 @@ void PreSelection::Loop() {
 
 		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
 
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0) { fCC1p = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1) { fCC1p1pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0) { fCC2p = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 1) { fCC2p1pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0) { fCC3p = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1) { fCC3p1pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2) { fCC3p2pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3) { fCC3p3pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0) { fCC4p0pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1) { fCC4p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) { fCC1p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) { fCC1p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) { fCC2p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) { fCC2p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) { fCC3p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) { fCC3p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2 && TruePi0Counter == 0) { fCC3p2pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3 && TruePi0Counter == 0) { fCC3p3pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) { fCC4p0pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) { fCC4p1pi = 1; }
 
 		// ------------------------------------------------------------------------------------------------
 

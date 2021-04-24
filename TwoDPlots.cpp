@@ -29,7 +29,7 @@ void TwoDPlots() {
 	gStyle->SetTitleFont(132,"xyz");
 	gStyle->SetLabelSize(0.05,"xyz");
 	gStyle->SetLabelFont(132,"xyz");
-	gStyle->SetNdivisions(5,"xyz");
+	gStyle->SetNdivisions(8,"xyz");
 
 	gStyle->SetOptStat(0);
 
@@ -154,7 +154,7 @@ void TwoDPlots() {
 
 		// Proton Momentum Range
 
-		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",280,0,1.4,280,0,1.4);
+		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",280,0.2,1.25,280,0.2,1.25);
 
 		tree->Draw("CandidateP_P_Range:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
 
