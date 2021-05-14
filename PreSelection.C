@@ -69,6 +69,7 @@ void PreSelection::Loop() {
 	double Weight;
 	double T2KWeight;
 	double ROOTinoWeight;
+	double POTWeight;
 
 	int Run;
 	int SubRun;
@@ -149,6 +150,10 @@ void PreSelection::Loop() {
 	std::vector<double> Vertex_X;
 	std::vector<double> Vertex_Y;
 	std::vector<double> Vertex_Z;
+	std::vector<double> CandidateMuStartVertexDistance;
+	std::vector<double> CandidatePStartVertexDistance;
+	std::vector<double> CandidateMuEndVertexDistance;
+	std::vector<double> CandidatePEndVertexDistance;
 
 //	std::vector<int> CandidateMu_Mode;
 	std::vector<double> CandidateMu_TrackScore;			
@@ -156,6 +161,7 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateMu_P_MCS;	
 	std::vector<double> CandidateMu_Phi;
 	std::vector<double> CandidateMu_CosTheta;
+	std::vector<double> CandidateMu_Theta;
 	std::vector<double> CandidateMu_Chi2_YPlane;
 	std::vector<double> CandidateMu_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateMu_LLR_PID;
@@ -178,6 +184,7 @@ void PreSelection::Loop() {
 //	std::vector<double> True_CandidateMu_Pz;
 	std::vector<double> True_CandidateMu_Phi;
 	std::vector<double> True_CandidateMu_CosTheta;
+	std::vector<double> True_CandidateMu_Length;
 	
 	std::vector<double> True_CandidateMu_StartX;
 	std::vector<double> True_CandidateMu_StartY;
@@ -197,6 +204,7 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateP_P_Range;
 	std::vector<double> CandidateP_P_MCS;	
 	std::vector<double> CandidateP_Phi;
+	std::vector<double> CandidateP_Theta;
 	std::vector<double> CandidateP_CosTheta;
 	std::vector<double> CandidateP_Chi2_YPlane;
 	std::vector<double> CandidateP_ThreePlaneLogLikelihood;
@@ -220,6 +228,7 @@ void PreSelection::Loop() {
 //	std::vector<double> True_CandidateP_Pz;
 	std::vector<double> True_CandidateP_Phi;
 	std::vector<double> True_CandidateP_CosTheta;
+	std::vector<double> True_CandidateP_Length;
 	
 	std::vector<double> True_CandidateP_StartX;
 	std::vector<double> True_CandidateP_StartY;
@@ -268,6 +277,7 @@ void PreSelection::Loop() {
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("ROOTinoWeight",&ROOTinoWeight);	
+	tree->Branch("POTWeight",&POTWeight);	
 
 	tree->Branch("Run",&Run);
 	tree->Branch("SubRun",&SubRun);
@@ -346,6 +356,10 @@ void PreSelection::Loop() {
 	tree->Branch("Vertex_X",&Vertex_X);
 	tree->Branch("Vertex_Y",&Vertex_Y);
 	tree->Branch("Vertex_Z",&Vertex_Z);
+	tree->Branch("CandidateMuStartVertexDistance",&CandidateMuStartVertexDistance);
+	tree->Branch("CandidatePStartVertexDistance",&CandidatePStartVertexDistance);
+	tree->Branch("CandidateMuEndVertexDistance",&CandidateMuEndVertexDistance);
+	tree->Branch("CandidatePEndVertexDistance",&CandidatePEndVertexDistance);
 		
 	// --------------------------------------------------------------------------------------------------------------------------------------------	
 
@@ -353,6 +367,7 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateMu_P_Range",&CandidateMu_P_Range);
 	tree->Branch("CandidateMu_P_MCS",&CandidateMu_P_MCS);	
 	tree->Branch("CandidateMu_Phi",&CandidateMu_Phi);
+	tree->Branch("CandidateMu_Theta",&CandidateMu_Theta);
 	tree->Branch("CandidateMu_CosTheta",&CandidateMu_CosTheta);
 	tree->Branch("CandidateMu_Chi2_YPlane",&CandidateMu_Chi2_YPlane);
 	tree->Branch("CandidateMu_ThreePlaneLogLikelihood",&CandidateMu_ThreePlaneLogLikelihood);
@@ -376,6 +391,7 @@ void PreSelection::Loop() {
 //	tree->Branch("True_CandidateMu_Pz",&True_CandidateMu_Pz);
 	tree->Branch("True_CandidateMu_Phi",&True_CandidateMu_Phi);
 	tree->Branch("True_CandidateMu_CosTheta",&True_CandidateMu_CosTheta);
+	tree->Branch("True_CandidateMu_Length",&True_CandidateMu_Length);
 	
 	tree->Branch("True_CandidateMu_StartX",&True_CandidateMu_StartX);
 	tree->Branch("True_CandidateMu_StartY",&True_CandidateMu_StartY);	
@@ -394,6 +410,7 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateP_P_Range",&CandidateP_P_Range);
 	tree->Branch("CandidateP_P_MCS",&CandidateP_P_MCS);	
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
+	tree->Branch("CandidateP_Theta",&CandidateP_Theta);
 	tree->Branch("CandidateP_CosTheta",&CandidateP_CosTheta);
 	tree->Branch("CandidateP_Chi2_YPlane",&CandidateP_Chi2_YPlane);
 	tree->Branch("CandidateP_ThreePlaneLogLikelihood",&CandidateP_ThreePlaneLogLikelihood);
@@ -417,6 +434,7 @@ void PreSelection::Loop() {
 //	tree->Branch("True_CandidateP_Pz",&True_CandidateP_Pz);
 	tree->Branch("True_CandidateP_Phi",&True_CandidateP_Phi);
 	tree->Branch("True_CandidateP_CosTheta",&True_CandidateP_CosTheta);
+	tree->Branch("True_CandidateP_Length",&True_CandidateP_Length);
 	
 	tree->Branch("True_CandidateP_StartX",&True_CandidateP_StartX);
 	tree->Branch("True_CandidateP_StartY",&True_CandidateP_StartY);	
@@ -490,6 +508,77 @@ void PreSelection::Loop() {
 	TH1D* SamdefEventPlot = new TH1D("SamdefEventPlot",";# samdef events",1,0,1);
 	SamdefEventPlot->SetBinContent(1,fChain->GetEntries());
 
+	// --------------------------------------------------------------------------------------------------------------------------------
+
+	// POT Counting
+
+	double POTCount = -99.;
+
+	if (string(fWhichSample).find("Overlay") != std::string::npos) {
+
+		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+"_POT.root";
+
+		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
+		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
+		POTCount = POTCountHist->GetBinContent(1);
+		POTFile->Close();
+	
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------
+
+	// POT Scaling
+
+	double POTScale = 1.;
+
+	double tor860_wcut = 1;
+	double E1DCNT_wcut = 1.;
+	double EXT = 1.;
+
+	if (string(fWhichSample).find("Run1") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run1;
+		E1DCNT_wcut = E1DCNT_wcut_Run1;
+		EXT = EXT_Run1;
+
+	}
+	
+	if (string(fWhichSample).find("Run2") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run2;
+		E1DCNT_wcut = E1DCNT_wcut_Run2;
+		EXT = EXT_Run2;
+
+	}
+	
+	if (string(fWhichSample).find("Run3") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run3;
+		E1DCNT_wcut = E1DCNT_wcut_Run3;
+		EXT = EXT_Run3;
+
+	}
+	
+	if (string(fWhichSample).find("Run4") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run4;
+		E1DCNT_wcut = E1DCNT_wcut_Run4;
+		EXT = EXT_Run4;
+
+	}
+
+	if (string(fWhichSample).find("Run5") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run5;
+		E1DCNT_wcut = E1DCNT_wcut_Run5;
+		EXT = EXT_Run5;
+
+	}	
+	
+	if (string(fWhichSample).find("ExtBNB9") != std::string::npos) { POTScale = E1DCNT_wcut / EXT; }
+
+	if (string(fWhichSample).find("Overlay") != std::string::npos) { POTScale = tor860_wcut / POTCount; }	
+
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -560,6 +649,7 @@ void PreSelection::Loop() {
 			T2KWeight = T2Kweight;
 
 			ROOTinoWeight = ROOTinoEventWeight->at(0);	
+			POTWeight = POTScale;	
 
 			// We need the EventWeight weights only for the nominal samples, not for the detector variations
 
@@ -891,12 +981,17 @@ void PreSelection::Loop() {
 		Vertex_X.clear();
 		Vertex_Y.clear();
 		Vertex_Z.clear();
+		CandidateMuStartVertexDistance.clear();
+		CandidatePStartVertexDistance.clear();
+		CandidateMuEndVertexDistance.clear();
+		CandidatePEndVertexDistance.clear();
 
 //		CandidateMu_Mode.clear();
 		CandidateMu_TrackScore.clear();								
 		CandidateMu_P_Range.clear();
 		CandidateMu_P_MCS.clear();		
 		CandidateMu_Phi.clear();
+		CandidateMu_Theta.clear();
 		CandidateMu_CosTheta.clear();
 		CandidateMu_Chi2_YPlane.clear();
 		CandidateMu_ThreePlaneLogLikelihood.clear();
@@ -920,6 +1015,7 @@ void PreSelection::Loop() {
 //		True_CandidateMu_Pz.clear();
 		True_CandidateMu_Phi.clear();
 		True_CandidateMu_CosTheta.clear();
+		True_CandidateMu_Length.clear();
 		
 		True_CandidateMu_StartX.clear();
 		True_CandidateMu_StartY.clear();
@@ -939,6 +1035,7 @@ void PreSelection::Loop() {
 		CandidateP_P_Range.clear();
 		CandidateP_P_MCS.clear();		
 		CandidateP_Phi.clear();
+		CandidateP_Theta.clear();
 		CandidateP_CosTheta.clear();
 		CandidateP_Chi2_YPlane.clear();
 		CandidateP_ThreePlaneLogLikelihood.clear();
@@ -962,6 +1059,7 @@ void PreSelection::Loop() {
 //		True_CandidateP_Pz.clear();
 		True_CandidateP_Phi.clear();
 		True_CandidateP_CosTheta.clear();
+		True_CandidateP_Length.clear();
 		
 		True_CandidateP_StartX.clear();
 		True_CandidateP_StartY.clear();
@@ -1042,6 +1140,20 @@ void PreSelection::Loop() {
 
 			// ---------------------------------------------------------------------------------------------------------------------
 
+			// Reconstructed Pandora Vertex
+
+			double VertexX = TrackPairVertexPosition.at(WhichTrackPair).X();
+			double VertexY = TrackPairVertexPosition.at(WhichTrackPair).Y();
+			double VertexZ = TrackPairVertexPosition.at(WhichTrackPair).Z();
+
+			TVector3 VertexLocation(VertexX,VertexY,VertexZ);
+
+			Vertex_X.push_back(VertexX);
+			Vertex_Y.push_back(VertexY);
+			Vertex_Z.push_back(VertexZ);
+
+			// ---------------------------------------------------------------------------------------------------------------------
+
 			// Candidate muon
 
 			double CandidateMuonTrackTheta = Track_Theta->at(CandidateMuonTrackIndex); // rad
@@ -1060,6 +1172,8 @@ void PreSelection::Loop() {
 			TVector3 CandidateMuonTrackEnd(MuonTrackEndX,MuonTrackEndY,MuonTrackEndZ);
 			bool CandidateMuonTrackStartContainment = tools.inFVVector(CandidateMuonTrackStart);
 			bool CandidateMuonTrackEndContainment = tools.inFVVector(CandidateMuonTrackEnd);
+
+			// ---------------------------------------------------------------------------------------------------------------------
 
 			// Candidate proton
 
@@ -1080,14 +1194,21 @@ void PreSelection::Loop() {
 			bool CandidateProtonTrackStartContainment = tools.inFVVector(CandidateProtonTrackStart);
 			bool CandidateProtonTrackEndContainment = tools.inFVVector(CandidateProtonTrackEnd);			
 			
-			// ---------------------------------------------------------------------------------------------------------------------		
+			// ---------------------------------------------------------------------------------------------------------------------	
+
+			double CandidateMuStartVertexMag = (VertexLocation - CandidateMuonTrackStart).Mag();
+			double CandidatePStartVertexMag = (VertexLocation - CandidateProtonTrackStart).Mag();
+			double CandidateMuEndVertexMag = (VertexLocation - CandidateMuonTrackEnd).Mag();
+			double CandidatePEndVertexMag = (VertexLocation - CandidateProtonTrackEnd).Mag();
 
 			VertexActivity_50x100.push_back(SphereDeposition_50x100);	
 
 			CandidateMuP_Distance.push_back(TrackPairDistance.at(WhichTrackPair));	
-			Vertex_X.push_back(TrackPairVertexPosition.at(WhichTrackPair).X());
-			Vertex_Y.push_back(TrackPairVertexPosition.at(WhichTrackPair).Y());
-			Vertex_Z.push_back(TrackPairVertexPosition.at(WhichTrackPair).Z());
+
+			CandidateMuStartVertexDistance.push_back(CandidateMuStartVertexMag);
+			CandidatePStartVertexDistance.push_back(CandidatePStartVertexMag);
+			CandidateMuEndVertexDistance.push_back(CandidateMuEndVertexMag);
+			CandidatePEndVertexDistance.push_back(CandidatePEndVertexMag);
 
 			// ---------------------------------------------------------------------------------------------------------------------
 
@@ -1121,6 +1242,7 @@ void PreSelection::Loop() {
 			CandidateMu_P_Range.push_back(Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex));						
 			CandidateMu_P_MCS.push_back(Track_Momentum_MCS->at(CandidateMuonTrackIndex));
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
+			CandidateMu_Theta.push_back(CandidateMuonTrackTheta);
 			CandidateMu_CosTheta.push_back(CandidateMuonTrackCosTheta);
 			CandidateMu_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 			CandidateMu_ThreePlaneLogLikelihood.push_back(log(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateMuonTrackIndex)));
@@ -1158,6 +1280,7 @@ void PreSelection::Loop() {
 			CandidateP_P_Range.push_back(Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex));
 			CandidateP_P_MCS.push_back(Track_Momentum_MCS->at(CandidateProtonTrackIndex));			
 			CandidateP_Phi.push_back(Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi()); // deg
+			CandidateP_Theta.push_back(CandidateProtonTrackTheta);
 			CandidateP_CosTheta.push_back(CandidateProtonTrackCosTheta);
 			CandidateP_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
 			CandidateP_ThreePlaneLogLikelihood.push_back(log(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateProtonTrackIndex)));
@@ -1241,7 +1364,7 @@ void PreSelection::Loop() {
 
 				TVector3 TrueCandidateMuonTrackStart(CandidateMuonStartX,CandidateMuonStartY,CandidateMuonStartZ);
 				TVector3 TrueCandidateMuonTrackEnd(CandidateMuonEndX,CandidateMuonEndY,CandidateMuonEndZ);
-//				TVector3 TrueCandidateMuonChange = TrueCandidateMuonTrackEnd - TrueCandidateMuonTrackStart;
+				TVector3 TrueCandidateMuonChange = TrueCandidateMuonTrackEnd - TrueCandidateMuonTrackStart;
 				TVector3 TrueCandidateMuonP(CandidateMuonPx,CandidateMuonPy,CandidateMuonPz);
 
 				bool TrueCandidateMuonTrackStartContainment = tools.inFVVector(TrueCandidateMuonTrackStart);
@@ -1251,7 +1374,7 @@ void PreSelection::Loop() {
 				double TrueCandidateMuonTrackPhi_Deg = TrueCandidateMuonTrackPhi * 180./ TMath::Pi(); // deg
 				double TrueCandidateMuonTrackTheta = TrueCandidateMuonP.Theta(); // rad
 				double TrueCandidateMuonTrackCosTheta = TrueCandidateMuonP.CosTheta();
-//				double TrueCandidateMuonTrackLength = TrueCandidateMuonChange.Mag(); // cm
+				double TrueCandidateMuonTrackLength = TrueCandidateMuonChange.Mag(); // cm
 
 				double TrueCandidateMuonTrackMomentum_GeV = Track_MCParticle_P->at(CandidateMuonTrackIndex); // GeV
 //				double TrueCandidateMuonTrackMomentum_MeV = 1000.* TrueCandidateMuonTrackMomentum_GeV; // MeV
@@ -1266,6 +1389,7 @@ void PreSelection::Loop() {
 //				True_CandidateMu_Pz.push_back(CandidateMuonPz);
 				True_CandidateMu_Phi.push_back(TrueCandidateMuonTrackPhi_Deg); // deg
 				True_CandidateMu_CosTheta.push_back(TrueCandidateMuonTrackCosTheta);
+				True_CandidateMu_Length.push_back(TrueCandidateMuonTrackLength);
 				
 				True_CandidateMu_StartX.push_back(CandidateMuonStartX);
 				True_CandidateMu_StartY.push_back(CandidateMuonStartY);
@@ -1298,7 +1422,7 @@ void PreSelection::Loop() {
 
 				TVector3 TrueCandidateProtonTrackStart(CandidateProtonStartX,CandidateProtonStartY,CandidateProtonStartZ);
 				TVector3 TrueCandidateProtonTrackEnd(CandidateProtonEndX,CandidateProtonEndY,CandidateProtonEndZ);
-//				TVector3 TrueCandidateProtonChange = TrueCandidateProtonTrackEnd - TrueCandidateProtonTrackStart;
+				TVector3 TrueCandidateProtonChange = TrueCandidateProtonTrackEnd - TrueCandidateProtonTrackStart;
 				TVector3 TrueCandidateProtonP(CandidateProtonPx,CandidateProtonPy,CandidateProtonPz);
 
 				bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
@@ -1308,7 +1432,7 @@ void PreSelection::Loop() {
 				double TrueCandidateProtonTrackPhi_Deg = TrueCandidateProtonTrackPhi * 180./ TMath::Pi(); // deg
 				double TrueCandidateProtonTrackTheta = TrueCandidateProtonP.Theta(); // rad
 				double TrueCandidateProtonTrackCosTheta = TrueCandidateProtonP.CosTheta();
-//				double TrueCandidateProtonTrackLength = TrueCandidateProtonChange.Mag(); // cm
+				double TrueCandidateProtonTrackLength = TrueCandidateProtonChange.Mag(); // cm
 
 				double TrueCandidateProtonTrackMomentum_GeV = Track_MCParticle_P->at(CandidateProtonTrackIndex); // GeV
 //				double TrueCandidateProtonTrackMomentum_MeV = 1000.* TrueCandidateProtonTrackMomentum_GeV; // MeV
@@ -1320,6 +1444,7 @@ void PreSelection::Loop() {
 				True_CandidateP_P.push_back(TrueCandidateProtonTrackMomentum_GeV);
 				True_CandidateP_Phi.push_back(TrueCandidateProtonTrackPhi_Deg); // deg
 				True_CandidateP_CosTheta.push_back(TrueCandidateProtonTrackCosTheta);
+				True_CandidateP_Length.push_back(TrueCandidateProtonTrackLength);
 				
 				True_CandidateP_StartX.push_back(CandidateProtonStartX);
 				True_CandidateP_StartY.push_back(CandidateProtonStartY);
@@ -1547,6 +1672,25 @@ void PreSelection::Loop() {
 
 	myTxtFile << "\n\n\n\nMultiple MCTruth events " << MultipleMCTruth << " (" << int(100.*double(MultipleMCTruth)/double(EventCounter)) << " %)" << std::endl << std::endl;
 
+	// ------------------------------------------------------------------------------------------------------------------------------------------
+
+	// Report the same table as above but with POT scaled entries
+
+	myTxtFile << "\n\n // --------------------------------------------------------------------------------------------- \n\n " << endl;
+	myTxtFile << "\n\nStarting with " << TotalCounter*POTScale << " samdef events (" << int(100.*double(TotalCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << SWTriggerCounter*POTScale << " events passing SW trigger (" << int(100.*double(SWTriggerCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << OneNuMuPFParticleCounter*POTScale << " events passing 1 numu PFParticle requirement (" << int(100.*double(OneNuMuPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << DaughterCounter*POTScale << " events passing 2 daughter requirement (" << int(100.*double(DaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << TrackLikeDaughterCounter*POTScale << " events passing 2 track-like daughter requirement (" << int(100.*double(TrackLikeDaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << MatchedTrackPFParticleCounter*POTScale << " events passing 2 matched track-like daughter requirement (" << int(100.*double(MatchedTrackPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << NuFlashScoreCounter*POTScale << " events passing nu/flash score requirement (" << int(100.*double(NuFlashScoreCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << FlashCounter*POTScale << " events passing 1 flash requirement (" << int(100.*double(FlashCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << PairCounter*POTScale << " events passing 1 candidate pair requirement (" << int(100.*double(PairCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << MomentumThresholdCounter*POTScale << " events passing momentum requirement (" << int(100.*double(MomentumThresholdCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\n" << ContainmentCounter*POTScale << " events passing containment requirement (" << int(100.*double(ContainmentCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+	myTxtFile << "\n\nGathered a total of " << EventCounter*POTScale << " preselected events (" << int(100.*double(EventCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
+
+	myTxtFile << "\n\n\n\nMultiple MCTruth events " << MultipleMCTruth*POTScale << " (" << int(100.*double(MultipleMCTruth)/double(EventCounter)) << " %)" << std::endl << std::endl;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 

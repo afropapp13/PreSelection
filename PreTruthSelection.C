@@ -57,6 +57,7 @@ void PreTruthSelection::Loop() {
 	double Weight;
 	double T2KWeight;
 	double ROOTinoWeight;
+	double POTWeight;
 
 	int Run;
 	int SubRun;
@@ -179,6 +180,7 @@ void PreTruthSelection::Loop() {
 	tree->Branch("Weight",&Weight);
 	tree->Branch("T2KWeight",&T2KWeight);
 	tree->Branch("ROOTinoWeight",&ROOTinoWeight);	
+	tree->Branch("POTWeight",&POTWeight);	
 
 	tree->Branch("Run",&Run);
 	tree->Branch("SubRun",&SubRun);
@@ -315,6 +317,77 @@ void PreTruthSelection::Loop() {
 	TH1D* SamdefEventPlot = new TH1D("SamdefEventPlot",";# samdef events",1,0,1);
 	SamdefEventPlot->SetBinContent(1,fChain->GetEntries());
 
+	// --------------------------------------------------------------------------------------------------------------------------------
+
+	// POT Counting
+
+	double POTCount = -99.;
+
+	if (string(fWhichSample).find("Overlay") != std::string::npos) {
+
+		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+"_POT.root";
+
+		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
+		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
+		POTCount = POTCountHist->GetBinContent(1);
+		POTFile->Close();
+	
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------
+
+	// POT Scaling
+
+	double POTScale = 1.;
+
+	double tor860_wcut = 1;
+	double E1DCNT_wcut = 1.;
+	double EXT = 1.;
+
+	if (string(fWhichSample).find("Run1") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run1;
+		E1DCNT_wcut = E1DCNT_wcut_Run1;
+		EXT = EXT_Run1;
+
+	}
+	
+	if (string(fWhichSample).find("Run2") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run2;
+		E1DCNT_wcut = E1DCNT_wcut_Run2;
+		EXT = EXT_Run2;
+
+	}
+	
+	if (string(fWhichSample).find("Run3") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run3;
+		E1DCNT_wcut = E1DCNT_wcut_Run3;
+		EXT = EXT_Run3;
+
+	}
+	
+	if (string(fWhichSample).find("Run4") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run4;
+		E1DCNT_wcut = E1DCNT_wcut_Run4;
+		EXT = EXT_Run4;
+
+	}
+
+	if (string(fWhichSample).find("Run5") != std::string::npos) {
+
+		tor860_wcut = tor860_wcut_Run5;
+		E1DCNT_wcut = E1DCNT_wcut_Run5;
+		EXT = EXT_Run5;
+
+	}	
+	
+	if (string(fWhichSample).find("ExtBNB9") != std::string::npos) { POTScale = E1DCNT_wcut / EXT; }
+
+	if (string(fWhichSample).find("Overlay") != std::string::npos) { POTScale = tor860_wcut / POTCount; }	
+
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -334,6 +407,7 @@ void PreTruthSelection::Loop() {
 			T2KWeight = T2Kweight;
 			
 			ROOTinoWeight = ROOTinoEventWeight->at(0);	
+			POTWeight = POTScale;	
 
 			// We need the EventWeight weights only for the nominal samples, not for the detector variations
 

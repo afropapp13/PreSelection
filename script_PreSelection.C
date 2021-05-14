@@ -29,12 +29,13 @@
 
 	for (int i = 0;i < (int)(WhichSampleArray.size()); i++) {
 
-		gROOT->ProcessLine("PreSelection(\""+WhichSampleArray[i]+"\").Loop()");
-		if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos) 
-		  { gROOT->ProcessLine("PreTruthSelection(\""+WhichSampleArray[i]+"\").Loop()"); } 
-
 		if (string(WhichSampleArray[i]).find("Overlay") != std::string::npos)
 		  { gROOT->ProcessLine("myPOT(\""+WhichSampleArray[i]+"\").Loop()"); }
+
+		gROOT->ProcessLine("PreSelection(\""+WhichSampleArray[i]+"\").Loop()");
+
+		if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos) 
+		  { gROOT->ProcessLine("PreTruthSelection(\""+WhichSampleArray[i]+"\").Loop()"); } 
 
 	}
 
