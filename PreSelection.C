@@ -176,7 +176,8 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateMu_StartZ;
 	std::vector<double> CandidateMu_EndX;
 	std::vector<double> CandidateMu_EndY;
-	std::vector<double> CandidateMu_EndZ;				
+	std::vector<double> CandidateMu_EndZ;	
+	std::vector<double> CandidateMu_ManualTheta;			
 
 	std::vector<double> True_CandidateMu_P;
 //	std::vector<double> True_CandidateMu_Px;
@@ -383,7 +384,8 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateMu_StartZ",&CandidateMu_StartZ);
 	tree->Branch("CandidateMu_EndX",&CandidateMu_EndX);
 	tree->Branch("CandidateMu_EndY",&CandidateMu_EndY);
-	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);				
+	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);
+	tree->Branch("CandidateMu_ManualTheta",&CandidateMu_ManualTheta);				
 
 	tree->Branch("True_CandidateMu_P",&True_CandidateMu_P);
 //	tree->Branch("True_CandidateMu_Px",&True_CandidateMu_Px);
@@ -1007,7 +1009,8 @@ void PreSelection::Loop() {
 		CandidateMu_StartZ.clear();
 		CandidateMu_EndX.clear();
 		CandidateMu_EndY.clear();
-		CandidateMu_EndZ.clear();										
+		CandidateMu_EndZ.clear();
+		CandidateMu_ManualTheta.clear();										
 
 		True_CandidateMu_P.clear();
 //		True_CandidateMu_Px.clear();
@@ -1256,7 +1259,13 @@ void PreSelection::Loop() {
 			CandidateMu_StartZ.push_back(Track_StartZ->at(CandidateMuonTrackIndex));
 			CandidateMu_EndX.push_back(Track_EndX->at(CandidateMuonTrackIndex));
 			CandidateMu_EndY.push_back(Track_EndY->at(CandidateMuonTrackIndex));
-			CandidateMu_EndZ.push_back(Track_EndZ->at(CandidateMuonTrackIndex));								
+			CandidateMu_EndZ.push_back(Track_EndZ->at(CandidateMuonTrackIndex));	
+
+			TVector3 MuonStart(CandidateMuonStartX,CandidateMuonStartY,CandidateMuonStartZ);
+			TVector3 MuonEnd(CandidateMuonEndX,CandidateMuonEndY,CandidateMuonEndZ);
+			double ManualTheta = (MuonEnd-MuonStart).Theta()*180./TMath::Pi();
+
+			CandidateMu_ManualTheta.push_back(ManualTheta);							
 
 			// --------------------------------------------------------------------------------------------------------------------------
 
