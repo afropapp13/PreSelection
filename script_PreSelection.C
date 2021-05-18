@@ -7,6 +7,8 @@
 	WhichSampleArray.push_back("OverlayDirt9_Run1");
         WhichSampleArray.push_back("Overlay9_Run1"); // Nominal CV
 
+        WhichSampleArray.push_back("Overlay9NuWro_Run1"); // Fake Data
+
 //	WhichSampleArray.push_back("BeamOn9_Run2");
 //	WhichSampleArray.push_back("ExtBNB9_Run2");
 //	WhichSampleArray.push_back("OverlayDirt9_Run2");
