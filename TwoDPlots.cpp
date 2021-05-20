@@ -72,7 +72,9 @@ void TwoDPlots() {
 		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_MCS < "\
 		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) )" ;
 
-		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom;
+		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range-CandidateMu_P_MCS)/CandidateMu_P_Range<0.25 ) || CandidateMu_EndContainment == 0)";
+
+		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut;
 
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
@@ -133,23 +135,6 @@ void TwoDPlots() {
 		MuonCosThetaCanvas->SaveAs(PlotPath+"MuonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonCosThetaCanvas;
 
-		// -------------------------------------------------------------------------------------------------------------------------------
-
-		// Muon Theta
-
-		TH2D* hMuonTheta = new TH2D("hMuonTheta",";True Muon #theta;Reco #theta_{#mu}",400,-1,1,400,-1,1);
-
-		tree->Draw("CandidateMu_Theta:True_CandidateMu_Theta>>hMuonTheta",qualifier,"goff");
-
-		TCanvas* MuonThetaCanvas = new TCanvas("MuonThetaCanvas_"+Runs[WhichRun],"MuonThetaCanvas_"+Runs[WhichRun],205,34,1024,768);
-		MuonThetaCanvas->cd();
-		hMuonTheta->Draw("coltz");
-
-		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
-
-		MuonThetaCanvas->SaveAs(PlotPath+"MuonThetaCanvas_"+Runs[WhichRun]+".pdf");
-		delete MuonThetaCanvas;
-
 		// --------------------------------------------------------------------------------------------------------
 
 		// Muon Phi
@@ -200,23 +185,6 @@ void TwoDPlots() {
 
 		ProtonCosThetaCanvas->SaveAs(PlotPath+"ProtonCosThetaCanvas_"+Runs[WhichRun]+".pdf");
 		delete ProtonCosThetaCanvas;
-
-		// --------------------------------------------------------------------------------------------------------
-
-		// Proton Theta
-
-		TH2D* hProtonTheta = new TH2D("hProtonTheta",";True #theta_{p};Reco #theta_{p}",400,-1,1,400,-1,1);
-
-		tree->Draw("CandidateP_Theta:True_CandidateP_Theta>>hProtonTheta",qualifier,"goff");
-
-		TCanvas* ProtonThetaCanvas = new TCanvas("ProtonThetaCanvas_"+Runs[WhichRun],"ProtonThetaCanvas_"+Runs[WhichRun],205,34,1024,768);
-		ProtonThetaCanvas->cd();
-		hProtonTheta->Draw("coltz");
-
-		text->DrawTextNDC(0.47, 0.83, Runs[WhichRun]);
-
-		ProtonThetaCanvas->SaveAs(PlotPath+"ProtonThetaCanvas_"+Runs[WhichRun]+".pdf");
-		delete ProtonThetaCanvas;
 
 		// --------------------------------------------------------------------------------------------------------
 

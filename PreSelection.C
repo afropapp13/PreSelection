@@ -1261,8 +1261,8 @@ void PreSelection::Loop() {
 			CandidateMu_EndY.push_back(Track_EndY->at(CandidateMuonTrackIndex));
 			CandidateMu_EndZ.push_back(Track_EndZ->at(CandidateMuonTrackIndex));	
 
-			TVector3 MuonStart(CandidateMuonStartX,CandidateMuonStartY,CandidateMuonStartZ);
-			TVector3 MuonEnd(CandidateMuonEndX,CandidateMuonEndY,CandidateMuonEndZ);
+			TVector3 MuonStart(Track_StartX->at(CandidateMuonTrackIndex),Track_StartY->at(CandidateMuonTrackIndex),Track_StartZ->at(CandidateMuonTrackIndex));
+			TVector3 MuonEnd(Track_EndX->at(CandidateMuonTrackIndex),Track_EndY->at(CandidateMuonTrackIndex),Track_EndZ->at(CandidateMuonTrackIndex));
 			double ManualTheta = (MuonEnd-MuonStart).Theta()*180./TMath::Pi();
 
 			CandidateMu_ManualTheta.push_back(ManualTheta);							
