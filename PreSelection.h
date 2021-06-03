@@ -111,11 +111,21 @@ public :
    std::vector<double>  *Track_AssMCTruth_X;
    std::vector<double>  *Track_AssMCTruth_Y;
    std::vector<double>  *Track_AssMCTruth_W;*/
-/*   std::vector<int>     *Track_Calorimetry_Plane2_PlaneID;
-   std::vector<std::vector<double> > *Track_Calorimetry_Plane2_ResidualRange;
-   std::vector<std::vector<double> > *Track_Calorimetry_Plane2_dEdx;
-   std::vector<std::vector<double> > *Track_Calorimetry_Plane2_dQdx;
-   std::vector<std::vector<double> > *Track_Calorimetry_Plane2_TruncdEdx;
+//   std::vector<int>     *Track_Calorimetry_Plane2_PlaneID;
+
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane0_ResidualRange;
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane0_dEdx;
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane0_dQdx;
+
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane1_ResidualRange;
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane1_dEdx;
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane1_dQdx;
+
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane2_ResidualRange;
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane2_dEdx;
+   std::vector<std::vector<float> > *Track_Calorimetry_Plane2_dQdx;
+
+/*   std::vector<std::vector<double> > *Track_Calorimetry_Plane2_TruncdEdx;
    std::vector<std::vector<double> > *Track_Calorimetry_Plane2_TruncdQdx;
    std::vector<double>  *Track_Calorimetry_Plane2_CaliKineticEnergy;
    Int_t           Track_ParticleId_Pdg;
@@ -319,11 +329,21 @@ public :
    TBranch        *b_Track_AssMCTruth_X;   //!
    TBranch        *b_Track_AssMCTruth_Y;   //!
    TBranch        *b_Track_AssMCTruth_W;*/   //!
-/*   TBranch        *b_Track_Calorimetry_Plane2_PlaneID;   //!
+//   TBranch        *b_Track_Calorimetry_Plane2_PlaneID;   //!
+
+   TBranch        *b_Track_Calorimetry_Plane0_ResidualRange;   //!
+   TBranch        *b_Track_Calorimetry_Plane0_dEdx;   //!
+   TBranch        *b_Track_Calorimetry_Plane0_dQdx;   //!
+
+   TBranch        *b_Track_Calorimetry_Plane1_ResidualRange;   //!
+   TBranch        *b_Track_Calorimetry_Plane1_dEdx;   //!
+   TBranch        *b_Track_Calorimetry_Plane1_dQdx;   //!
+
    TBranch        *b_Track_Calorimetry_Plane2_ResidualRange;   //!
    TBranch        *b_Track_Calorimetry_Plane2_dEdx;   //!
    TBranch        *b_Track_Calorimetry_Plane2_dQdx;   //!
-   TBranch        *b_Track_Calorimetry_Plane2_TruncdEdx;   //!
+
+/*   TBranch        *b_Track_Calorimetry_Plane2_TruncdEdx;   //!
    TBranch        *b_Track_Calorimetry_Plane2_TruncdQdx;   //!
    TBranch        *b_Track_Calorimetry_Plane2_CaliKineticEnergy;   //!
    TBranch        *b_Track_ParticleId_Pdg;   //!
@@ -608,11 +628,21 @@ void PreSelection::Init(TChain *tree)
    Track_AssMCTruth_X = 0;
    Track_AssMCTruth_Y = 0;
    Track_AssMCTruth_W = 0;*/
-   /*Track_Calorimetry_Plane2_PlaneID = 0;
+// Track_Calorimetry_Plane2_PlaneID = 0;
+
+   Track_Calorimetry_Plane0_ResidualRange = 0;
+   Track_Calorimetry_Plane0_dEdx = 0;
+   Track_Calorimetry_Plane0_dQdx = 0;
+
+   Track_Calorimetry_Plane1_ResidualRange = 0;
+   Track_Calorimetry_Plane1_dEdx = 0;
+   Track_Calorimetry_Plane1_dQdx = 0;
+
    Track_Calorimetry_Plane2_ResidualRange = 0;
    Track_Calorimetry_Plane2_dEdx = 0;
    Track_Calorimetry_Plane2_dQdx = 0;
-   Track_Calorimetry_Plane2_TruncdEdx = 0;
+
+/*   Track_Calorimetry_Plane2_TruncdEdx = 0;
    Track_Calorimetry_Plane2_TruncdQdx = 0;
    Track_Calorimetry_Plane2_CaliKineticEnergy = 0;
    Track_ParticleId_MinChi2 = 0;
@@ -816,11 +846,21 @@ void PreSelection::Init(TChain *tree)
    fChain->SetBranchAddress("Track_AssMCTruth_X", &Track_AssMCTruth_X, &b_Track_AssMCTruth_X);
    fChain->SetBranchAddress("Track_AssMCTruth_Y", &Track_AssMCTruth_Y, &b_Track_AssMCTruth_Y);
    fChain->SetBranchAddress("Track_AssMCTruth_W", &Track_AssMCTruth_W, &b_Track_AssMCTruth_W);*/
-   /*fChain->SetBranchAddress("Track_Calorimetry_Plane2_PlaneID", &Track_Calorimetry_Plane2_PlaneID, &b_Track_Calorimetry_Plane2_PlaneID);
+//   fChain->SetBranchAddress("Track_Calorimetry_Plane2_PlaneID", &Track_Calorimetry_Plane2_PlaneID, &b_Track_Calorimetry_Plane2_PlaneID);
+
+   fChain->SetBranchAddress("Track_Calorimetry_Plane0_ResidualRange", &Track_Calorimetry_Plane0_ResidualRange, &b_Track_Calorimetry_Plane0_ResidualRange);
+   fChain->SetBranchAddress("Track_Calorimetry_Plane0_dEdx", &Track_Calorimetry_Plane0_dEdx, &b_Track_Calorimetry_Plane0_dEdx);
+   fChain->SetBranchAddress("Track_Calorimetry_Plane0_dQdx", &Track_Calorimetry_Plane0_dQdx, &b_Track_Calorimetry_Plane0_dQdx);
+
+   fChain->SetBranchAddress("Track_Calorimetry_Plane1_ResidualRange", &Track_Calorimetry_Plane1_ResidualRange, &b_Track_Calorimetry_Plane1_ResidualRange);
+   fChain->SetBranchAddress("Track_Calorimetry_Plane1_dEdx", &Track_Calorimetry_Plane1_dEdx, &b_Track_Calorimetry_Plane1_dEdx);
+   fChain->SetBranchAddress("Track_Calorimetry_Plane1_dQdx", &Track_Calorimetry_Plane1_dQdx, &b_Track_Calorimetry_Plane1_dQdx);
+
    fChain->SetBranchAddress("Track_Calorimetry_Plane2_ResidualRange", &Track_Calorimetry_Plane2_ResidualRange, &b_Track_Calorimetry_Plane2_ResidualRange);
    fChain->SetBranchAddress("Track_Calorimetry_Plane2_dEdx", &Track_Calorimetry_Plane2_dEdx, &b_Track_Calorimetry_Plane2_dEdx);
    fChain->SetBranchAddress("Track_Calorimetry_Plane2_dQdx", &Track_Calorimetry_Plane2_dQdx, &b_Track_Calorimetry_Plane2_dQdx);
-   fChain->SetBranchAddress("Track_Calorimetry_Plane2_TruncdEdx", &Track_Calorimetry_Plane2_TruncdEdx, &b_Track_Calorimetry_Plane2_TruncdEdx);
+
+/*   fChain->SetBranchAddress("Track_Calorimetry_Plane2_TruncdEdx", &Track_Calorimetry_Plane2_TruncdEdx, &b_Track_Calorimetry_Plane2_TruncdEdx);
    fChain->SetBranchAddress("Track_Calorimetry_Plane2_TruncdQdx", &Track_Calorimetry_Plane2_TruncdQdx, &b_Track_Calorimetry_Plane2_TruncdQdx);
    fChain->SetBranchAddress("Track_Calorimetry_Plane2_CaliKineticEnergy", &Track_Calorimetry_Plane2_CaliKineticEnergy, &b_Track_Calorimetry_Plane2_CaliKineticEnergy);
    fChain->SetBranchAddress("Track_ParticleId_Pdg", &Track_ParticleId_Pdg, &b_Track_ParticleId_Pdg);

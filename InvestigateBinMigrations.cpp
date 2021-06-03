@@ -84,7 +84,7 @@ void InvestigateBinMigrations() {
 
 		TString NuScore = " NuScore > " + TString(std::to_string(MinimumNuScore)); 
 
-		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range-CandidateMu_P_MCS)/CandidateMu_P_Range<0.25 ) || CandidateMu_EndContainment == 0)";
+		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range-CandidateMu_P_MCS)/CandidateMu_P_Range<0.25 ) || (CandidateMu_EndContainment == 0 && CandidateMu_P_MCS > 0.25) )";
 
 		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + LLP + " && " + NuScore + " && " + QualityCut;
 

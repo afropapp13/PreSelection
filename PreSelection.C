@@ -11,6 +11,8 @@
 #include <TSpline.h>
 #include <TProfile.h>
 #include <TTree.h>
+#include <TF1.h>
+#include <TGraphErrors.h>
 
 #include <iostream>
 #include <fstream>
@@ -20,6 +22,7 @@
 #include "ubana/myClasses/Tools.h"
 #include "ubana/myClasses/STV_Tools.h"
 #include "ubana/myClasses/Box_Tools.h"
+#include "ubana/myClasses/TruncMean.h"
 
 using namespace std;
 using namespace Constants;
@@ -56,6 +59,19 @@ void PreSelection::Loop() {
 	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
+
+	// ---------------------------------------------------------------------------------------------------------------------------------------
+
+	// Spline files for momentum calibration
+
+	TString SplineFileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_"+fWhichSample+"_"+UBCodeVersion+".root";
+	TFile* SplineFile = new TFile(SplineFileName,"readonly");
+
+	TGraphErrors* gP_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_P_Range"));
+	TGraphErrors* gMu_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_Range"));
+	TGraphErrors* gMu_MCS = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_MCS"));
+
+	OutputFile->cd();
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -158,7 +174,9 @@ void PreSelection::Loop() {
 //	std::vector<int> CandidateMu_Mode;
 	std::vector<double> CandidateMu_TrackScore;			
 	std::vector<double> CandidateMu_P_Range;
+	std::vector<double> CandidateMu_P_Range_Recalibrate;
 	std::vector<double> CandidateMu_P_MCS;	
+	std::vector<double> CandidateMu_P_MCS_Recalibrate;	
 	std::vector<double> CandidateMu_Phi;
 	std::vector<double> CandidateMu_CosTheta;
 	std::vector<double> CandidateMu_Theta;
@@ -177,7 +195,28 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateMu_EndX;
 	std::vector<double> CandidateMu_EndY;
 	std::vector<double> CandidateMu_EndZ;	
-	std::vector<double> CandidateMu_ManualTheta;			
+	std::vector<double> CandidateMu_ManualTheta;
+
+	std::vector<int> CandidateMu_Plane0_NHits;
+	std::vector<std::vector<float> > CandidateMu_Plane0_ResidualRange;
+	std::vector<std::vector<float> > CandidateMu_Plane0_dEdx;
+	std::vector<std::vector<float> > CandidateMu_Plane0_dQdx;
+	std::vector<std::vector<float> > CandidateMu_Plane0_TruncdEdx;
+	std::vector<std::vector<float> > CandidateMu_Plane0_TruncdQdx;
+
+	std::vector<int> CandidateMu_Plane1_NHits;
+	std::vector<std::vector<float> > CandidateMu_Plane1_ResidualRange;
+	std::vector<std::vector<float> > CandidateMu_Plane1_dEdx;
+	std::vector<std::vector<float> > CandidateMu_Plane1_dQdx;
+	std::vector<std::vector<float> > CandidateMu_Plane1_TruncdEdx;
+	std::vector<std::vector<float> > CandidateMu_Plane1_TruncdQdx;
+
+	std::vector<int> CandidateMu_Plane2_NHits;
+	std::vector<std::vector<float> > CandidateMu_Plane2_ResidualRange;
+	std::vector<std::vector<float> > CandidateMu_Plane2_dEdx;
+	std::vector<std::vector<float> > CandidateMu_Plane2_dQdx;
+	std::vector<std::vector<float> > CandidateMu_Plane2_TruncdEdx;
+	std::vector<std::vector<float> > CandidateMu_Plane2_TruncdQdx;
 
 	std::vector<double> True_CandidateMu_P;
 //	std::vector<double> True_CandidateMu_Px;
@@ -203,6 +242,7 @@ void PreSelection::Loop() {
 //	std::vector<int> CandidateP_Mode;	
 	std::vector<double> CandidateP_TrackScore;
 	std::vector<double> CandidateP_P_Range;
+	std::vector<double> CandidateP_P_Range_Recalibrate;
 	std::vector<double> CandidateP_P_MCS;	
 	std::vector<double> CandidateP_Phi;
 	std::vector<double> CandidateP_Theta;
@@ -222,6 +262,27 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateP_EndX;
 	std::vector<double> CandidateP_EndY;
 	std::vector<double> CandidateP_EndZ;	
+
+	std::vector<int> CandidateP_Plane0_NHits;
+	std::vector<std::vector<float> > CandidateP_Plane0_ResidualRange;
+	std::vector<std::vector<float> > CandidateP_Plane0_dEdx;
+	std::vector<std::vector<float> > CandidateP_Plane0_dQdx;
+	std::vector<std::vector<float> > CandidateP_Plane0_TruncdEdx;
+	std::vector<std::vector<float> > CandidateP_Plane0_TruncdQdx;
+
+	std::vector<int> CandidateP_Plane1_NHits;
+	std::vector<std::vector<float> > CandidateP_Plane1_ResidualRange;
+	std::vector<std::vector<float> > CandidateP_Plane1_dEdx;
+	std::vector<std::vector<float> > CandidateP_Plane1_dQdx;
+	std::vector<std::vector<float> > CandidateP_Plane1_TruncdEdx;
+	std::vector<std::vector<float> > CandidateP_Plane1_TruncdQdx;
+
+	std::vector<int> CandidateP_Plane2_NHits;
+	std::vector<std::vector<float> > CandidateP_Plane2_ResidualRange;
+	std::vector<std::vector<float> > CandidateP_Plane2_dEdx;
+	std::vector<std::vector<float> > CandidateP_Plane2_dQdx;
+	std::vector<std::vector<float> > CandidateP_Plane2_TruncdEdx;
+	std::vector<std::vector<float> > CandidateP_Plane2_TruncdQdx;
 
 	std::vector<double> True_CandidateP_P;
 //	std::vector<double> True_CandidateP_Px;
@@ -257,7 +318,15 @@ void PreSelection::Loop() {
 	std::vector<double> Reco_EQE;
 	std::vector<double> Reco_Q2;
 	std::vector<double> Reco_DeltaPhi;
-	std::vector<double> Reco_DeltaTheta;		
+	std::vector<double> Reco_DeltaTheta;	
+
+	std::vector<double> Reco_Pt_Recalibrate;
+	std::vector<double> Reco_DeltaAlphaT_Recalibrate;
+	std::vector<double> Reco_DeltaPhiT_Recalibrate;	
+	std::vector<double> Reco_ECal_Recalibrate;
+	std::vector<double> Reco_EQE_Recalibrate;
+	std::vector<double> Reco_Q2_Recalibrate;
+
 	
 	std::vector<double> True_kMiss;
 	std::vector<double> True_EMiss;
@@ -366,7 +435,9 @@ void PreSelection::Loop() {
 
 	tree->Branch("CandidateMu_TrackScore",&CandidateMu_TrackScore);		
 	tree->Branch("CandidateMu_P_Range",&CandidateMu_P_Range);
+	tree->Branch("CandidateMu_P_Range_Recalibrate",&CandidateMu_P_Range_Recalibrate);
 	tree->Branch("CandidateMu_P_MCS",&CandidateMu_P_MCS);	
+	tree->Branch("CandidateMu_P_MCS_Recalibrate",&CandidateMu_P_MCS_Recalibrate);	
 	tree->Branch("CandidateMu_Phi",&CandidateMu_Phi);
 	tree->Branch("CandidateMu_Theta",&CandidateMu_Theta);
 	tree->Branch("CandidateMu_CosTheta",&CandidateMu_CosTheta);
@@ -385,7 +456,28 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateMu_EndX",&CandidateMu_EndX);
 	tree->Branch("CandidateMu_EndY",&CandidateMu_EndY);
 	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);
-	tree->Branch("CandidateMu_ManualTheta",&CandidateMu_ManualTheta);				
+	tree->Branch("CandidateMu_ManualTheta",&CandidateMu_ManualTheta);
+
+	tree->Branch("CandidateMu_Plane0_NHits",&CandidateMu_Plane0_NHits);
+	tree->Branch("CandidateMu_Plane0_ResidualRange",&CandidateMu_Plane0_ResidualRange);
+	tree->Branch("CandidateMu_Plane0_dEdx",&CandidateMu_Plane0_dEdx);
+	tree->Branch("CandidateMu_Plane0_dQdx",&CandidateMu_Plane0_dQdx);
+	tree->Branch("CandidateMu_Plane0_TruncdEdx",&CandidateMu_Plane0_TruncdEdx);
+	tree->Branch("CandidateMu_Plane0_TruncdQdx",&CandidateMu_Plane0_TruncdQdx);
+
+	tree->Branch("CandidateMu_Plane1_NHits",&CandidateMu_Plane1_NHits);
+	tree->Branch("CandidateMu_Plane1_ResidualRange",&CandidateMu_Plane1_ResidualRange);
+	tree->Branch("CandidateMu_Plane1_dEdx",&CandidateMu_Plane1_dEdx);
+	tree->Branch("CandidateMu_Plane1_dQdx",&CandidateMu_Plane1_dQdx);
+	tree->Branch("CandidateMu_Plane1_TruncdEdx",&CandidateMu_Plane1_TruncdEdx);
+	tree->Branch("CandidateMu_Plane1_TruncdQdx",&CandidateMu_Plane1_TruncdQdx);
+				
+	tree->Branch("CandidateMu_Plane2_NHits",&CandidateMu_Plane2_NHits);
+	tree->Branch("CandidateMu_Plane2_ResidualRange",&CandidateMu_Plane2_ResidualRange);
+	tree->Branch("CandidateMu_Plane2_dEdx",&CandidateMu_Plane2_dEdx);
+	tree->Branch("CandidateMu_Plane2_dQdx",&CandidateMu_Plane2_dQdx);
+	tree->Branch("CandidateMu_Plane2_TruncdEdx",&CandidateMu_Plane2_TruncdEdx);
+	tree->Branch("CandidateMu_Plane2_TruncdQdx",&CandidateMu_Plane2_TruncdQdx);				
 
 	tree->Branch("True_CandidateMu_P",&True_CandidateMu_P);
 //	tree->Branch("True_CandidateMu_Px",&True_CandidateMu_Px);
@@ -410,6 +502,7 @@ void PreSelection::Loop() {
 
 	tree->Branch("CandidateP_TrackScore",&CandidateP_TrackScore);
 	tree->Branch("CandidateP_P_Range",&CandidateP_P_Range);
+	tree->Branch("CandidateP_P_Range_Recalibrate",&CandidateP_P_Range_Recalibrate);
 	tree->Branch("CandidateP_P_MCS",&CandidateP_P_MCS);	
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
 	tree->Branch("CandidateP_Theta",&CandidateP_Theta);
@@ -428,7 +521,28 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateP_StartZ",&CandidateP_StartZ);
 	tree->Branch("CandidateP_EndX",&CandidateP_EndX);
 	tree->Branch("CandidateP_EndY",&CandidateP_EndY);
-	tree->Branch("CandidateP_EndZ",&CandidateP_EndZ);	
+	tree->Branch("CandidateP_EndZ",&CandidateP_EndZ);
+
+	tree->Branch("CandidateP_Plane0_NHits",&CandidateP_Plane0_NHits);
+	tree->Branch("CandidateP_Plane0_ResidualRange",&CandidateP_Plane0_ResidualRange);
+	tree->Branch("CandidateP_Plane0_dEdx",&CandidateP_Plane0_dEdx);
+	tree->Branch("CandidateP_Plane0_dQdx",&CandidateP_Plane0_dQdx);
+	tree->Branch("CandidateP_Plane0_TruncdEdx",&CandidateP_Plane0_TruncdEdx);
+	tree->Branch("CandidateP_Plane0_TruncdQdx",&CandidateP_Plane0_TruncdQdx);
+
+	tree->Branch("CandidateP_Plane1_NHits",&CandidateP_Plane1_NHits);
+	tree->Branch("CandidateP_Plane1_ResidualRange",&CandidateP_Plane1_ResidualRange);
+	tree->Branch("CandidateP_Plane1_dEdx",&CandidateP_Plane1_dEdx);
+	tree->Branch("CandidateP_Plane1_dQdx",&CandidateP_Plane1_dQdx);
+	tree->Branch("CandidateP_Plane1_TruncdEdx",&CandidateP_Plane1_TruncdEdx);
+	tree->Branch("CandidateP_Plane1_TruncdQdx",&CandidateP_Plane1_TruncdQdx);
+				
+	tree->Branch("CandidateP_Plane2_NHits",&CandidateP_Plane2_NHits);
+	tree->Branch("CandidateP_Plane2_ResidualRange",&CandidateP_Plane2_ResidualRange);
+	tree->Branch("CandidateP_Plane2_dEdx",&CandidateP_Plane2_dEdx);
+	tree->Branch("CandidateP_Plane2_dQdx",&CandidateP_Plane2_dQdx);	
+	tree->Branch("CandidateP_Plane2_TruncdEdx",&CandidateP_Plane2_TruncdEdx);
+	tree->Branch("CandidateP_Plane2_TruncdQdx",&CandidateP_Plane2_TruncdQdx);
 
 	tree->Branch("True_CandidateP_P",&True_CandidateP_P);
 //	tree->Branch("True_CandidateP_Px",&True_CandidateP_Px);
@@ -462,7 +576,15 @@ void PreSelection::Loop() {
 	tree->Branch("Reco_EQE",&Reco_EQE);
 	tree->Branch("Reco_Q2",&Reco_Q2);
 	tree->Branch("Reco_DeltaPhi",&Reco_DeltaPhi);
-	tree->Branch("Reco_DeltaTheta",&Reco_DeltaTheta);		
+	tree->Branch("Reco_DeltaTheta",&Reco_DeltaTheta);	
+
+	tree->Branch("Reco_Pt_Recalibrate",&Reco_Pt_Recalibrate);
+	tree->Branch("Reco_DeltaAlphaT_Recalibrate",&Reco_DeltaAlphaT_Recalibrate);
+	tree->Branch("Reco_DeltaPhiT_Recalibrate",&Reco_DeltaPhiT_Recalibrate);	
+	tree->Branch("Reco_ECal_Recalibrate",&Reco_ECal_Recalibrate);
+	tree->Branch("Reco_EQE_Recalibrate",&Reco_EQE_Recalibrate);
+	tree->Branch("Reco_Q2_Recalibrate",&Reco_Q2_Recalibrate);
+
 	
 	tree->Branch("True_kMiss",&True_kMiss);
 	tree->Branch("True_PMissMinus",&True_PMissMinus);
@@ -509,6 +631,17 @@ void PreSelection::Loop() {
 
 	TH1D* SamdefEventPlot = new TH1D("SamdefEventPlot",";# samdef events",1,0,1);
 	SamdefEventPlot->SetBinContent(1,fChain->GetEntries());
+
+	TH1D* SWTriggerEventPlot = new TH1D("SWTriggerEventPlot",";# SWTrigger events",1,0,1);
+	TH1D* OneNuMuPFParticleEventPlot = new TH1D("OneNuMuPFParticleEventPlot",";1 #nu_{#mu} PFParticle events",1,0,1);
+	TH1D* TwoDaughterEventPlot = new TH1D("TwoDaughterEventPlot",";2 daughter events",1,0,1);
+	TH1D* TrackLikeDaughterEventPlot = new TH1D("TrackLikeDaughterEventPlot",";2 track-like daughter events",1,0,1);
+	TH1D* MatchedTrackLikeDaughterEventPlot = new TH1D("MatchedTrackLikeDaughterEventPlot",";2 matched track-like daughter events",1,0,1);	
+	TH1D* NuFlashScoreEventPlot = new TH1D("NuFlashScoreEventPlot",";#nu/flash score existence events",1,0,1);
+	TH1D* OneBeamFlashEventPlot = new TH1D("OneBeamFlashEventPlot",";1 beam flash events",1,0,1);
+	TH1D* OnePairEventPlot = new TH1D("OnePairEventPlot",";1 candidate pair events",1,0,1);
+	TH1D* MomentumThresholdEventPlot = new TH1D("MomentumThresholdEventPlot",";Above P threshold events",1,0,1);
+	TH1D* StartPointContainmentEventPlot = new TH1D("StartPointContainmentEventPlot",";Contained start point events",1,0,1);			
 
 	// --------------------------------------------------------------------------------------------------------------------------------
 
@@ -581,6 +714,8 @@ void PreSelection::Loop() {
 
 	if (string(fWhichSample).find("Overlay") != std::string::npos) { POTScale = tor860_wcut / POTCount; }	
 
+	POTWeight = POTScale;	
+
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -651,7 +786,6 @@ void PreSelection::Loop() {
 			T2KWeight = T2Kweight;
 
 			ROOTinoWeight = ROOTinoEventWeight->at(0);	
-			POTWeight = POTScale;	
 
 			// We need the EventWeight weights only for the nominal samples, not for the detector variations
 
@@ -991,7 +1125,9 @@ void PreSelection::Loop() {
 //		CandidateMu_Mode.clear();
 		CandidateMu_TrackScore.clear();								
 		CandidateMu_P_Range.clear();
+		CandidateMu_P_Range_Recalibrate.clear();
 		CandidateMu_P_MCS.clear();		
+		CandidateMu_P_MCS_Recalibrate.clear();		
 		CandidateMu_Phi.clear();
 		CandidateMu_Theta.clear();
 		CandidateMu_CosTheta.clear();
@@ -1010,7 +1146,28 @@ void PreSelection::Loop() {
 		CandidateMu_EndX.clear();
 		CandidateMu_EndY.clear();
 		CandidateMu_EndZ.clear();
-		CandidateMu_ManualTheta.clear();										
+		CandidateMu_ManualTheta.clear();
+
+		CandidateMu_Plane0_NHits.clear();
+		CandidateMu_Plane0_ResidualRange.clear();
+		CandidateMu_Plane0_dEdx.clear();
+		CandidateMu_Plane0_dQdx.clear();
+		CandidateMu_Plane0_TruncdEdx.clear();
+		CandidateMu_Plane0_TruncdQdx.clear();
+
+		CandidateMu_Plane1_NHits.clear();
+		CandidateMu_Plane1_ResidualRange.clear();
+		CandidateMu_Plane1_dEdx.clear();
+		CandidateMu_Plane1_dQdx.clear();
+		CandidateMu_Plane1_TruncdEdx.clear();
+		CandidateMu_Plane1_TruncdQdx.clear();
+				
+		CandidateMu_Plane2_NHits.clear();						
+		CandidateMu_Plane2_ResidualRange.clear();
+		CandidateMu_Plane2_dEdx.clear();
+		CandidateMu_Plane2_dQdx.clear();										
+		CandidateMu_Plane2_TruncdEdx.clear();
+		CandidateMu_Plane2_TruncdQdx.clear();
 
 		True_CandidateMu_P.clear();
 //		True_CandidateMu_Px.clear();
@@ -1036,6 +1193,7 @@ void PreSelection::Loop() {
 //		CandidateP_Mode.clear();		
 		CandidateP_TrackScore.clear();
 		CandidateP_P_Range.clear();
+		CandidateP_P_Range_Recalibrate.clear();
 		CandidateP_P_MCS.clear();		
 		CandidateP_Phi.clear();
 		CandidateP_Theta.clear();
@@ -1054,7 +1212,28 @@ void PreSelection::Loop() {
 		CandidateP_StartZ.clear();
 		CandidateP_EndX.clear();
 		CandidateP_EndY.clear();
-		CandidateP_EndZ.clear();		
+		CandidateP_EndZ.clear();
+
+		CandidateP_Plane0_NHits.clear();
+		CandidateP_Plane0_ResidualRange.clear();
+		CandidateP_Plane0_dEdx.clear();
+		CandidateP_Plane0_dQdx.clear();
+		CandidateP_Plane0_TruncdEdx.clear();
+		CandidateP_Plane0_TruncdQdx.clear();
+
+		CandidateP_Plane1_NHits.clear();
+		CandidateP_Plane1_ResidualRange.clear();
+		CandidateP_Plane1_dEdx.clear();
+		CandidateP_Plane1_dQdx.clear();
+		CandidateP_Plane1_TruncdEdx.clear();
+		CandidateP_Plane1_TruncdQdx.clear();
+				
+		CandidateP_Plane2_NHits.clear();						
+		CandidateP_Plane2_ResidualRange.clear();
+		CandidateP_Plane2_dEdx.clear();
+		CandidateP_Plane2_dQdx.clear();
+		CandidateP_Plane2_TruncdEdx.clear();
+		CandidateP_Plane2_TruncdQdx.clear();		
 
 		True_CandidateP_P.clear();
 //		True_CandidateP_Px.clear();
@@ -1088,7 +1267,14 @@ void PreSelection::Loop() {
 		Reco_EQE.clear();
 		Reco_Q2.clear();
 		Reco_DeltaPhi.clear();
-		Reco_DeltaTheta.clear();				
+		Reco_DeltaTheta.clear();
+
+		Reco_Pt_Recalibrate.clear();
+		Reco_DeltaAlphaT_Recalibrate.clear();
+		Reco_DeltaPhiT_Recalibrate.clear();
+		Reco_ECal_Recalibrate.clear();
+		Reco_EQE_Recalibrate.clear();
+		Reco_Q2_Recalibrate.clear();
 		
 		True_kMiss.clear();
 		True_EMiss.clear();
@@ -1218,8 +1404,9 @@ void PreSelection::Loop() {
 			// Muon
 
 			double CandidateMuonTrack_Momentum = -99.;
-			double CandidateMuonTrack_Momentum_MCS_MeV = -99.;
+			double CandidateMuonTrack_Momentum_Recalibrate = -99.;
 			double CandidateMuonTrack_E_GeV = -99.;
+			double CandidateMuonTrack_E_GeV_Recalibrate = -99.;
 			double CalCandidateMu_ThreePlaneChi2 = ThreePlaneChi2(CandidateMuonTrackStart,CandidateMuonTrackEnd,
 								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateMuonTrackIndex),
 								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateMuonTrackIndex),
@@ -1227,23 +1414,37 @@ void PreSelection::Loop() {
 
 			if (CandidateMuonTrackStartContainment == false) { UncontainedParticles = true; } 
 
+			double RecalibrationFactor_CandidateMu_P_Range = 0.01* gMu_Range->Eval(Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex)); // %, convert to decimal number 
+			double RecalibrationFactor_CandidateMu_P_MCS = 0.01* gMu_MCS->Eval(Track_Momentum_MCS->at(CandidateMuonTrackIndex)); // %, convert to decimal number 
+
 			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
 				CandidateMuonTrack_Momentum = Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex); // GeV/c
+				CandidateMuonTrack_Momentum_Recalibrate = (1 - RecalibrationFactor_CandidateMu_P_Range) * Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex);
 
 			} else {
 
 				CandidateMuonTrack_Momentum = Track_Momentum_MCS->at(CandidateMuonTrackIndex); // GeV/c
+				CandidateMuonTrack_Momentum_Recalibrate = (1 - RecalibrationFactor_CandidateMu_P_MCS) * Track_Momentum_MCS->at(CandidateMuonTrackIndex);
 
 			}
 
 			if (CandidateMuonTrack_Momentum < ArrayNBinsMuonMomentum[0]) { ParticlesBelowThreshold = true; } 
 
 			CandidateMuonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateMuonTrack_Momentum,2.) + TMath::Power(MuonMass_GeV,2.)); // GeV/c
+			CandidateMuonTrack_E_GeV_Recalibrate = TMath::Sqrt( TMath::Power(CandidateMuonTrack_Momentum_Recalibrate,2.) + TMath::Power(MuonMass_GeV,2.)); // GeV/c
 
 			CandidateMu_TrackScore.push_back(TracksFromCurrentPFParticleTrackScore->at(0).at(MuonInPair));	
-			CandidateMu_P_Range.push_back(Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex));						
+			CandidateMu_P_Range.push_back(Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex));	
+					
+			double Recalibrated_CandidateMu_P_Range = (1 - RecalibrationFactor_CandidateMu_P_Range) * Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex);
+			CandidateMu_P_Range_Recalibrate.push_back(Recalibrated_CandidateMu_P_Range);	
+					
 			CandidateMu_P_MCS.push_back(Track_Momentum_MCS->at(CandidateMuonTrackIndex));
+
+			double Recalibrated_CandidateMu_P_MCS = (1 - RecalibrationFactor_CandidateMu_P_MCS) * Track_Momentum_MCS->at(CandidateMuonTrackIndex);
+			CandidateMu_P_MCS_Recalibrate.push_back(Recalibrated_CandidateMu_P_MCS);
+
 			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
 			CandidateMu_Theta.push_back(CandidateMuonTrackTheta);
 			CandidateMu_CosTheta.push_back(CandidateMuonTrackCosTheta);
@@ -1265,14 +1466,57 @@ void PreSelection::Loop() {
 			TVector3 MuonEnd(Track_EndX->at(CandidateMuonTrackIndex),Track_EndY->at(CandidateMuonTrackIndex),Track_EndZ->at(CandidateMuonTrackIndex));
 			double ManualTheta = (MuonEnd-MuonStart).Theta()*180./TMath::Pi();
 
-			CandidateMu_ManualTheta.push_back(ManualTheta);							
+			CandidateMu_ManualTheta.push_back(ManualTheta);
+
+			TruncMean truncmean;
+		
+			std::vector<float> CurrentMu_Calorimetry_Plane0_TruncdEdx;
+			std::vector<float> CurrentMu_Calorimetry_Plane0_TruncdQdx;
+
+			std::vector<float> CurrentMu_Calorimetry_Plane1_TruncdEdx;
+			std::vector<float> CurrentMu_Calorimetry_Plane1_TruncdQdx;
+
+			std::vector<float> CurrentMu_Calorimetry_Plane2_TruncdEdx;
+			std::vector<float> CurrentMu_Calorimetry_Plane2_TruncdQdx;
+
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane0_ResidualRange->at(CandidateMuonTrackIndex),Track_Calorimetry_Plane0_dEdx->at(CandidateMuonTrackIndex),CurrentMu_Calorimetry_Plane0_TruncdEdx);
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane0_ResidualRange->at(CandidateMuonTrackIndex),Track_Calorimetry_Plane0_dQdx->at(CandidateMuonTrackIndex),CurrentMu_Calorimetry_Plane0_TruncdQdx);
+
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane1_ResidualRange->at(CandidateMuonTrackIndex),Track_Calorimetry_Plane1_dEdx->at(CandidateMuonTrackIndex),CurrentMu_Calorimetry_Plane1_TruncdEdx);
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane1_ResidualRange->at(CandidateMuonTrackIndex),Track_Calorimetry_Plane1_dQdx->at(CandidateMuonTrackIndex),CurrentMu_Calorimetry_Plane1_TruncdQdx);
+
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane2_ResidualRange->at(CandidateMuonTrackIndex),Track_Calorimetry_Plane2_dEdx->at(CandidateMuonTrackIndex),CurrentMu_Calorimetry_Plane2_TruncdEdx);
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane2_ResidualRange->at(CandidateMuonTrackIndex),Track_Calorimetry_Plane2_dQdx->at(CandidateMuonTrackIndex),CurrentMu_Calorimetry_Plane2_TruncdQdx);
+
+			CandidateMu_Plane0_NHits.push_back(Track_Calorimetry_Plane0_ResidualRange->at(CandidateMuonTrackIndex).size());
+			CandidateMu_Plane0_ResidualRange.push_back(Track_Calorimetry_Plane0_ResidualRange->at(CandidateMuonTrackIndex));
+			CandidateMu_Plane0_dEdx.push_back(Track_Calorimetry_Plane0_dEdx->at(CandidateMuonTrackIndex));
+			CandidateMu_Plane0_dQdx.push_back(Track_Calorimetry_Plane0_dQdx->at(CandidateMuonTrackIndex));
+			CandidateMu_Plane0_TruncdEdx.push_back(CurrentMu_Calorimetry_Plane0_TruncdEdx);
+			CandidateMu_Plane0_TruncdQdx.push_back(CurrentMu_Calorimetry_Plane0_TruncdQdx);
+
+			CandidateMu_Plane1_NHits.push_back(Track_Calorimetry_Plane1_ResidualRange->at(CandidateMuonTrackIndex).size());
+			CandidateMu_Plane1_ResidualRange.push_back(Track_Calorimetry_Plane1_ResidualRange->at(CandidateMuonTrackIndex));
+			CandidateMu_Plane1_dEdx.push_back(Track_Calorimetry_Plane1_dEdx->at(CandidateMuonTrackIndex));
+			CandidateMu_Plane1_dQdx.push_back(Track_Calorimetry_Plane1_dQdx->at(CandidateMuonTrackIndex));	
+			CandidateMu_Plane1_TruncdEdx.push_back(CurrentMu_Calorimetry_Plane1_TruncdEdx);
+			CandidateMu_Plane1_TruncdQdx.push_back(CurrentMu_Calorimetry_Plane1_TruncdQdx);
+
+			CandidateMu_Plane2_NHits.push_back(Track_Calorimetry_Plane2_ResidualRange->at(CandidateMuonTrackIndex).size());
+			CandidateMu_Plane2_ResidualRange.push_back(Track_Calorimetry_Plane2_ResidualRange->at(CandidateMuonTrackIndex));
+			CandidateMu_Plane2_dEdx.push_back(Track_Calorimetry_Plane2_dEdx->at(CandidateMuonTrackIndex));
+			CandidateMu_Plane2_dQdx.push_back(Track_Calorimetry_Plane2_dQdx->at(CandidateMuonTrackIndex));	
+			CandidateMu_Plane2_TruncdEdx.push_back(CurrentMu_Calorimetry_Plane2_TruncdEdx);
+			CandidateMu_Plane2_TruncdQdx.push_back(CurrentMu_Calorimetry_Plane2_TruncdQdx);						
 
 			// --------------------------------------------------------------------------------------------------------------------------
 
 			// Proton
 
 			double CandidateProtonTrack_Momentum = -99.;
+			double CandidateProtonTrack_Momentum_Recalibrated = -99.;
 			double CandidateProtonTrack_E_GeV = -99.;
+			double CandidateProtonTrack_E_GeV_Recalibrated = -99.;
 			double CalCandidateP_ThreePlaneChi2 = ThreePlaneChi2(CandidateProtonTrackStart,CandidateProtonTrackEnd,
 								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateProtonTrackIndex),
 								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateProtonTrackIndex),
@@ -1283,10 +1527,17 @@ void PreSelection::Loop() {
 			if (CandidateProtonTrackStartContainment == false) { UncontainedParticles = true; } 
 			if (CandidateProtonTrack_Momentum < ArrayNBinsProtonMomentum[0]) { ParticlesBelowThreshold = true; } 
 
+			double RecalibrationFactor_CandidateP_P_Range = 0.01* gP_Range->Eval(Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex)); // %, convert to decimal number 
+			CandidateProtonTrack_Momentum_Recalibrated = (1 - RecalibrationFactor_CandidateP_P_Range) * Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex);
+
 			CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV/c
+			CandidateProtonTrack_E_GeV_Recalibrated = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum_Recalibrated,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV/c
 
 			CandidateP_TrackScore.push_back(TracksFromCurrentPFParticleTrackScore->at(0).at(ProtonInPair));
 			CandidateP_P_Range.push_back(Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex));
+
+			CandidateP_P_Range_Recalibrate.push_back(CandidateProtonTrack_Momentum_Recalibrated);
+
 			CandidateP_P_MCS.push_back(Track_Momentum_MCS->at(CandidateProtonTrackIndex));			
 			CandidateP_Phi.push_back(Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi()); // deg
 			CandidateP_Theta.push_back(CandidateProtonTrackTheta);
@@ -1303,7 +1554,46 @@ void PreSelection::Loop() {
 			CandidateP_StartZ.push_back(Track_StartZ->at(CandidateProtonTrackIndex));
 			CandidateP_EndX.push_back(Track_EndX->at(CandidateProtonTrackIndex));
 			CandidateP_EndY.push_back(Track_EndY->at(CandidateProtonTrackIndex));
-			CandidateP_EndZ.push_back(Track_EndZ->at(CandidateProtonTrackIndex));						
+			CandidateP_EndZ.push_back(Track_EndZ->at(CandidateProtonTrackIndex));	
+
+			std::vector<float> CurrentP_Calorimetry_Plane0_TruncdEdx;
+			std::vector<float> CurrentP_Calorimetry_Plane0_TruncdQdx;
+
+			std::vector<float> CurrentP_Calorimetry_Plane1_TruncdEdx;
+			std::vector<float> CurrentP_Calorimetry_Plane1_TruncdQdx;
+
+			std::vector<float> CurrentP_Calorimetry_Plane2_TruncdEdx;
+			std::vector<float> CurrentP_Calorimetry_Plane2_TruncdQdx;
+
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane0_ResidualRange->at(CandidateProtonTrackIndex),Track_Calorimetry_Plane0_dEdx->at(CandidateProtonTrackIndex),CurrentP_Calorimetry_Plane0_TruncdEdx);
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane0_ResidualRange->at(CandidateProtonTrackIndex),Track_Calorimetry_Plane0_dQdx->at(CandidateProtonTrackIndex),CurrentP_Calorimetry_Plane0_TruncdQdx);
+
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane1_ResidualRange->at(CandidateProtonTrackIndex),Track_Calorimetry_Plane1_dEdx->at(CandidateProtonTrackIndex),CurrentP_Calorimetry_Plane1_TruncdEdx);
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane1_ResidualRange->at(CandidateProtonTrackIndex),Track_Calorimetry_Plane1_dQdx->at(CandidateProtonTrackIndex),CurrentP_Calorimetry_Plane1_TruncdQdx);
+
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane2_ResidualRange->at(CandidateProtonTrackIndex),Track_Calorimetry_Plane2_dEdx->at(CandidateProtonTrackIndex),CurrentP_Calorimetry_Plane2_TruncdEdx);
+			truncmean.CalcTruncMean(Track_Calorimetry_Plane2_ResidualRange->at(CandidateProtonTrackIndex),Track_Calorimetry_Plane2_dQdx->at(CandidateProtonTrackIndex),CurrentP_Calorimetry_Plane2_TruncdQdx);
+
+			CandidateP_Plane0_NHits.push_back(Track_Calorimetry_Plane0_ResidualRange->at(CandidateProtonTrackIndex).size());
+			CandidateP_Plane0_ResidualRange.push_back(Track_Calorimetry_Plane0_ResidualRange->at(CandidateProtonTrackIndex));
+			CandidateP_Plane0_dEdx.push_back(Track_Calorimetry_Plane0_dEdx->at(CandidateProtonTrackIndex));
+			CandidateP_Plane0_dQdx.push_back(Track_Calorimetry_Plane0_dQdx->at(CandidateProtonTrackIndex));
+			CandidateP_Plane0_TruncdEdx.push_back(CurrentP_Calorimetry_Plane0_TruncdEdx);
+			CandidateP_Plane0_TruncdQdx.push_back(CurrentP_Calorimetry_Plane0_TruncdQdx);
+
+			CandidateP_Plane1_NHits.push_back(Track_Calorimetry_Plane1_ResidualRange->at(CandidateProtonTrackIndex).size());
+			CandidateP_Plane1_ResidualRange.push_back(Track_Calorimetry_Plane1_ResidualRange->at(CandidateProtonTrackIndex));
+			CandidateP_Plane1_dEdx.push_back(Track_Calorimetry_Plane1_dEdx->at(CandidateProtonTrackIndex));
+			CandidateP_Plane1_dQdx.push_back(Track_Calorimetry_Plane1_dQdx->at(CandidateProtonTrackIndex));	
+			CandidateP_Plane1_TruncdEdx.push_back(CurrentP_Calorimetry_Plane1_TruncdEdx);
+			CandidateP_Plane1_TruncdQdx.push_back(CurrentP_Calorimetry_Plane1_TruncdQdx);
+
+			CandidateP_Plane2_NHits.push_back(Track_Calorimetry_Plane2_ResidualRange->at(CandidateProtonTrackIndex).size());
+			CandidateP_Plane2_ResidualRange.push_back(Track_Calorimetry_Plane2_ResidualRange->at(CandidateProtonTrackIndex));
+			CandidateP_Plane2_dEdx.push_back(Track_Calorimetry_Plane2_dEdx->at(CandidateProtonTrackIndex));
+			CandidateP_Plane2_dQdx.push_back(Track_Calorimetry_Plane2_dQdx->at(CandidateProtonTrackIndex));
+			CandidateP_Plane2_TruncdEdx.push_back(CurrentP_Calorimetry_Plane2_TruncdEdx);
+			CandidateP_Plane2_TruncdQdx.push_back(CurrentP_Calorimetry_Plane2_TruncdQdx);					
 
 			// --------------------------------------------------------------------------------------------------------------------
 			
@@ -1319,7 +1609,18 @@ void PreSelection::Loop() {
 			TVector3CandidateProton.SetTheta(TMath::ACos(CandidateProtonTrackCosTheta));
 			TVector3CandidateProton.SetPhi(Track_Phi->at(CandidateProtonTrackIndex));
 
+			TVector3 TVector3CandidateMuon_Recalibrate(-1,-1,-1);
+			TVector3CandidateMuon_Recalibrate.SetMag(CandidateMuonTrack_Momentum_Recalibrate);
+			TVector3CandidateMuon_Recalibrate.SetTheta(TMath::ACos(CandidateMuonTrackCosTheta));
+			TVector3CandidateMuon_Recalibrate.SetPhi(Track_Phi->at(CandidateMuonTrackIndex));			
+
+			TVector3 TVector3CandidateProton_Recalibrate(-1,-1,-1);
+			TVector3CandidateProton_Recalibrate.SetMag(CandidateProtonTrack_Momentum_Recalibrated);
+			TVector3CandidateProton_Recalibrate.SetTheta(TMath::ACos(CandidateProtonTrackCosTheta));
+			TVector3CandidateProton_Recalibrate.SetPhi(Track_Phi->at(CandidateProtonTrackIndex));
+
 			STV_Tools reco_stv_tool(TVector3CandidateMuon,TVector3CandidateProton,CandidateMuonTrack_E_GeV,CandidateProtonTrack_E_GeV);
+			STV_Tools reco_stv_tool_recalibrate(TVector3CandidateMuon_Recalibrate,TVector3CandidateProton_Recalibrate,CandidateMuonTrack_E_GeV_Recalibrate,CandidateProtonTrack_E_GeV_Recalibrated);
 
 			Reco_kMiss.push_back(reco_stv_tool.ReturnkMiss());
 			Reco_EMiss.push_back(reco_stv_tool.ReturnEMiss());
@@ -1331,6 +1632,13 @@ void PreSelection::Loop() {
 			Reco_ECal.push_back(reco_stv_tool.ReturnECal());
 			Reco_EQE.push_back(reco_stv_tool.ReturnEQE());
 			Reco_Q2.push_back(reco_stv_tool.ReturnQ2());	
+
+			Reco_Pt_Recalibrate.push_back(reco_stv_tool_recalibrate.ReturnPt());
+			Reco_DeltaAlphaT_Recalibrate.push_back(reco_stv_tool_recalibrate.ReturnDeltaAlphaT());
+			Reco_DeltaPhiT_Recalibrate.push_back(reco_stv_tool_recalibrate.ReturnDeltaPhiT());
+			Reco_ECal_Recalibrate.push_back(reco_stv_tool_recalibrate.ReturnECal());
+			Reco_EQE_Recalibrate.push_back(reco_stv_tool_recalibrate.ReturnEQE());
+			Reco_Q2_Recalibrate.push_back(reco_stv_tool_recalibrate.ReturnQ2());
 			
 			// --------------------------------------------------------------------------------------------------------------------
 
@@ -1661,6 +1969,29 @@ void PreSelection::Loop() {
 
 	std::cout.precision(precision);
 	std::cout << "\n\nGathered a total of " << EventCounter << " preselected events" << std::endl << std::endl;
+
+	SWTriggerEventPlot->SetBinContent(1,SWTriggerCounter);
+	OneNuMuPFParticleEventPlot->SetBinContent(1,OneNuMuPFParticleCounter);
+	TwoDaughterEventPlot->SetBinContent(1,DaughterCounter);
+	TrackLikeDaughterEventPlot->SetBinContent(1,TrackLikeDaughterCounter);
+	MatchedTrackLikeDaughterEventPlot->SetBinContent(1,MatchedTrackPFParticleCounter);	
+	NuFlashScoreEventPlot->SetBinContent(1,NuFlashScoreCounter);
+	OneBeamFlashEventPlot->SetBinContent(1,FlashCounter);
+	OnePairEventPlot->SetBinContent(1,PairCounter);
+	MomentumThresholdEventPlot->SetBinContent(1,MomentumThresholdCounter);
+	StartPointContainmentEventPlot->SetBinContent(1,ContainmentCounter);					
+
+	OutputFile->cd();
+	SWTriggerEventPlot->Write();
+	OneNuMuPFParticleEventPlot->Write();
+	TwoDaughterEventPlot->Write();
+	TrackLikeDaughterEventPlot->Write();
+	MatchedTrackLikeDaughterEventPlot->Write();	
+	NuFlashScoreEventPlot->Write();
+	OneBeamFlashEventPlot->Write();
+	OnePairEventPlot->Write();
+	MomentumThresholdEventPlot->Write();
+	StartPointContainmentEventPlot->Write();	
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
