@@ -86,7 +86,11 @@ void InvestigateBinMigrations() {
 
 		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range-CandidateMu_P_MCS)/CandidateMu_P_Range<0.25 ) || (CandidateMu_EndContainment == 0 && CandidateMu_P_MCS > 0.25) )";
 
-		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + LLP + " && " + NuScore + " && " + QualityCut;
+		TString MinHitsMu = "  (CandidateMu_Plane0_TruncdEdx[0][0] + CandidateMu_Plane1_TruncdEdx[0][0] + CandidateMu_Plane2_TruncdEdx[0][0] > 0.5)";
+
+		TString MinHitsP = " (CandidateP_Plane0_TruncdEdx[0][0] + CandidateP_Plane1_TruncdEdx[0][0] + CandidateP_Plane2_TruncdEdx[0][0] > 1.5)";
+
+		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut + " && " + MinHitsMu + " && " + MinHitsP;
 
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);

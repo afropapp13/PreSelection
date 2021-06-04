@@ -64,7 +64,22 @@ void PreSelection::Loop() {
 
 	// Spline files for momentum calibration
 
-	TString SplineFileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_"+fWhichSample+"_"+UBCodeVersion+".root";
+	TString CalibrationSample = "";
+
+	// Base samples
+
+	if (string(fWhichSample).find("Run1") != std::string::npos) { CalibrationSample = "Overlay9_Run1"; }
+	if (string(fWhichSample).find("Run2") != std::string::npos) { CalibrationSample = "Overlay9_Run2"; }
+	if (string(fWhichSample).find("Run3") != std::string::npos) { CalibrationSample = "Overlay9_Run3"; }
+	if (string(fWhichSample).find("Run4") != std::string::npos) { CalibrationSample = "Overlay9_Run4"; }
+	if (string(fWhichSample).find("Run5") != std::string::npos) { CalibrationSample = "Overlay9_Run5"; }
+
+	// Fake data studies
+
+	if (string(fWhichSample).find("Overlay9NuWro_Run1") != std::string::npos) { CalibrationSample = "Overlay9NuWro_Run1"; }
+
+	TString SplineFileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_"+CalibrationSample+"_"+UBCodeVersion+".root";
+	cout << "Using " << SplineFileName << " for calibration purposes" << endl;
 	TFile* SplineFile = new TFile(SplineFileName,"readonly");
 
 	TGraphErrors* gP_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_P_Range"));

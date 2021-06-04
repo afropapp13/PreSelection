@@ -30,21 +30,21 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	if (XVar == "CandidateP_P_Range") { 
 
 		AxisLabel = ";P_{p} resolution [%];# Events;"; Reso = "(CandidateP_P_Range-True_CandidateP_P)/True_CandidateP_P*100.";
-		Xmin = ArrayNBinsProtonMomentum[0]; Xmax = ArrayNBinsProtonMomentum[NBinsProtonMomentum]; XVarLabel = "P_{p}";
+		Xmin = ArrayNBinsProtonMomentum[0]; Xmax = ArrayNBinsProtonMomentum[NBinsProtonMomentum]; XVarLabel = "P_{p} Range [GeV/c]";
 
 	}
 
 	if (XVar == "CandidateMu_P_Range") { 
 
 		AxisLabel = ";P_{#mu} resolution [%];# Events;"; Reso = "(CandidateMu_P_Range-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		Xmin = ArrayNBinsMuonMomentum[0]; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; XVarLabel = "P_{#mu}";
+		Xmin = ArrayNBinsMuonMomentum[0]; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; XVarLabel = "P_{#mu} Range [GeV/c]";
 
 	}
 
 	if (XVar == "CandidateMu_P_MCS") { 
 
 		AxisLabel = ";P_{#mu} resolution [%];# Events;"; Reso = "(CandidateMu_P_MCS-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		Xmin = 0.25; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; XVarLabel = "P_{#mu}";
+		Xmin = 0.25; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; XVarLabel = "P_{#mu} MCS [GeV/c]";
 
 	}
 
@@ -94,10 +94,14 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	}
 
 	TGraphErrors* graphMean = new TGraphErrors(NBinsReso,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+	graphMean->GetXaxis()->SetTitle(XVarLabel);
+	graphMean->GetYaxis()->SetTitle("Mean Value [%]");
 	OutputFile->cd();
 	graphMean->Write("Mean_"+XVar);
 
 	TGraphErrors* graphSigma = new TGraphErrors(NBinsReso,BinArray,SigmaArray,BinArrayError,SigmaErrorArray);
+	graphSigma->GetXaxis()->SetTitle(XVarLabel);
+	graphSigma->GetYaxis()->SetTitle("Sigma Value [%]");
 	OutputFile->cd();
 	graphSigma->Write("Sigma_"+XVar);
 
@@ -105,31 +109,33 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 }
 
 
-void CreateSplines() {
+void CreateSplines(TString Sample) {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 //	std::vector<TString> Runs{"Run1"};
-	std::vector<TString> Runs{"Run1","Run3"};
+//	std::vector<TString> Runs{"Run1","Run3"};
 
-	const int NRuns = Runs.size();
+//	const int NRuns = Runs.size();
 
-	for (int WhichRun = 0; WhichRun < NRuns; WhichRun++) {
+//	for (int WhichRun = 0; WhichRun < NRuns; WhichRun++) {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
+		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_"+Sample+"_"+UBCodeVersion+".root","readonly");
 		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-		TFile* OverlayTruthFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreTruthSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
-		TTree* treeTruth = (TTree*)(OverlayTruthFile->Get("myPreTruthSelection"));
+//		TFile* OverlayTruthFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreTruthSelection_"+Sample+"_"+UBCodeVersion+".root","readonly");
+//		TTree* treeTruth = (TTree*)(OverlayTruthFile->Get("myPreTruthSelection"));
 
-		TFile* DataFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_BeamOn9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
-		TTree* treeData = (TTree*)(OverlayFile->Get("myPreSelection"));
+//		TFile* DataFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_BeamOn9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
+//		TTree* treeData = (TTree*)(DataFile->Get("myPreSelection"));
 
 		TString CC1p = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && NumberPi0 == 0"; 
 
 		TString Containment = "CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
+
+		// Use uncalibrated quantities to obtain calibration
 
 		TString ProtonMom = "CandidateP_P_Range > " + TString(std::to_string(ArrayNBinsProtonMomentum[0])) + " && CandidateP_P_Range < "\
 		+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum])) + " && True_CandidateP_P > "+ TString(std::to_string(ArrayNBinsProtonMomentum[0]))\
@@ -155,13 +161,17 @@ void CreateSplines() {
 
 		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range-CandidateMu_P_MCS)/CandidateMu_P_Range<0.25 ) || CandidateMu_EndContainment == 0)";
 
-		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + LLP + " && " + NuScore + " && " + QualityCut;
+		TString MinHitsMu = "  (CandidateMu_Plane0_TruncdEdx[0][0] + CandidateMu_Plane1_TruncdEdx[0][0] + CandidateMu_Plane2_TruncdEdx[0][0] > 0.5)";
+
+		TString MinHitsP = " (CandidateP_Plane0_TruncdEdx[0][0] + CandidateP_Plane1_TruncdEdx[0][0] + CandidateP_Plane2_TruncdEdx[0][0] > 1.5)";
+
+		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut + " && " + MinHitsMu + " && " + MinHitsP;
 
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 
 		// What about NuWro ?
 
-		TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root";
+		TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_"+Sample+"_"+UBCodeVersion+".root";
 		TFile* OutputFile = new TFile(FileName,"recreate");
 		std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -180,6 +190,6 @@ void CreateSplines() {
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 
-	} // End of the loop over the runs
+	//} // End of the loop over the runs
 
 } // End of the program 
