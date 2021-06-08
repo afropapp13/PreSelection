@@ -64,27 +64,66 @@ void PreSelection::Loop() {
 
 	// Spline files for momentum calibration
 
-	TString CalibrationSample = "";
+        TString CalibrationSample = fWhichSample;
 
-	// Base samples
+        // Base samples                                                                                                                     
 
-	if (string(fWhichSample).find("Run1") != std::string::npos) { CalibrationSample = "Overlay9_Run1"; }
-	if (string(fWhichSample).find("Run2") != std::string::npos) { CalibrationSample = "Overlay9_Run2"; }
-	if (string(fWhichSample).find("Run3") != std::string::npos) { CalibrationSample = "Overlay9_Run3"; }
-	if (string(fWhichSample).find("Run4") != std::string::npos) { CalibrationSample = "Overlay9_Run4"; }
-	if (string(fWhichSample).find("Run5") != std::string::npos) { CalibrationSample = "Overlay9_Run5"; }
+        if (string(fWhichSample).find("BeamOn") != std::string::npos && string(fWhichSample).find("ExtBNB") != std::string::npos && string(fWhichSample).find("Dirt") != std::string::npos) {
+
+		if (string(fWhichSample).find("Run1") != std::string::npos) { CalibrationSample = "Overlay9_Run1"; }
+		if (string(fWhichSample).find("Run2") != std::string::npos) { CalibrationSample = "Overlay9_Run2"; }
+		if (string(fWhichSample).find("Run3") != std::string::npos) { CalibrationSample = "Overlay9_Run3"; }
+		if (string(fWhichSample).find("Run4") != std::string::npos) { CalibrationSample = "Overlay9_Run4"; }
+		if (string(fWhichSample).find("Run5") != std::string::npos) { CalibrationSample = "Overlay9_Run5"; }
+
+        }
+
 
 	// Fake data studies
 
 	if (string(fWhichSample).find("Overlay9NuWro_Run1") != std::string::npos) { CalibrationSample = "Overlay9NuWro_Run1"; }
 
 	TString SplineFileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_"+CalibrationSample+"_"+UBCodeVersion+".root";
-	cout << "Using " << SplineFileName << " for calibration purposes" << endl;
 	TFile* SplineFile = new TFile(SplineFileName,"readonly");
 
-	TGraphErrors* gP_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_P_Range"));
-	TGraphErrors* gMu_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_Range"));
-	TGraphErrors* gMu_MCS = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_MCS"));
+	TGraphErrors* gP_Range = nullptr;
+	TGraphErrors* gMu_Range = nullptr;
+	TGraphErrors* gMu_MCS = nullptr;
+
+	if (SplineFile) {
+
+		cout << "Using " << SplineFileName << " for calibration purposes" << endl;
+
+		gP_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_P_Range"));
+		gMu_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_Range"));
+		gMu_MCS = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_MCS"));
+
+	} else {
+
+		cout << "NO " << SplineFileName << " FILE FOR CALIBRATION PURPOSES!!! Setting the scaling factor to be 1" << endl;
+
+		int Nbins = 10; double Xmin = -185.; double Xmax = 185.;
+		double Step = (Xmax - Xmin) / Nbins;
+
+		double BinArray[NBinsReso] = {0};
+		double BinArrayError[NBinsReso] = {0};
+		double MeanArray[NBinsReso] = {0};
+		double MeanErrorArray[NBinsReso] = {0};
+
+		for (int i = 0; i < Nbins; i++) {
+
+			BinArray[i] = Xmin + (i+0.5) * Step;
+			BinArrayError[i] = 0.5 * Step;
+			MeanArray[i] = 1.;
+			MeanErrorArray[i] = 1E-5;
+
+		}
+
+		gP_Range = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gMu_Range = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gMu_MCS = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+
+	}
 
 	OutputFile->cd();
 

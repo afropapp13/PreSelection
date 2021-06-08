@@ -53,40 +53,6 @@ void Reso_TwoDPlots() {
 		TFile* DataFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_BeamOn9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* treeData = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-		TString CC1p = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && NumberPi0 == 0"; 
-
-		TString Containment = "CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
-
-		TString ProtonMom = "CandidateP_P_Range > " + TString(std::to_string(ArrayNBinsProtonMomentum[0])) + " && CandidateP_P_Range < "\
-		+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum])) + " && True_CandidateP_P > "+ TString(std::to_string(ArrayNBinsProtonMomentum[0]))\
-		+ " && True_CandidateP_P < "+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum]));
-
-		TString DeltaPT = "Reco_Pt > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && Reco_Pt < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]))\
-		+ " && True_Pt > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && True_Pt < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]));
- 
-		TString DeltaPhiT = "Reco_DeltaPhiT > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && Reco_DeltaPhiT < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT]))\
-		+ " && True_DeltaPhiT > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && True_DeltaPhiT < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT])); 
-
-		TString MuonMom = "True_CandidateMu_P > "+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && True_CandidateMu_P < "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum]))\
-		+ " && ( ( CandidateMu_EndContainment == 1 && CandidateMu_P_Range > "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_Range < "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) || ( CandidateMu_EndContainment == 0 && CandidateMu_P_MCS > "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_MCS < "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) )" ;
-
-		TString LLP = " CandidateP_ThreePlaneLogLikelihood > " + TString(std::to_string(ProtonThreePlaneChi2LogLikelihoodCut));
-
-		TString NuScore = " NuScore > " + TString(std::to_string(MinimumNuScore)); 
-
-		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range-CandidateMu_P_MCS)/CandidateMu_P_Range<0.25 ) || CandidateMu_EndContainment == 0)";
-
-		TString MinHitsMu = "  (CandidateMu_Plane0_TruncdEdx[0][0] + CandidateMu_Plane1_TruncdEdx[0][0] + CandidateMu_Plane2_TruncdEdx[0][0] > 0.5)";
-
-		TString MinHitsP = " (CandidateP_Plane0_TruncdEdx[0][0] + CandidateP_Plane1_TruncdEdx[0][0] + CandidateP_Plane2_TruncdEdx[0][0] > 1.5)";
-
-		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut + " && " + MinHitsMu + " && " + MinHitsP;
-
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);
@@ -479,7 +445,7 @@ void Reso_TwoDPlots() {
 
 //		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#Delta#theta [deg];",180,0.,180.);
 //		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#Delta#theta [deg];",180,0.,180.);
-//		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#delta#alpha_{T} resolution[%];",200,-100.,100.);
+		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#delta#alpha_{T} resolution[%];",200,-100.,100.);
 //		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#theta_{#mu} [deg];",180,0.,180.);
 //		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#phi_{#mu} [deg];",360,-180.,180.);
 
@@ -497,7 +463,7 @@ void Reso_TwoDPlots() {
 
 //		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";Vertex X [cm]",200,0.,250);
 //		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";Vertex Y [cm]",200,-125,125);
-		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";Vertex Z [cm]",500,0,1000);
+//		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";Vertex Z [cm]",500,0,1000);
 //		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";Bug Fix Weight",70,0.95,1.5);
 
 //		TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";manual #theta_{#mu};pandora #theta_{#mu}",180,0.,180,180,0.,180);
@@ -582,8 +548,8 @@ void Reso_TwoDPlots() {
 
 //		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>PlaygroundPlot",qualifier +" && (CandidateMu_EndContainment == 1 )","goff");
 
-//		tree->Draw("(CandidateMu_P_MCS-True_CandidateMu_P)/True_CandidateMu_P*100.>>PlaygroundPlot",qualifier +" && (CandidateMu_EndContainment == 1 )","goff");
-		tree->Draw("Vertex_Z>>PlaygroundPlot",qualifier +"  && TMath::Abs(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT > 7 && Run == 6811 && SubRun == 117 && Event == 5883","goff");
+		tree->Draw("(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.>>PlaygroundPlot",qualifier + " && CandidateMu_EndContainment == 1 && Reco_DeltaPhi < 30","goff");
+//		tree->Draw("Vertex_Z>>PlaygroundPlot",qualifier +"  && TMath::Abs(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT > 7 && Run == 6811 && SubRun == 117 && Event == 5883","goff");
 
 //		tree->Draw("Run>>PlaygroundPlot",qualifier +"  && TMath::Abs(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT > 3","goff");
 
