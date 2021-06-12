@@ -12,7 +12,9 @@
 #include <TProfile.h>
 #include <TTree.h>
 #include <TF1.h>
+#include <TGraph.h>
 #include <TGraphErrors.h>
+#include <TSystem.h>
 
 #include <iostream>
 #include <fstream>
@@ -27,7 +29,7 @@
 using namespace std;
 using namespace Constants;
 
-double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2);
+//double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2);
 
 double Sphere(double FracPlane0,double FracPlane1,double FracPlane2);
 
@@ -68,7 +70,7 @@ void PreSelection::Loop() {
 
         // Base samples                                                                                                                     
 
-        if (string(fWhichSample).find("BeamOn") != std::string::npos && string(fWhichSample).find("ExtBNB") != std::string::npos && string(fWhichSample).find("Dirt") != std::string::npos) {
+        if (string(fWhichSample).find("BeamOn") != std::string::npos || string(fWhichSample).find("ExtBNB") != std::string::npos || string(fWhichSample).find("Dirt") != std::string::npos) {
 
 		if (string(fWhichSample).find("Run1") != std::string::npos) { CalibrationSample = "Overlay9_Run1"; }
 		if (string(fWhichSample).find("Run2") != std::string::npos) { CalibrationSample = "Overlay9_Run2"; }
@@ -84,44 +86,81 @@ void PreSelection::Loop() {
 	if (string(fWhichSample).find("Overlay9NuWro_Run1") != std::string::npos) { CalibrationSample = "Overlay9NuWro_Run1"; }
 
 	TString SplineFileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_"+CalibrationSample+"_"+UBCodeVersion+".root";
-	TFile* SplineFile = new TFile(SplineFileName,"readonly");
+
+	// ----------------------------------------------------------------------------------------------------
 
 	TGraphErrors* gP_Range = nullptr;
+	TGraphErrors* gP_Phi = nullptr;
+	TGraphErrors* gP_Theta = nullptr;
+	TGraphErrors* gP_CosTheta = nullptr;
+
 	TGraphErrors* gMu_Range = nullptr;
 	TGraphErrors* gMu_MCS = nullptr;
+	TGraphErrors* gMu_Phi = nullptr;
+	TGraphErrors* gMu_Theta = nullptr;
+	TGraphErrors* gMu_CosTheta = nullptr;
 
-	if (SplineFile) {
+	int Nbins = 10; double Xmin = -185.; double Xmax = 185.;
+	double Step = (Xmax - Xmin) / Nbins;
+
+	double BinArray[Nbins]; memset( BinArray, 0, Nbins * sizeof(double) );
+	double BinArrayError[Nbins]; memset( BinArrayError, 0, Nbins * sizeof(double) );
+	double MeanArray[Nbins]; memset( MeanArray, 0, Nbins * sizeof(double) );
+	double MeanErrorArray[Nbins]; memset( MeanErrorArray, 0, Nbins * sizeof(double) );
+
+	for (int i = 0; i < Nbins; i++) {
+
+		BinArray[i] = Xmin + (i+0.5) * Step;
+		BinArrayError[i] = 0.5 * Step;
+		MeanArray[i] = 1.;
+		MeanErrorArray[i] = 1E-5;
+
+	}
+
+	// ----------------------------------------------------------------------------------------------------
+
+	if (!gSystem->AccessPathName(SplineFileName,kFileExists)) {
+
+		TFile* SplineFile = new TFile(SplineFileName,"readonly");
 
 		cout << "Using " << SplineFileName << " for calibration purposes" << endl;
 
 		gP_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_P_Range"));
+		gP_Phi = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_Phi"));
+		gP_Theta = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_Theta"));
+		gP_CosTheta = (TGraphErrors*)(SplineFile->Get("Mean_CandidateP_CosTheta"));
+
 		gMu_Range = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_Range"));
 		gMu_MCS = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_P_MCS"));
+		gMu_Phi = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_Phi"));
+		gMu_Theta = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_Theta"));
+		gMu_CosTheta = (TGraphErrors*)(SplineFile->Get("Mean_CandidateMu_CosTheta"));
+
+		if (!gP_Range) { cout << "No proton momentum calibration!!! " << endl; gP_Range = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+		if (!gP_Phi) { cout << "No proton phi calibration!!! " << endl; gP_Phi = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+		if (!gP_Theta) { cout << "No proton theta calibration!!! " << endl; gP_Theta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+		if (!gP_CosTheta) { cout << "No proton cos(theta) calibration!!! " << endl; gP_CosTheta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+
+		if (!gMu_Range) { cout << "No muon momentum calibration!!! " << endl; gMu_Range = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+		if (!gMu_MCS) { cout << "No muon momentum calibration!!! " << endl; gMu_Range = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+		if (!gMu_Phi) { cout << "No muon phi calibration!!! " << endl; gMu_Phi = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+		if (!gMu_Theta) { cout << "No muon theta calibration!!! " << endl; gMu_Theta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
+		if (!gMu_CosTheta) { cout << "No muon cos(theta) calibration!!! " << endl; gMu_CosTheta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray); }
 
 	} else {
 
 		cout << "NO " << SplineFileName << " FILE FOR CALIBRATION PURPOSES!!! Setting the scaling factor to be 1" << endl;
 
-		int Nbins = 10; double Xmin = -185.; double Xmax = 185.;
-		double Step = (Xmax - Xmin) / Nbins;
-
-		double BinArray[NBinsReso] = {0};
-		double BinArrayError[NBinsReso] = {0};
-		double MeanArray[NBinsReso] = {0};
-		double MeanErrorArray[NBinsReso] = {0};
-
-		for (int i = 0; i < Nbins; i++) {
-
-			BinArray[i] = Xmin + (i+0.5) * Step;
-			BinArrayError[i] = 0.5 * Step;
-			MeanArray[i] = 1.;
-			MeanErrorArray[i] = 1E-5;
-
-		}
-
 		gP_Range = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gP_Phi = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gP_Theta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gP_CosTheta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+
 		gMu_Range = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
 		gMu_MCS = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gMu_Phi = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gMu_Theta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
+		gMu_CosTheta = new TGraphErrors(Nbins,BinArray,MeanArray,BinArrayError,MeanErrorArray);
 
 	}
 
@@ -232,12 +271,15 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateMu_P_MCS;	
 	std::vector<double> CandidateMu_P_MCS_Recalibrate;	
 	std::vector<double> CandidateMu_Phi;
+	std::vector<double> CandidateMu_Phi_Recalibrate;
 	std::vector<double> CandidateMu_CosTheta;
+	std::vector<double> CandidateMu_CosTheta_Recalibrate;
 	std::vector<double> CandidateMu_Theta;
+	std::vector<double> CandidateMu_Theta_Recalibrate;
 	std::vector<double> CandidateMu_Chi2_YPlane;
 	std::vector<double> CandidateMu_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateMu_LLR_PID;
-	std::vector<double> CandidateMu_ThreePlaneChi2;
+//	std::vector<double> CandidateMu_ThreePlaneChi2;
 	std::vector<int> CandidateMu_StartContainment;
 	std::vector<int> CandidateMu_EndContainment;
 	std::vector<double> CandidateMu_Length;
@@ -249,7 +291,7 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateMu_EndX;
 	std::vector<double> CandidateMu_EndY;
 	std::vector<double> CandidateMu_EndZ;	
-	std::vector<double> CandidateMu_ManualTheta;
+//	std::vector<double> CandidateMu_ManualTheta;
 
 	std::vector<int> CandidateMu_Plane0_NHits;
 	std::vector<std::vector<float> > CandidateMu_Plane0_ResidualRange;
@@ -277,6 +319,7 @@ void PreSelection::Loop() {
 //	std::vector<double> True_CandidateMu_Py;
 //	std::vector<double> True_CandidateMu_Pz;
 	std::vector<double> True_CandidateMu_Phi;
+	std::vector<double> True_CandidateMu_Theta;
 	std::vector<double> True_CandidateMu_CosTheta;
 	std::vector<double> True_CandidateMu_Length;
 	
@@ -299,12 +342,15 @@ void PreSelection::Loop() {
 	std::vector<double> CandidateP_P_Range_Recalibrate;
 	std::vector<double> CandidateP_P_MCS;	
 	std::vector<double> CandidateP_Phi;
+	std::vector<double> CandidateP_Phi_Recalibrate;
 	std::vector<double> CandidateP_Theta;
+	std::vector<double> CandidateP_Theta_Recalibrate;
 	std::vector<double> CandidateP_CosTheta;
+	std::vector<double> CandidateP_CosTheta_Recalibrate;
 	std::vector<double> CandidateP_Chi2_YPlane;
 	std::vector<double> CandidateP_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateP_LLR_PID;
-	std::vector<double> CandidateP_ThreePlaneChi2;
+//	std::vector<double> CandidateP_ThreePlaneChi2;
 	std::vector<int> CandidateP_StartContainment;
 	std::vector<int> CandidateP_EndContainment;
 	std::vector<double> CandidateP_Length;	
@@ -343,6 +389,7 @@ void PreSelection::Loop() {
 //	std::vector<double> True_CandidateP_Py;
 //	std::vector<double> True_CandidateP_Pz;
 	std::vector<double> True_CandidateP_Phi;
+	std::vector<double> True_CandidateP_Theta;
 	std::vector<double> True_CandidateP_CosTheta;
 	std::vector<double> True_CandidateP_Length;
 	
@@ -361,10 +408,10 @@ void PreSelection::Loop() {
 	
 	// STV, Energy Reconstruction & Light Cone Vraiables
 
-	std::vector<double> Reco_kMiss;
-	std::vector<double> Reco_EMiss;
-	std::vector<double> Reco_PMissMinus;
-	std::vector<double> Reco_PMiss;
+//	std::vector<double> Reco_kMiss;
+//	std::vector<double> Reco_EMiss;
+//	std::vector<double> Reco_PMissMinus;
+//	std::vector<double> Reco_PMiss;
 	std::vector<double> Reco_Pt;
 	std::vector<double> Reco_DeltaAlphaT;
 	std::vector<double> Reco_DeltaPhiT;
@@ -382,10 +429,10 @@ void PreSelection::Loop() {
 	std::vector<double> Reco_Q2_Recalibrate;
 
 	
-	std::vector<double> True_kMiss;
-	std::vector<double> True_EMiss;
-	std::vector<double> True_PMissMinus;
-	std::vector<double> True_PMiss;	
+//	std::vector<double> True_kMiss;
+//	std::vector<double> True_EMiss;
+//	std::vector<double> True_PMissMinus;
+//	std::vector<double> True_PMiss;	
 	std::vector<double> True_Pt;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
@@ -493,12 +540,15 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateMu_P_MCS",&CandidateMu_P_MCS);	
 	tree->Branch("CandidateMu_P_MCS_Recalibrate",&CandidateMu_P_MCS_Recalibrate);	
 	tree->Branch("CandidateMu_Phi",&CandidateMu_Phi);
+	tree->Branch("CandidateMu_Phi_Recalibrate",&CandidateMu_Phi_Recalibrate);
 	tree->Branch("CandidateMu_Theta",&CandidateMu_Theta);
+	tree->Branch("CandidateMu_Theta_Recalibrate",&CandidateMu_Theta_Recalibrate);
 	tree->Branch("CandidateMu_CosTheta",&CandidateMu_CosTheta);
+	tree->Branch("CandidateMu_CosTheta_Recalibrate",&CandidateMu_CosTheta_Recalibrate);
 	tree->Branch("CandidateMu_Chi2_YPlane",&CandidateMu_Chi2_YPlane);
 	tree->Branch("CandidateMu_ThreePlaneLogLikelihood",&CandidateMu_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateMu_LLR_PID",&CandidateMu_LLR_PID);
-	tree->Branch("CandidateMu_ThreePlaneChi2",&CandidateMu_ThreePlaneChi2);
+//	tree->Branch("CandidateMu_ThreePlaneChi2",&CandidateMu_ThreePlaneChi2);
 	tree->Branch("CandidateMu_StartContainment",&CandidateMu_StartContainment);
 	tree->Branch("CandidateMu_EndContainment",&CandidateMu_EndContainment);
 	tree->Branch("CandidateMu_Length",&CandidateMu_Length);	
@@ -510,7 +560,7 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateMu_EndX",&CandidateMu_EndX);
 	tree->Branch("CandidateMu_EndY",&CandidateMu_EndY);
 	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);
-	tree->Branch("CandidateMu_ManualTheta",&CandidateMu_ManualTheta);
+//	tree->Branch("CandidateMu_ManualTheta",&CandidateMu_ManualTheta);
 
 	tree->Branch("CandidateMu_Plane0_NHits",&CandidateMu_Plane0_NHits);
 	tree->Branch("CandidateMu_Plane0_ResidualRange",&CandidateMu_Plane0_ResidualRange);
@@ -538,6 +588,7 @@ void PreSelection::Loop() {
 //	tree->Branch("True_CandidateMu_Py",&True_CandidateMu_Py);
 //	tree->Branch("True_CandidateMu_Pz",&True_CandidateMu_Pz);
 	tree->Branch("True_CandidateMu_Phi",&True_CandidateMu_Phi);
+	tree->Branch("True_CandidateMu_Theta",&True_CandidateMu_Theta);
 	tree->Branch("True_CandidateMu_CosTheta",&True_CandidateMu_CosTheta);
 	tree->Branch("True_CandidateMu_Length",&True_CandidateMu_Length);
 	
@@ -559,12 +610,15 @@ void PreSelection::Loop() {
 	tree->Branch("CandidateP_P_Range_Recalibrate",&CandidateP_P_Range_Recalibrate);
 	tree->Branch("CandidateP_P_MCS",&CandidateP_P_MCS);	
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
+	tree->Branch("CandidateP_Phi_Recalibrate",&CandidateP_Phi_Recalibrate);
 	tree->Branch("CandidateP_Theta",&CandidateP_Theta);
+	tree->Branch("CandidateP_Theta_Recalibrate",&CandidateP_Theta_Recalibrate);
 	tree->Branch("CandidateP_CosTheta",&CandidateP_CosTheta);
+	tree->Branch("CandidateP_CosTheta_Recalibrate",&CandidateP_CosTheta_Recalibrate);
 	tree->Branch("CandidateP_Chi2_YPlane",&CandidateP_Chi2_YPlane);
 	tree->Branch("CandidateP_ThreePlaneLogLikelihood",&CandidateP_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateP_LLR_PID",&CandidateP_LLR_PID);
-	tree->Branch("CandidateP_ThreePlaneChi2",&CandidateP_ThreePlaneChi2);
+//	tree->Branch("CandidateP_ThreePlaneChi2",&CandidateP_ThreePlaneChi2);
 	tree->Branch("CandidateP_StartContainment",&CandidateP_StartContainment);
 	tree->Branch("CandidateP_EndContainment",&CandidateP_EndContainment);
 	tree->Branch("CandidateP_Length",&CandidateP_Length);	
@@ -603,6 +657,7 @@ void PreSelection::Loop() {
 //	tree->Branch("True_CandidateP_Py",&True_CandidateP_Py);
 //	tree->Branch("True_CandidateP_Pz",&True_CandidateP_Pz);
 	tree->Branch("True_CandidateP_Phi",&True_CandidateP_Phi);
+	tree->Branch("True_CandidateP_Theta",&True_CandidateP_Theta);
 	tree->Branch("True_CandidateP_CosTheta",&True_CandidateP_CosTheta);
 	tree->Branch("True_CandidateP_Length",&True_CandidateP_Length);
 	
@@ -619,10 +674,10 @@ void PreSelection::Loop() {
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
-	tree->Branch("Reco_kMiss",&Reco_kMiss);
-	tree->Branch("Reco_PMissMinus",&Reco_PMissMinus);
-	tree->Branch("Reco_EMiss",&Reco_EMiss);
-	tree->Branch("Reco_PMiss",&Reco_PMiss);	
+//	tree->Branch("Reco_kMiss",&Reco_kMiss);
+//	tree->Branch("Reco_PMissMinus",&Reco_PMissMinus);
+//	tree->Branch("Reco_EMiss",&Reco_EMiss);
+//	tree->Branch("Reco_PMiss",&Reco_PMiss);	
 	tree->Branch("Reco_Pt",&Reco_Pt);
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
 	tree->Branch("Reco_DeltaPhiT",&Reco_DeltaPhiT);
@@ -639,11 +694,10 @@ void PreSelection::Loop() {
 	tree->Branch("Reco_EQE_Recalibrate",&Reco_EQE_Recalibrate);
 	tree->Branch("Reco_Q2_Recalibrate",&Reco_Q2_Recalibrate);
 
-	
-	tree->Branch("True_kMiss",&True_kMiss);
-	tree->Branch("True_PMissMinus",&True_PMissMinus);
-	tree->Branch("True_EMiss",&True_EMiss);
-	tree->Branch("True_PMiss",&True_PMiss);	
+//	tree->Branch("True_kMiss",&True_kMiss);
+//	tree->Branch("True_PMissMinus",&True_PMissMinus);
+//	tree->Branch("True_EMiss",&True_EMiss);
+//	tree->Branch("True_PMiss",&True_PMiss);	
 	tree->Branch("True_Pt",&True_Pt);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
@@ -1183,12 +1237,15 @@ void PreSelection::Loop() {
 		CandidateMu_P_MCS.clear();		
 		CandidateMu_P_MCS_Recalibrate.clear();		
 		CandidateMu_Phi.clear();
+		CandidateMu_Phi_Recalibrate.clear();
 		CandidateMu_Theta.clear();
+		CandidateMu_Theta_Recalibrate.clear();
 		CandidateMu_CosTheta.clear();
+		CandidateMu_CosTheta_Recalibrate.clear();
 		CandidateMu_Chi2_YPlane.clear();
 		CandidateMu_ThreePlaneLogLikelihood.clear();
 		CandidateMu_LLR_PID.clear();
-		CandidateMu_ThreePlaneChi2.clear();
+//		CandidateMu_ThreePlaneChi2.clear();
 		CandidateMu_StartContainment.clear();
 		CandidateMu_EndContainment.clear();
 		CandidateMu_Length.clear();		
@@ -1200,7 +1257,7 @@ void PreSelection::Loop() {
 		CandidateMu_EndX.clear();
 		CandidateMu_EndY.clear();
 		CandidateMu_EndZ.clear();
-		CandidateMu_ManualTheta.clear();
+//		CandidateMu_ManualTheta.clear();
 
 		CandidateMu_Plane0_NHits.clear();
 		CandidateMu_Plane0_ResidualRange.clear();
@@ -1228,6 +1285,7 @@ void PreSelection::Loop() {
 //		True_CandidateMu_Py.clear();
 //		True_CandidateMu_Pz.clear();
 		True_CandidateMu_Phi.clear();
+		True_CandidateMu_Theta.clear();
 		True_CandidateMu_CosTheta.clear();
 		True_CandidateMu_Length.clear();
 		
@@ -1255,7 +1313,7 @@ void PreSelection::Loop() {
 		CandidateP_Chi2_YPlane.clear();
 		CandidateP_ThreePlaneLogLikelihood.clear();
 		CandidateP_LLR_PID.clear();
-		CandidateP_ThreePlaneChi2.clear();
+//		CandidateP_ThreePlaneChi2.clear();
 		CandidateP_StartContainment.clear();
 		CandidateP_EndContainment.clear();
 		CandidateP_Length.clear();		
@@ -1294,6 +1352,7 @@ void PreSelection::Loop() {
 //		True_CandidateP_Py.clear();
 //		True_CandidateP_Pz.clear();
 		True_CandidateP_Phi.clear();
+		True_CandidateP_Theta.clear();
 		True_CandidateP_CosTheta.clear();
 		True_CandidateP_Length.clear();
 		
@@ -1310,10 +1369,10 @@ void PreSelection::Loop() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------
 
-		Reco_kMiss.clear();
-		Reco_EMiss.clear();
-		Reco_PMissMinus.clear();
-		Reco_PMiss.clear();	
+//		Reco_kMiss.clear();
+//		Reco_EMiss.clear();
+//		Reco_PMissMinus.clear();
+//		Reco_PMiss.clear();	
 		Reco_Pt.clear();
 		Reco_DeltaAlphaT.clear();
 		Reco_DeltaPhiT.clear();
@@ -1330,10 +1389,10 @@ void PreSelection::Loop() {
 		Reco_EQE_Recalibrate.clear();
 		Reco_Q2_Recalibrate.clear();
 		
-		True_kMiss.clear();
-		True_EMiss.clear();
-		True_PMissMinus.clear();
-		True_PMiss.clear();		
+//		True_kMiss.clear();
+//		True_EMiss.clear();
+//		True_PMissMinus.clear();
+//		True_PMiss.clear();		
 		True_Pt.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
@@ -1461,15 +1520,32 @@ void PreSelection::Loop() {
 			double CandidateMuonTrack_Momentum_Recalibrate = -99.;
 			double CandidateMuonTrack_E_GeV = -99.;
 			double CandidateMuonTrack_E_GeV_Recalibrate = -99.;
-			double CalCandidateMu_ThreePlaneChi2 = ThreePlaneChi2(CandidateMuonTrackStart,CandidateMuonTrackEnd,
-								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateMuonTrackIndex),
-								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateMuonTrackIndex),
-								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
+//			double CalCandidateMu_ThreePlaneChi2 = ThreePlaneChi2(CandidateMuonTrackStart,CandidateMuonTrackEnd,
+//								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateMuonTrackIndex),
+//								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateMuonTrackIndex),
+//								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 
-			if (CandidateMuonTrackStartContainment == false) { UncontainedParticles = true; } 
+			if (CandidateMuonTrackStartContainment == false) { UncontainedParticles = true; }
 
 			double RecalibrationFactor_CandidateMu_P_Range = 0.01* gMu_Range->Eval(Track_Momentum_Range_Muon->at(CandidateMuonTrackIndex)); // %, convert to decimal number 
 			double RecalibrationFactor_CandidateMu_P_MCS = 0.01* gMu_MCS->Eval(Track_Momentum_MCS->at(CandidateMuonTrackIndex)); // %, convert to decimal number 
+
+			double RecalibrationFactor_CandidateMu_Phi = 0.01* gMu_Phi->Eval(Track_Phi->at(CandidateMuonTrackIndex) * 180./TMath::Pi()); // %, convert to decimal number 
+			double RecalibrationFactor_CandidateMu_Theta = 0.01* gMu_Theta->Eval(Track_Theta->at(CandidateMuonTrackIndex) * 180./TMath::Pi()); // %, convert to decimal number 
+			double RecalibrationFactor_CandidateMu_CosTheta = 0.01* gMu_CosTheta->Eval( cos(Track_Theta->at(CandidateMuonTrackIndex) ) ); // %, convert to decimal number 
+
+			if (TMath::Abs(RecalibrationFactor_CandidateMu_P_Range) > 1) { continue; }
+			if (TMath::Abs(RecalibrationFactor_CandidateMu_P_MCS) > 1) { continue; }
+			if (TMath::Abs(RecalibrationFactor_CandidateMu_Phi) > 1) { continue; }
+			if (TMath::Abs(RecalibrationFactor_CandidateMu_Theta) > 1) { continue; }
+			if (TMath::Abs(RecalibrationFactor_CandidateMu_CosTheta) > 1) { continue; }
+
+			double Mu_Phi = Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi();
+			double Mu_Phi_Recalibrate = (1-RecalibrationFactor_CandidateMu_Phi) * Mu_Phi;
+			
+			double Mu_Theta = CandidateMuonTrackTheta * 180./TMath::Pi(); // deg
+			double Mu_Theta_Recalibrate = (1-RecalibrationFactor_CandidateMu_Theta) * Mu_Theta; // deg
+			double Mu_CosTheta_Recalibrate = (1-RecalibrationFactor_CandidateMu_CosTheta) * CandidateMuonTrackCosTheta; // deg
 
 			if (CandidateMuonTrackStartContainment == true && CandidateMuonTrackEndContainment == true) {
 
@@ -1499,13 +1575,16 @@ void PreSelection::Loop() {
 			double Recalibrated_CandidateMu_P_MCS = (1 - RecalibrationFactor_CandidateMu_P_MCS) * Track_Momentum_MCS->at(CandidateMuonTrackIndex);
 			CandidateMu_P_MCS_Recalibrate.push_back(Recalibrated_CandidateMu_P_MCS);
 
-			CandidateMu_Phi.push_back(Track_Phi->at(CandidateMuonTrackIndex) * 180./ TMath::Pi()); // deg
-			CandidateMu_Theta.push_back(CandidateMuonTrackTheta);
+			CandidateMu_Phi.push_back(Mu_Phi); // deg
+			CandidateMu_Phi_Recalibrate.push_back(Mu_Phi_Recalibrate); // deg
+			CandidateMu_Theta.push_back(Mu_Theta); // deg
+			CandidateMu_Theta_Recalibrate.push_back(Mu_Theta_Recalibrate); //deg
 			CandidateMu_CosTheta.push_back(CandidateMuonTrackCosTheta);
+			CandidateMu_CosTheta_Recalibrate.push_back(Mu_CosTheta_Recalibrate);
 			CandidateMu_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateMuonTrackIndex));
 			CandidateMu_ThreePlaneLogLikelihood.push_back(log(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateMuonTrackIndex)));
 			CandidateMu_LLR_PID.push_back(Track_LLR_PID->at(CandidateMuonTrackIndex));
-			CandidateMu_ThreePlaneChi2.push_back(CalCandidateMu_ThreePlaneChi2);
+//			CandidateMu_ThreePlaneChi2.push_back(CalCandidateMu_ThreePlaneChi2);
 			CandidateMu_StartContainment.push_back(CandidateMuonTrackStartContainment);
 			CandidateMu_EndContainment.push_back(CandidateMuonTrackEndContainment);
 			CandidateMu_Length.push_back(CandidateMuonTrackLength);
@@ -1518,9 +1597,9 @@ void PreSelection::Loop() {
 
 			TVector3 MuonStart(Track_StartX->at(CandidateMuonTrackIndex),Track_StartY->at(CandidateMuonTrackIndex),Track_StartZ->at(CandidateMuonTrackIndex));
 			TVector3 MuonEnd(Track_EndX->at(CandidateMuonTrackIndex),Track_EndY->at(CandidateMuonTrackIndex),Track_EndZ->at(CandidateMuonTrackIndex));
-			double ManualTheta = (MuonEnd-MuonStart).Theta()*180./TMath::Pi();
+//			double ManualTheta = (MuonEnd-MuonStart).Theta()*180./TMath::Pi();
 
-			CandidateMu_ManualTheta.push_back(ManualTheta);
+//			CandidateMu_ManualTheta.push_back(ManualTheta);
 
 			TruncMean truncmean;
 		
@@ -1571,10 +1650,10 @@ void PreSelection::Loop() {
 			double CandidateProtonTrack_Momentum_Recalibrated = -99.;
 			double CandidateProtonTrack_E_GeV = -99.;
 			double CandidateProtonTrack_E_GeV_Recalibrated = -99.;
-			double CalCandidateP_ThreePlaneChi2 = ThreePlaneChi2(CandidateProtonTrackStart,CandidateProtonTrackEnd,
-								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateProtonTrackIndex),
-								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateProtonTrackIndex),
-								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
+//			double CalCandidateP_ThreePlaneChi2 = ThreePlaneChi2(CandidateProtonTrackStart,CandidateProtonTrackEnd,
+//								Track_ParticleId_ProtonScore_Chi2_UPlane->at(CandidateProtonTrackIndex),
+//								Track_ParticleId_ProtonScore_Chi2_VPlane->at(CandidateProtonTrackIndex),
+//								Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
 
 			CandidateProtonTrack_Momentum = Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex); // GeV/c
 
@@ -1582,6 +1661,22 @@ void PreSelection::Loop() {
 			if (CandidateProtonTrack_Momentum < ArrayNBinsProtonMomentum[0]) { ParticlesBelowThreshold = true; } 
 
 			double RecalibrationFactor_CandidateP_P_Range = 0.01* gP_Range->Eval(Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex)); // %, convert to decimal number 
+			double RecalibrationFactor_CandidateP_Phi = 0.01* gP_Phi->Eval(Track_Phi->at(CandidateProtonTrackIndex) * 180./TMath::Pi()); // %, convert to decimal number 
+			double RecalibrationFactor_CandidateP_Theta = 0.01* gP_Theta->Eval(Track_Theta->at(CandidateProtonTrackIndex) * 180./TMath::Pi()); // %, convert to decimal number 
+			double RecalibrationFactor_CandidateP_CosTheta = 0.01* gP_CosTheta->Eval( cos(Track_Theta->at(CandidateProtonTrackIndex) ) ); // %, convert to decimal number 
+
+			if (TMath::Abs(RecalibrationFactor_CandidateP_P_Range) > 1) { continue; }
+			if (TMath::Abs(RecalibrationFactor_CandidateP_Phi) > 1) { continue; }
+			if (TMath::Abs(RecalibrationFactor_CandidateP_Theta) > 1) { continue; }
+			if (TMath::Abs(RecalibrationFactor_CandidateP_CosTheta) > 1) { continue; }
+
+			double P_Phi = Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi(); // deg
+			double P_Phi_Recalibrate = (1-RecalibrationFactor_CandidateP_Phi) * P_Phi; // deg
+			
+			double P_Theta = CandidateProtonTrackTheta * 180./TMath::Pi(); // deg
+			double P_Theta_Recalibrate = (1-RecalibrationFactor_CandidateP_Theta) * P_Theta; // deg
+			double P_CosTheta_Recalibrate = (1-RecalibrationFactor_CandidateP_CosTheta) * CandidateProtonTrackCosTheta;
+
 			CandidateProtonTrack_Momentum_Recalibrated = (1 - RecalibrationFactor_CandidateP_P_Range) * Track_Momentum_Range_Proton->at(CandidateProtonTrackIndex);
 
 			CandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(CandidateProtonTrack_Momentum,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV/c
@@ -1593,13 +1688,16 @@ void PreSelection::Loop() {
 			CandidateP_P_Range_Recalibrate.push_back(CandidateProtonTrack_Momentum_Recalibrated);
 
 			CandidateP_P_MCS.push_back(Track_Momentum_MCS->at(CandidateProtonTrackIndex));			
-			CandidateP_Phi.push_back(Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi()); // deg
-			CandidateP_Theta.push_back(CandidateProtonTrackTheta);
+			CandidateP_Phi.push_back(P_Phi); // deg
+			CandidateP_Phi_Recalibrate.push_back(P_Phi_Recalibrate); // deg
+			CandidateP_Theta.push_back(P_Theta); // deg
+			CandidateP_Theta_Recalibrate.push_back(P_Theta_Recalibrate); // deg
 			CandidateP_CosTheta.push_back(CandidateProtonTrackCosTheta);
+			CandidateP_CosTheta_Recalibrate.push_back(P_CosTheta_Recalibrate);
 			CandidateP_Chi2_YPlane.push_back(Track_ParticleId_ProtonScore_Chi2_YPlane->at(CandidateProtonTrackIndex));
 			CandidateP_ThreePlaneLogLikelihood.push_back(log(Track_ParticleId_ProtonScore_ThreePlanePID->at(CandidateProtonTrackIndex)));
 			CandidateP_LLR_PID.push_back(Track_LLR_PID->at(CandidateProtonTrackIndex));
-			CandidateP_ThreePlaneChi2.push_back(CalCandidateP_ThreePlaneChi2);
+//			CandidateP_ThreePlaneChi2.push_back(CalCandidateP_ThreePlaneChi2);
 			CandidateP_StartContainment.push_back(CandidateProtonTrackStartContainment);
 			CandidateP_EndContainment.push_back(CandidateProtonTrackEndContainment);
 			CandidateP_Length.push_back(CandidateProtonTrackLength);
@@ -1665,21 +1763,21 @@ void PreSelection::Loop() {
 
 			TVector3 TVector3CandidateMuon_Recalibrate(-1,-1,-1);
 			TVector3CandidateMuon_Recalibrate.SetMag(CandidateMuonTrack_Momentum_Recalibrate);
-			TVector3CandidateMuon_Recalibrate.SetTheta(TMath::ACos(CandidateMuonTrackCosTheta));
-			TVector3CandidateMuon_Recalibrate.SetPhi(Track_Phi->at(CandidateMuonTrackIndex));			
+			TVector3CandidateMuon_Recalibrate.SetTheta(Mu_Theta_Recalibrate * TMath::Pi() / 180.); // rad
+			TVector3CandidateMuon_Recalibrate.SetPhi(Mu_Phi_Recalibrate * TMath::Pi() / 180.); // rad			
 
 			TVector3 TVector3CandidateProton_Recalibrate(-1,-1,-1);
 			TVector3CandidateProton_Recalibrate.SetMag(CandidateProtonTrack_Momentum_Recalibrated);
-			TVector3CandidateProton_Recalibrate.SetTheta(TMath::ACos(CandidateProtonTrackCosTheta));
-			TVector3CandidateProton_Recalibrate.SetPhi(Track_Phi->at(CandidateProtonTrackIndex));
+			TVector3CandidateProton_Recalibrate.SetTheta(P_Theta_Recalibrate * TMath::Pi() / 180.); // rad
+			TVector3CandidateProton_Recalibrate.SetPhi(P_Phi_Recalibrate * TMath::Pi() / 180.);
 
 			STV_Tools reco_stv_tool(TVector3CandidateMuon,TVector3CandidateProton,CandidateMuonTrack_E_GeV,CandidateProtonTrack_E_GeV);
 			STV_Tools reco_stv_tool_recalibrate(TVector3CandidateMuon_Recalibrate,TVector3CandidateProton_Recalibrate,CandidateMuonTrack_E_GeV_Recalibrate,CandidateProtonTrack_E_GeV_Recalibrated);
 
-			Reco_kMiss.push_back(reco_stv_tool.ReturnkMiss());
-			Reco_EMiss.push_back(reco_stv_tool.ReturnEMiss());
-			Reco_PMissMinus.push_back(reco_stv_tool.ReturnPMissMinus());
-			Reco_PMiss.push_back(reco_stv_tool.ReturnPMiss());
+//			Reco_kMiss.push_back(reco_stv_tool.ReturnkMiss());
+//			Reco_EMiss.push_back(reco_stv_tool.ReturnEMiss());
+//			Reco_PMissMinus.push_back(reco_stv_tool.ReturnPMissMinus());
+//			Reco_PMiss.push_back(reco_stv_tool.ReturnPMiss());
 			Reco_Pt.push_back(reco_stv_tool.ReturnPt());
 			Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
 			Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
@@ -1744,6 +1842,7 @@ void PreSelection::Loop() {
 				double TrueCandidateMuonTrackPhi = TrueCandidateMuonP.Phi(); // rad
 				double TrueCandidateMuonTrackPhi_Deg = TrueCandidateMuonTrackPhi * 180./ TMath::Pi(); // deg
 				double TrueCandidateMuonTrackTheta = TrueCandidateMuonP.Theta(); // rad
+				double TrueCandidateMuonTrackTheta_Deg = TrueCandidateMuonTrackTheta * 180./ TMath::Pi(); // deg
 				double TrueCandidateMuonTrackCosTheta = TrueCandidateMuonP.CosTheta();
 				double TrueCandidateMuonTrackLength = TrueCandidateMuonChange.Mag(); // cm
 
@@ -1759,6 +1858,7 @@ void PreSelection::Loop() {
 //				True_CandidateMu_Py.push_back(CandidateMuonPy);
 //				True_CandidateMu_Pz.push_back(CandidateMuonPz);
 				True_CandidateMu_Phi.push_back(TrueCandidateMuonTrackPhi_Deg); // deg
+				True_CandidateMu_Theta.push_back(TrueCandidateMuonTrackTheta_Deg);
 				True_CandidateMu_CosTheta.push_back(TrueCandidateMuonTrackCosTheta);
 				True_CandidateMu_Length.push_back(TrueCandidateMuonTrackLength);
 				
@@ -1802,6 +1902,7 @@ void PreSelection::Loop() {
 				double TrueCandidateProtonTrackPhi = TrueCandidateProtonP.Phi(); // rad
 				double TrueCandidateProtonTrackPhi_Deg = TrueCandidateProtonTrackPhi * 180./ TMath::Pi(); // deg
 				double TrueCandidateProtonTrackTheta = TrueCandidateProtonP.Theta(); // rad
+				double TrueCandidateProtonTrackTheta_Deg = TrueCandidateProtonTrackTheta * 180./TMath::Pi(); // deg
 				double TrueCandidateProtonTrackCosTheta = TrueCandidateProtonP.CosTheta();
 				double TrueCandidateProtonTrackLength = TrueCandidateProtonChange.Mag(); // cm
 
@@ -1814,6 +1915,7 @@ void PreSelection::Loop() {
 
 				True_CandidateP_P.push_back(TrueCandidateProtonTrackMomentum_GeV);
 				True_CandidateP_Phi.push_back(TrueCandidateProtonTrackPhi_Deg); // deg
+				True_CandidateP_Theta.push_back(TrueCandidateProtonTrackTheta_Deg);
 				True_CandidateP_CosTheta.push_back(TrueCandidateProtonTrackCosTheta);
 				True_CandidateP_Length.push_back(TrueCandidateProtonTrackLength);
 				
@@ -1846,10 +1948,10 @@ void PreSelection::Loop() {
 				STV_Tools true_stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,
 							 TrueCandidateMuonTrack_E_GeV,TrueCandidateProtonTrack_E_GeV);
 
-				True_kMiss.push_back(true_stv_tool.ReturnkMiss());
-				True_EMiss.push_back(true_stv_tool.ReturnEMiss());
-				True_PMissMinus.push_back(true_stv_tool.ReturnPMissMinus());
-				True_PMiss.push_back(true_stv_tool.ReturnPMiss());
+//				True_kMiss.push_back(true_stv_tool.ReturnkMiss());
+//				True_EMiss.push_back(true_stv_tool.ReturnEMiss());
+//				True_PMissMinus.push_back(true_stv_tool.ReturnPMissMinus());
+//				True_PMiss.push_back(true_stv_tool.ReturnPMiss());
 				True_Pt.push_back(true_stv_tool.ReturnPt());
 				True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
 				True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
@@ -2099,33 +2201,33 @@ void PreSelection::Loop() {
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2) {
+//double ThreePlaneChi2(TVector3 TrackStart,TVector3 TrackEnd,double Chi2_Plane0,double Chi2_Plane1,double Chi2_Plane2) {
 
-	TVector3 TrackDiff = TrackEnd - TrackStart;
-	double theta_Plane2 = std::atan2(TrackDiff.Z(),TrackDiff.Y());
-	double theta_Plane1 = theta_Plane2 + TMath::Pi();
-	double theta_Plane0 = theta_Plane2 - TMath::Pi();
+//	TVector3 TrackDiff = TrackEnd - TrackStart;
+//	double theta_Plane2 = std::atan2(TrackDiff.Z(),TrackDiff.Y());
+//	double theta_Plane1 = theta_Plane2 + TMath::Pi();
+//	double theta_Plane0 = theta_Plane2 - TMath::Pi();
 
-	int w2 = 0; int w1 = 0; int w0 = 0;
-	double sin2_pl2 = sin(theta_Plane2) * sin(theta_Plane2);
-	double sin2_pl1 = sin(theta_Plane1) * sin(theta_Plane1);
-	double sin2_pl0 = sin(theta_Plane0) * sin(theta_Plane0);
+//	int w2 = 0; int w1 = 0; int w0 = 0;
+//	double sin2_pl2 = sin(theta_Plane2) * sin(theta_Plane2);
+//	double sin2_pl1 = sin(theta_Plane1) * sin(theta_Plane1);
+//	double sin2_pl0 = sin(theta_Plane0) * sin(theta_Plane0);
 
-	if (sin2_pl2 >= 0.5) w2 = 1;
-	if (sin2_pl1 >= 0.5) w1 = 1;
-	if (sin2_pl0 >= 0.5) w0 = 1;
+//	if (sin2_pl2 >= 0.5) w2 = 1;
+//	if (sin2_pl1 >= 0.5) w1 = 1;
+//	if (sin2_pl0 >= 0.5) w0 = 1;
 
-	double PID_Chi2P_3pl = -1.;
-	int ww0 = w0; int ww1 = w1; int ww2 = w2; // copy from the origin
-	if (Chi2_Plane0 < 0) ww0 = 0;
-	if (Chi2_Plane1 < 0) ww1 = 0;
-	if (Chi2_Plane2 < 0) ww2 = 0;
-	if (ww0 + ww1 + ww2 == 0) PID_Chi2P_3pl = -999;
-	else PID_Chi2P_3pl = (ww0 * Chi2_Plane0 + ww1 * Chi2_Plane0 + ww2 * Chi2_Plane0) / (ww0 + ww1 + ww2);
+//	double PID_Chi2P_3pl = -1.;
+//	int ww0 = w0; int ww1 = w1; int ww2 = w2; // copy from the origin
+//	if (Chi2_Plane0 < 0) ww0 = 0;
+//	if (Chi2_Plane1 < 0) ww1 = 0;
+//	if (Chi2_Plane2 < 0) ww2 = 0;
+//	if (ww0 + ww1 + ww2 == 0) PID_Chi2P_3pl = -999;
+//	else PID_Chi2P_3pl = (ww0 * Chi2_Plane0 + ww1 * Chi2_Plane0 + ww2 * Chi2_Plane0) / (ww0 + ww1 + ww2);
 
-	return PID_Chi2P_3pl;
+//	return PID_Chi2P_3pl;
 
-}
+//}
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
 

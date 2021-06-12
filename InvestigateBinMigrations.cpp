@@ -31,7 +31,7 @@ void InvestigateBinMigrations() {
 	gStyle->SetTitleFont(132,"xyz");
 	gStyle->SetLabelSize(0.05,"xyz");
 	gStyle->SetLabelFont(132,"xyz");
-	gStyle->SetNdivisions(10,"xyz");
+	gStyle->SetNdivisions(12,"xyz");
 
 	gStyle->SetOptStat(0);
 
@@ -58,40 +58,6 @@ void InvestigateBinMigrations() {
 		TFile* DataFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_BeamOn9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* treeData = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-		TString CC1p = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && NumberPi0 == 0"; 
-
-		TString Containment = "CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
-
-		TString ProtonMom = "CandidateP_P_Range > " + TString(std::to_string(ArrayNBinsProtonMomentum[0])) + " && CandidateP_P_Range < "\
-		+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum])) + " && True_CandidateP_P > "+ TString(std::to_string(ArrayNBinsProtonMomentum[0]))\
-		+ " && True_CandidateP_P < "+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum]));
-
-		TString DeltaPT = "Reco_Pt > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && Reco_Pt < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]))\
-		+ " && True_Pt > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && True_Pt < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]));
- 
-		TString DeltaPhiT = "Reco_DeltaPhiT > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && Reco_DeltaPhiT < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT]))\
-		+ " && True_DeltaPhiT > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && True_DeltaPhiT < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT])); 
-
-		TString MuonMom = "True_CandidateMu_P > "+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && True_CandidateMu_P < "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum]))\
-		+ " && ( ( CandidateMu_EndContainment == 1 && CandidateMu_P_Range > "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_Range < "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) || ( CandidateMu_EndContainment == 0 && CandidateMu_P_MCS > "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_MCS < "\
-		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) )" ;
-
-		TString LLP = " CandidateP_ThreePlaneLogLikelihood > " + TString(std::to_string(ProtonThreePlaneChi2LogLikelihoodCut));
-
-		TString NuScore = " NuScore > " + TString(std::to_string(MinimumNuScore)); 
-
-		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range-CandidateMu_P_MCS)/CandidateMu_P_Range<0.25 ) || (CandidateMu_EndContainment == 0 && CandidateMu_P_MCS > 0.25) )";
-
-		TString MinHitsMu = "  (CandidateMu_Plane0_TruncdEdx[0][0] + CandidateMu_Plane1_TruncdEdx[0][0] + CandidateMu_Plane2_TruncdEdx[0][0] > 0.5)";
-
-		TString MinHitsP = " (CandidateP_Plane0_TruncdEdx[0][0] + CandidateP_Plane1_TruncdEdx[0][0] + CandidateP_Plane2_TruncdEdx[0][0] > 1.5)";
-
-		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut + " && " + MinHitsMu + " && " + MinHitsP;
-
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);
@@ -100,8 +66,9 @@ void InvestigateBinMigrations() {
 
 		TCanvas* OverlayCanvas = new TCanvas("OverlayCanvas"+Runs[WhichRun],"OverlayCanvas"+Runs[WhichRun],205,34,1024,768);
 
-		TLegend* leg = new TLegend(0.2,0.65,0.4,0.85);
-		leg->SetTextSize(0.04);
+		TLegend* leg = new TLegend(0.6,0.65,0.8,0.85);
+		leg->SetTextSize(0.05);
+		leg->SetTextFont(132);
 		leg->SetBorderSize(0);
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
@@ -266,18 +233,19 @@ void InvestigateBinMigrations() {
 //		TString AxisLabel = ";#delta#phi_{T};#delta#phi_{T} resolution [%];"; double Xmin = ArrayNBinsDeltaPhiT[0]; double Xmax = ArrayNBinsDeltaPhiT[NBinsDeltaPhiT];
 //		TString Reso = "(Reco_DeltaPhiT-True_DeltaPhiT)/True_DeltaPhiT*100."; TString XVar = "Reco_DeltaPhiT"; int NBins = 20;
 
-		TString AxisLabel = ";#deltap_{T};#deltap_{T} resolution [%];"; double Xmin = ArrayNBinsDeltaPT[0]; double Xmax = ArrayNBinsDeltaPT[NBinsDeltaPT];
-		TString Reso = "(Reco_Pt-True_Pt)/True_Pt*100."; TString XVar = "Reco_Pt"; int NBins = 20;
+//		TString AxisLabel = ";#deltap_{T};#deltap_{T} resolution [%];"; double Xmin = ArrayNBinsDeltaPT[0]; double Xmax = ArrayNBinsDeltaPT[NBinsDeltaPT];
+//		TString Reso = "(Reco_Pt-True_Pt)/True_Pt*100."; TString XVar = "Reco_Pt"; int NBins = 20;
 
-		TProfile* p = new TProfile("p",AxisLabel,NBins,Xmin,Xmax);
-		tree->Draw(Reso+":"+XVar+">>p",qualifier,"prof");
+//		TProfile* p = new TProfile("p",AxisLabel,NBins,Xmin,Xmax);
+//		tree->Draw(Reso+":"+XVar+">>p",qualifier,"prof");
 
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 
-//		int NBins = 20;
+		int NBins = 60;
 //		TString Reso = "TMath::Abs(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT*100.";
 
+//		TString xvar = "Reco_Pt_Recalibrate"; TString AxisLabel = ";#delta p_{T} [GeV/c];"; double Xmin = ArrayNBinsDeltaPT[0]; double Xmax = ArrayNBinsDeltaPT[NBinsDeltaPT];
 //		TString xvar = "CandidateMu_CosTheta"; TString AxisLabel = ";cos#theta_{#mu};"; double Xmin = ArrayNBinsMuonCosTheta[0]; double Xmax = ArrayNBinsMuonCosTheta[NBinsMuonCosTheta];
 //		TString xvar = "CandidateMu_Phi"; TString AxisLabel = ";#phi_{#mu};"; double Xmin = ArrayNBinsMuonPhi[0]; double Xmax = ArrayNBinsMuonPhi[NBinsMuonPhi];
 //		TString xvar = "CandidateMu_P_Range"; TString AxisLabel = ";P_{#mu};"; double Xmin = ArrayNBinsMuonMomentum[0]; double Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum];
@@ -285,7 +253,7 @@ void InvestigateBinMigrations() {
 //		TString xvar = "CandidateP_CosTheta"; TString AxisLabel = ";cos#theta_{p};"; double Xmin = ArrayNBinsProtonCosTheta[0]; double Xmax = ArrayNBinsProtonCosTheta[NBinsProtonCosTheta];
 //		TString xvar = "CandidateP_P_Range"; TString AxisLabel = ";P_{p};"; double Xmin = ArrayNBinsProtonMomentum[0]; double Xmax = ArrayNBinsProtonMomentum[NBinsProtonMomentum];
 //		TString xvar = "CandidateP_Phi"; TString AxisLabel = ";#phi_{p};"; double Xmin = ArrayNBinsProtonPhi[0]; double Xmax = ArrayNBinsProtonPhi[NBinsProtonPhi];
-//		TString xvar = "Reco_DeltaPhi"; TString AxisLabel = ";#delta#phi_{#mu,p};"; double Xmin = MinDeltaPhi; double Xmax = MaxDeltaPhi;
+		TString xvar = "Reco_DeltaPhi"; TString AxisLabel = ";#delta#phi_{#mu,p};"; double Xmin = MinDeltaPhi; double Xmax = MaxDeltaPhi;
 //		TString xvar = "Reco_DeltaTheta"; TString AxisLabel = ";#delta#theta_{#mu,p};"; double Xmin = MinDeltaTheta; double Xmax = MaxDeltaTheta;
 //		TString xvar = "Vertex_X"; TString AxisLabel = ";Vertex X [cm];"; double Xmin = MinVertexX; double Xmax = MaxVertexX;
 //		TString xvar = "Vertex_Y"; TString AxisLabel = ";Vertex Y [cm];"; double Xmin = MinVertexY; double Xmax = MaxVertexY;
@@ -295,24 +263,59 @@ void InvestigateBinMigrations() {
 //		TString xvar = "TMath::ATan( CandidateMu_P_Range * TMath::Sqrt(1-TMath::Power(CandidateMu_CosTheta,2.)) * TMath::Sin(CandidateMu_Phi * TMath::Pi() / 180.) / (CandidateMu_P_Range * CandidateMu_CosTheta) ) * 180 / TMath::Pi()"; TString AxisLabel = ";#theta_{XZ,mom};"; double Xmin = -90; double Xmax = 90;
 //		TString xvar = "TMath::ATan((CandidateMu_EndY - CandidateMu_StartY) / (CandidateMu_EndZ - CandidateMu_StartZ))*180./TMath::Pi()"; TString AxisLabel = ";#theta_{YZ};"; double Xmin = -90; double Xmax = 90;
 
-//		qualifier = qualifier + " && CandidateMu_EndContainment == 1";
+//		TString Qualifier = qualifier;
+//		TString Qualifier = qualifier + " && TMath::Abs(CandidateMu_Phi-90) < 10";
+		TString Qualifier = qualifierNoHitSumCut;
 
-//		TH1D* PlaygroundPlotGood = new TH1D("PlaygroundPlotGood",AxisLabel,NBins,Xmin,Xmax);
-//		tree->Draw(xvar+">>PlaygroundPlotGood","("+qualifier+" && "+Reso+" < 25)*POTWeight","goff");
-//		PlaygroundPlotGood->SetLineWidth(3);
-//		PlaygroundPlotGood->SetLineColor(kBlack);
-//		PlaygroundPlotGood->GetYaxis()->SetTitle("POT Normalized Events");
-//		leg->AddEntry(PlaygroundPlotGood,"Good","l");
-//		PlaygroundPlotGood->Draw("same");
+		/*
+		TH1D* PlaygroundPlotGood = new TH1D("PlaygroundPlotGood",AxisLabel,NBins,Xmin,Xmax);
+		tree->Draw(xvar+">>PlaygroundPlotGood","("+Qualifier+ " && Reco_DeltaAlphaT_Recalibrate > 50)*POTWeight","goff");
+		PlaygroundPlotGood->SetLineWidth(3);
+		PlaygroundPlotGood->SetLineColor(kBlack);
+		PlaygroundPlotGood->GetYaxis()->SetTitle("POT Normalized Events");
+		PlaygroundPlotGood->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotGood->GetMaximum());
+		leg->AddEntry(PlaygroundPlotGood,"#delta#alpha_{T} > 50","l");
+		PlaygroundPlotGood->Draw("same");
 
-//		TH1D* PlaygroundPlotBad = new TH1D("PlaygroundPlotBad",AxisLabel,NBins,Xmin,Xmax);
-//		tree->Draw(xvar+">>PlaygroundPlotBad","("+qualifier+" && "+Reso+" > 25)*POTWeight","goff");
-//		PlaygroundPlotBad->SetLineWidth(3);
-//		PlaygroundPlotBad->SetLineColor(kRed);
-//		leg->AddEntry(PlaygroundPlotBad,"Bad","l");
-//		PlaygroundPlotBad->Draw("same");
+		TH1D* PlaygroundPlotBad = new TH1D("PlaygroundPlotBad",AxisLabel,NBins,Xmin,Xmax);
+		tree->Draw(xvar+">>PlaygroundPlotBad","("+Qualifier+ " && Reco_DeltaAlphaT_Recalibrate < 50)*POTWeight","goff");
+		PlaygroundPlotBad->SetLineWidth(3);
+		PlaygroundPlotBad->SetLineColor(kRed);
+		PlaygroundPlotBad->Scale(1.45);
+		leg->AddEntry(PlaygroundPlotBad,"#delta#alpha_{T} < 50 (x1.45)","l");
+		PlaygroundPlotBad->Draw("same");
+		*/
 
-//		leg->Draw();
+//		double XmindEdx = 0, XmaxdEdx = 5; TString Particle = "Mu";
+		double XmindEdx = 0, XmaxdEdx = 12; TString Particle = "P";
+
+		TH1D* PlaygroundPlotPlane2 = new TH1D("PlaygroundPlotPlane2",";"+Particle+" Trunc dEdx @ RR = 0 [MeV/cm]",NBins,XmindEdx,XmaxdEdx);
+		tree->Draw("Candidate"+Particle+"_Plane2_TruncdEdx[0][0][0]>>PlaygroundPlotPlane2","("+Qualifier+")*POTWeight","goff");
+		PlaygroundPlotPlane2->SetLineWidth(3);PlaygroundPlotPlane2->SetLineColor(kBlack);
+		PlaygroundPlotPlane2->GetYaxis()->SetTitle("POT Normalized Events");
+		PlaygroundPlotPlane2->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotPlane2->GetMaximum());
+		leg->AddEntry(PlaygroundPlotPlane2,"Plane 2","l");
+		PlaygroundPlotPlane2->Draw("same");
+
+		TH1D* PlaygroundPlotPlane1 = new TH1D("PlaygroundPlotPlane1","Trunc dEdx @ RR = 0 [MeV/cm]",NBins,XmindEdx,XmaxdEdx);
+		tree->Draw("Candidate"+Particle+"_Plane1_TruncdEdx[0][0][0]>>PlaygroundPlotPlane1","("+Qualifier+")*POTWeight","goff");
+		PlaygroundPlotPlane1->SetLineWidth(3);PlaygroundPlotPlane1->SetLineColor(kBlue);
+		leg->AddEntry(PlaygroundPlotPlane1,"Plane 1","l");
+		PlaygroundPlotPlane1->Draw("same");
+
+		TH1D* PlaygroundPlotPlane0 = new TH1D("PlaygroundPlotPlane0","Trunc dEdx @ RR = 0 [MeV/cm]",NBins,XmindEdx,XmaxdEdx);
+		tree->Draw("Candidate"+Particle+"_Plane0_TruncdEdx[0][0][0]>>PlaygroundPlotPlane0","("+Qualifier+")*POTWeight","goff");
+		PlaygroundPlotPlane0->SetLineWidth(3);PlaygroundPlotPlane0->SetLineColor(kOrange+7);
+		leg->AddEntry(PlaygroundPlotPlane0,"Plane 0","l");
+		PlaygroundPlotPlane0->Draw("same");
+
+
+		leg->Draw();
+
+		// ---------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 		// ---------------------------------------------------------------------------------------------------------------------------------------

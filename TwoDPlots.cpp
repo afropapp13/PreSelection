@@ -50,40 +50,6 @@ void TwoDPlots() {
 		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-//		TString CC1p = "CC1p && CandidateMu_MCParticle_Pdg == 13 && CandidateP_MCParticle_Pdg == 2212 && NumberPi0 == 0"; 
-
-//		TString Containment = "CandidateMu_StartContainment == 1 && CandidateP_StartContainment == 1 && CandidateP_EndContainment == 1 && True_CandidateMu_StartContainment == 1";
-
-//		TString ProtonMom = "CandidateP_P_Range_Recalibrate > " + TString(std::to_string(ArrayNBinsProtonMomentum[0])) + " && CandidateP_P_Range_Recalibrate < "\
-//		+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum])) + " && True_CandidateP_P > "+ TString(std::to_string(ArrayNBinsProtonMomentum[0]))\
-//		+ " && True_CandidateP_P < "+ TString(std::to_string(ArrayNBinsProtonMomentum[NBinsProtonMomentum]));
-
-//		TString DeltaPT = "Reco_Pt_Recalibrate > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && Reco_Pt_Recalibrate < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]))\
-//		+ " && True_Pt > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && True_Pt < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT]));
-// 
-//		TString DeltaPhiT = "Reco_DeltaPhiT_Recalibrate > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && Reco_DeltaPhiT_Recalibrate < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT]))\
-//		+ " && True_DeltaPhiT > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && True_DeltaPhiT < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT])); 
-
-//		TString MuonMom = "True_CandidateMu_P > "+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && True_CandidateMu_P < "\
-//		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum]))\
-//		+ " && ( ( CandidateMu_EndContainment == 1 && CandidateMu_P_Range_Recalibrate > "\
-//		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_Range_Recalibrate < "\
-//		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) || ( CandidateMu_EndContainment == 0 && CandidateMu_P_MCS_Recalibrate > "\
-//		+ TString(std::to_string(ArrayNBinsMuonMomentum[0])) + " && CandidateMu_P_MCS_Recalibrate < "\
-//		+ TString(std::to_string(ArrayNBinsMuonMomentum[NBinsMuonMomentum])) +" ) )" ;
-
-//		TString QualityCut = " ( (CandidateMu_EndContainment == 1 && TMath::Abs(CandidateMu_P_Range_Recalibrate-CandidateMu_P_MCS_Recalibrate)/CandidateMu_P_Range_Recalibrate < 0.25 ) || (CandidateMu_EndContainment == 0 && CandidateMu_P_MCS > 0.25) )";
-
-//		TString MinHitsMu = "  (CandidateMu_Plane0_TruncdEdx[0][0] + CandidateMu_Plane1_TruncdEdx[0][0] + CandidateMu_Plane2_TruncdEdx[0][0] > 0.5)";
-
-//		TString MinHitsP = " (CandidateP_Plane0_TruncdEdx[0][0] + CandidateP_Plane1_TruncdEdx[0][0] + CandidateP_Plane2_TruncdEdx[0][0] > 1.5)";
-
-//		TString qualifier = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut + " && " + MinHitsMu + " && " + MinHitsP;
-
-//		TString qualifierNoMuRangeCut = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + MinHitsMu + " && " + MinHitsP;
-
-//		TString qualifierNoHitSumCut = CC1p +" && "+ Containment +" && " + ProtonMom + " && " + DeltaPT + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut;
-
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);
@@ -94,7 +60,7 @@ void TwoDPlots() {
 
 		TH2D* hMuonMomMCS = new TH2D("hMuonMomMCS",";True Muon Momentum [GeV/c]; MCS Reco Muon Momentum [GeV/c]",75,0,1.5,75,0,1.5);
 
-		tree->Draw("CandidateMu_P_MCS_Recalibrate:True_CandidateMu_P>>hMuonMomMCS",qualifier+ " && CandidateMu_EndContainment == 0","goff");
+		tree->Draw("CandidateMu_P_MCS:True_CandidateMu_P>>hMuonMomMCS",qualifier+ " && CandidateMu_EndContainment == 0","goff");
 
 		TCanvas* MuonMomentumMCSCanvas = new TCanvas("MuonMomentumMCSCanvas_"+Runs[WhichRun],"MuonMomentumMCSCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumMCSCanvas->cd();
@@ -113,7 +79,7 @@ void TwoDPlots() {
 
 		TH2D* hMuonMomRange = new TH2D("hMuonMomRange",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",75,0,1.5,75,0,1.5);
 
-		tree->Draw("CandidateMu_P_Range_Recalibrate:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
+		tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonMomentumRangeCanvas = new TCanvas("MuonMomentumRangeCanvas_"+Runs[WhichRun],"MuonMomentumRangeCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumRangeCanvas->cd();
@@ -132,7 +98,7 @@ void TwoDPlots() {
 
 		TH2D* hMuonMomRangeNoQC = new TH2D("hMuonMomRangeNoQC",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",75,0,1.5,75,0,1.5);
 
-		tree->Draw("CandidateMu_P_Range_Recalibrate:True_CandidateMu_P>>hMuonMomRangeNoQC",qualifierNoMuRangeCut+ " && CandidateMu_EndContainment == 1","goff");
+		tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRangeNoQC",qualifierNoMuRangeCut+ " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonMomentumRangeCanvasNoQC = new TCanvas("MuonMomentumRangeCanvasNoQC_"+Runs[WhichRun],"MuonMomentumRangeCanvasNoQC_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumRangeCanvasNoQC->cd();
@@ -185,7 +151,7 @@ void TwoDPlots() {
 
 		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",100,0.2,1.25,100,0.2,1.25);
 
-		tree->Draw("CandidateP_P_Range_Recalibrate:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
+		tree->Draw("CandidateP_P_Range:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
 
 		TCanvas* ProtonMomentumRangeCanvas = new TCanvas("ProtonMomentumRangeCanvas_"+Runs[WhichRun],"ProtonMomentumRangeCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonMomentumRangeCanvas->cd();
@@ -239,7 +205,7 @@ void TwoDPlots() {
 		TCanvas* PtCanvas = new TCanvas("PTCanvas_"+Runs[WhichRun],"PTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtCanvas->cd();
 
-		tree->Draw("Reco_Pt_Recalibrate:True_Pt>>hPt",qualifier,"goff");
+		tree->Draw("Reco_Pt:True_Pt>>hPt",qualifier,"goff");
 		hPt->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
@@ -253,7 +219,7 @@ void TwoDPlots() {
 
 		TH2D* hDeltaAlphaT = new TH2D("hDeltaAlphaT",";True #delta#alpha_{T} [deg];Reco #delta#alpha_{T} [deg]",90,0,180,90,0,180);
 
-		tree->Draw("Reco_DeltaAlphaT_Recalibrate:True_DeltaAlphaT>>hDeltaAlphaT",qualifier,"goff");
+		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>hDeltaAlphaT",qualifier,"goff");
 
 		TCanvas* DeltaAlphaTCanvas = new TCanvas("DeltaAlphaTCanvas_"+Runs[WhichRun],"DeltaAlphaTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaAlphaTCanvas->cd();
@@ -270,7 +236,7 @@ void TwoDPlots() {
 
 		TH2D* hDeltaPhiT = new TH2D("hDeltaPhiT",";True #delta#phi_{T} [deg];Reco #delta#phi_{T} [deg]",270,0,180,270,0,180);
 
-		tree->Draw("Reco_DeltaPhiT_Recalibrate:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
+		tree->Draw("Reco_DeltaPhiT:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
 
 		TCanvas* DeltaPhiTCanvas = new TCanvas("DeltaPhiTCanvas_"+Runs[WhichRun],"DeltaPhiTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaPhiTCanvas->cd();
@@ -338,7 +304,7 @@ void TwoDPlots() {
 
 		TH2D* hECal = new TH2D("hECal",";True E^{cal} [GeV];Reco E^{cal} [GeV]",200,0,2,200,0,2);
 
-		tree->Draw("Reco_ECal_Recalibrate:True_ECal>>hECal",qualifier,"goff");
+		tree->Draw("Reco_ECal:True_ECal>>hECal",qualifier,"goff");
 
 		TCanvas* ECalCanvas = new TCanvas("ECalCanvas_"+Runs[WhichRun],"ECalCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ECalCanvas->cd();
@@ -355,7 +321,7 @@ void TwoDPlots() {
 
 		TH2D* hEQE = new TH2D("hEQE",";True E^{QE} [GeV];Reco E^{QE} [GeV]",200,0,2,200,0,2);
 
-		tree->Draw("Reco_EQE_Recalibrate:True_EQE>>hEQE",qualifier,"goff");
+		tree->Draw("Reco_EQE:True_EQE>>hEQE",qualifier,"goff");
 
 		TCanvas* EQECanvas = new TCanvas("EQECanvas_"+Runs[WhichRun],"EQECanvas_"+Runs[WhichRun],205,34,1024,768);
 		EQECanvas->cd();
@@ -632,11 +598,122 @@ void TwoDPlots() {
 
 		// Calorimetry
 
-		// Muon Truncated dEdx vs Res Range Plane 0
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Exiting Muon Truncated dEdx vs Res Range Plane 0
+
+		TH2D* hMuonTruncdEdxRRPlane0Exit = new TH2D("hMuonTruncdEdxRRPlane0Exit",";Muon Residual Range Plane 0 [cm];Truncated Muon dE/dx Plane 0 [MeV/cm]",50,0,50,50,0,5);
+
+		tree->Draw("CandidateMu_Plane0_TruncdEdx:CandidateMu_Plane0_ResidualRange>>hMuonTruncdEdxRRPlane0Exit",qualifier + " && CandidateMu_EndContainment == 0","goff");
+
+		TCanvas* MuonTruncdEdxRRPlane0CanvasExit = new TCanvas("MuonTruncdEdxRRPlane0CanvasExit_"+Runs[WhichRun],"MuonTruncdEdxRRPlane0CanvasExit_"+Runs[WhichRun],205,34,1024,768);
+		MuonTruncdEdxRRPlane0CanvasExit->cd();
+		hMuonTruncdEdxRRPlane0Exit->SetTitleSize(0.08,"t");
+		hMuonTruncdEdxRRPlane0Exit->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		MuonTruncdEdxRRPlane0CanvasExit->SaveAs(PlotPath+"MuonTruncdEdxRRPlane0CanvasExit_"+Runs[WhichRun]+".pdf");
+		delete MuonTruncdEdxRRPlane0CanvasExit;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Exiting Muon Truncated dEdx vs Res Range Plane 1
+
+		TH2D* hMuonTruncdEdxRRPlane1Exit = new TH2D("hMuonTruncdEdxRRPlane1Exit",";Muon Residual Range Plane 1 [cm];Truncated Muon dE/dx Plane 1 [MeV/cm]",50,0,50,50,0,5);
+
+		tree->Draw("CandidateMu_Plane1_TruncdEdx:CandidateMu_Plane1_ResidualRange>>hMuonTruncdEdxRRPlane1Exit",qualifier + " && CandidateMu_EndContainment == 0","goff");
+
+		TCanvas* MuonTruncdEdxRRPlane1CanvasExit = new TCanvas("MuonTruncdEdxRRPlane1CanvasExit_"+Runs[WhichRun],"MuonTruncdEdxRRPlane1CanvasExit_"+Runs[WhichRun],205,34,1024,768);
+		MuonTruncdEdxRRPlane1CanvasExit->cd();
+		hMuonTruncdEdxRRPlane1Exit->SetTitleSize(0.08,"t");
+		hMuonTruncdEdxRRPlane1Exit->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		MuonTruncdEdxRRPlane1CanvasExit->SaveAs(PlotPath+"MuonTruncdEdxRRPlane1CanvasExit_"+Runs[WhichRun]+".pdf");
+		delete MuonTruncdEdxRRPlane1CanvasExit;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Exiting Muon Truncated dEdx vs Res Range Plane 2
+
+		TH2D* hMuonTruncdEdxRRPlane2Exit = new TH2D("hMuonTruncdEdxRRPlane2Exit",";Muon Residual Range Plane 2 [cm];Truncated Muon dE/dx Plane 2 [MeV/cm]",50,0,50,50,0,5);
+
+		tree->Draw("CandidateMu_Plane2_TruncdEdx:CandidateMu_Plane2_ResidualRange>>hMuonTruncdEdxRRPlane2Exit",qualifier + " && CandidateMu_EndContainment == 0","goff");
+
+		TCanvas* MuonTruncdEdxRRPlane2CanvasExit = new TCanvas("MuonTruncdEdxRRPlane2CanvasExit_"+Runs[WhichRun],"MuonTruncdEdxRRPlane2CanvasExit_"+Runs[WhichRun],205,34,1024,768);
+		MuonTruncdEdxRRPlane2CanvasExit->cd();
+		hMuonTruncdEdxRRPlane2Exit->SetTitleSize(0.08,"t");
+		hMuonTruncdEdxRRPlane2Exit->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		MuonTruncdEdxRRPlane2CanvasExit->SaveAs(PlotPath+"MuonTruncdEdxRRPlane2CanvasExit_"+Runs[WhichRun]+".pdf");
+		delete MuonTruncdEdxRRPlane2CanvasExit;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Exiting Muon Truncated dEdx vs Res Range Plane 0 W/O min hit sum
+
+		TH2D* hMuonTruncdEdxRRPlane0NoMinHitSumExit = new TH2D("hMuonTruncdEdxRRPlane0NoMinHitSumExit",";Muon Residual Range Plane 0 [cm];Truncated Muon dE/dx Plane 0 [MeV/cm]",50,0,50,50,0,5);
+
+		tree->Draw("CandidateMu_Plane0_TruncdEdx:CandidateMu_Plane0_ResidualRange>>hMuonTruncdEdxRRPlane0NoMinHitSumExit",qualifierNoHitSumCut + " && CandidateMu_EndContainment == 0","goff");
+
+		TCanvas* MuonTruncdEdxRRPlane0CanvasNoMinHitSumExit = new TCanvas("MuonTruncdEdxRRPlane0CanvasNoMinHitSumExit_"+Runs[WhichRun],"MuonTruncdEdxRRPlane0CanvasNoMinHitSumExit_"+Runs[WhichRun],205,34,1024,768);
+		MuonTruncdEdxRRPlane0CanvasNoMinHitSumExit->cd();
+		hMuonTruncdEdxRRPlane0NoMinHitSumExit->SetTitleSize(0.08,"t");
+		hMuonTruncdEdxRRPlane0NoMinHitSumExit->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		MuonTruncdEdxRRPlane0CanvasNoMinHitSumExit->SaveAs(PlotPath+"MuonTruncdEdxRRPlane0CanvasNoMinHitSumExit_"+Runs[WhichRun]+".pdf");
+		delete MuonTruncdEdxRRPlane0CanvasNoMinHitSumExit;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Exiting Muon Truncated dEdx vs Res Range Plane 1 W/O min hit sum
+
+		TH2D* hMuonTruncdEdxRRPlane1NoMinHitSumExit = new TH2D("hMuonTruncdEdxRRPlane1NoMinHitSumExit",";Muon Residual Range Plane 1 [cm];Truncated Muon dE/dx Plane 1 [MeV/cm]",50,0,50,50,0,5);
+
+		tree->Draw("CandidateMu_Plane1_TruncdEdx:CandidateMu_Plane1_ResidualRange>>hMuonTruncdEdxRRPlane1NoMinHitSumExit",qualifierNoHitSumCut + " && CandidateMu_EndContainment == 0","goff");
+
+		TCanvas* MuonTruncdEdxRRPlane1CanvasNoMinHitSumExit = new TCanvas("MuonTruncdEdxRRPlane1CanvasNoMinHitSumExit_"+Runs[WhichRun],"MuonTruncdEdxRRPlane1CanvasNoMinHitSum_"+Runs[WhichRun],205,34,1024,768);
+		MuonTruncdEdxRRPlane1CanvasNoMinHitSumExit->cd();
+		hMuonTruncdEdxRRPlane1NoMinHitSumExit->SetTitleSize(0.08,"t");
+		hMuonTruncdEdxRRPlane1NoMinHitSumExit->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		MuonTruncdEdxRRPlane1CanvasNoMinHitSumExit->SaveAs(PlotPath+"MuonTruncdEdxRRPlane1CanvasNoMinHitSumExit_"+Runs[WhichRun]+".pdf");
+		delete MuonTruncdEdxRRPlane1CanvasNoMinHitSumExit;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Exiting Muon Truncated dEdx vs Res Range Plane 2 W/O min hit sum
+
+		TH2D* hMuonTruncdEdxRRPlane2NoMinHitSumExit = new TH2D("hMuonTruncdEdxRRPlane2NoMinHitSumExit",";Muon Residual Range Plane 2 [cm];Truncated Muon dE/dx Plane 2 [MeV/cm]",50,0,50,50,0,5);
+
+		tree->Draw("CandidateMu_Plane2_TruncdEdx:CandidateMu_Plane2_ResidualRange>>hMuonTruncdEdxRRPlane2NoMinHitSumExit",qualifierNoHitSumCut + " && CandidateMu_EndContainment == 0","goff");
+
+		TCanvas* MuonTruncdEdxRRPlane2CanvasNoMinHitSumExit = new TCanvas("MuonTruncdEdxRRPlane2CanvasNoMinHitSumExit_"+Runs[WhichRun],"MuonTruncdEdxRRPlane2CanvasNoMinHitSumExit_"+Runs[WhichRun],205,34,1024,768);
+		MuonTruncdEdxRRPlane2CanvasNoMinHitSumExit->cd();
+		hMuonTruncdEdxRRPlane2NoMinHitSumExit->SetTitleSize(0.08,"t");
+		hMuonTruncdEdxRRPlane2NoMinHitSumExit->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		MuonTruncdEdxRRPlane2CanvasNoMinHitSumExit->SaveAs(PlotPath+"MuonTruncdEdxRRPlane2CanvasNoMinHitSumExit_"+Runs[WhichRun]+".pdf");
+		delete MuonTruncdEdxRRPlane2CanvasNoMinHitSumExit;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Contained Muon Truncated dEdx vs Res Range Plane 0
 
 		TH2D* hMuonTruncdEdxRRPlane0 = new TH2D("hMuonTruncdEdxRRPlane0",";Muon Residual Range Plane 0 [cm];Truncated Muon dE/dx Plane 0 [MeV/cm]",50,0,50,50,0,5);
 
-		tree->Draw("CandidateMu_Plane0_TruncdEdx:CandidateMu_Plane0_ResidualRange>>hMuonTruncdEdxRRPlane0",qualifier,"goff");
+		tree->Draw("CandidateMu_Plane0_TruncdEdx:CandidateMu_Plane0_ResidualRange>>hMuonTruncdEdxRRPlane0",qualifier + " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonTruncdEdxRRPlane0Canvas = new TCanvas("MuonTruncdEdxRRPlane0Canvas_"+Runs[WhichRun],"MuonTruncdEdxRRPlane0Canvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonTruncdEdxRRPlane0Canvas->cd();
@@ -650,11 +727,11 @@ void TwoDPlots() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		// Muon Truncated dEdx vs Res Range Plane 1
+		// Contained Muon Truncated dEdx vs Res Range Plane 1
 
 		TH2D* hMuonTruncdEdxRRPlane1 = new TH2D("hMuonTruncdEdxRRPlane1",";Muon Residual Range Plane 1 [cm];Truncated Muon dE/dx Plane 1 [MeV/cm]",50,0,50,50,0,5);
 
-		tree->Draw("CandidateMu_Plane1_TruncdEdx:CandidateMu_Plane1_ResidualRange>>hMuonTruncdEdxRRPlane1",qualifier,"goff");
+		tree->Draw("CandidateMu_Plane1_TruncdEdx:CandidateMu_Plane1_ResidualRange>>hMuonTruncdEdxRRPlane1",qualifier + " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonTruncdEdxRRPlane1Canvas = new TCanvas("MuonTruncdEdxRRPlane1Canvas_"+Runs[WhichRun],"MuonTruncdEdxRRPlane1Canvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonTruncdEdxRRPlane1Canvas->cd();
@@ -668,11 +745,11 @@ void TwoDPlots() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		// Muon Truncated dEdx vs Res Range Plane 2
+		// Contained Muon Truncated dEdx vs Res Range Plane 2
 
 		TH2D* hMuonTruncdEdxRRPlane2 = new TH2D("hMuonTruncdEdxRRPlane2",";Muon Residual Range Plane 2 [cm];Truncated Muon dE/dx Plane 2 [MeV/cm]",50,0,50,50,0,5);
 
-		tree->Draw("CandidateMu_Plane2_TruncdEdx:CandidateMu_Plane2_ResidualRange>>hMuonTruncdEdxRRPlane2",qualifier,"goff");
+		tree->Draw("CandidateMu_Plane2_TruncdEdx:CandidateMu_Plane2_ResidualRange>>hMuonTruncdEdxRRPlane2",qualifier + " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonTruncdEdxRRPlane2Canvas = new TCanvas("MuonTruncdEdxRRPlane2Canvas_"+Runs[WhichRun],"MuonTruncdEdxRRPlane2Canvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonTruncdEdxRRPlane2Canvas->cd();
@@ -687,11 +764,11 @@ void TwoDPlots() {
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		// Muon Truncated dEdx vs Res Range Plane 0 W/O min hit sum
+		// Contained Muon Truncated dEdx vs Res Range Plane 0 W/O min hit sum
 
 		TH2D* hMuonTruncdEdxRRPlane0NoMinHitSum = new TH2D("hMuonTruncdEdxRRPlane0NoMinHitSum",";Muon Residual Range Plane 0 [cm];Truncated Muon dE/dx Plane 0 [MeV/cm]",50,0,50,50,0,5);
 
-		tree->Draw("CandidateMu_Plane0_TruncdEdx:CandidateMu_Plane0_ResidualRange>>hMuonTruncdEdxRRPlane0NoMinHitSum",qualifierNoHitSumCut,"goff");
+		tree->Draw("CandidateMu_Plane0_TruncdEdx:CandidateMu_Plane0_ResidualRange>>hMuonTruncdEdxRRPlane0NoMinHitSum",qualifierNoHitSumCut + " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonTruncdEdxRRPlane0CanvasNoMinHitSum = new TCanvas("MuonTruncdEdxRRPlane0CanvasNoMinHitSum_"+Runs[WhichRun],"MuonTruncdEdxRRPlane0CanvasNoMinHitSum_"+Runs[WhichRun],205,34,1024,768);
 		MuonTruncdEdxRRPlane0CanvasNoMinHitSum->cd();
@@ -705,11 +782,11 @@ void TwoDPlots() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		// Muon Truncated dEdx vs Res Range Plane 1
+		// Contained Muon Truncated dEdx vs Res Range Plane 1
 
 		TH2D* hMuonTruncdEdxRRPlane1NoMinHitSum = new TH2D("hMuonTruncdEdxRRPlane1NoMinHitSum",";Muon Residual Range Plane 1 [cm];Truncated Muon dE/dx Plane 1 [MeV/cm]",50,0,50,50,0,5);
 
-		tree->Draw("CandidateMu_Plane1_TruncdEdx:CandidateMu_Plane1_ResidualRange>>hMuonTruncdEdxRRPlane1NoMinHitSum",qualifierNoHitSumCut,"goff");
+		tree->Draw("CandidateMu_Plane1_TruncdEdx:CandidateMu_Plane1_ResidualRange>>hMuonTruncdEdxRRPlane1NoMinHitSum",qualifierNoHitSumCut + " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonTruncdEdxRRPlane1CanvasNoMinHitSum = new TCanvas("MuonTruncdEdxRRPlane1CanvasNoMinHitSum_"+Runs[WhichRun],"MuonTruncdEdxRRPlane1CanvasNoMinHitSum_"+Runs[WhichRun],205,34,1024,768);
 		MuonTruncdEdxRRPlane1CanvasNoMinHitSum->cd();
@@ -723,11 +800,11 @@ void TwoDPlots() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		// Muon Truncated dEdx vs Res Range Plane 2
+		// Contained Muon Truncated dEdx vs Res Range Plane 2
 
 		TH2D* hMuonTruncdEdxRRPlane2NoMinHitSum = new TH2D("hMuonTruncdEdxRRPlane2NoMinHitSum",";Muon Residual Range Plane 2 [cm];Truncated Muon dE/dx Plane 2 [MeV/cm]",50,0,50,50,0,5);
 
-		tree->Draw("CandidateMu_Plane2_TruncdEdx:CandidateMu_Plane2_ResidualRange>>hMuonTruncdEdxRRPlane2NoMinHitSum",qualifierNoHitSumCut,"goff");
+		tree->Draw("CandidateMu_Plane2_TruncdEdx:CandidateMu_Plane2_ResidualRange>>hMuonTruncdEdxRRPlane2NoMinHitSum",qualifierNoHitSumCut + " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonTruncdEdxRRPlane2CanvasNoMinHitSum = new TCanvas("MuonTruncdEdxRRPlane2CanvasNoMinHitSum_"+Runs[WhichRun],"MuonTruncdEdxRRPlane2CanvasNoMinHitSum_"+Runs[WhichRun],205,34,1024,768);
 		MuonTruncdEdxRRPlane2CanvasNoMinHitSum->cd();
