@@ -7,7 +7,7 @@
 	// v52
 
 	WhichSampleArray.push_back("Overlay9_Run1_CV");
-        WhichSampleArray.push_back("Overlay9_Run1_LYDown");
+    WhichSampleArray.push_back("Overlay9_Run1_LYDown");
 	WhichSampleArray.push_back("Overlay9_Run1_LYRayleigh");
 	WhichSampleArray.push_back("Overlay9_Run1_LYAttenuation");
 
@@ -36,6 +36,8 @@
 	WhichSampleArray.push_back("Overlay9_Run3_SCE");
 
 //	WhichSampleArray.push_back("Overlay9_Run3_lowE");
+
+    WhichSampleArray.push_back("Overlay9NuWro_Run1"); // Fake Data
 
 	// -------------------------------------------------------
 

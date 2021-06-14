@@ -517,7 +517,7 @@ void Reso_TwoDPlots() {
 //		tree->Draw("(CandidateMu_EndContainment)*CandidateMu_P_Range + (!CandidateMu_EndContainment)*CandidateMu_P_MCS:True_CandidateMu_P>>PlaygroundPlot",qualifier + " && CandidateMu_EndContainment == 1","goff");
 //		tree->Draw("(CandidateMu_EndContainment)*CandidateMu_P_Range + (!CandidateMu_EndContainment)*CandidateMu_P_MCS:True_CandidateMu_P>>PlaygroundPlot",qualifier +" && ((CandidateMu_EndContainment)*CandidateMu_P_Range + (!CandidateMu_EndContainment)*CandidateMu_P_MCS) > True_CandidateMu_P -0.1 && ((CandidateMu_EndContainment)*CandidateMu_P_Range + (!CandidateMu_EndContainment)*CandidateMu_P_MCS) < True_CandidateMu_P +0.1","goff");
 
-//		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>PlaygroundPlot",qualifier,"goff");
+//		tree->Draw("Reco_DeltaAlphaT-True_DeltaAlphaT>>PlaygroundPlot",Qualifier,"goff");
 //		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>PlaygroundPlot",qualifier +" && CandidateMu_EndContainment == 1","goff");
 //		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>PlaygroundPlot",qualifier +" && ((CandidateMu_EndContainment)*CandidateMu_P_Range + (!CandidateMu_EndContainment)*CandidateMu_P_MCS) > True_CandidateMu_P -0.1 && ((CandidateMu_EndContainment)*CandidateMu_P_Range + (!CandidateMu_EndContainment)*CandidateMu_P_MCS) < True_CandidateMu_P +0.1","goff");
 
@@ -595,11 +595,14 @@ void Reso_TwoDPlots() {
 //		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>PlaygroundPlot",qualifier + " && TMath::Abs(Reco_DeltaPhi-180) > 5","goff");
 
 //		TString Qualifier = qualifier + " && Reco_DeltaAlphaT < 50";
-		TString Qualifier = qualifier + " && Reco_DeltaAlphaT > 50";
+		TString Qualifier = qualifier + " && Reco_DeltaAlphaT < 25 && True_DeltaAlphaT < 25";
 //		TString Qualifier = qualifier;
 
-		TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";#delta#theta_{#mu,p};#delta#phi_{#mu,p}",90,0.,180.,180,0.,360.);
-		tree->Draw("Reco_DeltaPhi:Reco_DeltaTheta>>PlaygroundPlot",Qualifier,"goff");
+		//TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";#delta#theta_{#mu,p};#delta#phi_{#mu,p}",90,0.,180.,180,0.,360.);
+		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#delta#alpha_{T} Reco - True [deg];#Events",90,-180.,180.);
+
+
+		tree->Draw("Reco_DeltaAlphaT-True_DeltaAlphaT>>PlaygroundPlot",Qualifier,"goff");
 
 //		TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";#theta_{#mu};#delta#phi_{#mu,p}",90,0.,180.,180,0.,360.);
 //		tree->Draw("Reco_DeltaPhi:CandidateMu_Theta*180/TMath::Pi()>>PlaygroundPlot",Qualifier,"goff");

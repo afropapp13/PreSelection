@@ -244,8 +244,12 @@ void InvestigateBinMigrations() {
 
 		int NBins = 60;
 //		TString Reso = "TMath::Abs(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT*100.";
+		TString Reso = "TMath::Abs(Reco_DeltaAlphaT-True_DeltaAlphaT)";
 
-//		TString xvar = "Reco_Pt_Recalibrate"; TString AxisLabel = ";#delta p_{T} [GeV/c];"; double Xmin = ArrayNBinsDeltaPT[0]; double Xmax = ArrayNBinsDeltaPT[NBinsDeltaPT];
+//		TString xvar = "CandidateMu_P_MCS * TMath::Sqrt( 1- TMath::Power(CandidateMu_CosTheta,2.) )"; TString AxisLabel = ";p_{#mu,T} [GeV/c];"; double Xmin = 0.; double Xmax = 1.;
+//		TString xvar = "CandidateMu_P_Range * TMath::Sqrt( 1- TMath::Power(CandidateMu_CosTheta,2.) )"; TString AxisLabel = ";p_{#mu,T} [GeV/c];"; double Xmin = 0.; double Xmax = 1.;
+		TString xvar = "CandidateP_P_Range * TMath::Sqrt( 1- TMath::Power(CandidateP_CosTheta,2.) )"; TString AxisLabel = ";p_{p,T} [GeV/c];"; double Xmin = 0.; double Xmax = 1.;
+//		TString xvar = "Reco_Pt"; TString AxisLabel = ";#delta p_{T} [GeV/c];"; double Xmin = ArrayNBinsDeltaPT[0]; double Xmax = ArrayNBinsDeltaPT[NBinsDeltaPT];
 //		TString xvar = "CandidateMu_CosTheta"; TString AxisLabel = ";cos#theta_{#mu};"; double Xmin = ArrayNBinsMuonCosTheta[0]; double Xmax = ArrayNBinsMuonCosTheta[NBinsMuonCosTheta];
 //		TString xvar = "CandidateMu_Phi"; TString AxisLabel = ";#phi_{#mu};"; double Xmin = ArrayNBinsMuonPhi[0]; double Xmax = ArrayNBinsMuonPhi[NBinsMuonPhi];
 //		TString xvar = "CandidateMu_P_Range"; TString AxisLabel = ";P_{#mu};"; double Xmin = ArrayNBinsMuonMomentum[0]; double Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum];
@@ -253,7 +257,7 @@ void InvestigateBinMigrations() {
 //		TString xvar = "CandidateP_CosTheta"; TString AxisLabel = ";cos#theta_{p};"; double Xmin = ArrayNBinsProtonCosTheta[0]; double Xmax = ArrayNBinsProtonCosTheta[NBinsProtonCosTheta];
 //		TString xvar = "CandidateP_P_Range"; TString AxisLabel = ";P_{p};"; double Xmin = ArrayNBinsProtonMomentum[0]; double Xmax = ArrayNBinsProtonMomentum[NBinsProtonMomentum];
 //		TString xvar = "CandidateP_Phi"; TString AxisLabel = ";#phi_{p};"; double Xmin = ArrayNBinsProtonPhi[0]; double Xmax = ArrayNBinsProtonPhi[NBinsProtonPhi];
-		TString xvar = "Reco_DeltaPhi"; TString AxisLabel = ";#delta#phi_{#mu,p};"; double Xmin = MinDeltaPhi; double Xmax = MaxDeltaPhi;
+//		TString xvar = "Reco_DeltaPhi"; TString AxisLabel = ";#delta#phi_{#mu,p};"; double Xmin = MinDeltaPhi; double Xmax = MaxDeltaPhi;
 //		TString xvar = "Reco_DeltaTheta"; TString AxisLabel = ";#delta#theta_{#mu,p};"; double Xmin = MinDeltaTheta; double Xmax = MaxDeltaTheta;
 //		TString xvar = "Vertex_X"; TString AxisLabel = ";Vertex X [cm];"; double Xmin = MinVertexX; double Xmax = MaxVertexX;
 //		TString xvar = "Vertex_Y"; TString AxisLabel = ";Vertex Y [cm];"; double Xmin = MinVertexY; double Xmax = MaxVertexY;
@@ -265,27 +269,29 @@ void InvestigateBinMigrations() {
 
 //		TString Qualifier = qualifier;
 //		TString Qualifier = qualifier + " && TMath::Abs(CandidateMu_Phi-90) < 10";
-		TString Qualifier = qualifierNoHitSumCut;
+		TString Qualifier = qualifierNoHitSumCut + " && Reco_DeltaAlphaT < 30";
+//		TString Qualifier = qualifierNoHitSumCut + " && CandidateMu_EndContainment == 1" + " && Reco_DeltaAlphaT < 30";		
 
-		/*
+		
 		TH1D* PlaygroundPlotGood = new TH1D("PlaygroundPlotGood",AxisLabel,NBins,Xmin,Xmax);
-		tree->Draw(xvar+">>PlaygroundPlotGood","("+Qualifier+ " && Reco_DeltaAlphaT_Recalibrate > 50)*POTWeight","goff");
+		tree->Draw(xvar+">>PlaygroundPlotGood","("+Qualifier+ " && " + Reso + " < 25)*POTWeight","goff");
 		PlaygroundPlotGood->SetLineWidth(3);
 		PlaygroundPlotGood->SetLineColor(kBlack);
 		PlaygroundPlotGood->GetYaxis()->SetTitle("POT Normalized Events");
 		PlaygroundPlotGood->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotGood->GetMaximum());
-		leg->AddEntry(PlaygroundPlotGood,"#delta#alpha_{T} > 50","l");
+		leg->AddEntry(PlaygroundPlotGood,"#Delta#delta#alpha_{T} < 25 deg","l");
 		PlaygroundPlotGood->Draw("same");
 
 		TH1D* PlaygroundPlotBad = new TH1D("PlaygroundPlotBad",AxisLabel,NBins,Xmin,Xmax);
-		tree->Draw(xvar+">>PlaygroundPlotBad","("+Qualifier+ " && Reco_DeltaAlphaT_Recalibrate < 50)*POTWeight","goff");
+		tree->Draw(xvar+">>PlaygroundPlotBad","("+Qualifier+ " && " + Reso + " > 25)*POTWeight","goff");
 		PlaygroundPlotBad->SetLineWidth(3);
 		PlaygroundPlotBad->SetLineColor(kRed);
-		PlaygroundPlotBad->Scale(1.45);
-		leg->AddEntry(PlaygroundPlotBad,"#delta#alpha_{T} < 50 (x1.45)","l");
+		//PlaygroundPlotBad->Scale(1.45);
+		leg->AddEntry(PlaygroundPlotBad,"#Delta#delta#alpha_{T} > 25 deg","l");
 		PlaygroundPlotBad->Draw("same");
-		*/
+		
 
+		/*
 //		double XmindEdx = 0, XmaxdEdx = 5; TString Particle = "Mu";
 		double XmindEdx = 0, XmaxdEdx = 12; TString Particle = "P";
 
@@ -308,7 +314,7 @@ void InvestigateBinMigrations() {
 		PlaygroundPlotPlane0->SetLineWidth(3);PlaygroundPlotPlane0->SetLineColor(kOrange+7);
 		leg->AddEntry(PlaygroundPlotPlane0,"Plane 0","l");
 		PlaygroundPlotPlane0->Draw("same");
-
+		*/
 
 		leg->Draw();
 

@@ -51,135 +51,211 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	TString AxisLabel = ""; 
 	int NBinsReso = 10;
 	double Xmin = -999.; double Xmax = -999.; 
-	TString Reso = ""; TString XVarLabel = ""; TString RecaliReso = "";
+	TString Reso = ""; TString XVarLabel = ""; TString RecaliReso = ""; TString Units = "%";
+	double FitMin = -20.;
+	double FitMax = 20.;
 
 	// --------------------------------------------------------------------------------------------------
 
 	if (XVar == "CandidateP_P_Range") { 
 
+		FitMin = -0.1; FitMax = 0.1;
+		XminReso = -0.4; XmaxReso = 0.4;
 		NBinsReso = 8;
-		AxisLabel = ";P_{p} Range resolution [%];# Events;"; 
-		Reso = "(CandidateP_P_Range-True_CandidateP_P)/True_CandidateP_P*100.";
-		RecaliReso = "(CandidateP_P_Range_Recalibrate-True_CandidateP_P)/True_CandidateP_P*100.";
-		Xmin = ArrayNBinsProtonMomentum[0]; Xmax = ArrayNBinsProtonMomentum[NBinsProtonMomentum]; XVarLabel = "P_{p} Range [GeV/c]";
+		// AxisLabel = ";P_{p} Range resolution [%];# Events;"; 
+		// Reso = "(CandidateP_P_Range-True_CandidateP_P)/True_CandidateP_P*100.";
+		// RecaliReso = "(CandidateP_P_Range_Recalibrate-True_CandidateP_P)/True_CandidateP_P*100.";
+		AxisLabel = ";P_{p} Range Difference [GeV/c];# Events;"; 
+		Reso = "(CandidateP_P_Range-True_CandidateP_P)";
+		RecaliReso = "(CandidateP_P_Range_Recalibrate-True_CandidateP_P)";		
+		Xmin = ArrayNBinsProtonMomentum[0]; Xmax = ArrayNBinsProtonMomentum[NBinsProtonMomentum]; 
+		XVarLabel = "P_{p} Range [GeV/c]";
+		Units = "[GeV/c]";
 
 	}
 
 	if (XVar == "CandidateP_Phi") { 
 
-		XminReso = -40.; XmaxReso = 40.;
+		FitMin = -8; FitMax = 8;
+		XminReso = -15; XmaxReso = 15;
 		NBinsReso = 8;
-		AxisLabel = ";#phi_{p} resolution [%];# Events;"; 
-		Reso = "(CandidateP_Phi-True_CandidateP_Phi)/True_CandidateP_Phi*100.";
-		RecaliReso = "(CandidateP_Phi_Recalibrate-True_CandidateP_Phi)/True_CandidateP_Phi*100.";
-		Xmin = ArrayNBinsProtonPhi[0]; Xmax = ArrayNBinsProtonPhi[NBinsProtonPhi]; XVarLabel = "#phi_{p} [deg]";
+		// AxisLabel = ";#phi_{p} resolution [%];# Events;"; 
+		// Reso = "(CandidateP_Phi-True_CandidateP_Phi)/True_CandidateP_Phi*100.";
+		// RecaliReso = "(CandidateP_Phi_Recalibrate-True_CandidateP_Phi)/True_CandidateP_Phi*100.";
+		AxisLabel = ";#phi_{p} Difference [deg];# Events;"; 
+		Reso = "(CandidateP_Phi-True_CandidateP_Phi)";
+		RecaliReso = "(CandidateP_Phi_Recalibrate-True_CandidateP_Phi)";		
+		Xmin = ArrayNBinsProtonPhi[0]; Xmax = ArrayNBinsProtonPhi[NBinsProtonPhi]; 
+		XVarLabel = "#phi_{p} [deg]";
+		Units = "[deg]";		
 
 	}
 
 	if (XVar == "CandidateP_Theta") { 
 
+		FitMin = -8; FitMax = 8;
+		XminReso = -15; XmaxReso = 15;
 		NBinsReso = 7;
-		AxisLabel = ";#theta_{p} resolution [%];# Events;"; 
-		Reso = "(CandidateP_Theta-True_CandidateP_Theta)/True_CandidateP_Theta*100.";
-		RecaliReso = "(CandidateP_Theta_Recalibrate-True_CandidateP_Theta)/True_CandidateP_Theta*100.";
+		// AxisLabel = ";#theta_{p} resolution [%];# Events;"; 
+		// Reso = "(CandidateP_Theta-True_CandidateP_Theta)/True_CandidateP_Theta*100.";
+		// RecaliReso = "(CandidateP_Theta_Recalibrate-True_CandidateP_Theta)/True_CandidateP_Theta*100.";
+		AxisLabel = ";#theta_{p} Difference [deg];# Events;"; 
+		Reso = "(CandidateP_Theta-True_CandidateP_Theta)";
+		RecaliReso = "(CandidateP_Theta_Recalibrate-True_CandidateP_Theta)";		
 		Xmin = 0.; Xmax = 180.; XVarLabel = "#theta_{p} [deg]";
+		Units = "[deg]";
 
 	}
 
 	if (XVar == "CandidateP_CosTheta") { 
 
-		XminReso = -40.; XmaxReso = 40.;
+		FitMin = -0.1; FitMax = 0.1;
+		XminReso = -0.15; XmaxReso = 0.15;
 		NBinsReso = 8;
-		AxisLabel = ";cos#theta_{p} resolution [%];# Events;"; 
-		Reso = "(CandidateP_CosTheta-True_CandidateP_CosTheta)/True_CandidateP_CosTheta*100.";
-		RecaliReso = "(CandidateP_CosTheta_Recalibrate-True_CandidateP_CosTheta)/True_CandidateP_CosTheta*100.";
-		Xmin = ArrayNBinsProtonCosTheta[0]; Xmax = ArrayNBinsProtonCosTheta[NBinsProtonCosTheta]; XVarLabel = "cos#theta_{p}";
+		// AxisLabel = ";cos#theta_{p} resolution [%];# Events;"; 
+		// Reso = "(CandidateP_CosTheta-True_CandidateP_CosTheta)/True_CandidateP_CosTheta*100.";
+		// RecaliReso = "(CandidateP_CosTheta_Recalibrate-True_CandidateP_CosTheta)/True_CandidateP_CosTheta*100.";
+		AxisLabel = ";cos#theta_{p} Difference;# Events;"; 
+		Reso = "(CandidateP_CosTheta-True_CandidateP_CosTheta)";
+		RecaliReso = "(CandidateP_CosTheta_Recalibrate-True_CandidateP_CosTheta)";	
+		Xmin = ArrayNBinsProtonCosTheta[0]; Xmax = ArrayNBinsProtonCosTheta[NBinsProtonCosTheta]; 
+		XVarLabel = "cos#theta_{p}";
+		Units = "";
 
 	}
 
 	if (XVar == "CandidateMu_P_Range") { 
 
+		FitMin = -0.1; FitMax = 0.1;
+		XminReso = -0.4; XmaxReso = 0.4;
 		NBinsReso = 6;
-		AxisLabel = ";P_{#mu} Range resolution [%];# Events;"; 
-		Reso = "(CandidateMu_P_Range-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		RecaliReso = "(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		Xmin = ArrayNBinsMuonMomentum[0]; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; XVarLabel = "P_{#mu} Range [GeV/c]";
+		// AxisLabel = ";P_{#mu} Range resolution [%];# Events;"; 
+		// Reso = "(CandidateMu_P_Range-True_CandidateMu_P)/True_CandidateMu_P*100.";
+		// RecaliReso = "(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
+		AxisLabel = ";P_{#mu} Range Difference [GeV/c];# Events;"; 
+		Reso = "(CandidateMu_P_Range-True_CandidateMu_P)";
+		RecaliReso = "(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)";		
+		Xmin = ArrayNBinsMuonMomentum[0]; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; 
+		XVarLabel = "P_{#mu} Range [GeV/c]";
+		Units = "[GeV/c]";		
 
 	}
 
 	if (XVar == "CandidateMu_P_MCS") { 
 
-		XminReso = -70.; XmaxReso = 70.;
+		FitMin = -0.1; FitMax = 0.1;
+		XminReso = -0.4; XmaxReso = 0.4;
 		NBinsReso = 9;
-		AxisLabel = ";P_{#mu} MCS resolution [%];# Events;"; 
-		Reso = "(CandidateMu_P_MCS-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		RecaliReso = "(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		Xmin = MuMinMCSThresValue; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; XVarLabel = "P_{#mu} MCS [GeV/c]";
+		// AxisLabel = ";P_{#mu} MCS resolution [%];# Events;"; 
+		// Reso = "(CandidateMu_P_MCS-True_CandidateMu_P)/True_CandidateMu_P*100.";
+		// RecaliReso = "(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
+		AxisLabel = ";P_{#mu} MCS Difference [GeV/c];# Events;"; 
+		Reso = "(CandidateMu_P_MCS-True_CandidateMu_P)";
+		RecaliReso = "(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)";		
+		Xmin = MuMinMCSThresValue; Xmax = ArrayNBinsMuonMomentum[NBinsMuonMomentum]; 
+		XVarLabel = "P_{#mu} MCS [GeV/c]";
+		Units = "[GeV/c]";		
 
 	}
 
 	if (XVar == "CandidateMu_Phi") { 
 
-		XminReso = -40.; XmaxReso = 40.;
+		FitMin = -8; FitMax = 8;
+		XminReso = -15; XmaxReso = 15;
 		NBinsReso = 8;
-		AxisLabel = ";#phi_{#mu} resolution [%];# Events;"; 
-		Reso = "(CandidateMu_Phi-True_CandidateMu_Phi)/True_CandidateMu_Phi*100.";
-		RecaliReso = "(CandidateMu_Phi_Recalibrate-True_CandidateMu_Phi)/True_CandidateMu_Phi*100.";
-		Xmin = ArrayNBinsMuonPhi[0]; Xmax = ArrayNBinsMuonPhi[NBinsMuonPhi]; XVarLabel = "#phi_{#mu} [deg]";
+		// AxisLabel = ";#phi_{#mu} resolution [%];# Events;"; 
+		// Reso = "(CandidateMu_Phi-True_CandidateMu_Phi)/True_CandidateMu_Phi*100.";
+		// RecaliReso = "(CandidateMu_Phi_Recalibrate-True_CandidateMu_Phi)/True_CandidateMu_Phi*100.";
+		AxisLabel = ";#phi_{#mu} Difference [deg];# Events;"; 
+		Reso = "(CandidateMu_Phi-True_CandidateMu_Phi)";
+		RecaliReso = "(CandidateMu_Phi_Recalibrate-True_CandidateMu_Phi)";		
+		Xmin = ArrayNBinsMuonPhi[0]; Xmax = ArrayNBinsMuonPhi[NBinsMuonPhi]; 
+		XVarLabel = "#phi_{#mu} [deg]";
+		Units = "[deg]";		
 
 	}
 
 	if (XVar == "CandidateMu_Theta") { 
 
+		FitMin = -8; FitMax = 8;
+		XminReso = -15; XmaxReso = 15;
 		NBinsReso = 8;
-		AxisLabel = ";#theta_{#mu} resolution [%];# Events;"; 
-		Reso = "(CandidateMu_Theta-True_CandidateMu_Theta)/True_CandidateMu_Theta*100.";
-		RecaliReso = "(CandidateMu_Theta_Recalibrate-True_CandidateMu_Theta)/True_CandidateMu_Theta*100.";
+		// AxisLabel = ";#theta_{#mu} resolution [%];# Events;"; 
+		// Reso = "(CandidateMu_Theta-True_CandidateMu_Theta)/True_CandidateMu_Theta*100.";
+		// RecaliReso = "(CandidateMu_Theta_Recalibrate-True_CandidateMu_Theta)/True_CandidateMu_Theta*100.";
+		AxisLabel = ";#theta_{#mu} Difference [deg];# Events;"; 
+		Reso = "(CandidateMu_Theta-True_CandidateMu_Theta)";
+		RecaliReso = "(CandidateMu_Theta_Recalibrate-True_CandidateMu_Theta)";		
 		Xmin = 0.; Xmax = 180.; XVarLabel = "#theta_{#mu} [deg]";
+		Units = "[deg]";		
 
 	}
 
 	if (XVar == "CandidateMu_CosTheta") { 
 
-		XminReso = -40.; XmaxReso = 40.;
+		FitMin = -0.1; FitMax = 0.1;
+		XminReso = -0.15; XmaxReso = 0.15;
 		NBinsReso = 8;
-		AxisLabel = ";cos#theta_{#mu} resolution [%];# Events;"; 
-		Reso = "(CandidateMu_CosTheta-True_CandidateMu_CosTheta)/True_CandidateMu_CosTheta*100.";
-		RecaliReso = "(CandidateMu_CosTheta_Recalibrate-True_CandidateMu_CosTheta)/True_CandidateMu_CosTheta*100.";
-		Xmin = ArrayNBinsProtonCosTheta[0]; Xmax = ArrayNBinsProtonCosTheta[NBinsProtonCosTheta]; XVarLabel = "cos#theta_{#mu}";
+		// AxisLabel = ";cos#theta_{#mu} resolution [%];# Events;"; 
+		// Reso = "(CandidateMu_CosTheta-True_CandidateMu_CosTheta)/True_CandidateMu_CosTheta*100.";
+		// RecaliReso = "(CandidateMu_CosTheta_Recalibrate-True_CandidateMu_CosTheta)/True_CandidateMu_CosTheta*100.";
+		AxisLabel = ";cos#theta_{#mu} Difference;# Events;"; 
+		Reso = "(CandidateMu_CosTheta-True_CandidateMu_CosTheta)";
+		RecaliReso = "(CandidateMu_CosTheta_Recalibrate-True_CandidateMu_CosTheta)";		
+		Xmin = ArrayNBinsMuonCosTheta[0]; Xmax = ArrayNBinsMuonCosTheta[NBinsMuonCosTheta]; 
+		XVarLabel = "cos#theta_{#mu}";
+		Units = "";		
 
 	}
 
 	if (XVar == "Reco_DeltaAlphaT") { 
 
-		XminReso = -100.; XmaxReso = 100.;
+		FitMin = -40; FitMax = 40;
+		XminReso = -80; XmaxReso = 80;
 		NBinsReso = 7;
-		AxisLabel = ";#delta#alpha_{T} resolution [%];# Events;"; 
-		Reso = "(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT*100.";
-		RecaliReso = "(Reco_DeltaAlphaT_Recalibrate-True_DeltaAlphaT)/True_DeltaAlphaT*100.";
-		Xmin = ArrayNBinsDeltaAlphaT[0]; Xmax = ArrayNBinsDeltaAlphaT[NBinsDeltaAlphaT]; XVarLabel = "#delta#alpha_{T} [deg]";
+		// AxisLabel = ";#delta#alpha_{T} resolution [%];# Events;"; 
+		// Reso = "(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT*100.";
+		// RecaliReso = "(Reco_DeltaAlphaT_Recalibrate-True_DeltaAlphaT)/True_DeltaAlphaT*100.";
+		AxisLabel = ";#delta#alpha_{T} Difference [deg];# Events;"; 
+		Reso = "(Reco_DeltaAlphaT-True_DeltaAlphaT)";
+		RecaliReso = "(Reco_DeltaAlphaT_Recalibrate-True_DeltaAlphaT)";
+		Xmin = ArrayNBinsDeltaAlphaT[0]; Xmax = ArrayNBinsDeltaAlphaT[NBinsDeltaAlphaT]; 
+		XVarLabel = "#delta#alpha_{T} [deg]";
+		Units = "[deg]";		
 
 	}
 
 	if (XVar == "Reco_DeltaPhiT") { 
 
-		XminReso = -80.; XmaxReso = 80.;
+		FitMin = -15; FitMax = 15;
+		XminReso = -30; XmaxReso = 30;
 		NBinsReso = 7;
-		AxisLabel = ";#delta#phi_{T} resolution [%];# Events;"; 
-		Reso = "(Reco_DeltaPhiT-True_DeltaPhiT)/True_DeltaPhiT*100.";
-		RecaliReso = "(Reco_DeltaPhiT_Recalibrate-True_DeltaPhiT)/True_DeltaPhiT*100.";
-		Xmin = ArrayNBinsDeltaPhiT[0]; Xmax = ArrayNBinsDeltaPhiT[NBinsDeltaPhiT]; XVarLabel = "#delta#phi_{T} [deg]";
+		// AxisLabel = ";#delta#phi_{T} resolution [%];# Events;"; 
+		// Reso = "(Reco_DeltaPhiT-True_DeltaPhiT)/True_DeltaPhiT*100.";
+		// RecaliReso = "(Reco_DeltaPhiT_Recalibrate-True_DeltaPhiT)/True_DeltaPhiT*100.";
+		AxisLabel = ";#delta#phi_{T} Difference [deg];# Events;"; 
+		Reso = "(Reco_DeltaPhiT-True_DeltaPhiT)";
+		RecaliReso = "(Reco_DeltaPhiT_Recalibrate-True_DeltaPhiT)";		
+		Xmin = ArrayNBinsDeltaPhiT[0]; Xmax = ArrayNBinsDeltaPhiT[NBinsDeltaPhiT]; 
+		XVarLabel = "#delta#phi_{T} [deg]";
+		Units = "[deg]";		
 
 	}
 
 	if (XVar == "Reco_Pt") { 
 
-		XminReso = -100.; XmaxReso = 100.;
+		FitMin = -0.15; FitMax = 0.15;
+		XminReso = -0.3; XmaxReso = 0.3;
 		NBinsReso = 6;
-		AxisLabel = ";#delta p_{T} resolution [%];# Events;"; 
-		Reso = "(Reco_Pt-True_Pt)/True_Pt*100.";
-		RecaliReso = "(Reco_Pt_Recalibrate-True_Pt)/True_Pt*100.";
-		Xmin = ArrayNBinsDeltaPT[0]; Xmax = ArrayNBinsDeltaPT[NBinsDeltaPT]; XVarLabel = "#delta p_{T} [GeV/c]";
+		// AxisLabel = ";#delta p_{T} resolution [%];# Events;"; 
+		// Reso = "(Reco_Pt-True_Pt)/True_Pt*100.";
+		// RecaliReso = "(Reco_Pt_Recalibrate-True_Pt)/True_Pt*100.";
+		AxisLabel = ";#delta p_{T} Difference [GeV/c];# Events;"; 
+		Reso = "(Reco_Pt-True_Pt)";
+		RecaliReso = "(Reco_Pt_Recalibrate-True_Pt)";		
+		Xmin = ArrayNBinsDeltaPT[0]; Xmax = ArrayNBinsDeltaPT[NBinsDeltaPT]; 
+		XVarLabel = "#delta p_{T} [GeV/c]";
+		Units = "[GeV/c]";		
 
 	}
 
@@ -208,22 +284,16 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	if (XVar == "CandidateMu_P_Range") { qualifier = qualifier + " && CandidateMu_EndContainment == 1"; }
 	if (XVar == "CandidateMu_P_MCS") { qualifier = qualifier + " && CandidateMu_EndContainment == 0"; }
 
-	double FitMin = -20.;
-	double FitMax = 20.;
-
 	for (int i = 0; i < NBinsReso; i++) {
-
-		if (XVar == "CandidateP_P_Range") { FitMin = -10.; FitMax = 10.; } 
-		if (XVar == "CandidateMu_P_MCS") { FitMin = -40.; FitMax = 40.; } 
 
 		TString PlotName = XVar+"_PlaygroundPlot_"+TString(std::to_string(i));
 		PlaygroundPlots[i] = new TH1D(PlotName,AxisLabel,NBins,XminReso,XmaxReso);
 		TString RecaliPlotName = XVar+"_RecaliPlaygroundPlot_"+TString(std::to_string(i));
 		RecaliPlaygroundPlots[i] = new TH1D(RecaliPlotName,AxisLabel,NBins,XminReso,XmaxReso);
 
-		TString LowThres = TString(std::to_string(Xmin + i * Step ) );
+		TString LowThres = TString( std::to_string( round(Xmin + i * Step,3.) ) );
 		TString LowCut  = XVar + " > " + LowThres ;
-		TString HighThres = TString(std::to_string(Xmin + (i+1) * Step ));
+		TString HighThres = TString( std::to_string( round(Xmin + (i+1) * Step,3.) ) );
 		TString HighCut  = XVar + " < " + HighThres ;
 
 		tree->Draw(Reso+">>"+PlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
@@ -242,14 +312,14 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		double meanError = f->GetParError(1);
 		double sigmaError = f->GetParError(2);
 
-		if (TMath::Abs(mean) > 100) {
+		// if (TMath::Abs(mean) > 50) {
 
-			mean = PlaygroundPlots[i]->GetMean();
-			meanError = PlaygroundPlots[i]->GetMeanError();
-			sigma = PlaygroundPlots[i]->GetRMS();
-			sigmaError = PlaygroundPlots[i]->GetRMSError();
+		// 	mean = PlaygroundPlots[i]->GetMean();
+		// 	meanError = PlaygroundPlots[i]->GetMeanError();
+		// 	sigma = PlaygroundPlots[i]->GetRMS();
+		// 	sigmaError = PlaygroundPlots[i]->GetRMSError();
 
-		}
+		// }
 
 		TF1* fCali = new TF1("fCali","gaus",FitMin,FitMax);
 		RecaliPlaygroundPlots[i]->Fit(fCali,"RQ0");
@@ -303,8 +373,8 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 			leg->AddEntry(PlaygroundPlots[i],LowThres + " < " + XVarLabel + " < " + HighThres,"");
 			leg->Draw();
 
-			legCali->AddEntry(RecaliPlaygroundPlots[i],"Calibrated, #mu = " + TString(std::to_string(round(mean,2.))),"p");
-			legCali->AddEntry(PlaygroundPlots[i],"Uncalibrated, #mu = " + TString(std::to_string(round(meanCali,2.))),"p");
+			legCali->AddEntry(RecaliPlaygroundPlots[i],"Calibrated, #mu = " + TString(std::to_string(round(mean,3.))),"p");
+			legCali->AddEntry(PlaygroundPlots[i],"Uncalibrated, #mu = " + TString(std::to_string(round(meanCali,3.))),"p");
 			legCali->Draw();
 
 			TLine* line = new TLine(0,0,0,1.05*PlaygroundPlots[i]->GetMaximum());
@@ -336,28 +406,28 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 	TGraphErrors* graphMean = new TGraphErrors(NBinsReso,BinArray,MeanArray,BinArrayError,MeanErrorArray);
 	graphMean->GetXaxis()->SetTitle("Reco " + XVarLabel);
-	graphMean->GetYaxis()->SetTitle("Mean Value [%]");
+	graphMean->GetYaxis()->SetTitle("Mean Value " + Units);
 	graphMean->SetTitle("");
 	OutputFile->cd();
 	graphMean->Write("Mean_"+XVar);
 
 	TGraphErrors* RecaligraphMean = new TGraphErrors(NBinsReso,BinArray,RecaliMeanArray,BinArrayError,RecaliMeanErrorArray);
 	RecaligraphMean->GetXaxis()->SetTitle("Reco " + XVarLabel);
-	RecaligraphMean->GetYaxis()->SetTitle("Mean Value [%]");
+	RecaligraphMean->GetYaxis()->SetTitle("Mean Value " + Units);
 	RecaligraphMean->SetTitle("");
 	OutputFile->cd();
 	RecaligraphMean->Write("RecaliMean_"+XVar);
 
 	TGraphErrors* graphSigma = new TGraphErrors(NBinsReso,BinArray,SigmaArray,BinArrayError,SigmaErrorArray);
 	graphSigma->GetXaxis()->SetTitle("Reco " + XVarLabel);
-	graphSigma->GetYaxis()->SetTitle("#sigma Value [%]");
+	graphSigma->GetYaxis()->SetTitle("#sigma Value " + Units);
 	graphSigma->SetTitle("");
 	OutputFile->cd();
 	graphSigma->Write("Sigma_"+XVar);
 
 	TGraphErrors* RecaligraphSigma = new TGraphErrors(NBinsReso,BinArray,RecaliSigmaArray,BinArrayError,RecaliSigmaErrorArray);
 	RecaligraphSigma->GetXaxis()->SetTitle("Reco " + XVarLabel);
-	RecaligraphSigma->GetYaxis()->SetTitle("#sigma Value [%]");
+	RecaligraphSigma->GetYaxis()->SetTitle("#sigma Value " + Units);
 	RecaligraphSigma->SetTitle("");
 	OutputFile->cd();
 	RecaligraphSigma->Write("RecaliSigma_"+XVar);
@@ -405,6 +475,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		graphSigma->SetMarkerStyle(20);
 		graphSigma->SetMarkerSize(2.);
 		graphSigma->SetLineWidth(3);
+		graphSigma->SetMinimum(0);		
 		graphSigma->Draw("ap0");
 
 		RecaligraphSigma->SetLineColor(kOrange+7);
@@ -461,13 +532,13 @@ void CreateSplines(TString Sample, bool StorePlots = false) {
 
 	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_P_Range",StorePlots);
 	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_Phi",StorePlots);
-	//ReturnGraph(OutputFile,tree,qualifier,"CandidateP_Theta",StorePlots);
+	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_Theta",StorePlots);
 	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_CosTheta",StorePlots);
 
 	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_P_Range",StorePlots);
 	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_P_MCS",StorePlots);
 	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_Phi",StorePlots);
-	//ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_Theta",StorePlots);
+	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_Theta",StorePlots);
 	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_CosTheta",StorePlots);
 
 	ReturnGraph(OutputFile,tree,qualifier,"Reco_Pt",StorePlots);
