@@ -599,7 +599,7 @@ void TwoDPlots() {
 		// Calorimetry
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
-
+/*
 		// Exiting Muon Truncated dEdx vs Res Range Plane 0
 
 		TH2D* hMuonTruncdEdxRRPlane0Exit = new TH2D("hMuonTruncdEdxRRPlane0Exit",";Muon Residual Range Plane 0 [cm];Truncated Muon dE/dx Plane 0 [MeV/cm]",50,0,50,50,0,5);
@@ -925,7 +925,7 @@ void TwoDPlots() {
 
 		ProtonTruncdEdxRRPlane2CanvasNoMinHitSum->SaveAs(PlotPath+"ProtonTruncdEdxRRPlane2CanvasNoMinHitSum_"+Runs[WhichRun]+".pdf");
 		delete ProtonTruncdEdxRRPlane2CanvasNoMinHitSum;
-
+*/
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1162,13 +1162,75 @@ void TwoDPlots() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
+		TLegend* legTrunc = new TLegend(0.15,0.65,0.35,0.85);
+		legTrunc->SetTextSize(0.05);
+		legTrunc->SetTextFont(132);
+		legTrunc->SetBorderSize(0);
+
 		// 1D Muon Truncated dEdx @ RR = 0
 
+		TCanvas* MuTruncdEdxCanvas = new TCanvas("MuTruncdEdxCanvas_"+Runs[WhichRun],"MuTruncdEdxCanvas_"+Runs[WhichRun],205,34,1024,768);
+		MuTruncdEdxCanvas->cd();
+
+		int NBinsMu = 60;
+		double XmindEdxMu = 0, XmaxdEdxMu = 5;
+
+		TH1D* PlaygroundPlotPlane2Mu = new TH1D("PlaygroundPlotPlane2Mu",";#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
+		tree->Draw("CandidateMu_Plane2_LastEDep>>PlaygroundPlotPlane2Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		PlaygroundPlotPlane2Mu->SetLineWidth(3);PlaygroundPlotPlane2Mu->SetLineColor(kBlack);
+		PlaygroundPlotPlane2Mu->GetYaxis()->SetTitle("POT Normalized Events");
+		PlaygroundPlotPlane2Mu->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotPlane2Mu->GetMaximum());
+		legTrunc->AddEntry(PlaygroundPlotPlane2Mu,"Plane 2","l");
+		PlaygroundPlotPlane2Mu->Draw("same");
+
+		TH1D* PlaygroundPlotPlane1Mu = new TH1D("PlaygroundPlotPlane1Mu","#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
+		tree->Draw("CandidateMu_Plane1_LastEDep>>PlaygroundPlotPlane1Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		PlaygroundPlotPlane1Mu->SetLineWidth(3);PlaygroundPlotPlane1Mu->SetLineColor(kBlue);
+		legTrunc->AddEntry(PlaygroundPlotPlane1Mu,"Plane 1","l");
+		PlaygroundPlotPlane1Mu->Draw("same");
+
+		TH1D* PlaygroundPlotPlane0Mu = new TH1D("PlaygroundPlotPlane0Mu","#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
+		tree->Draw("CandidateMu_Plane0_LastEDep>>PlaygroundPlotPlane0Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		PlaygroundPlotPlane0Mu->SetLineWidth(3);PlaygroundPlotPlane0Mu->SetLineColor(kOrange+7);
+		legTrunc->AddEntry(PlaygroundPlotPlane0Mu,"Plane 0","l");
+		PlaygroundPlotPlane0Mu->Draw("same");
+
+		legTrunc->Draw();
+
+		MuTruncdEdxCanvas->SaveAs(PlotPath+"MuTruncdEdxCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuTruncdEdxCanvas;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
 		// 1D Proton Truncated dEdx @ RR = 0
 
+		TCanvas* PTruncdEdxCanvas = new TCanvas("PTruncdEdxCanvas_"+Runs[WhichRun],"PTruncdEdxCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PTruncdEdxCanvas->cd();
+
+		int NBinsP = 60;
+		double XmindEdxP = 0, XmaxdEdxP = 12;
+
+		TH1D* PlaygroundPlotPlane2P = new TH1D("PlaygroundPlotPlane2P",";p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
+		tree->Draw("CandidateP_Plane2_LastEDep>>PlaygroundPlotPlane2P","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		PlaygroundPlotPlane2P->SetLineWidth(3);PlaygroundPlotPlane2P->SetLineColor(kBlack);
+		PlaygroundPlotPlane2P->GetYaxis()->SetTitle("POT Normalized Events");
+		PlaygroundPlotPlane2P->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotPlane2P->GetMaximum());
+		PlaygroundPlotPlane2P->Draw("same");
+
+		TH1D* PlaygroundPlotPlane1P = new TH1D("PlaygroundPlotPlane1P","p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
+		tree->Draw("CandidateP_Plane1_LastEDep>>PlaygroundPlotPlane1P","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		PlaygroundPlotPlane1P->SetLineWidth(3);PlaygroundPlotPlane1P->SetLineColor(kBlue);
+		PlaygroundPlotPlane1P->Draw("same");
+
+		TH1D* PlaygroundPlotPlane0P = new TH1D("PlaygroundPlotPlane0P","p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
+		tree->Draw("CandidateP_Plane0_LastEDep>>PlaygroundPlotPlane0P","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		PlaygroundPlotPlane0P->SetLineWidth(3);PlaygroundPlotPlane0P->SetLineColor(kOrange+7);
+		PlaygroundPlotPlane0P->Draw("same");
+
+		legTrunc->Draw();
+
+		PTruncdEdxCanvas->SaveAs(PlotPath+"PTruncdEdxCanvas_"+Runs[WhichRun]+".pdf");
+		delete PTruncdEdxCanvas;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 

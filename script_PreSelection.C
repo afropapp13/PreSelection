@@ -2,7 +2,7 @@
 
 	vector<TString> WhichSampleArray;
 
-    WhichSampleArray.push_back("Overlay9_Run1"); // Nominal CV, needs to go first to obtain the relevant calibration
+    	WhichSampleArray.push_back("Overlay9_Run1"); // Nominal CV, needs to go first to obtain the relevant calibration
 	WhichSampleArray.push_back("BeamOn9_Run1");
 	WhichSampleArray.push_back("ExtBNB9_Run1");
 	WhichSampleArray.push_back("OverlayDirt9_Run1");
@@ -34,17 +34,17 @@
 		if (string(WhichSampleArray[i]).find("Overlay") != std::string::npos)
 		  { gROOT->ProcessLine("myPOT(\""+WhichSampleArray[i]+"\").Loop()"); }
 
-		if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos) { 
+//		if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos) { 
 
-			// Run once to get uncalibrated variables from Larsoft
-			// Obtain the calibration splines
-			// Then rerun to obtain the correct calibrated variables
-			// Use the MC calibration across the whole run
+//			// Run once to get uncalibrated variables from Larsoft
+//			// Obtain the calibration splines
+//			// Then rerun to obtain the correct calibrated variables
+//			// Use the MC calibration across the whole run
 
-			gROOT->ProcessLine("PreSelection(\""+WhichSampleArray[i]+"\").Loop()");
-			gROOT->ProcessLine("CreateSplines(\""+WhichSampleArray[i]+"\")"); 
+//			gROOT->ProcessLine("PreSelection(\""+WhichSampleArray[i]+"\").Loop()");
+//			gROOT->ProcessLine("CreateSplines(\""+WhichSampleArray[i]+"\")"); 
 
-		}
+//		}
 
 		gROOT->ProcessLine("PreSelection(\""+WhichSampleArray[i]+"\").Loop()");
 

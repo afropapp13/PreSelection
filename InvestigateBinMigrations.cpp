@@ -269,28 +269,29 @@ void InvestigateBinMigrations() {
 
 //		TString Qualifier = qualifier;
 //		TString Qualifier = qualifier + " && TMath::Abs(CandidateMu_Phi-90) < 10";
-		TString Qualifier = qualifierNoHitSumCut + " && Reco_DeltaAlphaT < 30";
-//		TString Qualifier = qualifierNoHitSumCut + " && CandidateMu_EndContainment == 1" + " && Reco_DeltaAlphaT < 30";		
+		TString Qualifier = qualifier + " && Reco_DeltaAlphaT > 150";
+//		TString Qualifier = qualifier + " && CandidateMu_EndContainment == 1" + " && Reco_DeltaAlphaT > 150";		
 
 		
 		TH1D* PlaygroundPlotGood = new TH1D("PlaygroundPlotGood",AxisLabel,NBins,Xmin,Xmax);
-		tree->Draw(xvar+">>PlaygroundPlotGood","("+Qualifier+ " && " + Reso + " < 25)*POTWeight","goff");
+		tree->Draw(xvar+">>PlaygroundPlotGood","("+Qualifier+ " && " + Reso + " < 30)*POTWeight","goff");
 		PlaygroundPlotGood->SetLineWidth(3);
 		PlaygroundPlotGood->SetLineColor(kBlack);
 		PlaygroundPlotGood->GetYaxis()->SetTitle("POT Normalized Events");
 		PlaygroundPlotGood->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotGood->GetMaximum());
-		leg->AddEntry(PlaygroundPlotGood,"#Delta#delta#alpha_{T} < 25 deg","l");
+		leg->AddEntry(PlaygroundPlotGood,"#Delta#delta#alpha_{T} < 30 deg","l");
 		PlaygroundPlotGood->Draw("same");
 
 		TH1D* PlaygroundPlotBad = new TH1D("PlaygroundPlotBad",AxisLabel,NBins,Xmin,Xmax);
-		tree->Draw(xvar+">>PlaygroundPlotBad","("+Qualifier+ " && " + Reso + " > 25)*POTWeight","goff");
+		tree->Draw(xvar+">>PlaygroundPlotBad","("+Qualifier+ " && " + Reso + " > 30)*POTWeight","goff");
 		PlaygroundPlotBad->SetLineWidth(3);
 		PlaygroundPlotBad->SetLineColor(kRed);
 		//PlaygroundPlotBad->Scale(1.45);
-		leg->AddEntry(PlaygroundPlotBad,"#Delta#delta#alpha_{T} > 25 deg","l");
+		leg->AddEntry(PlaygroundPlotBad,"#Delta#delta#alpha_{T} > 30 deg","l");
 		PlaygroundPlotBad->Draw("same");
 		
-
+		cout << "events = " << PlaygroundPlotGood->GetEntries() << endl;
+ 
 		/*
 //		double XmindEdx = 0, XmaxdEdx = 5; TString Particle = "Mu";
 		double XmindEdx = 0, XmaxdEdx = 12; TString Particle = "P";
