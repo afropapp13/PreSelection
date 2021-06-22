@@ -48,14 +48,6 @@ void PreSelection::Loop() {
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
-	// Txt file to keep track of the event reduction at each stage
-
-	TString TxtName = "/uboone/data/users/apapadop/myEvents/myTxtFiles/"+UBCodeVersion+"/TxtPreSelection_"+fWhichSample+"_"+UBCodeVersion+".txt";
-	ofstream myTxtFile;
-	myTxtFile.open(TxtName);	
-
-	// ---------------------------------------------------------------------------------------------------------------------------------------
-
 	// Output Files
 
 	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_"+fWhichSample+"_"+UBCodeVersion+".root";
@@ -337,6 +329,8 @@ void PreSelection::Loop() {
 	std::vector<int> True_CandidateMu_StartContainment;
 	std::vector<int> True_CandidateMu_EndContainment;
 
+	std::vector<double> CandidateMu_MinDistance;
+
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
 //	std::vector<int> CandidateP_Mode;	
@@ -409,6 +403,8 @@ void PreSelection::Loop() {
 	
 	std::vector<int> True_CandidateP_StartContainment;
 	std::vector<int> True_CandidateP_EndContainment;
+
+	std::vector<double> CandidateP_MinDistance;
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -434,7 +430,6 @@ void PreSelection::Loop() {
 	std::vector<double> Reco_EQE_Recalibrate;
 	std::vector<double> Reco_Q2_Recalibrate;
 
-	
 //	std::vector<double> True_kMiss;
 //	std::vector<double> True_EMiss;
 //	std::vector<double> True_PMissMinus;
@@ -446,7 +441,10 @@ void PreSelection::Loop() {
 	std::vector<double> True_EQE;
 	std::vector<double> True_Q2;		
 	std::vector<double> True_DeltaPhi;
-	std::vector<double> True_DeltaTheta;							
+	std::vector<double> True_DeltaTheta;	
+
+	std::vector<double> StartToStartDistance;
+	std::vector<double> EndToEndDistance;							
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------------------------------------------------	
@@ -612,6 +610,8 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
 	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
+	tree->Branch("CandidateMu_MinDistance",&CandidateMu_MinDistance);
+
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 //	tree->Branch("CandidateP_TrackScore",&CandidateP_TrackScore);
@@ -684,6 +684,8 @@ void PreSelection::Loop() {
 	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
 	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
+	tree->Branch("CandidateP_MinDistance",&CandidateP_MinDistance);
+
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 //	tree->Branch("Reco_kMiss",&Reco_kMiss);
@@ -717,7 +719,10 @@ void PreSelection::Loop() {
 	tree->Branch("True_EQE",&True_EQE);
 	tree->Branch("True_Q2",&True_Q2);
 	tree->Branch("True_DeltaPhi",&True_DeltaPhi);
-	tree->Branch("True_DeltaTheta",&True_DeltaTheta);						
+	tree->Branch("True_DeltaTheta",&True_DeltaTheta);
+
+	tree->Branch("StartToStartDistance",&StartToStartDistance);
+	tree->Branch("EndToEndDistance",&EndToEndDistance);						
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1104,6 +1109,18 @@ void PreSelection::Loop() {
 		std::vector<TVector3> VertexWire; VertexWire.clear();
 		std::vector<TVector3> VertexTime; VertexTime.clear();
 
+		// Storing start/end points of other tracks not included in the neutrino slice 
+
+		std::vector<double> NonSliceTrack_StartX; NonSliceTrack_StartX.clear();
+		std::vector<double> NonSliceTrack_StartY; NonSliceTrack_StartY.clear(); 
+		std::vector<double> NonSliceTrack_StartZ; NonSliceTrack_StartZ.clear();
+
+		std::vector<double> NonSliceTrack_EndX; NonSliceTrack_EndX.clear();
+		std::vector<double> NonSliceTrack_EndY; NonSliceTrack_EndY.clear(); 
+		std::vector<double> NonSliceTrack_EndZ; NonSliceTrack_EndZ.clear();
+
+		// -------------------------------------------------------------------------------------------------------
+
 		for (int WhichTrack = 0; WhichTrack < NumberTracks; WhichTrack++) {
 
 			if (Track_StartX->at(WhichTrack) == TracksFromCurrentPFParticleStartX->at(0).at(FirstPFParticleDaughter) || 
@@ -1166,7 +1183,22 @@ void PreSelection::Loop() {
 
 				}
 
+			} // End of the matching of PFParticle associated tracks 
+
+			// Tracks not in the slice
+
+			else {
+
+				NonSliceTrack_StartX.push_back(Track_StartX->at(WhichTrack));
+				NonSliceTrack_StartY.push_back(Track_StartY->at(WhichTrack));
+				NonSliceTrack_StartZ.push_back(Track_StartZ->at(WhichTrack));
+
+				NonSliceTrack_EndX.push_back(Track_EndX->at(WhichTrack));
+				NonSliceTrack_EndY.push_back(Track_EndY->at(WhichTrack));
+				NonSliceTrack_EndZ.push_back(Track_EndZ->at(WhichTrack));
+
 			}
+		
 			
 		} // end of the loop over the recob::Tracks
 
@@ -1316,6 +1348,8 @@ void PreSelection::Loop() {
 		True_CandidateMu_StartContainment.clear();
 		True_CandidateMu_EndContainment.clear();
 
+		CandidateMu_MinDistance.clear();
+
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 //		CandidateP_Mode.clear();		
@@ -1324,8 +1358,11 @@ void PreSelection::Loop() {
 		CandidateP_P_Range_Recalibrate.clear();
 //		CandidateP_P_MCS.clear();		
 		CandidateP_Phi.clear();
+		CandidateP_Phi_Recalibrate.clear();
 		CandidateP_Theta.clear();
+		CandidateP_Theta_Recalibrate.clear();
 		CandidateP_CosTheta.clear();
+		CandidateP_CosTheta_Recalibrate.clear();
 //		CandidateP_Chi2_YPlane.clear();
 		CandidateP_ThreePlaneLogLikelihood.clear();
 //		CandidateP_LLR_PID.clear();
@@ -1386,6 +1423,8 @@ void PreSelection::Loop() {
 		True_CandidateP_StartContainment.clear();
 		True_CandidateP_EndContainment.clear();
 
+		CandidateP_MinDistance.clear();
+
 		// -----------------------------------------------------------------------------------------------------------------------------
 
 //		Reco_kMiss.clear();
@@ -1419,7 +1458,10 @@ void PreSelection::Loop() {
 		True_EQE.clear();
 		True_Q2.clear();
 		True_DeltaPhi.clear();
-		True_DeltaTheta.clear();															
+		True_DeltaTheta.clear();
+
+		StartToStartDistance.clear();
+		EndToEndDistance.clear();															
 
 		// -----------------------------------------------------------------------------------------------------------------------------
 
@@ -1707,6 +1749,9 @@ void PreSelection::Loop() {
 			// if (TMath::Abs(RecalibrationFactor_CandidateP_Theta) > 0.5) { RecalibrationFactor_CandidateP_Theta = 0.; }
 			// if (TMath::Abs(RecalibrationFactor_CandidateP_CosTheta) > 0.5) { RecalibrationFactor_CandidateP_CosTheta = 0.; }
 
+			TVector3 ProtonStart(Track_StartX->at(CandidateProtonTrackIndex),Track_StartY->at(CandidateProtonTrackIndex),Track_StartZ->at(CandidateProtonTrackIndex));
+			TVector3 ProtonEnd(Track_EndX->at(CandidateProtonTrackIndex),Track_EndY->at(CandidateProtonTrackIndex),Track_EndZ->at(CandidateProtonTrackIndex));
+
 			CandidateProtonTrack_Momentum_Recalibrated = CandidateProtonTrack_Momentum - RecalibrationFactor_CandidateP_P_Range;
 			double P_Phi = Track_Phi->at(CandidateProtonTrackIndex) * 180./ TMath::Pi(); // deg
 			double P_Phi_Recalibrate = P_Phi - RecalibrationFactor_CandidateP_Phi; // deg
@@ -1859,7 +1904,52 @@ void PreSelection::Loop() {
 			double DeltaTheta_Deg = DeltaTheta_Rad * 180. / TMath::Pi();
 			if (DeltaTheta_Deg >= 360.) { DeltaTheta_Deg -= 360.; }
 			if (DeltaTheta_Deg < 0.) { DeltaTheta_Deg += 360.; }
-			Reco_DeltaTheta.push_back(DeltaTheta_Deg);									
+			Reco_DeltaTheta.push_back(DeltaTheta_Deg);
+
+			// --------------------------------------------------------------------------------------------------------------------
+
+			// Start-To-Start & End-To-End Distance to avoid flipped tracks
+
+			double LocalStartToStartDistance = (CandidateMuonTrackStart - CandidateProtonTrackStart).Mag();
+			double LocalEndToEndDistance = (CandidateMuonTrackEnd - CandidateProtonTrackEnd).Mag();
+
+			StartToStartDistance.push_back(LocalStartToStartDistance);
+			EndToEndDistance.push_back(LocalEndToEndDistance);
+
+			// ------------------------------------------------------------------------------------------------------------------------------------
+
+			// For a given pair of candidate tracks
+			// Find the min distance between the candidate muon/proton tracks and the floating cosmics
+
+			int NonSliceTracks = NonSliceTrack_StartX.size();
+
+			double MinMuCosmicDistance = 99999.;
+			double MinPCosmicDistance = 99999.;
+
+			TVector3 MuonDiff = MuonEnd - MuonStart;
+			TVector3 ProtonDiff = ProtonEnd - ProtonStart; 
+				
+			for (int WhichCosmic = 0; WhichCosmic < NonSliceTracks; WhichCosmic++) {
+
+				TVector3 CosmicTrackStart(NonSliceTrack_StartX.at(WhichCosmic),NonSliceTrack_StartY.at(WhichCosmic),NonSliceTrack_StartZ.at(WhichCosmic));
+				TVector3 CosmicTrackEnd(NonSliceTrack_EndX.at(WhichCosmic),NonSliceTrack_EndY.at(WhichCosmic),NonSliceTrack_StartZ.at(WhichCosmic));
+	
+				TVector3 CosmicTrackCross = CosmicTrackEnd.Cross(CosmicTrackStart);
+				double CosmicTrackCrossMag = CosmicTrackCross.Mag();
+
+				double CosmicTrackCrossMu = TMath::Abs(CosmicTrackCross.Dot(MuonDiff));
+				double CosmicTrackCrossP = TMath::Abs(CosmicTrackCross.Dot(ProtonDiff));
+
+				double CurrentMuMinDistance = CosmicTrackCrossMu / CosmicTrackCrossMag;
+				double CurrentPMinDistance = CosmicTrackCrossP / CosmicTrackCrossMag;
+
+				if (CurrentMuMinDistance < MinMuCosmicDistance) { MinMuCosmicDistance = CurrentMuMinDistance; }
+				if (CurrentPMinDistance < MinPCosmicDistance) { MinPCosmicDistance = CurrentPMinDistance; }
+
+			}
+
+			CandidateMu_MinDistance.push_back(MinMuCosmicDistance);
+			CandidateP_MinDistance.push_back(MinPCosmicDistance);					
 			
 			// --------------------------------------------------------------------------------------------------------------------
 			// --------------------------------------------------------------------------------------------------------------------
@@ -2204,51 +2294,11 @@ void PreSelection::Loop() {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
-	// To be saved in the txt file
-
-	myTxtFile << "\n\nStarting with " << TotalCounter << " samdef events (" << int(100.*double(TotalCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << SWTriggerCounter << " events passing SW trigger (" << int(100.*double(SWTriggerCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << OneNuMuPFParticleCounter << " events passing 1 numu PFParticle requirement (" << int(100.*double(OneNuMuPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << DaughterCounter << " events passing 2 daughter requirement (" << int(100.*double(DaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << TrackLikeDaughterCounter << " events passing 2 track-like daughter requirement (" << int(100.*double(TrackLikeDaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << MatchedTrackPFParticleCounter << " events passing 2 matched track-like daughter requirement (" << int(100.*double(MatchedTrackPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << NuFlashScoreCounter << " events passing nu/flash score requirement (" << int(100.*double(NuFlashScoreCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << FlashCounter << " events passing 1 flash requirement (" << int(100.*double(FlashCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << PairCounter << " events passing 1 candidate pair requirement (" << int(100.*double(PairCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << MomentumThresholdCounter << " events passing momentum requirement (" << int(100.*double(MomentumThresholdCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << ContainmentCounter << " events passing containment requirement (" << int(100.*double(ContainmentCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\nGathered a total of " << EventCounter << " preselected events (" << int(100.*double(EventCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-
-	myTxtFile << "\n\n\n\nMultiple MCTruth events " << MultipleMCTruth << " (" << int(100.*double(MultipleMCTruth)/double(EventCounter)) << " %)" << std::endl << std::endl;
-
-	// ------------------------------------------------------------------------------------------------------------------------------------------
-
-	// Report the same table as above but with POT scaled entries
-
-	myTxtFile << "\n\n // --------------------------------------------------------------------------------------------- \n\n " << endl;
-	myTxtFile << "\n\nStarting with " << TotalCounter*POTScale << " samdef events (" << int(100.*double(TotalCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << SWTriggerCounter*POTScale << " events passing SW trigger (" << int(100.*double(SWTriggerCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << OneNuMuPFParticleCounter*POTScale << " events passing 1 numu PFParticle requirement (" << int(100.*double(OneNuMuPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << DaughterCounter*POTScale << " events passing 2 daughter requirement (" << int(100.*double(DaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << TrackLikeDaughterCounter*POTScale << " events passing 2 track-like daughter requirement (" << int(100.*double(TrackLikeDaughterCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << MatchedTrackPFParticleCounter*POTScale << " events passing 2 matched track-like daughter requirement (" << int(100.*double(MatchedTrackPFParticleCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << NuFlashScoreCounter*POTScale << " events passing nu/flash score requirement (" << int(100.*double(NuFlashScoreCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << FlashCounter*POTScale << " events passing 1 flash requirement (" << int(100.*double(FlashCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << PairCounter*POTScale << " events passing 1 candidate pair requirement (" << int(100.*double(PairCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << MomentumThresholdCounter*POTScale << " events passing momentum requirement (" << int(100.*double(MomentumThresholdCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\n" << ContainmentCounter*POTScale << " events passing containment requirement (" << int(100.*double(ContainmentCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-	myTxtFile << "\n\nGathered a total of " << EventCounter*POTScale << " preselected events (" << int(100.*double(EventCounter)/double(TotalCounter)) << " %)" << std::endl << std::endl;
-
-	myTxtFile << "\n\n\n\nMultiple MCTruth events " << MultipleMCTruth*POTScale << " (" << int(100.*double(MultipleMCTruth)/double(EventCounter)) << " %)" << std::endl << std::endl;
-
-	// ------------------------------------------------------------------------------------------------------------------------------------------
-
 	OutputFile->cd();
 	OutputFile->Write();
 	OutputFile->Close();
 	//fSpines->Close();
 	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
-	myTxtFile.close();
 
 } // end of the program
 

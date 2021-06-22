@@ -79,7 +79,7 @@ void TwoDPlots() {
 
 		TH2D* hMuonMomRange = new TH2D("hMuonMomRange",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",75,0,1.5,75,0,1.5);
 
-		tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
+		tree->Draw("CandidateMu_P_Range_Recalibrate:True_CandidateMu_P>>hMuonMomRange",qualifier+ " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonMomentumRangeCanvas = new TCanvas("MuonMomentumRangeCanvas_"+Runs[WhichRun],"MuonMomentumRangeCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumRangeCanvas->cd();
@@ -98,7 +98,7 @@ void TwoDPlots() {
 
 		TH2D* hMuonMomRangeNoQC = new TH2D("hMuonMomRangeNoQC",";True Muon Momentum [GeV/c]; Range Reco Muon Momentum [GeV/c]",75,0,1.5,75,0,1.5);
 
-		tree->Draw("CandidateMu_P_Range:True_CandidateMu_P>>hMuonMomRangeNoQC",qualifierNoMuRangeCut+ " && CandidateMu_EndContainment == 1","goff");
+		tree->Draw("CandidateMu_P_Range_Recalibrate:True_CandidateMu_P>>hMuonMomRangeNoQC",qualifierNoMuRangeCut+ " && CandidateMu_EndContainment == 1","goff");
 
 		TCanvas* MuonMomentumRangeCanvasNoQC = new TCanvas("MuonMomentumRangeCanvasNoQC_"+Runs[WhichRun],"MuonMomentumRangeCanvasNoQC_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumRangeCanvasNoQC->cd();
@@ -117,7 +117,7 @@ void TwoDPlots() {
 
 		TH2D* hMuonCosTheta = new TH2D("hMuonCosTheta",";True cos#theta_{#mu};Reco cos#theta_{#mu}",400,-1,1,400,-1,1);
 
-		tree->Draw("CandidateMu_CosTheta:True_CandidateMu_CosTheta>>hMuonCosTheta",qualifier,"goff");
+		tree->Draw("CandidateMu_CosTheta_Recalibrate:True_CandidateMu_CosTheta>>hMuonCosTheta",qualifier,"goff");
 
 		TCanvas* MuonCosThetaCanvas = new TCanvas("MuonCosThetaCanvas_"+Runs[WhichRun],"MuonCosThetaCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonCosThetaCanvas->cd();
@@ -134,7 +134,7 @@ void TwoDPlots() {
 
 		TH2D* hMuonPhi = new TH2D("hMuonPhi",";True Muon #phi [deg];Reco Muon #phi [deg]",360,-180,180,360,-180,180);
 
-		tree->Draw("CandidateMu_Phi:True_CandidateMu_Phi>>hMuonPhi",qualifier,"goff");
+		tree->Draw("CandidateMu_Phi_Recalibrate:True_CandidateMu_Phi>>hMuonPhi",qualifier,"goff");
 
 		TCanvas* MuonPhiCanvas = new TCanvas("MuonPhiCanvas_"+Runs[WhichRun],"MuonPhiCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonPhiCanvas->cd();
@@ -151,7 +151,7 @@ void TwoDPlots() {
 
 		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",100,0.2,1.25,100,0.2,1.25);
 
-		tree->Draw("CandidateP_P_Range:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
+		tree->Draw("CandidateP_P_Range_Recalibrate:True_CandidateP_P>>hProtonMomRange",qualifier,"goff");
 
 		TCanvas* ProtonMomentumRangeCanvas = new TCanvas("ProtonMomentumRangeCanvas_"+Runs[WhichRun],"ProtonMomentumRangeCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonMomentumRangeCanvas->cd();
@@ -168,7 +168,7 @@ void TwoDPlots() {
 
 		TH2D* hProtonCosTheta = new TH2D("hProtonCosTheta",";True cos#theta_{p};Reco cos#theta_{p}",400,-1,1,400,-1,1);
 
-		tree->Draw("CandidateP_CosTheta:True_CandidateP_CosTheta>>hProtonCosTheta",qualifier,"goff");
+		tree->Draw("CandidateP_CosTheta_Recalibrate:True_CandidateP_CosTheta>>hProtonCosTheta",qualifier,"goff");
 
 		TCanvas* ProtonCosThetaCanvas = new TCanvas("ProtonCosThetaCanvas_"+Runs[WhichRun],"ProtonCosThetaCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonCosThetaCanvas->cd();
@@ -185,7 +185,7 @@ void TwoDPlots() {
 
 		TH2D* hProtonPhi = new TH2D("hProtonPhi",";True Proton #phi [deg];Reco Proton #phi [deg]",360,-180,180,360,-180,180);
 
-		tree->Draw("CandidateP_Phi:True_CandidateP_Phi>>hProtonPhi",qualifier,"goff");
+		tree->Draw("CandidateP_Phi_Recalibrate:True_CandidateP_Phi>>hProtonPhi",qualifier,"goff");
 
 		TCanvas* ProtonPhiCanvas = new TCanvas("ProtonPhiCanvas_"+Runs[WhichRun],"ProtonPhiCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ProtonPhiCanvas->cd();
@@ -205,7 +205,7 @@ void TwoDPlots() {
 		TCanvas* PtCanvas = new TCanvas("PTCanvas_"+Runs[WhichRun],"PTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtCanvas->cd();
 
-		tree->Draw("Reco_Pt:True_Pt>>hPt",qualifier,"goff");
+		tree->Draw("Reco_Pt_Recalibrate:True_Pt>>hPt",qualifier,"goff");
 		hPt->Draw("coltz");
 
 		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
@@ -219,7 +219,7 @@ void TwoDPlots() {
 
 		TH2D* hDeltaAlphaT = new TH2D("hDeltaAlphaT",";True #delta#alpha_{T} [deg];Reco #delta#alpha_{T} [deg]",90,0,180,90,0,180);
 
-		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>hDeltaAlphaT",qualifier,"goff");
+		tree->Draw("Reco_DeltaAlphaT_Recalibrate:True_DeltaAlphaT>>hDeltaAlphaT",qualifier,"goff");
 
 		TCanvas* DeltaAlphaTCanvas = new TCanvas("DeltaAlphaTCanvas_"+Runs[WhichRun],"DeltaAlphaTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaAlphaTCanvas->cd();
@@ -236,7 +236,7 @@ void TwoDPlots() {
 
 		TH2D* hDeltaPhiT = new TH2D("hDeltaPhiT",";True #delta#phi_{T} [deg];Reco #delta#phi_{T} [deg]",270,0,180,270,0,180);
 
-		tree->Draw("Reco_DeltaPhiT:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
+		tree->Draw("Reco_DeltaPhiT_Recalibrate:True_DeltaPhiT>>hDeltaPhiT",qualifier,"goff");
 
 		TCanvas* DeltaPhiTCanvas = new TCanvas("DeltaPhiTCanvas_"+Runs[WhichRun],"DeltaPhiTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		DeltaPhiTCanvas->cd();
@@ -304,7 +304,7 @@ void TwoDPlots() {
 
 		TH2D* hECal = new TH2D("hECal",";True E^{cal} [GeV];Reco E^{cal} [GeV]",200,0,2,200,0,2);
 
-		tree->Draw("Reco_ECal:True_ECal>>hECal",qualifier,"goff");
+		tree->Draw("Reco_ECal_Recalibrate:True_ECal>>hECal",qualifier,"goff");
 
 		TCanvas* ECalCanvas = new TCanvas("ECalCanvas_"+Runs[WhichRun],"ECalCanvas_"+Runs[WhichRun],205,34,1024,768);
 		ECalCanvas->cd();
@@ -321,7 +321,7 @@ void TwoDPlots() {
 
 		TH2D* hEQE = new TH2D("hEQE",";True E^{QE} [GeV];Reco E^{QE} [GeV]",200,0,2,200,0,2);
 
-		tree->Draw("Reco_EQE:True_EQE>>hEQE",qualifier,"goff");
+		tree->Draw("Reco_EQE_Recalibrate:True_EQE>>hEQE",qualifier,"goff");
 
 		TCanvas* EQECanvas = new TCanvas("EQECanvas_"+Runs[WhichRun],"EQECanvas_"+Runs[WhichRun],205,34,1024,768);
 		EQECanvas->cd();
@@ -592,6 +592,334 @@ void TwoDPlots() {
 
 		CandidateMuP_DistanceCanvas->SaveAs(PlotPath+"CandidateMuP_DistanceCanvas_"+Runs[WhichRun]+".pdf");
 		delete CandidateMuP_DistanceCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Resolutions
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		TLegend* leg = new TLegend(0.15,0.75,0.35,0.85);
+		leg->SetTextFont(FontStyle);
+		leg->SetTextSize(0.05);
+		leg->SetBorderSize(0);
+
+		// Pmu Range
+
+		TH1D* hPmuRangeReso = new TH1D("hPmuRangeReso",";(Reco-True) P_{#mu} Range [GeV/c];# Events",100,-0.2,0.2);
+		TH1D* hPmuRangeResoUncali = new TH1D("hPmuRangeResoUncali",";(Reco-True) P_{#mu} Range [GeV/c];# Events",100,-0.2,0.2);
+
+		tree->Draw("(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)>>hPmuRangeReso",qualifier + " && CandidateMu_EndContainment == 1","goff");
+		tree->Draw("(CandidateMu_P_Range-True_CandidateMu_P)>>hPmuRangeResoUncali",qualifier + " && CandidateMu_EndContainment == 1","goff");
+
+		TCanvas* PmuRangeResoCanvas = new TCanvas("PmuRangeResoCanvas_"+Runs[WhichRun],"PmuRangeResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PmuRangeResoCanvas->cd();
+
+		hPmuRangeReso->SetLineColor(kOrange+7);
+		hPmuRangeReso->SetMarkerColor(kOrange+7);
+		hPmuRangeReso->SetMarkerSize(2.);
+		hPmuRangeReso->SetMarkerStyle(20);
+
+		hPmuRangeResoUncali->SetLineColor(kBlack);
+		hPmuRangeResoUncali->SetMarkerColor(kBlack);
+		hPmuRangeResoUncali->SetMarkerSize(2.);
+		hPmuRangeResoUncali->SetMarkerStyle(20);
+
+		hPmuRangeResoUncali->Draw("p0 same");
+		hPmuRangeReso->Draw("p0 same");
+
+		leg->AddEntry(hPmuRangeReso,"Calibrated","p");
+		leg->AddEntry(hPmuRangeResoUncali,"Uncalibrated","p");
+		leg->Draw();
+
+		TLine* line = new TLine(0,0,0,1.05*hPmuRangeResoUncali->GetMaximum());
+		line->SetLineColor(kBlack);
+		line->SetLineStyle(kDashed);
+		line->Draw();
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PmuRangeResoCanvas->SaveAs(PlotPath+"PmuRangeResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete PmuRangeResoCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Pp Range
+
+		TH1D* hPpRangeReso = new TH1D("hPpRangeReso",";(Reco-True) P_{p} Range [GeV/c];# Events",100,-0.2,0.2);
+		TH1D* hPpRangeResoUncali = new TH1D("hPpRangeResoUncali",";(Reco-True) P_{p} Range [GeV/c];# Events",100,-0.2,0.2);
+
+		tree->Draw("(CandidateP_P_Range_Recalibrate-True_CandidateP_P)>>hPpRangeReso",qualifier,"goff");
+		tree->Draw("(CandidateP_P_Range-True_CandidateP_P)>>hPpRangeResoUncali",qualifier,"goff");
+
+		TCanvas* PpRangeResoCanvas = new TCanvas("PpRangeResoCanvas_"+Runs[WhichRun],"PpRangeResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PpRangeResoCanvas->cd();
+
+		hPpRangeReso->SetLineColor(kOrange+7);
+		hPpRangeReso->SetMarkerColor(kOrange+7);
+		hPpRangeReso->SetMarkerSize(2.);
+		hPpRangeReso->SetMarkerStyle(20);
+
+		hPpRangeResoUncali->SetLineColor(kBlack);
+		hPpRangeResoUncali->SetMarkerColor(kBlack);
+		hPpRangeResoUncali->SetMarkerSize(2.);
+		hPpRangeResoUncali->SetMarkerStyle(20);
+
+		hPpRangeResoUncali->Draw("p0 same");
+		hPpRangeReso->Draw("p0 same");
+
+		leg->Draw();
+
+		TLine* linePpRange = new TLine(0,0,0,1.05*hPpRangeResoUncali->GetMaximum());
+		linePpRange->SetLineColor(kBlack);
+		linePpRange->SetLineStyle(kDashed);
+		linePpRange->Draw();
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PpRangeResoCanvas->SaveAs(PlotPath+"PpRangeResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete PpRangeResoCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Pmu MCS
+
+		TH1D* hPmuMCSReso = new TH1D("hPmuMCSReso",";(Reco-True) P_{#mu} MCS [GeV/c];# Events",100,-1.,1.);
+		TH1D* hPmuMCSResoUncali = new TH1D("hPmuMCSResoUncali",";(Reco-True) P_{#mu} MCS [GeV/c];# Events",100,-1.,1.);
+
+		tree->Draw("(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)>>hPmuMCSReso",qualifier + " && CandidateMu_EndContainment == 0","goff");
+		tree->Draw("(CandidateMu_P_MCS-True_CandidateMu_P)>>hPmuMCSResoUncali",qualifier + " && CandidateMu_EndContainment == 0","goff");
+
+		TCanvas* PmuMCSResoCanvas = new TCanvas("PmuMCSResoCanvas_"+Runs[WhichRun],"PmuMCSResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PmuMCSResoCanvas->cd();
+
+		hPmuMCSReso->SetLineColor(kOrange+7);
+		hPmuMCSReso->SetMarkerColor(kOrange+7);
+		hPmuMCSReso->SetMarkerSize(2.);
+		hPmuMCSReso->SetMarkerStyle(20);
+
+		hPmuMCSResoUncali->SetLineColor(kBlack);
+		hPmuMCSResoUncali->SetMarkerColor(kBlack);
+		hPmuMCSResoUncali->SetMarkerSize(2.);
+		hPmuMCSResoUncali->SetMarkerStyle(20);
+
+		hPmuMCSResoUncali->Draw("p0 same");
+		hPmuMCSReso->Draw("p0 same");
+
+		leg->Draw();
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		TLine* linePmuMCS = new TLine(0,0,0,1.05*hPmuMCSResoUncali->GetMaximum());
+		linePmuMCS->SetLineColor(kBlack);
+		linePmuMCS->SetLineStyle(kDashed);
+		linePmuMCS->Draw();
+
+		PmuMCSResoCanvas->SaveAs(PlotPath+"PmuMCSResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete PmuMCSResoCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Delta AlphaT
+
+		TH1D* hDeltaAlphaTReso = new TH1D("hDeltaAlphaTReso",";(Reco-True) #delta#alpha_{T} [deg];# Events",100,-180,180);
+		TH1D* hDeltaAlphaTResoUncali = new TH1D("hDeltaAlphaTResoUncali",";(Reco-True) #delta#alpha_{T} [deg];# Events",100,-180,180);
+
+		tree->Draw("(Reco_DeltaAlphaT_Recalibrate-True_DeltaAlphaT)>>hDeltaAlphaTReso",qualifier,"goff");
+		tree->Draw("(Reco_DeltaAlphaT-True_DeltaAlphaT)>>hDeltaAlphaTResoUncali",qualifier,"goff");
+
+		TCanvas* DeltaAlphaTResoCanvas = new TCanvas("DeltaAlphaTResoCanvas_"+Runs[WhichRun],"DeltaAlphaTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaAlphaTResoCanvas->cd();
+
+		hDeltaAlphaTReso->SetLineColor(kOrange+7);
+		hDeltaAlphaTReso->SetMarkerColor(kOrange+7);
+		hDeltaAlphaTReso->SetMarkerSize(2.);
+		hDeltaAlphaTReso->SetMarkerStyle(20);
+
+		hDeltaAlphaTResoUncali->SetLineColor(kBlack);
+		hDeltaAlphaTResoUncali->SetMarkerColor(kBlack);
+		hDeltaAlphaTResoUncali->SetMarkerSize(2.);
+		hDeltaAlphaTResoUncali->SetMarkerStyle(20);
+
+		hDeltaAlphaTResoUncali->Draw("p0 same");
+		hDeltaAlphaTReso->Draw("p0 same");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		leg->Draw();
+
+		TLine* lineDeltaAlphaT = new TLine(0,0,0,1.05*hDeltaAlphaTResoUncali->GetMaximum());
+		lineDeltaAlphaT->SetLineColor(kBlack);
+		lineDeltaAlphaT->SetLineStyle(kDashed);
+		lineDeltaAlphaT->Draw();
+
+		DeltaAlphaTResoCanvas->SaveAs(PlotPath+"DeltaAlphaTResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaAlphaTResoCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Delta PT
+
+		TH1D* hDeltaPTReso = new TH1D("hDeltaPTReso",";(Reco-True) #deltap_{T} [deg];# Events",100,-0.5,0.5);
+		TH1D* hDeltaPTResoUncali = new TH1D("hDeltaPTResoUncali",";(Reco-True) #deltap_{T} [deg];# Events",100,-0.5,0.5);
+
+		tree->Draw("(Reco_Pt_Recalibrate-True_Pt)>>hDeltaPTReso",qualifier,"goff");
+		tree->Draw("(Reco_Pt-True_Pt)>>hDeltaPTResoUncali",qualifier,"goff");
+
+		TCanvas* DeltaPTResoCanvas = new TCanvas("DeltaPTResoCanvas_"+Runs[WhichRun],"DeltaPTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaPTResoCanvas->cd();
+
+		hDeltaPTReso->SetLineColor(kOrange+7);
+		hDeltaPTReso->SetMarkerColor(kOrange+7);
+		hDeltaPTReso->SetMarkerSize(2.);
+		hDeltaPTReso->SetMarkerStyle(20);
+
+		hDeltaPTResoUncali->SetLineColor(kBlack);
+		hDeltaPTResoUncali->SetMarkerColor(kBlack);
+		hDeltaPTResoUncali->SetMarkerSize(2.);
+		hDeltaPTResoUncali->SetMarkerStyle(20);
+
+		hDeltaPTResoUncali->Draw("p0 same");
+		hDeltaPTReso->Draw("p0 same");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+//		leg->Draw();
+
+		TLine* lineDeltaPT = new TLine(0,0,0,1.05*hDeltaPTResoUncali->GetMaximum());
+		lineDeltaPT->SetLineColor(kBlack);
+		lineDeltaPT->SetLineStyle(kDashed);
+		lineDeltaPT->Draw();
+
+		DeltaPTResoCanvas->SaveAs(PlotPath+"DeltaPTResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPTResoCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Delta PhiT
+
+		TH1D* hDeltaPhiTReso = new TH1D("hDeltaPhiTReso",";(Reso-True) #delta#phi_{T} [deg];# Events",100,-30,30);
+		TH1D* hDeltaPhiTResoUncali = new TH1D("hDeltaPhiTResoUncali",";(Reso-True) #delta#phi_{T} [deg];# Events",100,-30,30);
+
+		tree->Draw("(Reco_DeltaPhiT_Recalibrate-True_DeltaPhiT)>>hDeltaPhiTReso",qualifier,"goff");
+		tree->Draw("(Reco_DeltaPhiT-True_DeltaPhiT)>>hDeltaPhiTResoUncali",qualifier,"goff");
+
+		TCanvas* DeltaPhiTResoCanvas = new TCanvas("DeltaPhiTResoCanvas_"+Runs[WhichRun],"DeltaPhiTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaPhiTResoCanvas->cd();
+
+		hDeltaPhiTReso->SetLineColor(kOrange+7);
+		hDeltaPhiTReso->SetMarkerColor(kOrange+7);
+		hDeltaPhiTReso->SetMarkerSize(2.);
+		hDeltaPhiTReso->SetMarkerStyle(20);
+
+		hDeltaPhiTResoUncali->SetLineColor(kBlack);
+		hDeltaPhiTResoUncali->SetMarkerColor(kBlack);
+		hDeltaPhiTResoUncali->SetMarkerSize(2.);
+		hDeltaPhiTResoUncali->SetMarkerStyle(20);
+
+		hDeltaPhiTResoUncali->Draw("p0 same");
+		hDeltaPhiTReso->Draw("p0 same");
+
+		leg->Draw();
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		TLine* lineDeltaPhiT = new TLine(0,0,0,1.05*hDeltaPhiTResoUncali->GetMaximum());
+		lineDeltaPhiT->SetLineColor(kBlack);
+		lineDeltaPhiT->SetLineStyle(kDashed);
+		lineDeltaPhiT->Draw();
+
+		DeltaPhiTResoCanvas->SaveAs(PlotPath+"DeltaPhiTResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPhiTResoCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		TLegend* legTrunc = new TLegend(0.15,0.65,0.35,0.85);
+		legTrunc->SetTextSize(0.05);
+		legTrunc->SetTextFont(132);
+		legTrunc->SetBorderSize(0);
+
+		// 1D Muon Truncated dEdx @ RR = 0
+
+		TCanvas* MuTruncdEdxCanvas = new TCanvas("MuTruncdEdxCanvas_"+Runs[WhichRun],"MuTruncdEdxCanvas_"+Runs[WhichRun],205,34,1024,768);
+		MuTruncdEdxCanvas->cd();
+
+		int NBinsMu = 60;
+		double XmindEdxMu = 0, XmaxdEdxMu = 5;
+
+		TH1D* PlaygroundPlotPlane2Mu = new TH1D("PlaygroundPlotPlane2Mu",";#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
+		tree->Draw("CandidateMu_Plane2_LastEDep>>PlaygroundPlotPlane2Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		TH1D* PlaygroundPlotPlane1Mu = new TH1D("PlaygroundPlotPlane1Mu","#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
+		tree->Draw("CandidateMu_Plane1_LastEDep>>PlaygroundPlotPlane1Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		TH1D* PlaygroundPlotPlane0Mu = new TH1D("PlaygroundPlotPlane0Mu","#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
+		tree->Draw("CandidateMu_Plane0_LastEDep>>PlaygroundPlotPlane0Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
+
+		double MaxMu = PlaygroundPlotPlane2Mu->GetMaximum();
+		MaxMu = TMath::Max(MaxMu,PlaygroundPlotPlane0Mu->GetMaximum());
+		MaxMu = TMath::Max(MaxMu,PlaygroundPlotPlane1Mu->GetMaximum());
+
+		PlaygroundPlotPlane2Mu->SetLineWidth(3);PlaygroundPlotPlane2Mu->SetLineColor(kBlack);
+		PlaygroundPlotPlane2Mu->GetYaxis()->SetTitle("POT Normalized Events");
+		PlaygroundPlotPlane2Mu->GetYaxis()->SetRangeUser(0,1.05*MaxMu);
+		legTrunc->AddEntry(PlaygroundPlotPlane2Mu,"Plane 2","l");
+		PlaygroundPlotPlane2Mu->Draw("same");
+
+
+		PlaygroundPlotPlane1Mu->SetLineWidth(3);PlaygroundPlotPlane1Mu->SetLineColor(kBlue);
+		legTrunc->AddEntry(PlaygroundPlotPlane1Mu,"Plane 1","l");
+		PlaygroundPlotPlane1Mu->Draw("same");
+
+		PlaygroundPlotPlane0Mu->SetLineWidth(3);PlaygroundPlotPlane0Mu->SetLineColor(kOrange+7);
+		legTrunc->AddEntry(PlaygroundPlotPlane0Mu,"Plane 0","l");
+		PlaygroundPlotPlane0Mu->Draw("same");
+
+		legTrunc->Draw();
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		MuTruncdEdxCanvas->SaveAs(PlotPath+"MuTruncdEdxCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuTruncdEdxCanvas;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// 1D Proton Truncated dEdx @ RR = 0
+
+		TCanvas* PTruncdEdxCanvas = new TCanvas("PTruncdEdxCanvas_"+Runs[WhichRun],"PTruncdEdxCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PTruncdEdxCanvas->cd();
+
+		int NBinsP = 60;
+		double XmindEdxP = 0, XmaxdEdxP = 12;
+
+		TH1D* PlaygroundPlotPlane2P = new TH1D("PlaygroundPlotPlane2P",";p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
+		tree->Draw("CandidateP_Plane2_LastEDep>>PlaygroundPlotPlane2P","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		TH1D* PlaygroundPlotPlane1P = new TH1D("PlaygroundPlotPlane1P","p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
+		tree->Draw("CandidateP_Plane1_LastEDep>>PlaygroundPlotPlane1P","("+qualifierNoHitSumCut+")*POTWeight","goff");
+		TH1D* PlaygroundPlotPlane0P = new TH1D("PlaygroundPlotPlane0P","p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
+		tree->Draw("CandidateP_Plane0_LastEDep>>PlaygroundPlotPlane0P","("+qualifierNoHitSumCut+")*POTWeight","goff");
+
+		double MaxP = PlaygroundPlotPlane2P->GetMaximum();
+		MaxP = TMath::Max(MaxP,PlaygroundPlotPlane0P->GetMaximum());
+		MaxP = TMath::Max(MaxP,PlaygroundPlotPlane1P->GetMaximum());
+
+		PlaygroundPlotPlane2P->SetLineWidth(3);PlaygroundPlotPlane2P->SetLineColor(kBlack);
+		PlaygroundPlotPlane2P->GetYaxis()->SetTitle("POT Normalized Events");
+		PlaygroundPlotPlane2P->GetYaxis()->SetRangeUser(0,1.05*MaxP);
+		PlaygroundPlotPlane2P->Draw("same");
+
+		PlaygroundPlotPlane1P->SetLineWidth(3);PlaygroundPlotPlane1P->SetLineColor(kBlue);
+		PlaygroundPlotPlane1P->Draw("same");
+
+		PlaygroundPlotPlane0P->SetLineWidth(3);PlaygroundPlotPlane0P->SetLineColor(kOrange+7);
+		PlaygroundPlotPlane0P->Draw("same");
+
+		legTrunc->Draw();
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PTruncdEdxCanvas->SaveAs(PlotPath+"PTruncdEdxCanvas_"+Runs[WhichRun]+".pdf");
+		delete PTruncdEdxCanvas;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------------
@@ -926,311 +1254,6 @@ void TwoDPlots() {
 		ProtonTruncdEdxRRPlane2CanvasNoMinHitSum->SaveAs(PlotPath+"ProtonTruncdEdxRRPlane2CanvasNoMinHitSum_"+Runs[WhichRun]+".pdf");
 		delete ProtonTruncdEdxRRPlane2CanvasNoMinHitSum;
 */
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		// Resolutions
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		TLegend* leg = new TLegend(0.15,0.75,0.35,0.85);
-		leg->SetTextFont(FontStyle);
-		leg->SetTextSize(0.05);
-		leg->SetBorderSize(0);
-
-		// Pmu Range
-
-		TH1D* hPmuRangeReso = new TH1D("hPmuRangeReso",";P_{#mu} Range Resolution [%];# Events",100,-50,50);
-		TH1D* hPmuRangeResoUncali = new TH1D("hPmuRangeResoUncali",";P_{#mu} Range Resolution [%];# Events",100,-50,50);
-
-		tree->Draw("(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.>>hPmuRangeReso",qualifier + " && CandidateMu_EndContainment == 1","goff");
-		tree->Draw("(CandidateMu_P_Range-True_CandidateMu_P)/True_CandidateMu_P*100.>>hPmuRangeResoUncali",qualifier + " && CandidateMu_EndContainment == 1","goff");
-
-		TCanvas* PmuRangeResoCanvas = new TCanvas("PmuRangeResoCanvas_"+Runs[WhichRun],"PmuRangeResoCanvas_"+Runs[WhichRun],205,34,1024,768);
-		PmuRangeResoCanvas->cd();
-
-		hPmuRangeReso->SetLineColor(kBlue);
-		hPmuRangeReso->SetMarkerColor(kBlue);
-		hPmuRangeReso->SetMarkerSize(2.);
-		hPmuRangeReso->SetMarkerStyle(20);
-		hPmuRangeReso->Draw("p0");
-
-		hPmuRangeResoUncali->SetLineColor(kOrange+7);
-		hPmuRangeResoUncali->SetMarkerColor(kOrange+7);
-		hPmuRangeResoUncali->SetMarkerSize(2.);
-		hPmuRangeResoUncali->SetMarkerStyle(20);
-		hPmuRangeResoUncali->Draw("p0 same");
-
-		leg->AddEntry(hPmuRangeReso,"Calibrated","p");
-		leg->AddEntry(hPmuRangeResoUncali,"Uncalibrated","p");
-		leg->Draw();
-
-		TLine* line = new TLine(0,0,0,1.05*hPmuRangeReso->GetMaximum());
-		line->SetLineColor(kBlack);
-		line->SetLineStyle(kDashed);
-		line->Draw();
-
-		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-		PmuRangeResoCanvas->SaveAs(PlotPath+"PmuRangeResoCanvas_"+Runs[WhichRun]+".pdf");
-		delete PmuRangeResoCanvas;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		// Pp Range
-
-		TH1D* hPpRangeReso = new TH1D("hPpRangeReso",";P_{p} Range Resolution [%];# Events",100,-50,50);
-		TH1D* hPpRangeResoUncali = new TH1D("hPpRangeResoUncali",";P_{p} Range Resolution [%];# Events",100,-50,50);
-
-		tree->Draw("(CandidateP_P_Range_Recalibrate-True_CandidateP_P)/True_CandidateP_P*100.>>hPpRangeReso",qualifier,"goff");
-		tree->Draw("(CandidateP_P_Range-True_CandidateP_P)/True_CandidateP_P*100.>>hPpRangeResoUncali",qualifier,"goff");
-
-		TCanvas* PpRangeResoCanvas = new TCanvas("PpRangeResoCanvas_"+Runs[WhichRun],"PpRangeResoCanvas_"+Runs[WhichRun],205,34,1024,768);
-		PpRangeResoCanvas->cd();
-
-		hPpRangeReso->SetLineColor(kBlue);
-		hPpRangeReso->SetMarkerColor(kBlue);
-		hPpRangeReso->SetMarkerSize(2.);
-		hPpRangeReso->SetMarkerStyle(20);
-		hPpRangeReso->Draw("p0");
-
-		hPpRangeResoUncali->SetLineColor(kOrange+7);
-		hPpRangeResoUncali->SetMarkerColor(kOrange+7);
-		hPpRangeResoUncali->SetMarkerSize(2.);
-		hPpRangeResoUncali->SetMarkerStyle(20);
-		hPpRangeResoUncali->Draw("p0 same");
-
-		leg->Draw();
-
-		TLine* linePpRange = new TLine(0,0,0,1.05*hPpRangeReso->GetMaximum());
-		linePpRange->SetLineColor(kBlack);
-		linePpRange->SetLineStyle(kDashed);
-		linePpRange->Draw();
-
-		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-		PpRangeResoCanvas->SaveAs(PlotPath+"PpRangeResoCanvas_"+Runs[WhichRun]+".pdf");
-		delete PpRangeResoCanvas;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		// Pmu MCS
-
-		TH1D* hPmuMCSReso = new TH1D("hPmuMCSReso",";P_{#mu} MCS Resolution [%];# Events",200,-100,100);
-		TH1D* hPmuMCSResoUncali = new TH1D("hPmuMCSResoUncali",";P_{#mu} MCS Resolution [%];# Events",200,-100,100);
-
-		tree->Draw("(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.>>hPmuMCSReso",qualifier + " && CandidateMu_EndContainment == 0","goff");
-		tree->Draw("(CandidateMu_P_MCS-True_CandidateMu_P)/True_CandidateMu_P*100.>>hPmuMCSResoUncali",qualifier + " && CandidateMu_EndContainment == 0","goff");
-
-		TCanvas* PmuMCSResoCanvas = new TCanvas("PmuMCSResoCanvas_"+Runs[WhichRun],"PmuMCSResoCanvas_"+Runs[WhichRun],205,34,1024,768);
-		PmuMCSResoCanvas->cd();
-
-		hPmuMCSReso->SetLineColor(kBlue);
-		hPmuMCSReso->SetMarkerColor(kBlue);
-		hPmuMCSReso->SetMarkerSize(2.);
-		hPmuMCSReso->SetMarkerStyle(20);
-		hPmuMCSReso->Draw("p0");
-
-		hPmuMCSResoUncali->SetLineColor(kOrange+7);
-		hPmuMCSResoUncali->SetMarkerColor(kOrange+7);
-		hPmuMCSResoUncali->SetMarkerSize(2.);
-		hPmuMCSResoUncali->SetMarkerStyle(20);
-		hPmuMCSResoUncali->Draw("p0 same");
-
-		leg->Draw();
-
-		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-		TLine* linePmuMCS = new TLine(0,0,0,1.05*hPmuMCSReso->GetMaximum());
-		linePmuMCS->SetLineColor(kBlack);
-		linePmuMCS->SetLineStyle(kDashed);
-		linePmuMCS->Draw();
-
-		PmuMCSResoCanvas->SaveAs(PlotPath+"PmuMCSResoCanvas_"+Runs[WhichRun]+".pdf");
-		delete PmuMCSResoCanvas;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		// Delta AlphaT
-
-		TH1D* hDeltaAlphaTReso = new TH1D("hDeltaAlphaTReso",";#delta#alpha_{T} Resolution [%];# Events",200,-100,100);
-		TH1D* hDeltaAlphaTResoUncali = new TH1D("hDeltaAlphaTResoUncali",";#delta#alpha_{T} Resolution [%];# Events",200,-100,100);
-
-		tree->Draw("(Reco_DeltaAlphaT_Recalibrate-True_DeltaAlphaT)/True_DeltaAlphaT*100.>>hDeltaAlphaTReso",qualifier,"goff");
-		tree->Draw("(Reco_DeltaAlphaT-True_DeltaAlphaT)/True_DeltaAlphaT*100.>>hDeltaAlphaTResoUncali",qualifier,"goff");
-
-		TCanvas* DeltaAlphaTResoCanvas = new TCanvas("DeltaAlphaTResoCanvas_"+Runs[WhichRun],"DeltaAlphaTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
-		DeltaAlphaTResoCanvas->cd();
-
-		hDeltaAlphaTReso->SetLineColor(kBlue);
-		hDeltaAlphaTReso->SetMarkerColor(kBlue);
-		hDeltaAlphaTReso->SetMarkerSize(2.);
-		hDeltaAlphaTReso->SetMarkerStyle(20);
-		hDeltaAlphaTReso->Draw("p0");
-
-		hDeltaAlphaTResoUncali->SetLineColor(kOrange+7);
-		hDeltaAlphaTResoUncali->SetMarkerColor(kOrange+7);
-		hDeltaAlphaTResoUncali->SetMarkerSize(2.);
-		hDeltaAlphaTResoUncali->SetMarkerStyle(20);
-		hDeltaAlphaTResoUncali->Draw("p0 same");
-
-		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-		leg->Draw();
-
-		TLine* lineDeltaAlphaT = new TLine(0,0,0,1.05*hDeltaAlphaTReso->GetMaximum());
-		lineDeltaAlphaT->SetLineColor(kBlack);
-		lineDeltaAlphaT->SetLineStyle(kDashed);
-		lineDeltaAlphaT->Draw();
-
-		DeltaAlphaTResoCanvas->SaveAs(PlotPath+"DeltaAlphaTResoCanvas_"+Runs[WhichRun]+".pdf");
-		delete DeltaAlphaTResoCanvas;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		// Delta PT
-
-		TH1D* hDeltaPTReso = new TH1D("hDeltaPTReso",";#deltap_{T} Resolution [%];# Events",200,-100,100);
-		TH1D* hDeltaPTResoUncali = new TH1D("hDeltaPTResoUncali",";#deltap_{T} Resolution [%];# Events",200,-100,100);
-
-		tree->Draw("(Reco_Pt_Recalibrate-True_Pt)/True_Pt*100.>>hDeltaPTReso",qualifier,"goff");
-		tree->Draw("(Reco_Pt-True_Pt)/True_Pt*100.>>hDeltaPTResoUncali",qualifier,"goff");
-
-		TCanvas* DeltaPTResoCanvas = new TCanvas("DeltaPTResoCanvas_"+Runs[WhichRun],"DeltaPTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
-		DeltaPTResoCanvas->cd();
-
-		hDeltaPTReso->SetLineColor(kBlue);
-		hDeltaPTReso->SetMarkerColor(kBlue);
-		hDeltaPTReso->SetMarkerSize(2.);
-		hDeltaPTReso->SetMarkerStyle(20);
-		hDeltaPTReso->Draw("p0");
-
-		hDeltaPTResoUncali->SetLineColor(kOrange+7);
-		hDeltaPTResoUncali->SetMarkerColor(kOrange+7);
-		hDeltaPTResoUncali->SetMarkerSize(2.);
-		hDeltaPTResoUncali->SetMarkerStyle(20);
-		hDeltaPTResoUncali->Draw("p0 same");
-
-		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-		leg->Draw();
-
-		TLine* lineDeltaPT = new TLine(0,0,0,1.05*hDeltaPTReso->GetMaximum());
-		lineDeltaPT->SetLineColor(kBlack);
-		lineDeltaPT->SetLineStyle(kDashed);
-		lineDeltaPT->Draw();
-
-		DeltaPTResoCanvas->SaveAs(PlotPath+"DeltaPTResoCanvas_"+Runs[WhichRun]+".pdf");
-		delete DeltaPTResoCanvas;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		// Delta PhiT
-
-		TH1D* hDeltaPhiTReso = new TH1D("hDeltaPhiTReso",";#delta#phi_{T} Resolution [%];# Events",200,-100,100);
-		TH1D* hDeltaPhiTResoUncali = new TH1D("hDeltaPhiTResoUncali",";#delta#phi_{T} Resolution [%];# Events",200,-100,100);
-
-		tree->Draw("(Reco_DeltaPhiT_Recalibrate-True_DeltaPhiT)/True_DeltaPhiT*100.>>hDeltaPhiTReso",qualifier,"goff");
-		tree->Draw("(Reco_DeltaPhiT-True_DeltaPhiT)/True_DeltaPhiT*100.>>hDeltaPhiTResoUncali",qualifier,"goff");
-
-		TCanvas* DeltaPhiTResoCanvas = new TCanvas("DeltaPhiTResoCanvas_"+Runs[WhichRun],"DeltaPhiTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
-		DeltaPhiTResoCanvas->cd();
-
-		hDeltaPhiTReso->SetLineColor(kBlue);
-		hDeltaPhiTReso->SetMarkerColor(kBlue);
-		hDeltaPhiTReso->SetMarkerSize(2.);
-		hDeltaPhiTReso->SetMarkerStyle(20);
-		hDeltaPhiTReso->Draw("p0");
-
-		hDeltaPhiTResoUncali->SetLineColor(kOrange+7);
-		hDeltaPhiTResoUncali->SetMarkerColor(kOrange+7);
-		hDeltaPhiTResoUncali->SetMarkerSize(2.);
-		hDeltaPhiTResoUncali->SetMarkerStyle(20);
-		hDeltaPhiTResoUncali->Draw("p0 same");
-
-		leg->Draw();
-
-		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-		TLine* lineDeltaPhiT = new TLine(0,0,0,1.05*hDeltaPhiTReso->GetMaximum());
-		lineDeltaPhiT->SetLineColor(kBlack);
-		lineDeltaPhiT->SetLineStyle(kDashed);
-		lineDeltaPhiT->Draw();
-
-		DeltaPhiTResoCanvas->SaveAs(PlotPath+"DeltaPhiTResoCanvas_"+Runs[WhichRun]+".pdf");
-		delete DeltaPhiTResoCanvas;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		TLegend* legTrunc = new TLegend(0.15,0.65,0.35,0.85);
-		legTrunc->SetTextSize(0.05);
-		legTrunc->SetTextFont(132);
-		legTrunc->SetBorderSize(0);
-
-		// 1D Muon Truncated dEdx @ RR = 0
-
-		TCanvas* MuTruncdEdxCanvas = new TCanvas("MuTruncdEdxCanvas_"+Runs[WhichRun],"MuTruncdEdxCanvas_"+Runs[WhichRun],205,34,1024,768);
-		MuTruncdEdxCanvas->cd();
-
-		int NBinsMu = 60;
-		double XmindEdxMu = 0, XmaxdEdxMu = 5;
-
-		TH1D* PlaygroundPlotPlane2Mu = new TH1D("PlaygroundPlotPlane2Mu",";#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
-		tree->Draw("CandidateMu_Plane2_LastEDep>>PlaygroundPlotPlane2Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
-		PlaygroundPlotPlane2Mu->SetLineWidth(3);PlaygroundPlotPlane2Mu->SetLineColor(kBlack);
-		PlaygroundPlotPlane2Mu->GetYaxis()->SetTitle("POT Normalized Events");
-		PlaygroundPlotPlane2Mu->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotPlane2Mu->GetMaximum());
-		legTrunc->AddEntry(PlaygroundPlotPlane2Mu,"Plane 2","l");
-		PlaygroundPlotPlane2Mu->Draw("same");
-
-		TH1D* PlaygroundPlotPlane1Mu = new TH1D("PlaygroundPlotPlane1Mu","#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
-		tree->Draw("CandidateMu_Plane1_LastEDep>>PlaygroundPlotPlane1Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
-		PlaygroundPlotPlane1Mu->SetLineWidth(3);PlaygroundPlotPlane1Mu->SetLineColor(kBlue);
-		legTrunc->AddEntry(PlaygroundPlotPlane1Mu,"Plane 1","l");
-		PlaygroundPlotPlane1Mu->Draw("same");
-
-		TH1D* PlaygroundPlotPlane0Mu = new TH1D("PlaygroundPlotPlane0Mu","#mu Trunc dEdx @ RR = 0 [MeV/cm]",NBinsMu,XmindEdxMu,XmaxdEdxMu);
-		tree->Draw("CandidateMu_Plane0_LastEDep>>PlaygroundPlotPlane0Mu","("+qualifierNoHitSumCut+")*POTWeight","goff");
-		PlaygroundPlotPlane0Mu->SetLineWidth(3);PlaygroundPlotPlane0Mu->SetLineColor(kOrange+7);
-		legTrunc->AddEntry(PlaygroundPlotPlane0Mu,"Plane 0","l");
-		PlaygroundPlotPlane0Mu->Draw("same");
-
-		legTrunc->Draw();
-
-		MuTruncdEdxCanvas->SaveAs(PlotPath+"MuTruncdEdxCanvas_"+Runs[WhichRun]+".pdf");
-		delete MuTruncdEdxCanvas;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------------
-
-		// 1D Proton Truncated dEdx @ RR = 0
-
-		TCanvas* PTruncdEdxCanvas = new TCanvas("PTruncdEdxCanvas_"+Runs[WhichRun],"PTruncdEdxCanvas_"+Runs[WhichRun],205,34,1024,768);
-		PTruncdEdxCanvas->cd();
-
-		int NBinsP = 60;
-		double XmindEdxP = 0, XmaxdEdxP = 12;
-
-		TH1D* PlaygroundPlotPlane2P = new TH1D("PlaygroundPlotPlane2P",";p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
-		tree->Draw("CandidateP_Plane2_LastEDep>>PlaygroundPlotPlane2P","("+qualifierNoHitSumCut+")*POTWeight","goff");
-		PlaygroundPlotPlane2P->SetLineWidth(3);PlaygroundPlotPlane2P->SetLineColor(kBlack);
-		PlaygroundPlotPlane2P->GetYaxis()->SetTitle("POT Normalized Events");
-		PlaygroundPlotPlane2P->GetYaxis()->SetRangeUser(0,1.05*PlaygroundPlotPlane2P->GetMaximum());
-		PlaygroundPlotPlane2P->Draw("same");
-
-		TH1D* PlaygroundPlotPlane1P = new TH1D("PlaygroundPlotPlane1P","p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
-		tree->Draw("CandidateP_Plane1_LastEDep>>PlaygroundPlotPlane1P","("+qualifierNoHitSumCut+")*POTWeight","goff");
-		PlaygroundPlotPlane1P->SetLineWidth(3);PlaygroundPlotPlane1P->SetLineColor(kBlue);
-		PlaygroundPlotPlane1P->Draw("same");
-
-		TH1D* PlaygroundPlotPlane0P = new TH1D("PlaygroundPlotPlane0P","p Trunc dEdx @ RR = 0 [MeV/cm]",NBinsP,XmindEdxP,XmaxdEdxP);
-		tree->Draw("CandidateP_Plane0_LastEDep>>PlaygroundPlotPlane0P","("+qualifierNoHitSumCut+")*POTWeight","goff");
-		PlaygroundPlotPlane0P->SetLineWidth(3);PlaygroundPlotPlane0P->SetLineColor(kOrange+7);
-		PlaygroundPlotPlane0P->Draw("same");
-
-		legTrunc->Draw();
-
-		PTruncdEdxCanvas->SaveAs(PlotPath+"PTruncdEdxCanvas_"+Runs[WhichRun]+".pdf");
-		delete PTruncdEdxCanvas;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 

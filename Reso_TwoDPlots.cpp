@@ -594,17 +594,21 @@ void Reso_TwoDPlots() {
 ////		tree->Draw("Reco_DeltaAlphaT_Recalibrate:True_DeltaAlphaT>>PlaygroundPlot",qualifier,"goff");
 //		tree->Draw("Reco_DeltaAlphaT:True_DeltaAlphaT>>PlaygroundPlot",qualifier + " && TMath::Abs(Reco_DeltaPhi-180) > 5","goff");
 
-		TString Qualifier = qualifier + " && Reco_DeltaAlphaT < 25";
+		TString Qualifier = qualifier + " && CandidateMu_EndContainment == 0";
+//		TString Qualifier = qualifier + " && Reco_DeltaAlphaT < 25";
 //		TString Qualifier = qualifier + " && Reco_DeltaAlphaT < 40 && True_DeltaAlphaT < 40";
 //		TString Qualifier = qualifier + " && Reco_DeltaAlphaT > 140 && True_DeltaAlphaT < 40";
 
 //		TString Qualifier = qualifier;
 
 		//TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";#delta#theta_{#mu,p};#delta#phi_{#mu,p}",90,0.,180.,180,0.,360.);
-		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#delta#alpha_{T} Reco - True [deg];#Events",80,-50.,50.);
+//		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot",";#delta#alpha_{T} Reco - True [deg];#Events",80,-50.,50.);
+//		TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";#delta#alpha_{T} [deg]; Recalibrate #delta#alpha_{T} [deg]",90,0.,180.,90,0.,180.);
+		TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";P_{#mu}^{MCS} [GeV/c]; Recalibrate P_{#mu}^{MCS} [GeV/c]",50,0.1,1.4,50,0.1,1.4);
 
-
-		tree->Draw("Reco_DeltaAlphaT-True_DeltaAlphaT>>PlaygroundPlot",Qualifier,"goff");
+		tree->Draw("CandidateMu_P_MCS_Recalibrate:CandidateMu_P_MCS>>PlaygroundPlot",qualifier,"goff");
+//		tree->Draw("Reco_DeltaAlphaT_Recalibrate:True_DeltaAlphaT>>PlaygroundPlot",qualifier,"goff");
+//		tree->Draw("Reco_DeltaAlphaT-True_DeltaAlphaT>>PlaygroundPlot",Qualifier,"goff");
 
 //		TH2D* PlaygroundPlot = new TH2D("PlaygroundPlot",";#theta_{#mu};#delta#phi_{#mu,p}",90,0.,180.,180,0.,360.);
 //		tree->Draw("Reco_DeltaPhi:CandidateMu_Theta*180/TMath::Pi()>>PlaygroundPlot",Qualifier,"goff");
