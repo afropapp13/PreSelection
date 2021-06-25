@@ -48,11 +48,15 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 	TString Run = "";
 
-	if (string(OutputFile->GetName()).find("Run1") != std::string::npos) { Run = "Run1"; }
-	if (string(OutputFile->GetName()).find("Run2") != std::string::npos) { Run = "Run2"; }
-	if (string(OutputFile->GetName()).find("Run3") != std::string::npos) { Run = "Run3"; }
-	if (string(OutputFile->GetName()).find("Run4") != std::string::npos) { Run = "Run4"; }
-	if (string(OutputFile->GetName()).find("Run5") != std::string::npos) { Run = "Run5"; }
+	if (StorePlots) {
+
+		if (OutputFile != nullptr && string(OutputFile->GetName()).find("Run1") != std::string::npos) { Run = "Run1"; }
+		if (OutputFile != nullptr && string(OutputFile->GetName()).find("Run2") != std::string::npos) { Run = "Run2"; }
+		if (OutputFile != nullptr && string(OutputFile->GetName()).find("Run3") != std::string::npos) { Run = "Run3"; }
+		if (OutputFile != nullptr && string(OutputFile->GetName()).find("Run4") != std::string::npos) { Run = "Run4"; }
+		if (OutputFile != nullptr && string(OutputFile->GetName()).find("Run5") != std::string::npos) { Run = "Run5"; }
+
+	}
 
 	// --------------------------------------------------------------------------------------------------
 
@@ -65,7 +69,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	double FitMin = -20., FitMax = 20.;
 
 	TString ResoAxisLabel = "";	
-	TString ResoRatio = "";	
+	TString ResoRatio = "", RecaliResoRatio = "";	
 	double ResoFitMin = -10., ResoFitMax = 10.;
 	double ResoRangeMin = -20., ResoRangeMax = 20.;
 
@@ -78,7 +82,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		NBinsReso = 8;
 		ResoAxisLabel = ";P_{p} Range resolution [%];# Events;"; 
 		ResoRatio = "(CandidateP_P_Range-True_CandidateP_P)/True_CandidateP_P*100.";
-		// RecaliReso = "(CandidateP_P_Range_Recalibrate-True_CandidateP_P)/True_CandidateP_P*100.";
+		RecaliResoRatio = "(CandidateP_P_Range_Recalibrate-True_CandidateP_P)/True_CandidateP_P*100.";
 		AxisLabel = ";P_{p} Range Difference [GeV/c];# Events;"; 
 		Reso = "(CandidateP_P_Range-True_CandidateP_P)";
 		RecaliReso = "(CandidateP_P_Range_Recalibrate-True_CandidateP_P)";		
@@ -145,7 +149,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		NBinsReso = 6;
 		ResoAxisLabel = ";P_{#mu} Range resolution [%];# Events;"; 
 		ResoRatio = "(CandidateMu_P_Range-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		// RecaliReso = "(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
+		RecaliResoRatio = "(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
 		AxisLabel = ";P_{#mu} Range Difference [GeV/c];# Events;"; 
 		Reso = "(CandidateMu_P_Range-True_CandidateMu_P)";
 		RecaliReso = "(CandidateMu_P_Range_Recalibrate-True_CandidateMu_P)";		
@@ -164,7 +168,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		NBinsReso = 9;
 		ResoAxisLabel = ";P_{#mu} MCS resolution [%];# Events;"; 
 		ResoRatio = "(CandidateMu_P_MCS-True_CandidateMu_P)/True_CandidateMu_P*100.";
-		// RecaliReso = "(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
+		RecaliResoRatio = "(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)/True_CandidateMu_P*100.";
 		AxisLabel = ";P_{#mu} MCS Difference [GeV/c];# Events;"; 
 		Reso = "(CandidateMu_P_MCS-True_CandidateMu_P)";
 		RecaliReso = "(CandidateMu_P_MCS_Recalibrate-True_CandidateMu_P)";		
@@ -297,10 +301,10 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	double RecaliMeanErrorArray[NBinsReso]; memset( RecaliMeanErrorArray, 0, NBinsReso * sizeof(double) );
 	double RecaliSigmaErrorArray[NBinsReso]; memset( RecaliSigmaErrorArray, 0, NBinsReso * sizeof(double) );
 
-//	double ResoRecaliMeanArray[NBinsReso]; memset( ResoRecaliMeanArray, 0, NBinsReso * sizeof(double) );
-//	double ResoRecaliSigmaArray[NBinsReso]; memset( ResoRecaliSigmaArray, 0, NBinsReso * sizeof(double) );
-//	double ResoRecaliMeanErrorArray[NBinsReso]; memset( ResoRecaliMeanErrorArray, 0, NBinsReso * sizeof(double) );
-//	double ResoRecaliSigmaErrorArray[NBinsReso]; memset( ResoRecaliSigmaErrorArray, 0, NBinsReso * sizeof(double) );
+	double ResoRecaliMeanArray[NBinsReso]; memset( ResoRecaliMeanArray, 0, NBinsReso * sizeof(double) );
+	double ResoRecaliSigmaArray[NBinsReso]; memset( ResoRecaliSigmaArray, 0, NBinsReso * sizeof(double) );
+	double ResoRecaliMeanErrorArray[NBinsReso]; memset( ResoRecaliMeanErrorArray, 0, NBinsReso * sizeof(double) );
+	double ResoRecaliSigmaErrorArray[NBinsReso]; memset( ResoRecaliSigmaErrorArray, 0, NBinsReso * sizeof(double) );
 
 	// --------------------------------------------------------------------------------------------------
 
@@ -308,7 +312,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	TH1D* RecaliPlaygroundPlots[NBinsReso];
 
 	TH1D* ResoPlaygroundPlots[NBinsReso];
-//	TH1D* ResoRecaliPlaygroundPlots[NBinsReso];
+	TH1D* ResoRecaliPlaygroundPlots[NBinsReso];
 
 	if (XVar == "CandidateMu_P_Range") { qualifier = qualifier + " && CandidateMu_EndContainment == 1"; }
 	if (XVar == "CandidateMu_P_MCS") { qualifier = qualifier + " && CandidateMu_EndContainment == 0"; }
@@ -322,8 +326,8 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 		TString ResoPlotName = XVar+"_ResoPlaygroundPlot_"+to_string_with_precision(i);
 		ResoPlaygroundPlots[i] = new TH1D(ResoPlotName,ResoAxisLabel,NBins,ResoRangeMin,ResoRangeMax);
-//		TString ResoRecaliPlotName = XVar+"_ResoRecaliPlaygroundPlot_"+to_string_with_precision(i);
-//		ResoRecaliPlaygroundPlots[i] = new TH1D(ResoRecaliPlotName,ResoAxisLabel,NBins,ResoRangeMin,ResoRangeMax);
+		TString ResoRecaliPlotName = XVar+"_ResoRecaliPlaygroundPlot_"+to_string_with_precision(i);
+		ResoRecaliPlaygroundPlots[i] = new TH1D(ResoRecaliPlotName,ResoAxisLabel,NBins,ResoRangeMin,ResoRangeMax);
 
 		TString LowThres = to_string_with_precision(Xmin + i * Step);
 		TString LowCut  = XVar + " > " + LowThres ;
@@ -337,7 +341,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		if (ResoAxisLabel != "") {
 
 			tree->Draw(ResoRatio+">>"+ResoPlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
-	//		tree->Draw(RecaliResoRatio+">>"+ResoRecaliPlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
+			tree->Draw(RecaliResoRatio+">>"+ResoRecaliPlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
 
 		}
 
@@ -357,7 +361,15 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		double sigmaReso = -99.;
 		double meanErrorReso = -99.;
 		double sigmaErrorReso = -99.;
+
+		double meanCaliReso = -99.;
+		double sigmaCaliReso = -99.;
+		double meanErrorCaliReso = -99.;
+		double sigmaErrorCaliReso = -99.;
+
 		TF1* fReso = new TF1("fReso","gaus",ResoFitMin,ResoFitMax);
+		TF1* fResoCali = new TF1("fResoCali","gaus",ResoFitMin,ResoFitMax);
+
 		if (ResoAxisLabel != "") {
 	
 			ResoPlaygroundPlots[i]->Fit(fReso,"RQ0");
@@ -366,6 +378,13 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 			sigmaReso = fReso->GetParameter(2);
 			meanErrorReso = fReso->GetParError(1);
 			sigmaErrorReso = fReso->GetParError(2);
+
+			ResoRecaliPlaygroundPlots[i]->Fit(fResoCali,"RQ0");
+
+			meanCaliReso = fResoCali->GetParameter(1);
+			sigmaCaliReso = fResoCali->GetParameter(2);
+			meanErrorCaliReso = fResoCali->GetParError(1);
+			sigmaErrorCaliReso = fResoCali->GetParError(2);
 
 		}
 
@@ -399,7 +418,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 		if (StorePlots) {
 
-			TString CanvasName = to_string_with_precision(i+1)+"_"+XVar+"_OverlayCanvas"+Run;
+			TString CanvasName = TString(std::to_string(int(i+1)))+"_"+XVar+"_OverlayCanvas"+Run;
 			TCanvas* OverlayCanvas = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
 			OverlayCanvas->SetLeftMargin(0.1);
 
@@ -444,6 +463,51 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 			OverlayCanvas->SaveAs(PlotPath+XVar+"_Between_" + TString(std::to_string(i)) + "_" + TString(std::to_string(i+1)) + "_" + Run+".pdf");
 			delete OverlayCanvas;
 
+			// ----------------------------------------------------------------------------------------------------------------------------------------
+
+			if (ResoAxisLabel != "") {
+
+				TString ResoCanvasName = TString(std::to_string(int(i+1)))+"_"+XVar+"_ResoOverlayCanvas"+Run;
+				TCanvas* ResoOverlayCanvas = new TCanvas(ResoCanvasName,ResoCanvasName,205,34,1024,768);
+				ResoOverlayCanvas->SetLeftMargin(0.1);
+
+				ResoPlaygroundPlots[i]->SetLineColor(kBlack);
+				ResoPlaygroundPlots[i]->SetMarkerColor(kBlack);
+				ResoPlaygroundPlots[i]->SetMarkerStyle(20);
+				ResoPlaygroundPlots[i]->SetMarkerSize(2.);
+				ResoPlaygroundPlots[i]->SetLineWidth(3);
+				ResoPlaygroundPlots[i]->GetYaxis()->SetTitleOffset(1.1);
+				ResoPlaygroundPlots[i]->Draw("p0 same");
+
+				ResoRecaliPlaygroundPlots[i]->SetLineColor(kOrange+7);
+				ResoRecaliPlaygroundPlots[i]->SetMarkerColor(kOrange+7);
+				ResoRecaliPlaygroundPlots[i]->SetMarkerStyle(20);
+				ResoRecaliPlaygroundPlots[i]->SetMarkerSize(2.);
+				ResoRecaliPlaygroundPlots[i]->SetLineWidth(3);
+				ResoRecaliPlaygroundPlots[i]->Draw("p0 same");
+
+				leg->Draw();
+
+				TLine* lineReso = new TLine(0,0,0,1.05*ResoPlaygroundPlots[i]->GetMaximum());
+				lineReso->SetLineColor(kBlack);
+				lineReso->SetLineStyle(kDashed);
+				lineReso->Draw();
+
+				TLegend* legCaliReso = new TLegend(0.55,0.82,0.7,0.89);
+				legCaliReso->SetTextSize(0.04);
+				legCaliReso->SetTextFont(132);
+				legCaliReso->SetBorderSize(0);
+
+				legCaliReso->AddEntry(ResoRecaliPlaygroundPlots[i],"Calibrated, #mu = " + to_string_with_precision(meanCaliReso),"p");
+				legCaliReso->AddEntry(ResoPlaygroundPlots[i],"Uncalibrated, #mu = " + to_string_with_precision(meanReso),"p");
+				legCaliReso->Draw();
+
+				ResoOverlayCanvas->SaveAs(PlotPath+"Reso"+XVar+"_Between_" + TString(std::to_string(i)) + "_" + TString(std::to_string(i+1)) + "_" + Run+".pdf");
+				delete ResoOverlayCanvas;
+
+			}
+
+
 		}
 
 		BinArray[i] = Xmin + (i+0.5) * Step;
@@ -464,10 +528,10 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		ResoMeanErrorArray[i] = meanErrorReso;
 		ResoSigmaErrorArray[i] = sigmaErrorReso;
 
-//		ResoRecaliMeanArray[i] = meanCaliReso;
-//		ResoRecaliSigmaArray[i] = sigmaCaliReso;
-//		ResoRecaliMeanErrorArray[i] = meanErrorCaliReso;
-//		ResoRecaliSigmaErrorArray[i] = sigmaErrorCaliReso;
+		ResoRecaliMeanArray[i] = meanCaliReso;
+		ResoRecaliSigmaArray[i] = sigmaCaliReso;
+		ResoRecaliMeanErrorArray[i] = meanErrorCaliReso;
+		ResoRecaliSigmaErrorArray[i] = sigmaErrorCaliReso;
 
 	} // End of the loop over the slices
 
@@ -477,29 +541,26 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	graphMean->GetXaxis()->SetTitle("Reco " + XVarLabel);
 	graphMean->GetYaxis()->SetTitle("Mean Value " + Units);
 	graphMean->SetTitle("");
-	OutputFile->cd();
-	graphMean->Write("Mean_"+XVar);
+	if (!StorePlots) { OutputFile->cd(); graphMean->Write("Mean_"+XVar); }
 
 	TGraphErrors* RecaligraphMean = new TGraphErrors(NBinsReso,BinArray,RecaliMeanArray,BinArrayError,RecaliMeanErrorArray);
 	RecaligraphMean->GetXaxis()->SetTitle("Reco " + XVarLabel);
 	RecaligraphMean->GetYaxis()->SetTitle("Mean Value " + Units);
 	RecaligraphMean->SetTitle("");
-	OutputFile->cd();
-	RecaligraphMean->Write("RecaliMean_"+XVar);
+	if (!StorePlots) { OutputFile->cd(); RecaligraphMean->Write("RecaliMean_"+XVar); }
 
 	TGraphErrors* graphSigma = new TGraphErrors(NBinsReso,BinArray,SigmaArray,BinArrayError,SigmaErrorArray);
 	graphSigma->GetXaxis()->SetTitle("Reco " + XVarLabel);
 	graphSigma->GetYaxis()->SetTitle("#sigma Value " + Units);
 	graphSigma->SetTitle("");
-	OutputFile->cd();
-	graphSigma->Write("Sigma_"+XVar);
+	if (!StorePlots) { OutputFile->cd(); graphSigma->Write("Sigma_"+XVar); }
 
 //	TGraphErrors* RecaligraphSigma = new TGraphErrors(NBinsReso,BinArray,RecaliSigmaArray,BinArrayError,RecaliSigmaErrorArray);
 //	RecaligraphSigma->GetXaxis()->SetTitle("Reco " + XVarLabel);
 //	RecaligraphSigma->GetYaxis()->SetTitle("#sigma Value " + Units);
 //	RecaligraphSigma->SetTitle("");
 //	OutputFile->cd();
-//	RecaligraphSigma->Write("RecaliSigma_"+XVar);
+//	if (!StorePlots) { RecaligraphSigma->Write("RecaliSigma_"+XVar); }
 
 	if (StorePlots) {
 
@@ -589,6 +650,15 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 			graphMeanReso->Draw("ap0");
 
+			TGraphErrors* graphRecaliMeanReso = new TGraphErrors(NBinsReso,BinArray,ResoRecaliMeanArray,BinArrayError,ResoRecaliMeanErrorArray);
+			graphRecaliMeanReso->SetLineColor(kOrange+7);
+			graphRecaliMeanReso->SetMarkerColor(kOrange+7);
+			graphRecaliMeanReso->SetMarkerStyle(20);
+			graphRecaliMeanReso->SetMarkerSize(2.);
+			graphRecaliMeanReso->SetLineWidth(3);
+
+			graphRecaliMeanReso->Draw("p0");
+
 			ResoMeanOverlayCanvas->SaveAs(PlotPath+"ResoMean_"+XVar+Run+".pdf");
 			delete ResoMeanOverlayCanvas;
 
@@ -629,8 +699,18 @@ void CreateSplines(TString Sample, bool StorePlots = false) {
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
 	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/Splines_"+Sample+"_"+UBCodeVersion+".root";
-	TFile* OutputFile = new TFile(FileName,"recreate");
-	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
+	TFile* OutputFile = nullptr;
+
+	if (!StorePlots) {
+
+		OutputFile = new TFile(FileName,"recreate");
+		std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
+
+	} else {
+
+		OutputFile = new TFile(FileName,"readonly");
+		std::cout << std::endl << "File " << FileName << " to be ONLY read"<< std::endl << std::endl;
+	}
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -651,11 +731,12 @@ void CreateSplines(TString Sample, bool StorePlots = false) {
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
-	OutputFile->Close();
+	if (!StorePlots) { OutputFile->Close(); }
+
 	delete tree;
 	OverlayFile->Close();
 
-	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
+	if (!StorePlots) { std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl; }
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 	// ---------------------------------------------------------------------------------------------------------------------------------------
