@@ -63,7 +63,7 @@ void Playground() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+"_10k.root","readonly");
+		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ void Playground() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------------
-
+/*
 //		TString Xvar = "CandidateMu_CosTheta"; double Xmin = -1.; double Xmax = 1.;
 //		TString Xvar = "CandidateP_CosTheta"; double Xmin = -1.; double Xmax = 1.;
 //		TString Xvar = "CandidateMu_Phi"; double Xmin = -180.; double Xmax = 180.;
@@ -148,7 +148,7 @@ void Playground() {
 		PrettyPlot(PlaygroundPlotUnFlipped,kBlue);
 		leg->AddEntry(PlaygroundPlotUnFlipped,"Not Flipped");
 
-
+*/
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 /*
@@ -316,6 +316,9 @@ void Playground() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// ---------------------------------------------------------------------------------------------------------------------------------------
+
+		TH1D* PlaygroundPlot = new TH1D("PlaygroundPlot","nue",2,0,2);
+		tree->Draw("nue>>PlaygroundPlot",qualifier);
 
 	} // End of the loop over the runs
 

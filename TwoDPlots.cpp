@@ -334,6 +334,23 @@ void TwoDPlots() {
 
 		// --------------------------------------------------------------------------------------------------------
 
+		// Q2
+
+		TH2D* hQ2 = new TH2D("hQ2",";True Q^{2} [GeV^{2}/c^{2}];Reco Q^{2} [GeV^{2}/c^{2}]",100,0.,1.,100,0.,1.);
+
+		tree->Draw("Reco_Q2_Recalibrate:True_Q2>>hQ2",qualifier,"goff");
+
+		TCanvas* Q2Canvas = new TCanvas("Q2Canvas_"+Runs[WhichRun],"Q2Canvas_"+Runs[WhichRun],205,34,1024,768);
+		Q2Canvas->cd();
+		hQ2->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		Q2Canvas->SaveAs(PlotPath+"Q2Canvas_"+Runs[WhichRun]+".pdf");
+		delete Q2Canvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
 		// DeltaPhi
 
 		TH2D* hDeltaPhi = new TH2D("hDeltaPhi",";True #delta#phi_{#mu,p} [deg];Reco #delta#phi_{#mu,p} [deg]",360,0,360,360,0,360);

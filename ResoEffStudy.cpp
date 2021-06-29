@@ -215,7 +215,7 @@ void PrettyPlot(TH1D* h, int Color) {
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
-void PrintCanvas(TString Run, TString Var, TTree* t, TString Slice) {
+void ProtonPrintCanvas(TString Run, TString Var, TTree* t, TString Slice) {
 
 	// ---------------------------------------------------------------------------------------------
 
@@ -244,13 +244,121 @@ void PrintCanvas(TString Run, TString Var, TTree* t, TString Slice) {
 
 	if (Slice == "AllDeltaAlphaT") { Label = "All"; Cut = Var + " > " + TString(std::to_string(ArrayNBinsDeltaAlphaT[0])) + " && " + Var + " < " + TString(std::to_string(ArrayNBinsDeltaAlphaT[NBinsDeltaAlphaT])); }
 	if (Slice == "LowDeltaAlphaT") { Label = "0 < #delta#alpha_{T} < 30 [deg]"; Cut = Var + " > 0 && " + Var + " < 50"; }
-	if (Slice == "MidDeltaAlphaT") { Label = "30 < #delta#alpha_{T} < 150 [deg]"; Cut = Var + " > 50 && " + Var + " < 130"; }
-	if (Slice == "HighDeltaAlphaT") { Label = "150 < #delta#alpha_{T} < 180 [deg]"; Cut = Var + " > 130 && " + Var + " < 180"; }
+	if (Slice == "MidDeltaAlphaT") { Label = "30 < #delta#alpha_{T} < 130 [deg]"; Cut = Var + " > 50 && " + Var + " < 130"; }
+	if (Slice == "HighDeltaAlphaT") { Label = "130 < #delta#alpha_{T} < 180 [deg]"; Cut = Var + " > 130 && " + Var + " < 180"; }
 
 	if (Slice == "AllDeltaPhiT") { Label = "All"; Cut = Var + " > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && " + Var + " < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT])); }
 	if (Slice == "LowDeltaPhiT") { Label = "0 < #delta#phi_{T} < 30 [deg]"; Cut = Var + " > 0 && " + Var + " < 30"; }
-	if (Slice == "MidDeltaPhiT") { Label = "30 < #delta#phi_{T} < 150 [deg]"; Cut = Var + " > 30 && " + Var + " < 60"; }
-	if (Slice == "HighDeltaPhiT") { Label = "150 < #delta#phi_{T} < 180 [deg]"; Cut = Var + " > 60 && " + Var + " < 180"; }
+	if (Slice == "MidDeltaPhiT") { Label = "30 < #delta#phi_{T} < 60 [deg]"; Cut = Var + " > 30 && " + Var + " < 60"; }
+	if (Slice == "HighDeltaPhiT") { Label = "60 < #delta#phi_{T} < 180 [deg]"; Cut = Var + " > 60 && " + Var + " < 180"; }
+
+	// ---------------------------------------------------------------------------------------------
+
+	int NBins = -99; double Xmin = -99., Xmax = -99.; TString XLabel = "blah"; TString TrueVar = "true blah";
+
+	if (string(Var).find("Pt") != std::string::npos) 
+		{ NBins = 30; Xmin = -0.85; Xmax = 0.85; XLabel = "#delta p_{T} [GeV/c]"; TrueVar = "True_Pt"; }
+	if (string(Var).find("DeltaAlphaT") != std::string::npos) 
+		{ NBins = 30; Xmin = -180; Xmax = 180.; XLabel = "#delta#alpha_{T} [deg]"; TrueVar = "True_DeltaAlphaT"; }
+	if (string(Var).find("DeltaPhiT") != std::string::npos) 
+		{ NBins = 30; Xmin = -30; Xmax = 30.; XLabel = "#delta#phi_{T} [deg]"; TrueVar = "True_DeltaPhiT"; }
+
+	// ---------------------------------------------------------------------------------------------
+
+	const int LengthSlices = 3;
+	TString LengthArray[LengthSlices+1] = {"0.","10.","40.","1000."};
+
+	// ---------------------------------------------------------------------------------------------
+
+	TString Qualifier = qualifierNoExitMuQC + " && NuScore > " + TString(std::to_string(MinimumNuScore)) + " && CandidateP_ThreePlaneLogLikelihood > "\
+			 +  TString(std::to_string(ProtonThreePlaneChi2LogLikelihoodCut));
+
+	// ---------------------------------------------------------------------------------------------
+
+	TString Weight = "POTWeight * Weight * T2KWeight * ROOTinoWeight";
+
+	// ---------------------------------------------------------------------------------------------
+
+	TString CanvasName = Slice+Var+"DiffCanvas_"+Run;
+	TCanvas* DiffCanvas = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
+	DiffCanvas->SetBottomMargin(0.12);
+
+	TH1D* ExitShort = new TH1D(Slice + Var+"ExitShortP",";(Reco - True) " + XLabel+";",NBins,Xmin,Xmax);
+	TString ExitShortString = "CandidateP_Length>"+LengthArray[0]+" && CandidateP_Length < "+LengthArray[1];
+	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitShortP","("+Qualifier+" && " + ExitShortString +" && " + Cut + ")*"+Weight,"goff");
+	double ExitShortEvents = ExitShort->Integral();
+	PrettyPlot(ExitShort,kBlue+1);
+	ExitShort->Draw("p0 hist same");
+
+	TH1D* ExitMedium = new TH1D(Slice + Var + "ExitMediumP",";(Reco - True) " + XLabel,NBins,Xmin,Xmax);
+	TString ExitMedString = "CandidateP_Length>"+LengthArray[1]+" && CandidateP_Length < "+LengthArray[2];
+	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitMediumP","("+Qualifier+"&& " + ExitMedString +" && " + Cut + ")*"+Weight,"goff");
+	double ExitMediumEvents = ExitMedium->Integral();
+	PrettyPlot(ExitMedium,kGreen+1);
+	ExitMedium->Draw("p0 hist same");
+
+	TH1D* ExitLong = new TH1D(Slice + Var + "ExitLongP",";(Reco - True) " + XLabel,NBins,Xmin,Xmax);
+	TString ExitLongString = "CandidateP_Length>"+LengthArray[2]+" && CandidateP_Length < "+LengthArray[3];
+	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitLongP","("+Qualifier+"&& " + ExitLongString + " && " + Cut + ")*"+Weight,"goff");
+	double ExitLongEvents = ExitLong->Integral();
+	PrettyPlot(ExitLong,kOrange+7);
+	ExitLong->Draw("p0 hist same");
+
+	leg->AddEntry(ExitShort,"Exit Short [" + TString(std::to_string(int(ExitShortEvents))) + "]","p");
+	leg->AddEntry(ExitMedium,"Exit Medium [" + TString(std::to_string(int(ExitMediumEvents))) + "]","p");
+	leg->AddEntry(ExitLong,"Exit Long [" + TString(std::to_string(int(ExitLongEvents))) + "]","p");
+
+	leg->Draw();
+
+	text->DrawLatexNDC(0.15,0.8,Label);
+
+	// ---------------------------------------------------------------------------------------------
+
+	DiffCanvas->SaveAs(PlotPath+Slice+"_"+Var+"ProtonLengthContainmentStudyCanvas_"+Run+".pdf");
+	delete DiffCanvas;
+
+	// ---------------------------------------------------------------------------------------------
+
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+
+void MuonPrintCanvas(TString Run, TString Var, TTree* t, TString Slice) {
+
+	// ---------------------------------------------------------------------------------------------
+
+	TH1D::SetDefaultSumw2();
+
+	// ---------------------------------------------------------------------------------------------
+
+	TLatex *text = new TLatex();
+	text->SetTextFont(132);
+	text->SetTextSize(0.05);
+
+	TLegend* leg = new TLegend(0.02,0.91,0.98,0.99);
+	leg->SetTextSize(0.04);
+	leg->SetTextFont(132);
+	leg->SetBorderSize(0);
+	leg->SetNColumns(4);
+
+	// ---------------------------------------------------------------------------------------------
+
+	TString Label = "labelblah", Cut = "cutblah";
+
+	if (Slice == "AllPT") { Label = "All"; Cut = Var + " > " + TString(std::to_string(ArrayNBinsDeltaPT[0])) + " && " + Var + " < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT])); }
+	if (Slice == "LowPT") { Label = "0 < #deltap_{T} < 0.3 [GeV/c]"; Cut = Var + " > 0 && " + Var + " < 0.3"; }
+	if (Slice == "MidPT") { Label = "0.3 < #deltap_{T} < 0.6 [GeV/c]"; Cut = Var + " > 0.3 && " + Var + " < 0.6"; }
+	if (Slice == "HighPT") { Label = "0.6 < #deltap_{T} < 0.95 [GeV/c]"; Cut = Var + " > 0.6 && " + Var + " < " + TString(std::to_string(ArrayNBinsDeltaPT[NBinsDeltaPT])); }
+
+	if (Slice == "AllDeltaAlphaT") { Label = "All"; Cut = Var + " > " + TString(std::to_string(ArrayNBinsDeltaAlphaT[0])) + " && " + Var + " < " + TString(std::to_string(ArrayNBinsDeltaAlphaT[NBinsDeltaAlphaT])); }
+	if (Slice == "LowDeltaAlphaT") { Label = "0 < #delta#alpha_{T} < 30 [deg]"; Cut = Var + " > 0 && " + Var + " < 50"; }
+	if (Slice == "MidDeltaAlphaT") { Label = "30 < #delta#alpha_{T} < 130 [deg]"; Cut = Var + " > 50 && " + Var + " < 130"; }
+	if (Slice == "HighDeltaAlphaT") { Label = "130 < #delta#alpha_{T} < 180 [deg]"; Cut = Var + " > 130 && " + Var + " < 180"; }
+
+	if (Slice == "AllDeltaPhiT") { Label = "All"; Cut = Var + " > " + TString(std::to_string(ArrayNBinsDeltaPhiT[0])) + " && " + Var + " < " + TString(std::to_string(ArrayNBinsDeltaPhiT[NBinsDeltaPhiT])); }
+	if (Slice == "LowDeltaPhiT") { Label = "0 < #delta#phi_{T} < 30 [deg]"; Cut = Var + " > 0 && " + Var + " < 30"; }
+	if (Slice == "MidDeltaPhiT") { Label = "30 < #delta#phi_{T} < 60 [deg]"; Cut = Var + " > 30 && " + Var + " < 60"; }
+	if (Slice == "HighDeltaPhiT") { Label = "60 < #delta#phi_{T} < 180 [deg]"; Cut = Var + " > 60 && " + Var + " < 180"; }
 
 	// ---------------------------------------------------------------------------------------------
 
@@ -283,29 +391,29 @@ void PrintCanvas(TString Run, TString Var, TTree* t, TString Slice) {
 	TCanvas* DiffCanvas = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
 	DiffCanvas->SetBottomMargin(0.12);
 
-	TH1D* Contained = new TH1D(Slice + Var + "Contained",";(Reco - True) " + XLabel+";",NBins,Xmin,Xmax);
-	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "Contained","("+Qualifier+" && CandidateMu_EndContainment == 1 && " + Cut + ")*"+Weight,"goff");
+	TH1D* Contained = new TH1D(Slice + Var + "ContainedMu",";(Reco - True) " + XLabel+";",NBins,Xmin,Xmax);
+	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ContainedMu","("+Qualifier+" && CandidateMu_EndContainment == 1 && " + Cut + ")*"+Weight,"goff");
 	double ContainedEvents = Contained->Integral();
 	PrettyPlot(Contained,kBlack);
 	Contained->Draw("p0 hist");
 
-	TH1D* ExitShort = new TH1D(Slice + Var+"ExitShort",";(Reco - True) " + XLabel+";",NBins,Xmin,Xmax);
+	TH1D* ExitShort = new TH1D(Slice + Var+"ExitShortMu",";(Reco - True) " + XLabel+";",NBins,Xmin,Xmax);
 	TString ExitShortString = "CandidateMu_Length>"+LengthArray[0]+" && CandidateMu_Length < "+LengthArray[1];
-	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitShort","("+Qualifier+" && CandidateMu_EndContainment == 0 && " + ExitShortString +" && " + Cut + ")*"+Weight,"goff");
+	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitShortMu","("+Qualifier+" && CandidateMu_EndContainment == 0 && " + ExitShortString +" && " + Cut + ")*"+Weight,"goff");
 	double ExitShortEvents = ExitShort->Integral();
 	PrettyPlot(ExitShort,kBlue+1);
 	ExitShort->Draw("p0 hist same");
 
-	TH1D* ExitMedium = new TH1D(Slice + Var + "ExitMedium",";(Reco - True) " + XLabel,NBins,Xmin,Xmax);
+	TH1D* ExitMedium = new TH1D(Slice + Var + "ExitMediumMu",";(Reco - True) " + XLabel,NBins,Xmin,Xmax);
 	TString ExitMedString = "CandidateMu_Length>"+LengthArray[1]+" && CandidateMu_Length < "+LengthArray[2];
-	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitMedium","("+Qualifier+"&& CandidateMu_EndContainment == 0 && " + ExitMedString +" && " + Cut + ")*"+Weight,"goff");
+	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitMediumMu","("+Qualifier+"&& CandidateMu_EndContainment == 0 && " + ExitMedString +" && " + Cut + ")*"+Weight,"goff");
 	double ExitMediumEvents = ExitMedium->Integral();
 	PrettyPlot(ExitMedium,kGreen+1);
 	ExitMedium->Draw("p0 hist same");
 
-	TH1D* ExitLong = new TH1D(Slice + Var + "ExitLong",";(Reco - True) " + XLabel,NBins,Xmin,Xmax);
+	TH1D* ExitLong = new TH1D(Slice + Var + "ExitLongMu",";(Reco - True) " + XLabel,NBins,Xmin,Xmax);
 	TString ExitLongString = "CandidateMu_Length>"+LengthArray[2]+" && CandidateMu_Length < "+LengthArray[3];
-	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitLong","("+Qualifier+"&& CandidateMu_EndContainment == 0 && " + ExitLongString + " && " + Cut + ")*"+Weight,"goff");
+	t->Draw(Var + " - " + TrueVar + " >>" + Slice + Var + "ExitLongMu","("+Qualifier+"&& CandidateMu_EndContainment == 0 && " + ExitLongString + " && " + Cut + ")*"+Weight,"goff");
 	double ExitLongEvents = ExitLong->Integral();
 	PrettyPlot(ExitLong,kOrange+7);
 	ExitLong->Draw("p0 hist same");
@@ -355,8 +463,8 @@ void ResoEffStudy() {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
-	std::vector<TString> Runs{"Run1"};
-//	std::vector<TString> Runs{"Run1","Run3"};
+//	std::vector<TString> Runs{"Run1"};
+	std::vector<TString> Runs{"Run1","Run3"};
 //	std::vector<TString> Runs{"Run1","Run2","Run3","Run4","Run5"};
 
 	const int NRuns = Runs.size();
@@ -378,28 +486,48 @@ void ResoEffStudy() {
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// ----------------------------------------------------------------------------------------------------------------------------------------
 
-		// Reco - True diffs in slices
+		// Reco - True diffs in muon length slices
 
-		PrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"AllPT");
-		PrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"LowPT");
-		PrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"MidPT");
-		PrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"HighPT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"AllPT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"LowPT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"MidPT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"HighPT");
 
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"AllDeltaAlphaT");
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"LowDeltaAlphaT");
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"MidDeltaAlphaT");
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"HighDeltaAlphaT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"AllDeltaAlphaT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"LowDeltaAlphaT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"MidDeltaAlphaT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"HighDeltaAlphaT");
 
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"AllDeltaPhiT");
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"LowDeltaPhiT");
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"MidDeltaPhiT");
-		PrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"HighDeltaPhiT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"AllDeltaPhiT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"LowDeltaPhiT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"MidDeltaPhiT");
+		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"HighDeltaPhiT");
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Reco - True diffs in proton length slices
+
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"AllPT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"LowPT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"MidPT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_Pt_Recalibrate",tree,"HighPT");
+
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"AllDeltaAlphaT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"LowDeltaAlphaT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"MidDeltaAlphaT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaAlphaT_Recalibrate",tree,"HighDeltaAlphaT");
+
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"AllDeltaPhiT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"LowDeltaPhiT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"MidDeltaPhiT");
+		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT_Recalibrate",tree,"HighDeltaPhiT");
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// ----------------------------------------------------------------------------------------------------------------------------------------
 
 		// 1D CC1p0pi efficiencies in much finer binning than the actual one used in the analysis
-/*
+
 		EfficiencyFunction(Runs[WhichRun],"True_CandidateP_P",tree,"Proton_MCParticle_Mom",treeTruth,20,0.25,1.1);
 		EfficiencyFunction(Runs[WhichRun],"True_CandidateMu_P",tree,"Muon_MCParticle_Mom",treeTruth,20,0.1,1.4);
 
@@ -428,7 +556,7 @@ void ResoEffStudy() {
 		TwoEfficiencyFunction(Runs[WhichRun],"True_CandidateP_P","True_CandidateP_CosTheta", tree, treeTruth,15,0.25,1.1,15,-1.,1.);
 		TwoEfficiencyFunction(Runs[WhichRun],"True_CandidateP_P","True_CandidateP_Phi", tree, treeTruth,15,0.25,1.1,15,-180.,180.);
 		TwoEfficiencyFunction(Runs[WhichRun],"True_CandidateP_CosTheta","True_CandidateP_Phi", tree, treeTruth,15,-1.,1.,15,-180.,180.);
-*/
+
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 		// ---------------------------------------------------------------------------------------------------------------------------------------
 
