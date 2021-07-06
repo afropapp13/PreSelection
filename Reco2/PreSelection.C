@@ -854,6 +854,8 @@ void PreSelection::Loop() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
+		// Software trigger has to be passed
+
 		if ( EventPassedSwTrigger != 1) { continue; }
 		SWTriggerCounter++;
 
@@ -2211,7 +2213,7 @@ void PreSelection::Loop() {
 
 		// ------------------------------------------------------------------------------------------------
 
-		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 200 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
+		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 250 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
 
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0 && TruePi0Counter == 0) { fCC1p = 1; }
 		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1 && TruePi0Counter == 0) { fCC1p1pi = 1; }
