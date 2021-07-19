@@ -6,7 +6,6 @@
 #include <TVector3.h>
 #include <TLorentzVector.h>
 
-
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -14,8 +13,6 @@
 
 #include "ubana/myClasses/Tools.h"
 #include "ubana/myClasses/STV_Tools.h"
-#include "ubana/myClasses/Box_Tools.h"
-//#include "ubana/myClasses/TruncMean.h"
 
 using namespace std;
 using namespace Constants;
@@ -77,27 +74,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	std::vector<double> XSecShape_CCMEC_UBGenie;
 
 	std::vector<double> fluxes;
-//	std::vector<double> expskin_FluxUnisim;
-//	std::vector<double> horncurrent_FluxUnisim;
-//	std::vector<double> kminus_PrimaryHadronNormalization;
-//	std::vector<double> kplus_PrimaryHadronFeynmanScaling;
-//	std::vector<double> kzero_PrimaryHadronSanfordWang;
-//	std::vector<double> nucleoninexsec_FluxUnisim;
-//	std::vector<double> nucleonqexsec_FluxUnisim;
-//	std::vector<double> nucleontotxsec_FluxUnisim;
-//	std::vector<double> piminus_PrimaryHadronSWCentralSplineVariation;
-//	std::vector<double> pioninexsec_FluxUnisim;
-//	std::vector<double> pionqexsec_FluxUnisim;
-//	std::vector<double> piontotxsec_FluxUnisim;
-//	std::vector<double> piplus_PrimaryHadronSWCentralSplineVariation;
 
 	std::vector<double> reinteractions;
-//	std::vector<double> reinteractions_piminus_Geant4;
-//	std::vector<double> reinteractions_piplus_Geant4;
-//	std::vector<double> reinteractions_proton_Geant4;
-
-//	std::vector<double> xsr_scc_Fa3_SCC;
-//	std::vector<double> xsr_scc_Fv3_SCC;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -164,11 +142,13 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	
 	// STV, Energy Reconstruction & Light Cone Variables	
 
+	std::vector<double> True_A;
 	std::vector<double> True_kMiss;
 	std::vector<double> True_EMiss;
 	std::vector<double> True_PMissMinus;
 	std::vector<double> True_PMiss;	
 	std::vector<double> True_Pt;
+	std::vector<double> True_PL;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_ECal;
@@ -204,27 +184,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	tree->Branch("XSecShape_CCMEC_UBGenie", &XSecShape_CCMEC_UBGenie);
 
 	tree->Branch("fluxes", &fluxes);
-//	tree->Branch("expskin_FluxUnisim", &expskin_FluxUnisim);
-//	tree->Branch("horncurrent_FluxUnisim", &horncurrent_FluxUnisim);
-//	tree->Branch("kminus_PrimaryHadronNormalization", &kminus_PrimaryHadronNormalization);
-//	tree->Branch("kplus_PrimaryHadronFeynmanScaling", &kplus_PrimaryHadronFeynmanScaling);
-//	tree->Branch("kzero_PrimaryHadronSanfordWang", &kzero_PrimaryHadronSanfordWang);
-//	tree->Branch("nucleoninexsec_FluxUnisim", &nucleoninexsec_FluxUnisim);
-//	tree->Branch("nucleonqexsec_FluxUnisim", &nucleonqexsec_FluxUnisim);
-//	tree->Branch("nucleontotxsec_FluxUnisim", &nucleontotxsec_FluxUnisim);
-//	tree->Branch("piminus_PrimaryHadronSWCentralSplineVariation", &piminus_PrimaryHadronSWCentralSplineVariation);
-//	tree->Branch("pioninexsec_FluxUnisim", &pioninexsec_FluxUnisim);
-//	tree->Branch("pionqexsec_FluxUnisim", &pionqexsec_FluxUnisim);
-//	tree->Branch("piontotxsec_FluxUnisim", &piontotxsec_FluxUnisim);
-//	tree->Branch("piplus_PrimaryHadronSWCentralSplineVariation", &piplus_PrimaryHadronSWCentralSplineVariation);
 
 	tree->Branch("reinteractions", &reinteractions);
-//	tree->Branch("reinteractions_piminus_Geant4", &reinteractions_piminus_Geant4);
-//	tree->Branch("reinteractions_piplus_Geant4", &reinteractions_piplus_Geant4);
-//	tree->Branch("reinteractions_proton_Geant4", &reinteractions_proton_Geant4);
-
-//	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
-//	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -289,11 +250,13 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
+	tree->Branch("True_A",&True_A);
 	tree->Branch("True_kMiss",&True_kMiss);
 	tree->Branch("True_EMiss",&True_EMiss);
 	tree->Branch("True_PMissMinus",&True_PMissMinus);
 	tree->Branch("True_PMiss",&True_PMiss);
 	tree->Branch("True_Pt",&True_Pt);
+	tree->Branch("True_PL",&True_PL);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_ECal",&True_ECal);
@@ -425,22 +388,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		) {
 
 			fChain->SetBranchAddress("weights", &weights, &b_weights);
-	//		fChain->SetBranchAddress("weightsFlux", &weightsFlux, &b_weightsFlux);
-	//		fChain->SetBranchAddress("weightsGenie", &weightsGenie, &b_weightsGenie);
-	//		fChain->SetBranchAddress("weightsReint", &weightsReint, &b_weightsReint);
-	//		fChain->SetBranchAddress("weightSplineTimesTune", &weightSplineTimesTune, &b_weightSplineTimesTune);
-	//		fChain->SetBranchAddress("knobRPAup", &knobRPAup, &b_knobRPAup);
-	//		fChain->SetBranchAddress("knobRPAdn", &knobRPAdn, &b_knobRPAdn);
-	//		fChain->SetBranchAddress("knobCCMECup", &knobCCMECup, &b_knobCCMECup);
-	//		fChain->SetBranchAddress("knobCCMECdn", &knobCCMECdn, &b_knobCCMECdn);
-	//		fChain->SetBranchAddress("knobAxFFCCQEup", &knobAxFFCCQEup, &b_knobAxFFCCQEup);
-	//		fChain->SetBranchAddress("knobAxFFCCQEdn", &knobAxFFCCQEdn, &b_knobAxFFCCQEdn);
-	//		fChain->SetBranchAddress("knobVecFFCCQEup", &knobVecFFCCQEup, &b_knobVecFFCCQEup);
-	//		fChain->SetBranchAddress("knobVecFFCCQEdn", &knobVecFFCCQEdn, &b_knobVecFFCCQEdn);
-	//		fChain->SetBranchAddress("knobDecayAngMECup", &knobDecayAngMECup, &b_knobDecayAngMECup);
-	//		fChain->SetBranchAddress("knobDecayAngMECdn", &knobDecayAngMECdn, &b_knobDecayAngMECdn);
-	//		fChain->SetBranchAddress("knobThetaDelta2Npiup", &knobThetaDelta2Npiup, &b_knobThetaDelta2Npiup);
-	//		fChain->SetBranchAddress("knobThetaDelta2Npidn", &knobThetaDelta2Npidn, &b_knobThetaDelta2Npidn);
 
 		}
 
@@ -558,11 +505,13 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		
 		// -----------------------------------------------------------------------------------------------------------------------------
 
+		True_A.clear();
 		True_kMiss.clear();
 		True_EMiss.clear();
 		True_PMissMinus.clear();
 		True_PMiss.clear();		
 		True_Pt.clear();
+		True_PL.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
 		True_ECal.clear();
@@ -770,11 +719,13 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 			STV_Tools stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,Muon_TrueE_GeV,Proton_TrueE_GeV);
 
+			True_A.push_back(stv_tool.ReturnA());
 			True_kMiss.push_back(stv_tool.ReturnkMiss());
 			True_EMiss.push_back(stv_tool.ReturnEMiss());
 			True_PMissMinus.push_back(stv_tool.ReturnPMissMinus());
 			True_PMiss.push_back(stv_tool.ReturnPMiss());
 			True_Pt.push_back(stv_tool.ReturnPt());
+			True_PL.push_back(stv_tool.ReturnPL());
 			True_DeltaAlphaT.push_back(stv_tool.ReturnDeltaAlphaT());
 			True_DeltaPhiT.push_back(stv_tool.ReturnDeltaPhiT());
 			True_ECal.push_back(stv_tool.ReturnECal());
@@ -812,9 +763,9 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		
 		// --------------------------------------------------------------------------------------------------------------------------		
 
-		// True vertex containment has been established in previous continue statement
-		// Now we have to establish that we satisfy the CC1p signal definition
-		if (CC1p == 0 /*|| Muon_MCParticle_StartContainment.at(0) == 0*/ ) { continue; }
+		// Storing only true CC1p events
+
+		if (CC1p == 0) { continue; }
 		tree->Fill();
 	}
 

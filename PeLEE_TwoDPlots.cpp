@@ -222,6 +222,74 @@ void PeLEE_TwoDPlots() {
 
 		// --------------------------------------------------------------------------------------------------------
 
+		// Transverse Missing Momentum x
+
+		TH2D* hPtx = new TH2D("hPtx",";True #deltap_{T,x} [GeV/c];Reco #deltap_{T,x} [GeV/c]",160,0,0.8,160,0,0.8);
+
+		TCanvas* PtxCanvas = new TCanvas("PTxCanvas_"+Runs[WhichRun],"PTxCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PtxCanvas->cd();
+
+		tree->Draw("Reco_Ptx" + Recalibrate + ":True_Ptx>>hPtx",qualifier,"goff");
+		hPtx->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PtxCanvas->SaveAs(PlotPath+"PtxCanvas_"+Runs[WhichRun]+".pdf");
+		delete PtxCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Transverse Missing Momentum y
+
+		TH2D* hPty = new TH2D("hPty",";True #deltap_{T,y} [GeV/c];Reco #deltap_{T,y} [GeV/c]",160,0,0.8,160,0,0.8);
+
+		TCanvas* PtyCanvas = new TCanvas("PTyCanvas_"+Runs[WhichRun],"PTyCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PtyCanvas->cd();
+
+		tree->Draw("Reco_Pty" + Recalibrate + ":True_Pty>>hPty",qualifier,"goff");
+		hPty->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PtyCanvas->SaveAs(PlotPath+"PtyCanvas_"+Runs[WhichRun]+".pdf");
+		delete PtyCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Longitudinal Missing Momentum
+
+		TH2D* hPL = new TH2D("hPL",";True #deltap_{L} [GeV/c];Reco #deltap_{L} [GeV/c]",160,0,0.8,160,0,0.8);
+
+		TCanvas* PLCanvas = new TCanvas("PLCanvas_"+Runs[WhichRun],"PLCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PLCanvas->cd();
+
+		tree->Draw("Reco_PL" + Recalibrate + ":True_PL>>hPL",qualifier,"goff");
+		hPL->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PLCanvas->SaveAs(PlotPath+"PLCanvas_"+Runs[WhichRun]+".pdf");
+		delete PLCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum
+
+		TH2D* hPn = new TH2D("hPn",";True p_{n} [GeV/c];Reco p_{n} [GeV/c]",160,0,0.8,160,0,0.8);
+
+		TCanvas* PnCanvas = new TCanvas("PnCanvas_"+Runs[WhichRun],"PnCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnCanvas->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":True_Pn>>hPn",qualifier,"goff");
+		hPn->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PnCanvas->SaveAs(PlotPath+"PnCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
 		// Delta AlphaT
 
 		TH2D* hDeltaAlphaT = new TH2D("hDeltaAlphaT",";True #delta#alpha_{T} [deg];Reco #delta#alpha_{T} [deg]",90,0,180,90,0,180);
@@ -256,54 +324,71 @@ void PeLEE_TwoDPlots() {
 
 		// --------------------------------------------------------------------------------------------------------
 
-//		// kMiss
+		// A variable
 
-//		TH2D* hkMiss = new TH2D("hkMiss",";True k_{Miss} [GeV/c];Reco k_{Miss} [GeV/c]",400,0,1,400,0,1);
+		TH2D* hA = new TH2D("hA",";True A [c];Reco A [c]",400,0,1,400,0,1);
 
-//		tree->Draw("Reco_kMiss:True_kMiss>>hkMiss",qualifier,"goff");
+		tree->Draw("Reco_A:True_A>>hA",qualifier,"goff");
 
-//		TCanvas* kMissCanvas = new TCanvas("kMissCanvas_"+Runs[WhichRun],"kMissCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		kMissCanvas->cd();
-//		hkMiss->Draw("coltz");
+		TCanvas* ACanvas = new TCanvas("ACanvas_"+Runs[WhichRun],"ACanvas_"+Runs[WhichRun],205,34,1024,768);
+		ACanvas->cd();
+		hA->Draw("coltz");
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
 
-//		kMissCanvas->SaveAs(PlotPath+"kMissCanvas_"+Runs[WhichRun]+".pdf");
-//		delete kMissCanvas;
-
-		// --------------------------------------------------------------------------------------------------------
-
-//		// PMiss
-
-//		TH2D* hPMiss = new TH2D("hPMiss",";True P_{Miss} [GeV/c];Reco P_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
-
-//		tree->Draw("Reco_PMiss:True_PMiss>>hPMiss",qualifier,"goff");
-
-//		TCanvas* PMissCanvas = new TCanvas("PMissCanvas_"+Runs[WhichRun],"PMissCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		PMissCanvas->cd();
-//		hPMiss->Draw("coltz");
-
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-//		PMissCanvas->SaveAs(PlotPath+"PMissCanvas_"+Runs[WhichRun]+".pdf");
-//		delete PMissCanvas;
+		ACanvas->SaveAs(PlotPath+"ACanvas_"+Runs[WhichRun]+".pdf");
+		delete ACanvas;
 
 		// --------------------------------------------------------------------------------------------------------
 
-//		// PMissMinus
+		// kMiss
 
-//		TH2D* hPMissMinus = new TH2D("hPMissMinus",";True P^{-}_{Miss} [GeV/c];Reco P^{-}_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+		TH2D* hkMiss = new TH2D("hkMiss",";True k_{Miss} [GeV/c];Reco k_{Miss} [GeV/c]",400,0,1,400,0,1);
 
-//		tree->Draw("Reco_PMissMinus:True_PMissMinus>>hPMissMinus",qualifier,"goff");
+		tree->Draw("Reco_kMiss:True_kMiss>>hkMiss",qualifier,"goff");
 
-//		TCanvas* PMissMinusCanvas = new TCanvas("PMissMinusCanvas_"+Runs[WhichRun],"PMissMinusCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		PMissMinusCanvas->cd();
-//		hPMissMinus->Draw("coltz");
+		TCanvas* kMissCanvas = new TCanvas("kMissCanvas_"+Runs[WhichRun],"kMissCanvas_"+Runs[WhichRun],205,34,1024,768);
+		kMissCanvas->cd();
+		hkMiss->Draw("coltz");
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
 
-//		PMissMinusCanvas->SaveAs(PlotPath+"PMissMinusCanvas_"+Runs[WhichRun]+".pdf");
-//		delete PMissMinusCanvas;
+		kMissCanvas->SaveAs(PlotPath+"kMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete kMissCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// PMiss
+
+		TH2D* hPMiss = new TH2D("hPMiss",";True P_{Miss} [GeV/c];Reco P_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+
+		tree->Draw("Reco_PMiss:True_PMiss>>hPMiss",qualifier,"goff");
+
+		TCanvas* PMissCanvas = new TCanvas("PMissCanvas_"+Runs[WhichRun],"PMissCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PMissCanvas->cd();
+		hPMiss->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PMissCanvas->SaveAs(PlotPath+"PMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete PMissCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// PMissMinus
+
+		TH2D* hPMissMinus = new TH2D("hPMissMinus",";True P^{-}_{Miss} [GeV/c];Reco P^{-}_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+
+		tree->Draw("Reco_PMissMinus:True_PMissMinus>>hPMissMinus",qualifier,"goff");
+
+		TCanvas* PMissMinusCanvas = new TCanvas("PMissMinusCanvas_"+Runs[WhichRun],"PMissMinusCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PMissMinusCanvas->cd();
+		hPMissMinus->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PMissMinusCanvas->SaveAs(PlotPath+"PMissMinusCanvas_"+Runs[WhichRun]+".pdf");
+		delete PMissMinusCanvas;
 
 		// --------------------------------------------------------------------------------------------------------
 

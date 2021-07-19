@@ -6,7 +6,6 @@
 #include <TVector3.h>
 #include <TLorentzVector.h>
 
-
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -14,9 +13,6 @@
 
 #include "ubana/myClasses/Tools.h"
 #include "ubana/myClasses/STV_Tools.h"
-#include "ubana/myClasses/Box_Tools.h"
-//#include "ubana/myClasses/TruncMean.h"
-
 using namespace std;
 using namespace Constants;
 
@@ -52,7 +48,6 @@ void NeutrinoSelectionFilter::Loop() {
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
-//	int PassedSwTrigger;
 	double Weight;
 	double T2KWeight;
 	double ROOTinoWeight;
@@ -75,28 +70,9 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> VecFFCCQEshape_UBGenie;
 	std::vector<double> XSecShape_CCMEC_UBGenie;
 
-	std::vector<double> fluxes;
-//	std::vector<double> expskin_FluxUnisim;
-//	std::vector<double> horncurrent_FluxUnisim;
-//	std::vector<double> kminus_PrimaryHadronNormalization;
-//	std::vector<double> kplus_PrimaryHadronFeynmanScaling;
-//	std::vector<double> kzero_PrimaryHadronSanfordWang;
-//	std::vector<double> nucleoninexsec_FluxUnisim;
-//	std::vector<double> nucleonqexsec_FluxUnisim;
-//	std::vector<double> nucleontotxsec_FluxUnisim;
-//	std::vector<double> piminus_PrimaryHadronSWCentralSplineVariation;
-//	std::vector<double> pioninexsec_FluxUnisim;
-//	std::vector<double> pionqexsec_FluxUnisim;
-//	std::vector<double> piontotxsec_FluxUnisim;
-//	std::vector<double> piplus_PrimaryHadronSWCentralSplineVariation;
+	std::vector<double> fluxes; // flux variations in single weight
 
-	std::vector<double> reinteractions;
-//	std::vector<double> reinteractions_piminus_Geant4;
-//	std::vector<double> reinteractions_piplus_Geant4;
-//	std::vector<double> reinteractions_proton_Geant4;
-
-//	std::vector<double> xsr_scc_Fa3_SCC;
-//	std::vector<double> xsr_scc_Fv3_SCC;
+	std::vector<double> reinteractions; // G4 weights in single weight
 
 	int nue;	
 	int NC;	
@@ -131,15 +107,10 @@ void NeutrinoSelectionFilter::Loop() {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
-//	int NBeamFlashes;
-//	std::vector<double> BeamFlashes_YCenter;
-//	std::vector<double> BeamFlashes_ZCenter;
 	std::vector<double> BeamFlashes_TotalPE;
 	std::vector<double> BeamFlashes_Time;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
-
-//	std::vector<double> VertexActivity_50x100;
 
 	std::vector<double> CandidateMuP_Distance;
 	std::vector<float> Vertex_X;
@@ -150,22 +121,14 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> CandidateMuEndVertexDistance;
 	std::vector<double> CandidatePEndVertexDistance;
 
-//	std::vector<int> CandidateMu_Mode;
 //	std::vector<double> CandidateMu_TrackScore;			
 	std::vector<double> CandidateMu_P_Range;
-	std::vector<double> CandidateMu_P_Range_Recalibrate;
 	std::vector<double> CandidateMu_P_MCS;	
-	std::vector<double> CandidateMu_P_MCS_Recalibrate;	
 	std::vector<double> CandidateMu_Phi;
-	std::vector<double> CandidateMu_Phi_Recalibrate;
 	std::vector<double> CandidateMu_CosTheta;
-	std::vector<double> CandidateMu_CosTheta_Recalibrate;
 	std::vector<double> CandidateMu_Theta;
-	std::vector<double> CandidateMu_Theta_Recalibrate;
 //	std::vector<double> CandidateMu_Chi2_YPlane;
-//	std::vector<double> CandidateMu_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateMu_LLR_PID;
-//	std::vector<double> CandidateMu_ThreePlaneChi2;
 	std::vector<int> CandidateMu_StartContainment;
 	std::vector<int> CandidateMu_EndContainment;
 	std::vector<double> CandidateMu_Length;
@@ -177,36 +140,8 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> CandidateMu_EndX;
 	std::vector<double> CandidateMu_EndY;
 	std::vector<double> CandidateMu_EndZ;	
-//	std::vector<double> CandidateMu_ManualTheta;
-
-//	std::vector<float> CandidateMu_Plane0_LastEDep;
-//	std::vector<int> CandidateMu_Plane0_NHits;
-//	std::vector<std::vector<float> > CandidateMu_Plane0_ResidualRange;
-//	std::vector<std::vector<float> > CandidateMu_Plane0_dEdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane0_dQdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane0_TruncdEdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane0_TruncdQdx;
-
-//	std::vector<float> CandidateMu_Plane1_LastEDep;
-//	std::vector<int> CandidateMu_Plane1_NHits;
-//	std::vector<std::vector<float> > CandidateMu_Plane1_ResidualRange;
-//	std::vector<std::vector<float> > CandidateMu_Plane1_dEdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane1_dQdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane1_TruncdEdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane1_TruncdQdx;
-
-//	std::vector<float> CandidateMu_Plane2_LastEDep;
-//	std::vector<int> CandidateMu_Plane2_NHits;
-//	std::vector<std::vector<float> > CandidateMu_Plane2_ResidualRange;
-//	std::vector<std::vector<float> > CandidateMu_Plane2_dEdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane2_dQdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane2_TruncdEdx;
-//	std::vector<std::vector<float> > CandidateMu_Plane2_TruncdQdx;
 
 	std::vector<double> True_CandidateMu_P;
-//	std::vector<double> True_CandidateMu_Px;
-//	std::vector<double> True_CandidateMu_Py;
-//	std::vector<double> True_CandidateMu_Pz;
 	std::vector<double> True_CandidateMu_Phi;
 	std::vector<double> True_CandidateMu_Theta;
 	std::vector<double> True_CandidateMu_CosTheta;
@@ -223,25 +158,16 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<int> True_CandidateMu_StartContainment;
 	std::vector<int> True_CandidateMu_EndContainment;
 
-//	std::vector<double> CandidateMu_MinDistance;
-
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
-//	std::vector<int> CandidateP_Mode;	
 //	std::vector<double> CandidateP_TrackScore;
 	std::vector<double> CandidateP_P_Range;
-	std::vector<double> CandidateP_P_Range_Recalibrate;
 //	std::vector<double> CandidateP_P_MCS;	
 	std::vector<double> CandidateP_Phi;
-	std::vector<double> CandidateP_Phi_Recalibrate;
 	std::vector<double> CandidateP_Theta;
-	std::vector<double> CandidateP_Theta_Recalibrate;
 	std::vector<double> CandidateP_CosTheta;
-	std::vector<double> CandidateP_CosTheta_Recalibrate;
 //	std::vector<double> CandidateP_Chi2_YPlane;
-//	std::vector<double> CandidateP_ThreePlaneLogLikelihood;
 	std::vector<double> CandidateP_LLR_PID;
-//	std::vector<double> CandidateP_ThreePlaneChi2;
 	std::vector<int> CandidateP_StartContainment;
 	std::vector<int> CandidateP_EndContainment;
 	std::vector<double> CandidateP_Length;	
@@ -254,34 +180,7 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> CandidateP_EndY;
 	std::vector<double> CandidateP_EndZ;	
 
-//	std::vector<float> CandidateP_Plane0_LastEDep;
-//	std::vector<int> CandidateP_Plane0_NHits;
-//	std::vector<std::vector<float> > CandidateP_Plane0_ResidualRange;
-//	std::vector<std::vector<float> > CandidateP_Plane0_dEdx;
-//	std::vector<std::vector<float> > CandidateP_Plane0_dQdx;
-//	std::vector<std::vector<float> > CandidateP_Plane0_TruncdEdx;
-//	std::vector<std::vector<float> > CandidateP_Plane0_TruncdQdx;
-
-//	std::vector<float> CandidateP_Plane1_LastEDep;
-//	std::vector<int> CandidateP_Plane1_NHits;
-//	std::vector<std::vector<float> > CandidateP_Plane1_ResidualRange;
-//	std::vector<std::vector<float> > CandidateP_Plane1_dEdx;
-//	std::vector<std::vector<float> > CandidateP_Plane1_dQdx;
-//	std::vector<std::vector<float> > CandidateP_Plane1_TruncdEdx;
-//	std::vector<std::vector<float> > CandidateP_Plane1_TruncdQdx;
-
-//	std::vector<float> CandidateP_Plane2_LastEDep;
-//	std::vector<int> CandidateP_Plane2_NHits;
-//	std::vector<std::vector<float> > CandidateP_Plane2_ResidualRange;
-//	std::vector<std::vector<float> > CandidateP_Plane2_dEdx;
-//	std::vector<std::vector<float> > CandidateP_Plane2_dQdx;
-//	std::vector<std::vector<float> > CandidateP_Plane2_TruncdEdx;
-//	std::vector<std::vector<float> > CandidateP_Plane2_TruncdQdx;
-
 	std::vector<double> True_CandidateP_P;
-//	std::vector<double> True_CandidateP_Px;
-//	std::vector<double> True_CandidateP_Py;
-//	std::vector<double> True_CandidateP_Pz;
 	std::vector<double> True_CandidateP_Phi;
 	std::vector<double> True_CandidateP_Theta;
 	std::vector<double> True_CandidateP_CosTheta;
@@ -297,38 +196,37 @@ void NeutrinoSelectionFilter::Loop() {
 	
 	std::vector<int> True_CandidateP_StartContainment;
 	std::vector<int> True_CandidateP_EndContainment;
-
-//	std::vector<double> CandidateP_MinDistance;
 	
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	
 	// STV, Energy Reconstruction & Light Cone Variables
 
-//	std::vector<double> Reco_kMiss;
-//	std::vector<double> Reco_EMiss;
-//	std::vector<double> Reco_PMissMinus;
-//	std::vector<double> Reco_PMiss;
+	std::vector<double> Reco_kA;
+	std::vector<double> Reco_kMiss;
+	std::vector<double> Reco_EMiss;
+	std::vector<double> Reco_PMissMinus;
+	std::vector<double> Reco_PMiss;
 	std::vector<double> Reco_Pt;
+	std::vector<double> Reco_Ptx;
+	std::vector<double> Reco_Pty;
+	std::vector<double> Reco_PL;
 	std::vector<double> Reco_DeltaAlphaT;
 	std::vector<double> Reco_DeltaPhiT;
 	std::vector<double> Reco_ECal;
 	std::vector<double> Reco_EQE;
 	std::vector<double> Reco_Q2;
 	std::vector<double> Reco_DeltaPhi;
-	std::vector<double> Reco_DeltaTheta;	
+	std::vector<double> Reco_DeltaTheta;
 
-	std::vector<double> Reco_Pt_Recalibrate;
-	std::vector<double> Reco_DeltaAlphaT_Recalibrate;
-	std::vector<double> Reco_DeltaPhiT_Recalibrate;	
-	std::vector<double> Reco_ECal_Recalibrate;
-	std::vector<double> Reco_EQE_Recalibrate;
-	std::vector<double> Reco_Q2_Recalibrate;
-
-//	std::vector<double> True_kMiss;
-//	std::vector<double> True_EMiss;
-//	std::vector<double> True_PMissMinus;
-//	std::vector<double> True_PMiss;	
+	std::vector<double> True_kA;
+	std::vector<double> True_kMiss;
+	std::vector<double> True_EMiss;
+	std::vector<double> True_PMissMinus;
+	std::vector<double> True_PMiss;	
 	std::vector<double> True_Pt;
+	std::vector<double> True_Ptx;
+	std::vector<double> True_Pty;
+	std::vector<double> True_PL;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_ECal;
@@ -366,27 +264,8 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("XSecShape_CCMEC_UBGenie", &XSecShape_CCMEC_UBGenie);
 
 	tree->Branch("fluxes", &fluxes);
-//	tree->Branch("expskin_FluxUnisim", &expskin_FluxUnisim);
-//	tree->Branch("horncurrent_FluxUnisim", &horncurrent_FluxUnisim);
-//	tree->Branch("kminus_PrimaryHadronNormalization", &kminus_PrimaryHadronNormalization);
-//	tree->Branch("kplus_PrimaryHadronFeynmanScaling", &kplus_PrimaryHadronFeynmanScaling);
-//	tree->Branch("kzero_PrimaryHadronSanfordWang", &kzero_PrimaryHadronSanfordWang);
-//	tree->Branch("nucleoninexsec_FluxUnisim", &nucleoninexsec_FluxUnisim);
-//	tree->Branch("nucleonqexsec_FluxUnisim", &nucleonqexsec_FluxUnisim);
-//	tree->Branch("nucleontotxsec_FluxUnisim", &nucleontotxsec_FluxUnisim);
-//	tree->Branch("piminus_PrimaryHadronSWCentralSplineVariation", &piminus_PrimaryHadronSWCentralSplineVariation);
-//	tree->Branch("pioninexsec_FluxUnisim", &pioninexsec_FluxUnisim);
-//	tree->Branch("pionqexsec_FluxUnisim", &pionqexsec_FluxUnisim);
-//	tree->Branch("piontotxsec_FluxUnisim", &piontotxsec_FluxUnisim);
-//	tree->Branch("piplus_PrimaryHadronSWCentralSplineVariation", &piplus_PrimaryHadronSWCentralSplineVariation);
 
 	tree->Branch("reinteractions", &reinteractions);
-//	tree->Branch("reinteractions_piminus_Geant4", &reinteractions_piminus_Geant4);
-//	tree->Branch("reinteractions_piplus_Geant4", &reinteractions_piplus_Geant4);
-//	tree->Branch("reinteractions_proton_Geant4", &reinteractions_proton_Geant4);
-
-//	tree->Branch("xsr_scc_Fa3_SCC", &xsr_scc_Fa3_SCC);
-//	tree->Branch("xsr_scc_Fv3_SCC", &xsr_scc_Fv3_SCC);
 
 	tree->Branch("nue",&nue);
 	tree->Branch("NC",&NC);
@@ -420,15 +299,11 @@ void NeutrinoSelectionFilter::Loop() {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
-//	tree->Branch("NBeamFlashes",&NBeamFlashes);
-//	tree->Branch("BeamFlashes_YCenter",&BeamFlashes_YCenter);
-//	tree->Branch("BeamFlashes_ZCenter",&BeamFlashes_ZCenter);
 	tree->Branch("BeamFlashes_TotalPE",&BeamFlashes_TotalPE);
 	tree->Branch("BeamFlashes_Time",&BeamFlashes_Time);
 
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 
-//	tree->Branch("VertexActivity_50x100",&VertexActivity_50x100);
 	tree->Branch("CandidateMuP_Distance",&CandidateMuP_Distance);
 	tree->Branch("Vertex_X",&Vertex_X);
 	tree->Branch("Vertex_Y",&Vertex_Y);
@@ -442,19 +317,12 @@ void NeutrinoSelectionFilter::Loop() {
 
 //	tree->Branch("CandidateMu_TrackScore",&CandidateMu_TrackScore);		
 	tree->Branch("CandidateMu_P_Range",&CandidateMu_P_Range);
-	tree->Branch("CandidateMu_P_Range_Recalibrate",&CandidateMu_P_Range_Recalibrate);
 	tree->Branch("CandidateMu_P_MCS",&CandidateMu_P_MCS);	
-	tree->Branch("CandidateMu_P_MCS_Recalibrate",&CandidateMu_P_MCS_Recalibrate);	
 	tree->Branch("CandidateMu_Phi",&CandidateMu_Phi);
-	tree->Branch("CandidateMu_Phi_Recalibrate",&CandidateMu_Phi_Recalibrate);
 	tree->Branch("CandidateMu_Theta",&CandidateMu_Theta);
-	tree->Branch("CandidateMu_Theta_Recalibrate",&CandidateMu_Theta_Recalibrate);
 	tree->Branch("CandidateMu_CosTheta",&CandidateMu_CosTheta);
-	tree->Branch("CandidateMu_CosTheta_Recalibrate",&CandidateMu_CosTheta_Recalibrate);
 //	tree->Branch("CandidateMu_Chi2_YPlane",&CandidateMu_Chi2_YPlane);
-//	tree->Branch("CandidateMu_ThreePlaneLogLikelihood",&CandidateMu_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateMu_LLR_PID",&CandidateMu_LLR_PID);
-//	tree->Branch("CandidateMu_ThreePlaneChi2",&CandidateMu_ThreePlaneChi2);
 	tree->Branch("CandidateMu_StartContainment",&CandidateMu_StartContainment);
 	tree->Branch("CandidateMu_EndContainment",&CandidateMu_EndContainment);
 	tree->Branch("CandidateMu_Length",&CandidateMu_Length);	
@@ -465,37 +333,9 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("CandidateMu_StartZ",&CandidateMu_StartZ);
 	tree->Branch("CandidateMu_EndX",&CandidateMu_EndX);
 	tree->Branch("CandidateMu_EndY",&CandidateMu_EndY);
-	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);
-//	tree->Branch("CandidateMu_ManualTheta",&CandidateMu_ManualTheta);
-
-//	tree->Branch("CandidateMu_Plane0_LastEDep",&CandidateMu_Plane0_LastEDep);
-//	tree->Branch("CandidateMu_Plane0_NHits",&CandidateMu_Plane0_NHits);
-//	tree->Branch("CandidateMu_Plane0_ResidualRange",&CandidateMu_Plane0_ResidualRange);
-//	tree->Branch("CandidateMu_Plane0_dEdx",&CandidateMu_Plane0_dEdx);
-//	tree->Branch("CandidateMu_Plane0_dQdx",&CandidateMu_Plane0_dQdx);
-//	tree->Branch("CandidateMu_Plane0_TruncdEdx",&CandidateMu_Plane0_TruncdEdx);
-//	tree->Branch("CandidateMu_Plane0_TruncdQdx",&CandidateMu_Plane0_TruncdQdx);
-
-//	tree->Branch("CandidateMu_Plane1_LastEDep",&CandidateMu_Plane1_LastEDep);
-//	tree->Branch("CandidateMu_Plane1_NHits",&CandidateMu_Plane1_NHits);
-//	tree->Branch("CandidateMu_Plane1_ResidualRange",&CandidateMu_Plane1_ResidualRange);
-//	tree->Branch("CandidateMu_Plane1_dEdx",&CandidateMu_Plane1_dEdx);
-//	tree->Branch("CandidateMu_Plane1_dQdx",&CandidateMu_Plane1_dQdx);
-//	tree->Branch("CandidateMu_Plane1_TruncdEdx",&CandidateMu_Plane1_TruncdEdx);
-//	tree->Branch("CandidateMu_Plane1_TruncdQdx",&CandidateMu_Plane1_TruncdQdx);
-				
-//	tree->Branch("CandidateMu_Plane2_LastEDep",&CandidateMu_Plane2_LastEDep);				
-//	tree->Branch("CandidateMu_Plane2_NHits",&CandidateMu_Plane2_NHits);
-//	tree->Branch("CandidateMu_Plane2_ResidualRange",&CandidateMu_Plane2_ResidualRange);
-//	tree->Branch("CandidateMu_Plane2_dEdx",&CandidateMu_Plane2_dEdx);
-//	tree->Branch("CandidateMu_Plane2_dQdx",&CandidateMu_Plane2_dQdx);
-//	tree->Branch("CandidateMu_Plane2_TruncdEdx",&CandidateMu_Plane2_TruncdEdx);
-//	tree->Branch("CandidateMu_Plane2_TruncdQdx",&CandidateMu_Plane2_TruncdQdx);				
+	tree->Branch("CandidateMu_EndZ",&CandidateMu_EndZ);				
 
 	tree->Branch("True_CandidateMu_P",&True_CandidateMu_P);
-//	tree->Branch("True_CandidateMu_Px",&True_CandidateMu_Px);
-//	tree->Branch("True_CandidateMu_Py",&True_CandidateMu_Py);
-//	tree->Branch("True_CandidateMu_Pz",&True_CandidateMu_Pz);
 	tree->Branch("True_CandidateMu_Phi",&True_CandidateMu_Phi);
 	tree->Branch("True_CandidateMu_Theta",&True_CandidateMu_Theta);
 	tree->Branch("True_CandidateMu_CosTheta",&True_CandidateMu_CosTheta);
@@ -512,22 +352,15 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
 	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
-//	tree->Branch("CandidateMu_MinDistance",&CandidateMu_MinDistance);
-
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
 //	tree->Branch("CandidateP_TrackScore",&CandidateP_TrackScore);
 	tree->Branch("CandidateP_P_Range",&CandidateP_P_Range);
-	tree->Branch("CandidateP_P_Range_Recalibrate",&CandidateP_P_Range_Recalibrate);
 //	tree->Branch("CandidateP_P_MCS",&CandidateP_P_MCS);	
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
-	tree->Branch("CandidateP_Phi_Recalibrate",&CandidateP_Phi_Recalibrate);
 	tree->Branch("CandidateP_Theta",&CandidateP_Theta);
-	tree->Branch("CandidateP_Theta_Recalibrate",&CandidateP_Theta_Recalibrate);
 	tree->Branch("CandidateP_CosTheta",&CandidateP_CosTheta);
-	tree->Branch("CandidateP_CosTheta_Recalibrate",&CandidateP_CosTheta_Recalibrate);
 //	tree->Branch("CandidateP_Chi2_YPlane",&CandidateP_Chi2_YPlane);
-//	tree->Branch("CandidateP_ThreePlaneLogLikelihood",&CandidateP_ThreePlaneLogLikelihood);
 	tree->Branch("CandidateP_LLR_PID",&CandidateP_LLR_PID);
 //	tree->Branch("CandidateP_ThreePlaneChi2",&CandidateP_ThreePlaneChi2);
 	tree->Branch("CandidateP_StartContainment",&CandidateP_StartContainment);
@@ -542,34 +375,7 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("CandidateP_EndY",&CandidateP_EndY);
 	tree->Branch("CandidateP_EndZ",&CandidateP_EndZ);
 
-//	tree->Branch("CandidateP_Plane0_LastEDep",&CandidateP_Plane0_LastEDep);
-//	tree->Branch("CandidateP_Plane0_NHits",&CandidateP_Plane0_NHits);
-//	tree->Branch("CandidateP_Plane0_ResidualRange",&CandidateP_Plane0_ResidualRange);
-//	tree->Branch("CandidateP_Plane0_dEdx",&CandidateP_Plane0_dEdx);
-//	tree->Branch("CandidateP_Plane0_dQdx",&CandidateP_Plane0_dQdx);
-//	tree->Branch("CandidateP_Plane0_TruncdEdx",&CandidateP_Plane0_TruncdEdx);
-//	tree->Branch("CandidateP_Plane0_TruncdQdx",&CandidateP_Plane0_TruncdQdx);
-
-//	tree->Branch("CandidateP_Plane1_LastEDep",&CandidateP_Plane1_LastEDep);
-//	tree->Branch("CandidateP_Plane1_NHits",&CandidateP_Plane1_NHits);
-//	tree->Branch("CandidateP_Plane1_ResidualRange",&CandidateP_Plane1_ResidualRange);
-//	tree->Branch("CandidateP_Plane1_dEdx",&CandidateP_Plane1_dEdx);
-//	tree->Branch("CandidateP_Plane1_dQdx",&CandidateP_Plane1_dQdx);
-//	tree->Branch("CandidateP_Plane1_TruncdEdx",&CandidateP_Plane1_TruncdEdx);
-//	tree->Branch("CandidateP_Plane1_TruncdQdx",&CandidateP_Plane1_TruncdQdx);
-				
-//	tree->Branch("CandidateP_Plane2_LastEDep",&CandidateP_Plane2_LastEDep);
-//	tree->Branch("CandidateP_Plane2_NHits",&CandidateP_Plane2_NHits);
-//	tree->Branch("CandidateP_Plane2_ResidualRange",&CandidateP_Plane2_ResidualRange);
-//	tree->Branch("CandidateP_Plane2_dEdx",&CandidateP_Plane2_dEdx);
-//	tree->Branch("CandidateP_Plane2_dQdx",&CandidateP_Plane2_dQdx);	
-//	tree->Branch("CandidateP_Plane2_TruncdEdx",&CandidateP_Plane2_TruncdEdx);
-//	tree->Branch("CandidateP_Plane2_TruncdQdx",&CandidateP_Plane2_TruncdQdx);
-
 	tree->Branch("True_CandidateP_P",&True_CandidateP_P);
-//	tree->Branch("True_CandidateP_Px",&True_CandidateP_Px);
-//	tree->Branch("True_CandidateP_Py",&True_CandidateP_Py);
-//	tree->Branch("True_CandidateP_Pz",&True_CandidateP_Pz);
 	tree->Branch("True_CandidateP_Phi",&True_CandidateP_Phi);
 	tree->Branch("True_CandidateP_Theta",&True_CandidateP_Theta);
 	tree->Branch("True_CandidateP_CosTheta",&True_CandidateP_CosTheta);
@@ -586,15 +392,17 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_CandidateP_StartContainment",&True_CandidateP_StartContainment);
 	tree->Branch("True_CandidateP_EndContainment",&True_CandidateP_EndContainment);
 
-//	tree->Branch("CandidateP_MinDistance",&CandidateP_MinDistance);
-
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
-//	tree->Branch("Reco_kMiss",&Reco_kMiss);
-//	tree->Branch("Reco_PMissMinus",&Reco_PMissMinus);
-//	tree->Branch("Reco_EMiss",&Reco_EMiss);
-//	tree->Branch("Reco_PMiss",&Reco_PMiss);	
+	tree->Branch("Reco_A",&Reco_A);
+	tree->Branch("Reco_kMiss",&Reco_kMiss);
+	tree->Branch("Reco_PMissMinus",&Reco_PMissMinus);
+	tree->Branch("Reco_EMiss",&Reco_EMiss);
+	tree->Branch("Reco_PMiss",&Reco_PMiss);	
 	tree->Branch("Reco_Pt",&Reco_Pt);
+	tree->Branch("Reco_Ptx",&Reco_Ptx);
+	tree->Branch("Reco_Pty",&Reco_Pty);
+	tree->Branch("Reco_PL",&Reco_PL);
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
 	tree->Branch("Reco_DeltaPhiT",&Reco_DeltaPhiT);
 	tree->Branch("Reco_ECal",&Reco_ECal);
@@ -603,18 +411,15 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Reco_DeltaPhi",&Reco_DeltaPhi);
 	tree->Branch("Reco_DeltaTheta",&Reco_DeltaTheta);	
 
-	tree->Branch("Reco_Pt_Recalibrate",&Reco_Pt_Recalibrate);
-	tree->Branch("Reco_DeltaAlphaT_Recalibrate",&Reco_DeltaAlphaT_Recalibrate);
-	tree->Branch("Reco_DeltaPhiT_Recalibrate",&Reco_DeltaPhiT_Recalibrate);	
-	tree->Branch("Reco_ECal_Recalibrate",&Reco_ECal_Recalibrate);
-	tree->Branch("Reco_EQE_Recalibrate",&Reco_EQE_Recalibrate);
-	tree->Branch("Reco_Q2_Recalibrate",&Reco_Q2_Recalibrate);
-
-//	tree->Branch("True_kMiss",&True_kMiss);
-//	tree->Branch("True_PMissMinus",&True_PMissMinus);
-//	tree->Branch("True_EMiss",&True_EMiss);
-//	tree->Branch("True_PMiss",&True_PMiss);	
+	tree->Branch("True_A",&True_A);
+	tree->Branch("True_kMiss",&True_kMiss);
+	tree->Branch("True_PMissMinus",&True_PMissMinus);
+	tree->Branch("True_EMiss",&True_EMiss);
+	tree->Branch("True_PMiss",&True_PMiss);	
 	tree->Branch("True_Pt",&True_Pt);
+	tree->Branch("True_Ptx",&True_Ptx);
+	tree->Branch("True_Pty",&True_Pty);
+	tree->Branch("True_PL",&True_PL);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_ECal",&True_ECal);
@@ -642,41 +447,20 @@ void NeutrinoSelectionFilter::Loop() {
 
 	int EventCounter = 0;
 	int TotalCounter = 0;
-//	int CCinclCounter = 0;
-//	int SWTriggerCounter = 0;
-	int OneNuMuPFParticleCounter = 0;
-	int DaughterCounter = 0;
 	int TrackLikeDaughterCounter = 0;
 	int MatchedTrackPFParticleCounter = 0;
-	int NuFlashScoreCounter = 0;
-	int FlashCounter = 0;
-	int PairCounter = 0;
 	int MomentumThresholdCounter = 0;
 	int ContainmentCounter = 0;
-	int MultipleMCTruth = 0;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-
-	TH1D* NuMuSlicesPlot = new TH1D("NuMuSlicesPlot",";# #nu slices",6,-0.5,5.5);
-	TH1D* NDaughtersPlot = new TH1D("NDaughtersPlot",";# daughters",6,-0.5,5.5);
-	TH1D* NTrackLikeDaughtersPlot = new TH1D("NTrackLikeDaughtersPlot",";# track-like daughters",6,-0.5,5.5);
-	TH1D* NFlashPlot = new TH1D("NFlashPlot",";# flashes",6,-0.5,5.5);
-	TH1D* NPairsPlot = new TH1D("NPairsPlot",";# candidate pairs",6,-0.5,5.5);
 
 	TH1D* SamdefEventPlot = new TH1D("SamdefEventPlot",";# samdef events",1,0,1);
 	SamdefEventPlot->SetBinContent(1,fChain->GetEntries());
 
-//	TH1D* SWTriggerEventPlot = new TH1D("SWTriggerEventPlot",";# SWTrigger events",1,0,1);
-//	TH1D* CCinclEventPlot = new TH1D("CCinclEventPlot",";# CCincl events",1,0,1);
-	TH1D* OneNuMuPFParticleEventPlot = new TH1D("OneNuMuPFParticleEventPlot",";1 #nu_{#mu} PFParticle events",1,0,1);
-	TH1D* TwoDaughterEventPlot = new TH1D("TwoDaughterEventPlot",";2 daughter events",1,0,1);
 	TH1D* TrackLikeDaughterEventPlot = new TH1D("TrackLikeDaughterEventPlot",";2 track-like daughter events",1,0,1);
 	TH1D* MatchedTrackLikeDaughterEventPlot = new TH1D("MatchedTrackLikeDaughterEventPlot",";2 matched track-like daughter events",1,0,1);	
-	TH1D* NuFlashScoreEventPlot = new TH1D("NuFlashScoreEventPlot",";#nu/flash score existence events",1,0,1);
-	TH1D* OneBeamFlashEventPlot = new TH1D("OneBeamFlashEventPlot",";1 beam flash events",1,0,1);
-	TH1D* OnePairEventPlot = new TH1D("OnePairEventPlot",";1 candidate pair events",1,0,1);
 	TH1D* MomentumThresholdEventPlot = new TH1D("MomentumThresholdEventPlot",";Above P threshold events",1,0,1);
-	TH1D* StartPointContainmentEventPlot = new TH1D("StartPointContainmentEventPlot",";Contained start point events",1,0,1);	
+	TH1D* ContainmentEventPlot = new TH1D("ContainmentEventPlot",";Contained start point events",1,0,1);	
 
 	// --------------------------------------------------------------------------------------------------------------------------------
 
@@ -754,14 +538,15 @@ void NeutrinoSelectionFilter::Loop() {
 
 	// -----------------------------------------------------------------------------
 
-	// Only for MC CV / Dirt
-	// Need to take care of the weights for the systematics
+	// Only for MC 
+	// Need to take care of the bug fix / T2K tune weights & for the systematics weights
 
 	if (string(fLabel).find("Overlay") != std::string::npos) {
 
 		fChain->SetBranchAddress("weightSpline", &weightSpline, &b_weightSpline);
 		fChain->SetBranchAddress("weightTune", &weightTune, &b_weightTune);
 
+		// Only the CV samples
 
 		if ( 
 			fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
@@ -771,22 +556,6 @@ void NeutrinoSelectionFilter::Loop() {
 		) {
 
 			fChain->SetBranchAddress("weights", &weights, &b_weights);
-	//		fChain->SetBranchAddress("weightsFlux", &weightsFlux, &b_weightsFlux);
-	//		fChain->SetBranchAddress("weightsGenie", &weightsGenie, &b_weightsGenie);
-	//		fChain->SetBranchAddress("weightsReint", &weightsReint, &b_weightsReint);
-	//		fChain->SetBranchAddress("weightSplineTimesTune", &weightSplineTimesTune, &b_weightSplineTimesTune);
-	//		fChain->SetBranchAddress("knobRPAup", &knobRPAup, &b_knobRPAup);
-	//		fChain->SetBranchAddress("knobRPAdn", &knobRPAdn, &b_knobRPAdn);
-	//		fChain->SetBranchAddress("knobCCMECup", &knobCCMECup, &b_knobCCMECup);
-	//		fChain->SetBranchAddress("knobCCMECdn", &knobCCMECdn, &b_knobCCMECdn);
-	//		fChain->SetBranchAddress("knobAxFFCCQEup", &knobAxFFCCQEup, &b_knobAxFFCCQEup);
-	//		fChain->SetBranchAddress("knobAxFFCCQEdn", &knobAxFFCCQEdn, &b_knobAxFFCCQEdn);
-	//		fChain->SetBranchAddress("knobVecFFCCQEup", &knobVecFFCCQEup, &b_knobVecFFCCQEup);
-	//		fChain->SetBranchAddress("knobVecFFCCQEdn", &knobVecFFCCQEdn, &b_knobVecFFCCQEdn);
-	//		fChain->SetBranchAddress("knobDecayAngMECup", &knobDecayAngMECup, &b_knobDecayAngMECup);
-	//		fChain->SetBranchAddress("knobDecayAngMECdn", &knobDecayAngMECdn, &b_knobDecayAngMECdn);
-	//		fChain->SetBranchAddress("knobThetaDelta2Npiup", &knobThetaDelta2Npiup, &b_knobThetaDelta2Npiup);
-	//		fChain->SetBranchAddress("knobThetaDelta2Npidn", &knobThetaDelta2Npidn, &b_knobThetaDelta2Npidn);
 
 		}
 
@@ -862,27 +631,9 @@ void NeutrinoSelectionFilter::Loop() {
 		}
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
-
-		// Passing the CCinclusive selection
-
-//		if (!selected) { continue; }
-//		CCinclCounter++;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------
-
-		// Software trigger has to be satisfied
-		// But seems to not have been set 
-		// default value -2147483648
-
-		//if ( swtrig != 1) { continue; }
-		//SWTriggerCounter++;
-
-		// -----------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
 		// Loop over the candidate track pairs
-
-//		VertexActivity_50x100.clear();
 
 		CandidateMuP_Distance.clear();
 		Vertex_X.clear();
@@ -893,20 +644,13 @@ void NeutrinoSelectionFilter::Loop() {
 		CandidateMuEndVertexDistance.clear();
 		CandidatePEndVertexDistance.clear();
 
-//		CandidateMu_Mode.clear();
 //		CandidateMu_TrackScore.clear();								
 		CandidateMu_P_Range.clear();
-		CandidateMu_P_Range_Recalibrate.clear();
 		CandidateMu_P_MCS.clear();		
-		CandidateMu_P_MCS_Recalibrate.clear();		
 		CandidateMu_Phi.clear();
-		CandidateMu_Phi_Recalibrate.clear();
 		CandidateMu_Theta.clear();
-		CandidateMu_Theta_Recalibrate.clear();
 		CandidateMu_CosTheta.clear();
-		CandidateMu_CosTheta_Recalibrate.clear();
 //		CandidateMu_Chi2_YPlane.clear();
-//		CandidateMu_ThreePlaneLogLikelihood.clear();
 		CandidateMu_LLR_PID.clear();
 //		CandidateMu_ThreePlaneChi2.clear();
 		CandidateMu_StartContainment.clear();
@@ -920,36 +664,8 @@ void NeutrinoSelectionFilter::Loop() {
 		CandidateMu_EndX.clear();
 		CandidateMu_EndY.clear();
 		CandidateMu_EndZ.clear();
-//		CandidateMu_ManualTheta.clear();
-
-//		CandidateMu_Plane0_LastEDep.clear();
-//		CandidateMu_Plane0_NHits.clear();
-//		CandidateMu_Plane0_ResidualRange.clear();
-//		CandidateMu_Plane0_dEdx.clear();
-//		CandidateMu_Plane0_dQdx.clear();
-//		CandidateMu_Plane0_TruncdEdx.clear();
-//		CandidateMu_Plane0_TruncdQdx.clear();
-
-//		CandidateMu_Plane1_LastEDep.clear();
-//		CandidateMu_Plane1_NHits.clear();
-//		CandidateMu_Plane1_ResidualRange.clear();
-//		CandidateMu_Plane1_dEdx.clear();
-//		CandidateMu_Plane1_dQdx.clear();
-//		CandidateMu_Plane1_TruncdEdx.clear();
-//		CandidateMu_Plane1_TruncdQdx.clear();
-				
-//		CandidateMu_Plane2_LastEDep.clear();				
-//		CandidateMu_Plane2_NHits.clear();						
-//		CandidateMu_Plane2_ResidualRange.clear();
-//		CandidateMu_Plane2_dEdx.clear();
-//		CandidateMu_Plane2_dQdx.clear();										
-//		CandidateMu_Plane2_TruncdEdx.clear();
-//		CandidateMu_Plane2_TruncdQdx.clear();
 
 		True_CandidateMu_P.clear();
-//		True_CandidateMu_Px.clear();
-//		True_CandidateMu_Py.clear();
-//		True_CandidateMu_Pz.clear();
 		True_CandidateMu_Phi.clear();
 		True_CandidateMu_Theta.clear();
 		True_CandidateMu_CosTheta.clear();
@@ -966,23 +682,15 @@ void NeutrinoSelectionFilter::Loop() {
 		True_CandidateMu_StartContainment.clear();
 		True_CandidateMu_EndContainment.clear();
 
-//		CandidateMu_MinDistance.clear();
-
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
-//		CandidateP_Mode.clear();		
 //		CandidateP_TrackScore.clear();
 		CandidateP_P_Range.clear();
-		CandidateP_P_Range_Recalibrate.clear();
 //		CandidateP_P_MCS.clear();		
 		CandidateP_Phi.clear();
-		CandidateP_Phi_Recalibrate.clear();
 		CandidateP_Theta.clear();
-		CandidateP_Theta_Recalibrate.clear();
 		CandidateP_CosTheta.clear();
-		CandidateP_CosTheta_Recalibrate.clear();
 //		CandidateP_Chi2_YPlane.clear();
-//		CandidateP_ThreePlaneLogLikelihood.clear();
 		CandidateP_LLR_PID.clear();
 //		CandidateP_ThreePlaneChi2.clear();
 		CandidateP_StartContainment.clear();
@@ -995,36 +703,9 @@ void NeutrinoSelectionFilter::Loop() {
 		CandidateP_StartZ.clear();
 		CandidateP_EndX.clear();
 		CandidateP_EndY.clear();
-		CandidateP_EndZ.clear();
-
-//		CandidateP_Plane0_LastEDep.clear();
-//		CandidateP_Plane0_NHits.clear();
-//		CandidateP_Plane0_ResidualRange.clear();
-//		CandidateP_Plane0_dEdx.clear();
-//		CandidateP_Plane0_dQdx.clear();
-//		CandidateP_Plane0_TruncdEdx.clear();
-//		CandidateP_Plane0_TruncdQdx.clear();
-
-//		CandidateP_Plane1_LastEDep.clear();
-//		CandidateP_Plane1_NHits.clear();
-//		CandidateP_Plane1_ResidualRange.clear();
-//		CandidateP_Plane1_dEdx.clear();
-//		CandidateP_Plane1_dQdx.clear();
-//		CandidateP_Plane1_TruncdEdx.clear();
-//		CandidateP_Plane1_TruncdQdx.clear();
-				
-//		CandidateP_Plane2_LastEDep.clear();				
-//		CandidateP_Plane2_NHits.clear();						
-//		CandidateP_Plane2_ResidualRange.clear();
-//		CandidateP_Plane2_dEdx.clear();
-//		CandidateP_Plane2_dQdx.clear();
-//		CandidateP_Plane2_TruncdEdx.clear();
-//		CandidateP_Plane2_TruncdQdx.clear();		
+		CandidateP_EndZ.clear();	
 
 		True_CandidateP_P.clear();
-//		True_CandidateP_Px.clear();
-//		True_CandidateP_Py.clear();
-//		True_CandidateP_Pz.clear();
 		True_CandidateP_Phi.clear();
 		True_CandidateP_Theta.clear();
 		True_CandidateP_CosTheta.clear();
@@ -1041,15 +722,17 @@ void NeutrinoSelectionFilter::Loop() {
 		True_CandidateP_StartContainment.clear();
 		True_CandidateP_EndContainment.clear();
 
-//		CandidateP_MinDistance.clear();
-
 		// -----------------------------------------------------------------------------------------------------------------------------
 
-//		Reco_kMiss.clear();
-//		Reco_EMiss.clear();
-//		Reco_PMissMinus.clear();
-//		Reco_PMiss.clear();	
+		Reco_A.clear();
+		Reco_kMiss.clear();
+		Reco_EMiss.clear();
+		Reco_PMissMinus.clear();
+		Reco_PMiss.clear();	
 		Reco_Pt.clear();
+		Reco_Ptx.clear();
+		Reco_Pty.clear();
+		Reco_PL.clear();
 		Reco_DeltaAlphaT.clear();
 		Reco_DeltaPhiT.clear();
 		Reco_ECal.clear();
@@ -1058,18 +741,15 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_DeltaPhi.clear();
 		Reco_DeltaTheta.clear();
 
-		Reco_Pt_Recalibrate.clear();
-		Reco_DeltaAlphaT_Recalibrate.clear();
-		Reco_DeltaPhiT_Recalibrate.clear();
-		Reco_ECal_Recalibrate.clear();
-		Reco_EQE_Recalibrate.clear();
-		Reco_Q2_Recalibrate.clear();
-		
-//		True_kMiss.clear();
-//		True_EMiss.clear();
-//		True_PMissMinus.clear();
-//		True_PMiss.clear();		
+		True_A.clear();		
+		True_kMiss.clear();
+		True_EMiss.clear();
+		True_PMissMinus.clear();
+		True_PMiss.clear();		
 		True_Pt.clear();
+		True_Ptx.clear();
+		True_Pty.clear();
+		True_PL.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
 		True_ECal.clear();
@@ -1152,8 +832,6 @@ void NeutrinoSelectionFilter::Loop() {
 		// Beam Flashes
 		// By definition, only 1 beam flash
 
-		FlashCounter++;
-
 		BeamFlashes_TotalPE.clear();
 		BeamFlashes_Time.clear();
 
@@ -1234,7 +912,7 @@ void NeutrinoSelectionFilter::Loop() {
 
 		double CandidatePKE_GeV = trk_energy_proton_v->at(CandidateProtonIndex); // GeV // Watch out, kinetic energy not energy
 		double CandidatePE_GeV = CandidatePKE_GeV + ProtonMass_GeV; // GeV 
-		double CandidatePMom = TMath::Sqrt( TMath::Power(CandidatePE_GeV,2.) - TMath::Power(ProtonMass_GeV,2.)); // GeV/c
+		double CandidatePMom = TMath::Sqrt( TMath::Power(CandidatePE_GeV,2.) - TMath::Power(ProtonMass_GeV,2.)); // GeV/c		 
 
 		// --------------------------------------------------------------------------------------------------------------------
 			
@@ -1360,11 +1038,19 @@ void NeutrinoSelectionFilter::Loop() {
 		// Fill in the TTree with STV variables
 
 		Reco_Pt.push_back(reco_stv_tool.ReturnPt());
+		Reco_Ptx.push_back(reco_stv_tool.ReturnPtx());
+		Reco_Pty.push_back(reco_stv_tool.ReturnPty());
+		Reco_PL.push_back(reco_stv_tool.ReturnPL());
 		Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
 		Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
 		Reco_ECal.push_back(reco_stv_tool.ReturnECal());
 		Reco_EQE.push_back(reco_stv_tool.ReturnEQE());
 		Reco_Q2.push_back(reco_stv_tool.ReturnQ2());
+		Reco_A.push_back(reco_stv_tool.ReturnA());
+		Reco_EMiss.push_back(reco_stv_tool.ReturnEMiss());
+		Reco_kMiss.push_back(reco_stv_tool.ReturnkMiss());
+		Reco_PMiss.push_back(reco_stv_tool.ReturnPMiss());
+		Reco_PMissMinus.push_back(reco_stv_tool.ReturnPMissMinus());
 
 		// --------------------------------------------------------------------------------------------------------------------
 		// --------------------------------------------------------------------------------------------------------------------
@@ -1466,11 +1152,19 @@ void NeutrinoSelectionFilter::Loop() {
 			STV_Tools true_stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,TrueCandidateMuonTrack_E_GeV,TrueCandidateProtonTrack_E_GeV);
 
 			True_Pt.push_back(true_stv_tool.ReturnPt());
+			True_Ptx.push_back(true_stv_tool.ReturnPtx());
+			True_Pty.push_back(true_stv_tool.ReturnPty());
+			True_PL.push_back(true_stv_tool.ReturnPL());
 			True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
 			True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
 			True_ECal.push_back(true_stv_tool.ReturnECal());
 			True_EQE.push_back(true_stv_tool.ReturnEQE());
 			True_Q2.push_back(true_stv_tool.ReturnQ2());	
+			True_A.push_back(true_stv_tool.ReturnA());	
+			True_EMiss.push_back(true_stv_tool.ReturnEMiss());	
+			True_kMiss.push_back(true_stv_tool.ReturnkMiss());	
+			True_PMiss.push_back(true_stv_tool.ReturnPMiss());
+			True_PMissMinus.push_back(true_stv_tool.ReturnPMissMinus());	
 				
 			// --------------------------------------------------------------------------------------------------------------------
 
@@ -1524,11 +1218,20 @@ void NeutrinoSelectionFilter::Loop() {
 			True_CandidateP_EndContainment.push_back(CosmicPID);
 
 			True_Pt.push_back(CosmicPID);
+			True_Ptx.push_back(CosmicPID);
+			True_Pty.push_back(CosmicPID);
+			True_PL.push_back(CosmicPID);
 			True_DeltaAlphaT.push_back(CosmicPID);
 			True_DeltaPhiT.push_back(CosmicPID);
 			True_ECal.push_back(CosmicPID);
 			True_EQE.push_back(CosmicPID);
 			True_Q2.push_back(CosmicPID);	
+
+			True_A.push_back(CosmicPID);	
+			True_EMiss.push_back(CosmicPID);	
+			True_kMiss.push_back(CosmicPID);	
+			True_PMiss.push_back(CosmicPID);
+			True_PMissMinus.push_back(CosmicPID);
 
 			True_DeltaPhi.push_back(CosmicPID);
 			True_DeltaTheta.push_back(CosmicPID);
@@ -1704,30 +1407,16 @@ void NeutrinoSelectionFilter::Loop() {
 	std::cout.precision(precision);
 	std::cout << "\n\nGathered a total of " << EventCounter << " preselected events" << std::endl << std::endl;
 
-//	SWTriggerEventPlot->SetBinContent(1,SWTriggerCounter);
-//	CCinclEventPlot->SetBinContent(1,CCinclCounter);
-	OneNuMuPFParticleEventPlot->SetBinContent(1,OneNuMuPFParticleCounter);
-	TwoDaughterEventPlot->SetBinContent(1,DaughterCounter);
 	TrackLikeDaughterEventPlot->SetBinContent(1,TrackLikeDaughterCounter);
 	MatchedTrackLikeDaughterEventPlot->SetBinContent(1,MatchedTrackPFParticleCounter);	
-	NuFlashScoreEventPlot->SetBinContent(1,NuFlashScoreCounter);
-	OneBeamFlashEventPlot->SetBinContent(1,FlashCounter);
-	OnePairEventPlot->SetBinContent(1,PairCounter);
 	MomentumThresholdEventPlot->SetBinContent(1,MomentumThresholdCounter);
-	StartPointContainmentEventPlot->SetBinContent(1,ContainmentCounter);					
+	ContainmentEventPlot->SetBinContent(1,ContainmentCounter);					
 
 	OutputFile->cd();
-//	SWTriggerEventPlot->Write();
-//	CCinclEventPlot->Write();
-	OneNuMuPFParticleEventPlot->Write();
-	TwoDaughterEventPlot->Write();
 	TrackLikeDaughterEventPlot->Write();
 	MatchedTrackLikeDaughterEventPlot->Write();	
-	NuFlashScoreEventPlot->Write();
-	OneBeamFlashEventPlot->Write();
-	OnePairEventPlot->Write();
 	MomentumThresholdEventPlot->Write();
-	StartPointContainmentEventPlot->Write();
+	ContainmentEventPlot->Write();
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------------------------------------------------------
@@ -1735,7 +1424,6 @@ void NeutrinoSelectionFilter::Loop() {
 	OutputFile->cd();
 	OutputFile->Write();
 	OutputFile->Close();
-	//fSpines->Close();
 	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
 
 	// -----------------------------------------------------------------------------
