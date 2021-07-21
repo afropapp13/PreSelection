@@ -4,21 +4,22 @@
 
 	// Run1
 
-	WhichSampleArray.push_back("Overlay9_Run1_CV"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_CV_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_LYDown"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_LYDown_reco2_reco2.root");	
-	WhichSampleArray.push_back("Overlay9_Run1_LYAttenuation"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_LYAttenuation_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_LYRayleigh"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_LYRayleigh_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_X"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_X_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_YZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_YZ_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_ThetaYZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_ThetaYZ_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_ThetaXZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_ThetaXZ_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_SCE"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_SCE_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_Recombination2"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_Recombination_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run1_dEdx"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_dEdx_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_CV"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_CV_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_LYDown"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_LYDown_reco2_reco2.root");	
+//	WhichSampleArray.push_back("Overlay9_Run1_LYAttenuation"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_LYAttenuation_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_LYRayleigh"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_LYRayleigh_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_X"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_X_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_YZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_YZ_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_ThetaYZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_ThetaYZ_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_ThetaXZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_ThetaXZ_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_SCE"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_SCE_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_Recombination2"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_Recombination_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run1_dEdx"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_dEdx_reco2_reco2.root");
 
 	// Run3
 
 	WhichSampleArray.push_back("Overlay9_Run3_CV"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_CV_reco2_reco2.root");
+	WhichSampleArray.push_back("Overlay9_Run3_CVextra"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_CVextra_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run3_LYDown"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_LYDown_reco2_reco2.root");	
 	WhichSampleArray.push_back("Overlay9_Run3_LYAttenuation"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_LYAttenuation_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run3_LYRayleigh"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_LYRayleigh_reco2_reco2.root");
@@ -27,7 +28,7 @@
 	WhichSampleArray.push_back("Overlay9_Run3_ThetaYZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_ThetaYZ_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run3_ThetaXZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_ThetaXZ_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run3_SCE"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_SCE_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run3_Recombination2"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_Recombination2_reco2_reco2.root");
+	WhichSampleArray.push_back("Overlay9_Run3_Recombination2"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_Recombination_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run3_dEdx"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_dEdx_reco2_reco2.root");
 
 

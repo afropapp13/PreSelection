@@ -201,7 +201,7 @@ void NeutrinoSelectionFilter::Loop() {
 	
 	// STV, Energy Reconstruction & Light Cone Variables
 
-	std::vector<double> Reco_kA;
+	std::vector<double> Reco_A;
 	std::vector<double> Reco_kMiss;
 	std::vector<double> Reco_EMiss;
 	std::vector<double> Reco_PMissMinus;
@@ -210,6 +210,7 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> Reco_Ptx;
 	std::vector<double> Reco_Pty;
 	std::vector<double> Reco_PL;
+	std::vector<double> Reco_Pn;
 	std::vector<double> Reco_DeltaAlphaT;
 	std::vector<double> Reco_DeltaPhiT;
 	std::vector<double> Reco_ECal;
@@ -218,7 +219,7 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> Reco_DeltaPhi;
 	std::vector<double> Reco_DeltaTheta;
 
-	std::vector<double> True_kA;
+	std::vector<double> True_A;
 	std::vector<double> True_kMiss;
 	std::vector<double> True_EMiss;
 	std::vector<double> True_PMissMinus;
@@ -227,6 +228,7 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_Ptx;
 	std::vector<double> True_Pty;
 	std::vector<double> True_PL;
+	std::vector<double> True_Pn;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_ECal;
@@ -403,6 +405,7 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Reco_Ptx",&Reco_Ptx);
 	tree->Branch("Reco_Pty",&Reco_Pty);
 	tree->Branch("Reco_PL",&Reco_PL);
+	tree->Branch("Reco_Pn",&Reco_Pn);
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
 	tree->Branch("Reco_DeltaPhiT",&Reco_DeltaPhiT);
 	tree->Branch("Reco_ECal",&Reco_ECal);
@@ -420,6 +423,7 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_Ptx",&True_Ptx);
 	tree->Branch("True_Pty",&True_Pty);
 	tree->Branch("True_PL",&True_PL);
+	tree->Branch("True_Pn",&True_Pn);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_ECal",&True_ECal);
@@ -733,6 +737,7 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_Ptx.clear();
 		Reco_Pty.clear();
 		Reco_PL.clear();
+		Reco_Pn.clear();
 		Reco_DeltaAlphaT.clear();
 		Reco_DeltaPhiT.clear();
 		Reco_ECal.clear();
@@ -750,6 +755,7 @@ void NeutrinoSelectionFilter::Loop() {
 		True_Ptx.clear();
 		True_Pty.clear();
 		True_PL.clear();
+		True_Pn.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
 		True_ECal.clear();
@@ -1041,6 +1047,7 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_Ptx.push_back(reco_stv_tool.ReturnPtx());
 		Reco_Pty.push_back(reco_stv_tool.ReturnPty());
 		Reco_PL.push_back(reco_stv_tool.ReturnPL());
+		Reco_Pn.push_back(reco_stv_tool.ReturnPn());
 		Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
 		Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
 		Reco_ECal.push_back(reco_stv_tool.ReturnECal());
@@ -1155,6 +1162,7 @@ void NeutrinoSelectionFilter::Loop() {
 			True_Ptx.push_back(true_stv_tool.ReturnPtx());
 			True_Pty.push_back(true_stv_tool.ReturnPty());
 			True_PL.push_back(true_stv_tool.ReturnPL());
+			True_Pn.push_back(true_stv_tool.ReturnPn());
 			True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
 			True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
 			True_ECal.push_back(true_stv_tool.ReturnECal());
@@ -1221,6 +1229,7 @@ void NeutrinoSelectionFilter::Loop() {
 			True_Ptx.push_back(CosmicPID);
 			True_Pty.push_back(CosmicPID);
 			True_PL.push_back(CosmicPID);
+			True_Pn.push_back(CosmicPID);
 			True_DeltaAlphaT.push_back(CosmicPID);
 			True_DeltaPhiT.push_back(CosmicPID);
 			True_ECal.push_back(CosmicPID);

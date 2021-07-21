@@ -148,7 +148,10 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_PMissMinus;
 	std::vector<double> True_PMiss;	
 	std::vector<double> True_Pt;
+	std::vector<double> True_Ptx;
+	std::vector<double> True_Pty;
 	std::vector<double> True_PL;
+	std::vector<double> True_Pn;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_ECal;
@@ -256,7 +259,10 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_PMissMinus",&True_PMissMinus);
 	tree->Branch("True_PMiss",&True_PMiss);
 	tree->Branch("True_Pt",&True_Pt);
+	tree->Branch("True_Ptx",&True_Ptx);
+	tree->Branch("True_Pty",&True_Pty);
 	tree->Branch("True_PL",&True_PL);
+	tree->Branch("True_Pn",&True_Pn);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_ECal",&True_ECal);
@@ -511,7 +517,10 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		True_PMissMinus.clear();
 		True_PMiss.clear();		
 		True_Pt.clear();
+		True_Ptx.clear();
+		True_Pty.clear();
 		True_PL.clear();
+		True_Pn.clear();
 		True_DeltaAlphaT.clear();
 		True_DeltaPhiT.clear();
 		True_ECal.clear();
@@ -725,7 +734,10 @@ void TruthNeutrinoSelectionFilter::Loop() {
 			True_PMissMinus.push_back(stv_tool.ReturnPMissMinus());
 			True_PMiss.push_back(stv_tool.ReturnPMiss());
 			True_Pt.push_back(stv_tool.ReturnPt());
+			True_Ptx.push_back(stv_tool.ReturnPtx());
+			True_Pty.push_back(stv_tool.ReturnPty());
 			True_PL.push_back(stv_tool.ReturnPL());
+			True_Pn.push_back(stv_tool.ReturnPn());
 			True_DeltaAlphaT.push_back(stv_tool.ReturnDeltaAlphaT());
 			True_DeltaPhiT.push_back(stv_tool.ReturnDeltaPhiT());
 			True_ECal.push_back(stv_tool.ReturnECal());

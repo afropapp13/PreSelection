@@ -207,7 +207,7 @@ void PeLEE_TwoDPlots() {
 
 		// Transverse Missing Momentum
 
-		TH2D* hPt = new TH2D("hPt",";True #deltap_{T} [GeV/c];Reco #deltap_{T} [GeV/c]",160,0,0.8,160,0,0.8);
+		TH2D* hPt = new TH2D("hPt",";True #deltap_{T} [GeV/c];Reco #deltap_{T} [GeV/c]",80,0,0.8,80,0,0.8);
 
 		TCanvas* PtCanvas = new TCanvas("PTCanvas_"+Runs[WhichRun],"PTCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtCanvas->cd();
@@ -224,7 +224,7 @@ void PeLEE_TwoDPlots() {
 
 		// Transverse Missing Momentum x
 
-		TH2D* hPtx = new TH2D("hPtx",";True #deltap_{T,x} [GeV/c];Reco #deltap_{T,x} [GeV/c]",160,0,0.8,160,0,0.8);
+		TH2D* hPtx = new TH2D("hPtx",";True #deltap_{T,x} [GeV/c];Reco #deltap_{T,x} [GeV/c]",70,0.,0.7,70,0.,0.7);
 
 		TCanvas* PtxCanvas = new TCanvas("PTxCanvas_"+Runs[WhichRun],"PTxCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtxCanvas->cd();
@@ -241,7 +241,7 @@ void PeLEE_TwoDPlots() {
 
 		// Transverse Missing Momentum y
 
-		TH2D* hPty = new TH2D("hPty",";True #deltap_{T,y} [GeV/c];Reco #deltap_{T,y} [GeV/c]",160,0,0.8,160,0,0.8);
+		TH2D* hPty = new TH2D("hPty",";True #deltap_{T,y} [GeV/c];Reco #deltap_{T,y} [GeV/c]",100,-0.5,0.5,100,-0.5,0.5);
 
 		TCanvas* PtyCanvas = new TCanvas("PTyCanvas_"+Runs[WhichRun],"PTyCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtyCanvas->cd();
@@ -258,7 +258,7 @@ void PeLEE_TwoDPlots() {
 
 		// Longitudinal Missing Momentum
 
-		TH2D* hPL = new TH2D("hPL",";True #deltap_{L} [GeV/c];Reco #deltap_{L} [GeV/c]",160,0,0.8,160,0,0.8);
+		TH2D* hPL = new TH2D("hPL",";True #deltap_{L} [GeV/c];Reco #deltap_{L} [GeV/c]",50,0,0.5,50,0,0.5);
 
 		TCanvas* PLCanvas = new TCanvas("PLCanvas_"+Runs[WhichRun],"PLCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PLCanvas->cd();
@@ -275,7 +275,7 @@ void PeLEE_TwoDPlots() {
 
 		// Total Missing Momentum
 
-		TH2D* hPn = new TH2D("hPn",";True p_{n} [GeV/c];Reco p_{n} [GeV/c]",160,0,0.8,160,0,0.8);
+		TH2D* hPn = new TH2D("hPn",";True p_{n,proxy} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
 
 		TCanvas* PnCanvas = new TCanvas("PnCanvas_"+Runs[WhichRun],"PnCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PnCanvas->cd();
@@ -287,6 +287,40 @@ void PeLEE_TwoDPlots() {
 
 		PnCanvas->SaveAs(PlotPath+"PnCanvas_"+Runs[WhichRun]+".pdf");
 		delete PnCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum from light cone (L) vs Minerva recipe (M) using reco variables
+
+		TH2D* hPnLM = new TH2D("hPnLM",";Reco k_{Miss} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnLMCanvas = new TCanvas("PnLMCanvas_"+Runs[WhichRun],"PnLMCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnLMCanvas->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":Reco_kMiss>>hPnLM",qualifier,"goff");
+		hPnLM->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PnLMCanvas->SaveAs(PlotPath+"PnLMCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnLMCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum from light cone (L) vs Minerva recipe (M) using true variables
+
+		TH2D* hPnLMTrue = new TH2D("hPnLMTrue",";True k_{Miss} [GeV/c];True p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnLMCanvasTrue = new TCanvas("PnLMCanvasTrue_"+Runs[WhichRun],"PnLMCanvasTrue_"+Runs[WhichRun],205,34,1024,768);
+		PnLMCanvasTrue->cd();
+
+		tree->Draw("True_Pn" + Recalibrate + ":True_kMiss>>hPnLMTrue",qualifier,"goff");
+		hPnLMTrue->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		PnLMCanvasTrue->SaveAs(PlotPath+"PnLMCanvasTrue_"+Runs[WhichRun]+".pdf");
+		delete PnLMCanvasTrue;
 
 		// --------------------------------------------------------------------------------------------------------
 
@@ -326,7 +360,7 @@ void PeLEE_TwoDPlots() {
 
 		// A variable
 
-		TH2D* hA = new TH2D("hA",";True A [c];Reco A [c]",400,0,1,400,0,1);
+		TH2D* hA = new TH2D("hA",";True #alpha [c];Reco #alpha [c]",100,0.5,1.5,100,0.5,1.5);
 
 		tree->Draw("Reco_A:True_A>>hA",qualifier,"goff");
 
@@ -343,7 +377,7 @@ void PeLEE_TwoDPlots() {
 
 		// kMiss
 
-		TH2D* hkMiss = new TH2D("hkMiss",";True k_{Miss} [GeV/c];Reco k_{Miss} [GeV/c]",400,0,1,400,0,1);
+		TH2D* hkMiss = new TH2D("hkMiss",";True k_{Miss} [GeV/c];Reco k_{Miss} [GeV/c]",80,0,0.8,80,0,0.8);
 
 		tree->Draw("Reco_kMiss:True_kMiss>>hkMiss",qualifier,"goff");
 
@@ -360,7 +394,7 @@ void PeLEE_TwoDPlots() {
 
 		// PMiss
 
-		TH2D* hPMiss = new TH2D("hPMiss",";True P_{Miss} [GeV/c];Reco P_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+		TH2D* hPMiss = new TH2D("hPMiss",";True P_{Miss} [GeV/c];Reco P_{Miss} [GeV/c]",100,0,1.,100,0,1.);
 
 		tree->Draw("Reco_PMiss:True_PMiss>>hPMiss",qualifier,"goff");
 
@@ -377,7 +411,7 @@ void PeLEE_TwoDPlots() {
 
 		// PMissMinus
 
-		TH2D* hPMissMinus = new TH2D("hPMissMinus",";True P^{-}_{Miss} [GeV/c];Reco P^{-}_{Miss} [GeV/c]",450,0,1.5,450,0,1.5);
+		TH2D* hPMissMinus = new TH2D("hPMissMinus",";True P^{-}_{Miss} [GeV/c];Reco P^{-}_{Miss} [GeV/c]",110,0.4,1.5,110,0.4,1.5);
 
 		tree->Draw("Reco_PMissMinus:True_PMissMinus>>hPMissMinus",qualifier,"goff");
 
