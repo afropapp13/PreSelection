@@ -29,7 +29,7 @@
 	WhichSampleArray.push_back("Overlay9_Run3_ThetaXZ"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_ThetaXZ_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run3_SCE"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_SCE_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run3_Recombination2"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_Recombination_reco2_reco2.root");
-	WhichSampleArray.push_back("Overlay9_Run3_dEdx"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_dEdx_reco2_reco2.root");
+	//WhichSampleArray.push_back("Overlay9_Run3_dEdx"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_dEdx_reco2_reco2.root");
 
 
 	// ----------------------------------------------------------------------------------

@@ -224,7 +224,7 @@ void PeLEE_TwoDPlots() {
 
 		// Transverse Missing Momentum x
 
-		TH2D* hPtx = new TH2D("hPtx",";True #deltap_{T,x} [GeV/c];Reco #deltap_{T,x} [GeV/c]",70,0.,0.7,70,0.,0.7);
+		TH2D* hPtx = new TH2D("hPtx",";True #deltap_{T,x} [GeV/c];Reco #deltap_{T,x} [GeV/c]",140,-0.7,0.7,140,-0.7,0.7);
 
 		TCanvas* PtxCanvas = new TCanvas("PTxCanvas_"+Runs[WhichRun],"PTxCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PtxCanvas->cd();
@@ -258,7 +258,7 @@ void PeLEE_TwoDPlots() {
 
 		// Longitudinal Missing Momentum
 
-		TH2D* hPL = new TH2D("hPL",";True #deltap_{L} [GeV/c];Reco #deltap_{L} [GeV/c]",50,0,0.5,50,0,0.5);
+		TH2D* hPL = new TH2D("hPL",";True #deltap_{L} [GeV/c];Reco #deltap_{L} [GeV/c]",100,-0.5,0.5,100,-0.5,0.5);
 
 		TCanvas* PLCanvas = new TCanvas("PLCanvas_"+Runs[WhichRun],"PLCanvas_"+Runs[WhichRun],205,34,1024,768);
 		PLCanvas->cd();
