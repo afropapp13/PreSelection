@@ -1003,7 +1003,7 @@ CCQENeutrinoSelectionFilter::CCQENeutrinoSelectionFilter(TString Label, TString 
 		}
 
 		TDirectory * dir = (TDirectory*)f->Get(fSample+":/nuselection");
-      		dir->GetObject("CCQENeutrinoSelectionFilter",tree);
+      		dir->GetObject("NeutrinoSelectionFilter",tree);
 
 	}
 
