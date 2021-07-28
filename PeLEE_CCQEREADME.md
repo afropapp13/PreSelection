@@ -1,7 +1,7 @@
 
 ###########################################
 
-# Calibration & Preselection
+# CCQE Preselection
 
 root -l PeLEE_script_CCQEPreSelection.C
 
