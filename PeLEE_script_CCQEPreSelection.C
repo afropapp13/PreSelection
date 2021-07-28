@@ -45,9 +45,9 @@
 	//gROOT->ProcessLine(".L myPOT.C+");
 	//gROOT->ProcessLine(".L CreateSplines.cpp+");
 
-	gROOT->ProcessLine(".L PeLEE_myPOT.C+");
-	gROOT->ProcessLine(".L NeutrinoSelectionFilter.C+");
-	gROOT->ProcessLine(".L TruthNeutrinoSelectionFilter.C+");
+	gROOT->ProcessLine(".L PeLEE_CCQEmyPOT.C+");
+	gROOT->ProcessLine(".L CCQENeutrinoSelectionFilter.C+");
+	gROOT->ProcessLine(".L TruthCCQENeutrinoSelectionFilter.C+");
 
 	for (int i = 0;i < (int)(WhichSampleArray.size()); i++) {
 
@@ -72,12 +72,12 @@
 		//  { gROOT->ProcessLine("PreTruthSelection(\""+WhichSampleArray[i]+"\").Loop()"); } 
 
 			if (string(WhichSampleArray[i]).find("Overlay") != std::string::npos)
-			  { gROOT->ProcessLine("PeLEE_myPOT(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\")"); }
+			  { gROOT->ProcessLine("PeLEE_CCQEmyPOT(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\")"); }
 
-			gROOT->ProcessLine("NeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()");
+			gROOT->ProcessLine("CCQENeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()");
 
 			if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos)
-			  { gROOT->ProcessLine("TruthNeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()"); }
+			  { gROOT->ProcessLine("TruthCCQENeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()"); }
 
 	}
 

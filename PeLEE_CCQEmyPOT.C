@@ -47,7 +47,7 @@ void PeLEE_myPOT(TString Label, TString Sample) {
 
 	// Output File
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+Label+"_"+UBCodeVersion+"_POT.root";
+	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/CCQEPeLEETuples/CCQEPreSelection_"+Label+"_"+UBCodeVersion+"_POT.root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	OutputFile->cd();
 	POTCountHist->Write();

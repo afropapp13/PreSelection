@@ -1,5 +1,5 @@
-#define NeutrinoSelectionFilter_cxx
-#include "NeutrinoSelectionFilter.h"
+#define CCQENeutrinoSelectionFilter_cxx
+#include "CCQENeutrinoSelectionFilter.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -18,7 +18,7 @@ using namespace Constants;
 
 // -----------------------------------------------------------------------------
 
-void NeutrinoSelectionFilter::Loop() {
+void CCQENeutrinoSelectionFilter::Loop() {
 
 	// -----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ void NeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/CCQEPeLEETuples/CCQEPreSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -474,7 +474,7 @@ void NeutrinoSelectionFilter::Loop() {
 
 	if (string(fLabel).find("Overlay") != std::string::npos) {
 
-		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
+		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/CCQEPeLEETuples/CCQEPreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
 
 		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
 		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
@@ -940,8 +940,8 @@ void NeutrinoSelectionFilter::Loop() {
 
 		// Check min momentum threshold & containment
 
-		if (CandidateMuMom < ArrayNBinsMuonMomentum[0]) { continue; }
-		if (CandidatePMom < ArrayNBinsProtonMomentum[0]) { continue; }
+		if (CandidateMuMom < CCQEArrayNBinsMuonMomentum[0]) { continue; }
+		if (CandidatePMom < CCQEArrayNBinsProtonMomentum[0]) { continue; }
 
 		MomentumThresholdCounter++;
 
@@ -949,7 +949,7 @@ void NeutrinoSelectionFilter::Loop() {
 		// Josh will probably remove it for the 2D analysis
 
 		if (!CandidateMuonTrackStartContainment) { continue; }
-		if (!CandidateMuonTrackEndContainment) { continue; }
+		//if (!CandidateMuonTrackEndContainment) { continue; }
 		if (!CandidateProtonTrackStartContainment) { continue; }
 		if (!CandidateProtonTrackEndContainment) { continue; }
 
@@ -1294,10 +1294,10 @@ void NeutrinoSelectionFilter::Loop() {
 				double MCParticleMomentum = MCParticle.Mag();
 				int MCParticlePdg = mc_pdg->at(WhichMCParticle);
 
-				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= ArrayNBinsMuonMomentum[0] ) 
+				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= CCQEArrayNBinsMuonMomentum[0] ) 
 					{ TrueMuonCounter++;  VectorTrueMuonIndex.push_back(WhichMCParticle); }
 
-				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= ArrayNBinsProtonMomentum[0] ) 
+				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= CCQEArrayNBinsProtonMomentum[0] ) 
 					{ TrueProtonCounter++; VectorTrueProtonIndex.push_back(WhichMCParticle); }
 
 				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 

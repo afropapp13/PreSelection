@@ -1,5 +1,5 @@
-#define TruthNeutrinoSelectionFilter_cxx
-#include "TruthNeutrinoSelectionFilter.h"
+#define TruthCCQENeutrinoSelectionFilter_cxx
+#include "TruthCCQENeutrinoSelectionFilter.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -20,7 +20,7 @@ using namespace Constants;
 // -----------------------------------------------------------------------------
 
 
-void TruthNeutrinoSelectionFilter::Loop() {
+void TruthCCQENeutrinoSelectionFilter::Loop() {
 
 	// -----------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/CCQEPeLEETuples/CCQEPreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -578,10 +578,10 @@ void TruthNeutrinoSelectionFilter::Loop() {
 				double MCParticleMomentum = MCParticle.Mag();
 				int MCParticlePdg = mc_pdg->at(WhichMCParticle);
 
-				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= ArrayNBinsMuonMomentum[0] ) 
+				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= CCQEArrayNBinsMuonMomentum[0] ) 
 					{ TrueMuonCounter++;  VectorTrueMuonIndex.push_back(WhichMCParticle); }
 
-				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= ArrayNBinsProtonMomentum[0] ) 
+				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= CCQEArrayNBinsProtonMomentum[0] ) 
 					{ TrueProtonCounter++; VectorTrueProtonIndex.push_back(WhichMCParticle); }
 
 				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
