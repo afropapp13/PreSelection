@@ -14,7 +14,7 @@
 using namespace std;
 using namespace Constants;
 
-void PeLEE_myPOT(TString Label, TString Sample) {
+void PeLEE_myCCQEPOT(TString Label, TString Sample) {
 	 
 	TTree* tree;
 	TFile* PeLEEFile = TFile::Open(Sample,"readonly");

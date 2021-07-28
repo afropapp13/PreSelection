@@ -45,7 +45,7 @@
 	//gROOT->ProcessLine(".L myPOT.C+");
 	//gROOT->ProcessLine(".L CreateSplines.cpp+");
 
-	gROOT->ProcessLine(".L PeLEE_CCQEmyPOT.C+");
+	gROOT->ProcessLine(".L PeLEE_myCCQEPOT.C+");
 	gROOT->ProcessLine(".L CCQENeutrinoSelectionFilter.C+");
 	gROOT->ProcessLine(".L TruthCCQENeutrinoSelectionFilter.C+");
 
@@ -72,7 +72,7 @@
 		//  { gROOT->ProcessLine("PreTruthSelection(\""+WhichSampleArray[i]+"\").Loop()"); } 
 
 			if (string(WhichSampleArray[i]).find("Overlay") != std::string::npos)
-			  { gROOT->ProcessLine("PeLEE_CCQEmyPOT(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\")"); }
+			  { gROOT->ProcessLine("PeLEE_myCCQEPOT(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\")"); }
 
 			gROOT->ProcessLine("CCQENeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()");
 
