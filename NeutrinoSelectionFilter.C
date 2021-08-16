@@ -89,6 +89,7 @@ void NeutrinoSelectionFilter::Loop() {
 	
 	int MCParticle_Mode;
 
+	double LFG_pn;
 	double True_Ev;
 	double True_Vx;
 	double True_Vy;
@@ -289,6 +290,7 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("NumberMuons",&NumberMuons);
 	tree->Branch("NumberChargedPions",&NumberChargedPions);
 
+	tree->Branch("LFG_pn",&LFG_pn);
 	tree->Branch("True_Ev",&True_Ev);
 	tree->Branch("True_Vx",&True_Vx);
 	tree->Branch("True_Vy",&True_Vy);
@@ -539,6 +541,17 @@ void NeutrinoSelectionFilter::Loop() {
 
 	POTWeight = POTScale;	
 	ROOTinoWeight = 1.;
+
+	// -----------------------------------------------------------------------------
+
+	// Only for the dublicate Overlay MC files
+	// Hacked the PeLEE module to add the true pn_n from the Local Fermi Gas
+
+	if (string(fLabel).find("Dublicate") != std::string::npos) {
+
+		fChain->SetBranchAddress("struck_nuc_mom", &struck_nuc_mom, &b_struck_nuc_mom);
+
+	}
 
 	// -----------------------------------------------------------------------------
 
@@ -1247,6 +1260,13 @@ void NeutrinoSelectionFilter::Loop() {
 
 		}
 
+		// ---------------------------------------------------------------------------------------------------------------------------------
+
+		if (string(fLabel).find("Dublicate") != std::string::npos) {
+
+			LFG_pn = struck_nuc_mom;
+
+		}
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 

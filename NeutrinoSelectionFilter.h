@@ -80,6 +80,7 @@ public :
    Float_t         theta;
    Bool_t          isVtxInFiducial;
    Bool_t          truthFiducial;
+   Float_t         struck_nuc_mom;
    Float_t         true_nu_vtx_t;
    Float_t         true_nu_vtx_x;
    Float_t         true_nu_vtx_y;
@@ -547,6 +548,7 @@ public :
    TBranch        *b_theta;   //!
    TBranch        *b_isVtxInFiducial;   //!
    TBranch        *b_truthFiducial;   //!
+   TBranch        *b_struck_nuc_mom;   //!
    TBranch        *b_true_nu_vtx_t;   //!
    TBranch        *b_true_nu_vtx_x;   //!
    TBranch        *b_true_nu_vtx_y;   //!

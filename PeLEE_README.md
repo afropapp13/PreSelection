@@ -15,7 +15,13 @@ hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuple
 
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9_Run{1,2,3}_v08_00_00_52.root
 
+hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9_Run{1,2,3}_v08_00_00_52_POT.root
+
+hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Run{1,2,3}_v08_00_00_52_POT.root
+
 root -l PeLEE_TwoDPlots.cpp
+
+#hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Dublicate_Overlay9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Dublicate_Overlay9_Run{1,2,3}_v08_00_00_52.root
 
 #root -l
 #.L PeLEE_CreateSplines.cpp
@@ -33,3 +39,5 @@ root -l PeLEE_script_FakeData_PreSelection.C
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9NuWro_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
+
+hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
