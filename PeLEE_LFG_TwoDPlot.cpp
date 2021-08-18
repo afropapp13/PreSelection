@@ -48,6 +48,7 @@ void PeLEE_LFG_TwoDPlot() {
 //	std::vector<TString> Runs{"Run1","Run3"};
 //	std::vector<TString> Runs{"Run1","Run2","Run3","Run4","Run5"};
 
+	std::vector<TString> Runs{"Combined"};
 	const int NRuns = Runs.size();
 
 	for (int WhichRun = 0; WhichRun < NRuns; WhichRun++) {
@@ -80,6 +81,74 @@ void PeLEE_LFG_TwoDPlot() {
 
 		// --------------------------------------------------------------------------------------------------------
 
+		// Total Missing Momentum for QE events
+
+		TH2D* hPnQE = new TH2D("hPnQE",";LFG p_{n} [GeV/c];True p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnCanvasQE = new TCanvas("QELFGPnCanvas_"+Runs[WhichRun],"QELFGPnCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnCanvasQE->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":LFG_pn>>hPnQE",qualifier + " && MCParticle_Mode == 0","goff");
+		hPnQE->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " QE Events");
+
+		PnCanvasQE->SaveAs(PlotPath+"QELFG_PnCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnCanvasQE;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum for MEC events
+
+		TH2D* hPnMEC = new TH2D("hPnMEC",";LFG p_{n} [GeV/c];True p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnCanvasMEC = new TCanvas("MECLFGPnCanvas_"+Runs[WhichRun],"MECLFGPnCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnCanvasMEC->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":LFG_pn>>hPnMEC",qualifier + " && MCParticle_Mode == 10","goff");
+		hPnMEC->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " MEC Events");
+
+		PnCanvasMEC->SaveAs(PlotPath+"MECLFG_PnCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnCanvasMEC;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum for RES events
+
+		TH2D* hPnRES = new TH2D("hPnRES",";LFG p_{n} [GeV/c];True p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnCanvasRES = new TCanvas("RESLFGPnCanvas_"+Runs[WhichRun],"RESLFGPnCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnCanvasRES->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":LFG_pn>>hPnRES",qualifier + " && MCParticle_Mode == 1","goff");
+		hPnRES->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " RES Events");
+
+		PnCanvasRES->SaveAs(PlotPath+"RESLFG_PnCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnCanvasRES;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum for DIS events
+
+		TH2D* hPnDIS = new TH2D("hPnDIS",";LFG p_{n} [GeV/c];True p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnCanvasDIS = new TCanvas("DISLFGPnCanvas_"+Runs[WhichRun],"DISLFGPnCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnCanvasDIS->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":LFG_pn>>hPnDIS",qualifier + " && MCParticle_Mode == 2","goff");
+		hPnDIS->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " DIS Events");
+
+		PnCanvasDIS->SaveAs(PlotPath+"DISLFG_PnCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnCanvasDIS;
+
+		// --------------------------------------------------------------------------------------------------------
+
 		// kMiss
 
 		TH2D* hkMiss = new TH2D("hkMiss",";LFG p_{n} [GeV/c];True k_{Miss} [GeV/c]",80,0,0.8,80,0,0.8);
@@ -94,6 +163,74 @@ void PeLEE_LFG_TwoDPlot() {
 
 		kMissCanvas->SaveAs(PlotPath+"LFG_kMissCanvas_"+Runs[WhichRun]+".pdf");
 		delete kMissCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// kMiss for QE Events
+
+		TH2D* hkMissQE = new TH2D("hkMissQE",";LFG p_{n} [GeV/c];True k_{Miss} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		tree->Draw("Reco_kMiss:LFG_pn>>hkMissQE",qualifier + " && MCParticle_Mode == 0","goff");
+
+		TCanvas* kMissCanvasQE = new TCanvas("QELFGkMissCanvas_"+Runs[WhichRun],"QELFGkMissCanvas_"+Runs[WhichRun],205,34,1024,768);
+		kMissCanvasQE->cd();
+		hkMissQE->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " QE Events");
+
+		kMissCanvasQE->SaveAs(PlotPath+"QELFG_kMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete kMissCanvasQE;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// kMiss for MEC Events
+
+		TH2D* hkMissMEC = new TH2D("hkMissMEC",";LFG p_{n} [GeV/c];True k_{Miss} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		tree->Draw("Reco_kMiss:LFG_pn>>hkMissMEC",qualifier + " && MCParticle_Mode == 10","goff");
+
+		TCanvas* kMissCanvasMEC = new TCanvas("MECLFGkMissCanvas_"+Runs[WhichRun],"MECLFGkMissCanvas_"+Runs[WhichRun],205,34,1024,768);
+		kMissCanvasMEC->cd();
+		hkMissMEC->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " MEC Events");
+
+		kMissCanvasMEC->SaveAs(PlotPath+"MECLFG_kMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete kMissCanvasMEC;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// kMiss for RES Events
+
+		TH2D* hkMissRES = new TH2D("hkMissRES",";LFG p_{n} [GeV/c];True k_{Miss} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		tree->Draw("Reco_kMiss:LFG_pn>>hkMissRES",qualifier + " && MCParticle_Mode == 1","goff");
+
+		TCanvas* kMissCanvasRES = new TCanvas("RESLFGkMissCanvas_"+Runs[WhichRun],"RESLFGkMissCanvas_"+Runs[WhichRun],205,34,1024,768);
+		kMissCanvasRES->cd();
+		hkMissRES->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " RES Events");
+
+		kMissCanvasRES->SaveAs(PlotPath+"RESLFG_kMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete kMissCanvasRES;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// kMiss for DIS Events
+
+		TH2D* hkMissDIS = new TH2D("hkMissDIS",";LFG p_{n} [GeV/c];True k_{Miss} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		tree->Draw("Reco_kMiss:LFG_pn>>hkMissDIS",qualifier + " && MCParticle_Mode == 2","goff");
+
+		TCanvas* kMissCanvasDIS = new TCanvas("DISLFGkMissCanvas_"+Runs[WhichRun],"DISLFGkMissCanvas_"+Runs[WhichRun],205,34,1024,768);
+		kMissCanvasDIS->cd();
+		hkMissDIS->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " DIS Events");
+
+		kMissCanvasDIS->SaveAs(PlotPath+"DISLFG_kMissCanvas_"+Runs[WhichRun]+".pdf");
+		delete kMissCanvasDIS;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 

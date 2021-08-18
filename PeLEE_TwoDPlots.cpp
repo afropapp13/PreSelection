@@ -717,7 +717,7 @@ void PeLEE_TwoDPlots() {
 
 		// Bonus Plot: 1D μ-p distance 
 
-		TH1D* hMuPDistance = new TH1D("hMuPDistance",";reco #mu-p distance [cm]",23,-0.5,11.5);
+		TH1D* hMuPDistance = new TH1D("hMuPDistance",";reco pair distance [cm]",23,-0.5,11.5);
 
 		tree->Draw("CandidateMuP_Distance>>hMuPDistance",qualifier,"goff");
 
