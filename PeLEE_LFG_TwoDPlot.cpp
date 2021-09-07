@@ -20,7 +20,40 @@ using namespace Constants;
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
+void PrettyPlot(TH1D* h, int Color) {
+
+	int font = 132;
+	double size = 0.05;
+
+	h->GetXaxis()->CenterTitle();
+	h->GetXaxis()->SetTitleFont(font);
+	h->GetXaxis()->SetTitleSize(size);	
+	h->GetXaxis()->SetLabelFont(font);
+	h->GetXaxis()->SetLabelSize(size);
+	
+	h->GetYaxis()->CenterTitle();
+	h->GetYaxis()->SetTitleFont(font);
+	h->GetYaxis()->SetTitleSize(size);	
+	h->GetYaxis()->SetLabelFont(font);
+	h->GetYaxis()->SetLabelSize(size);
+
+	h->SetLineColor(Color);
+	h->SetMarkerColor(Color);
+	h->SetMarkerSize(2.);
+	h->SetMarkerStyle(20);
+
+	h->Scale(1./h->GetMaximum());
+
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+
 void PeLEE_LFG_TwoDPlot() {
+
+	// -----------------------------------------------------------------------------
+
+	TH1D::SetDefaultSumw2();
+	TH2D::SetDefaultSumw2();	
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -231,6 +264,45 @@ void PeLEE_LFG_TwoDPlot() {
 
 		kMissCanvasDIS->SaveAs(PlotPath+"DISLFG_kMissCanvas_"+Runs[WhichRun]+".pdf");
 		delete kMissCanvasDIS;
+
+		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		for (int i = 0; i < NRanges; i++) {
+
+			TString Qualifier = qualifier + " && " + TString(std::to_string(range[i])) + " < LFG_pn && LFG_pn < " + TString(std::to_string(range[i+1]));
+
+			TString CanvasName = "LFG_Pn_Slice"+TString(std::to_string(i));
+			TCanvas* can = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
+
+			TH1D* LFG = new TH1D("LFG_"+TString(std::to_string(range[i])),";p_{n} [GeV/c]",NBins,LowEdge,HighEdge);
+			tree->Draw("LFG_pn>>LFG_"+TString(std::to_string(range[i])),Qualifier ,"goff");
+			PrettyPlot(LFG,kBlue+2);
+			//LFG->SetTitle(TString(std::to_string(range[i])) + " < p_{n} < ");
+			LFG->Draw("p hist same");
+
+			TH1D* kMiss = new TH1D("kMiss_"+TString(std::to_string(range[i])),";p_{n} [GeV/c]",NBins,LowEdge,HighEdge);
+			tree->Draw("True_kMiss>>kMiss_"+TString(std::to_string(range[i])),Qualifier ,"goff");
+			PrettyPlot(kMiss,kOrange+7);
+			kMiss->Draw("p0 hist same");	
+
+			TH1D* Pn = new TH1D("Pn_"+TString(std::to_string(range[i])),";p_{n} [GeV/c]",NBins,LowEdge,HighEdge);
+			tree->Draw("True_Pn>>Pn_"+TString(std::to_string(range[i])),Qualifier ,"goff");
+			PrettyPlot(Pn,kGreen+2);
+			Pn->Draw("p0 hist same");					
+
+			TLegend* leg = new TLegend(0.7,0.7,0.87,0.9);
+			leg->AddEntry(LFG,"LFG","p");
+			leg->AddEntry(kMiss,"k_{Miss}","p");
+			leg->AddEntry(Pn,"P_{n,proxy}","p");
+
+			leg->SetTextFont(FontStyle);
+			leg->SetTextSize(0.05);			
+			leg->Draw();
+
+			can->SaveAs(PlotPath+CanvasName+".pdf");
+			delete can;
+
+		}
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
