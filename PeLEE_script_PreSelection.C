@@ -33,12 +33,6 @@
 //	WhichSampleArray.push_back("OverlayDirt9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_dirt_overlay_v08_00_00_35_all_run2_reco2_reco2.root");
 //	WhichSampleArray.push_back("OverlayDirt9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run3_reco2_reco2.root");
 
-	// dublicate MC, hacked PeLEE module to gran true p_n from Local FG
-
-//	WhichSampleArray.push_back("Dublicate_Overlay9_Run1"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_Overlay_reco2_reco2.root");
-//	WhichSampleArray.push_back("Dublicate_Overlay9_Run2"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run2_Overlay_reco2_reco2.root");
-//	WhichSampleArray.push_back("Dublicate_Overlay9_Run3"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_Overlay_reco2_reco2.root");
-	
 	// ----------------------------------------------------------------------------------
 
 	gROOT->ProcessLine(".L ../../myClasses/Tools.cxx+");

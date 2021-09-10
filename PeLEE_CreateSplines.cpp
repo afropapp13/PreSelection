@@ -37,7 +37,7 @@ TString to_string_with_precision(double a_value, const int n = 3)
     return TString(out.str());
 }
 
-void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar, bool StorePlots) {
+void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar, bool StorePlots, TString Sample) {
 
 	// --------------------------------------------------------------------------------------------------
 
@@ -461,7 +461,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 			line->SetLineStyle(kDashed);
 			line->Draw();
 
-			OverlayCanvas->SaveAs(PlotPath+XVar+"_Between_" + TString(std::to_string(i)) + "_" + TString(std::to_string(i+1)) + "_" + Run+".pdf");
+			OverlayCanvas->SaveAs(PlotPath+Sample+XVar+"_Between_" + TString(std::to_string(i)) + "_" + TString(std::to_string(i+1)) + "_" + Run+".pdf");
 			delete OverlayCanvas;
 
 			// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -507,7 +507,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 				legCaliReso->Draw();
 
 
-				ResoOverlayCanvas->SaveAs(PlotPath+"Reso"+XVar+"_Between_" + TString(std::to_string(i)) + "_" + TString(std::to_string(i+1)) + "_" + Run+".pdf");
+				ResoOverlayCanvas->SaveAs(PlotPath+Sample+"Reso"+XVar+"_Between_" + TString(std::to_string(i)) + "_" + TString(std::to_string(i+1)) + "_" + Run+".pdf");
 				delete ResoOverlayCanvas;
 
 			}
@@ -544,7 +544,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 	TGraphErrors* graphMean = new TGraphErrors(NBinsReso,BinArray,MeanArray,BinArrayError,MeanErrorArray);
 	graphMean->GetXaxis()->SetTitle("Reco " + XVarLabel);
-	graphMean->GetYaxis()->SetTitle("Mean Value " + Units);
+	graphMean->GetYaxis()->SetTitle("Mean Fractional Bias " + Units);
 	graphMean->SetTitle("");
 	if (!StorePlots) { OutputFile->cd(); graphMean->Write("Mean_"+XVar); }
 
@@ -607,7 +607,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 //		legCali->AddEntry(graphMean,"Uncalibrated","p");
 //		legCali->Draw();
 
-		MeanOverlayCanvas->SaveAs(PlotPath+"Mean_"+XVar+Run+".pdf");
+		MeanOverlayCanvas->SaveAs(PlotPath+Sample+"Mean_"+XVar+Run+".pdf");
 		delete MeanOverlayCanvas;
 
 		// ----------------------------------------------------------------------------------------
@@ -631,7 +631,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 //		RecaligraphSigma->SetLineWidth(3);
 //		RecaligraphSigma->Draw("p0 same");
 
-		SigmaOverlayCanvas->SaveAs(PlotPath+"Sigma_"+XVar+Run+".pdf");
+		SigmaOverlayCanvas->SaveAs(PlotPath+Sample+"Sigma_"+XVar+Run+".pdf");
 		delete SigmaOverlayCanvas;
 
 		// ----------------------------------------------------------------------------------------
@@ -645,7 +645,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 			TGraphErrors* graphMeanReso = new TGraphErrors(NBinsReso,BinArray,ResoMeanArray,BinArrayError,ResoMeanErrorArray);
 			graphMeanReso->GetXaxis()->SetTitle("Reco " + XVarLabel);
-			graphMeanReso->GetYaxis()->SetTitle("Mean Value [%]");
+			graphMeanReso->GetYaxis()->SetTitle("Mean Fractional Bias [%]");
 			graphMeanReso->SetTitle("");
 			graphMeanReso->SetLineColor(kBlack);
 			graphMeanReso->SetMarkerColor(kBlack);
@@ -654,6 +654,19 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 			graphMeanReso->SetLineWidth(3);
 
 			graphMeanReso->Draw("ap0");
+
+			graphMeanReso->Fit("pol1","","",0.3,0.5);
+			TF1 *meanreso = (TF1*)graphMeanReso->GetListOfFunctions()->FindObject("pol1");
+
+			TLatex* slope = new TLatex();
+			slope->SetTextFont(132);
+			slope->SetTextSize(0.05);
+			slope->DrawTextNDC(0.4,0.6,"slope = " + TString(std::to_string(meanreso->GetParameter(1))));
+
+			TLatex* ct = new TLatex();
+			ct->SetTextFont(132);
+			ct->SetTextSize(0.05);
+			ct->DrawTextNDC(0.4,0.5,"constant = " + TString(std::to_string(meanreso->GetParameter(0))));												
 
 //			TGraphErrors* graphRecaliMeanReso = new TGraphErrors(NBinsReso,BinArray,ResoRecaliMeanArray,BinArrayError,ResoRecaliMeanErrorArray);
 //			graphRecaliMeanReso->SetLineColor(kOrange+7);
@@ -664,7 +677,7 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 //			graphRecaliMeanReso->Draw("p0");
 
-			ResoMeanOverlayCanvas->SaveAs(PlotPath+"ResoMean_"+XVar+Run+".pdf");
+			ResoMeanOverlayCanvas->SaveAs(PlotPath+Sample+"ResoMean_"+XVar+Run+".pdf");
 			delete ResoMeanOverlayCanvas;
 
 		}
@@ -675,8 +688,6 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 
 
 void PeLEE_CreateSplines(TString Sample, bool StorePlots = false) {
-
-	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -719,20 +730,20 @@ void PeLEE_CreateSplines(TString Sample, bool StorePlots = false) {
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_P_Range",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_Phi",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_Theta",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_CosTheta",StorePlots);
+	ReturnGraph(OutputFile,tree,qualifier,"CandidateP_P_Range",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"CandidateP_Phi",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"CandidateP_Theta",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"CandidateP_CosTheta",StorePlots,Sample);
 
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_P_Range",StorePlots);
-	//ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_P_MCS",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_Phi",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_Theta",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_CosTheta",StorePlots);
+	//ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_P_Range",StorePlots,Sample);
+	////ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_P_MCS",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_Phi",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_Theta",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"CandidateMu_CosTheta",StorePlots,Sample);
 
-	ReturnGraph(OutputFile,tree,qualifier,"Reco_Pt",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"Reco_DeltaPhiT",StorePlots);
-	ReturnGraph(OutputFile,tree,qualifier,"Reco_DeltaAlphaT",StorePlots);
+	//ReturnGraph(OutputFile,tree,qualifier,"Reco_Pt",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"Reco_DeltaPhiT",StorePlots,Sample);
+	//ReturnGraph(OutputFile,tree,qualifier,"Reco_DeltaAlphaT",StorePlots,Sample);
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 

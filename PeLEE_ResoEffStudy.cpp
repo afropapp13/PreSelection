@@ -151,7 +151,8 @@ void TwoEfficiencyFunction(TString Run, TString XVar, TString YVar , TTree* t, T
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
-void EfficiencyFunction(TString Run, TString Var, TTree* t, TString TrueVar, TTree* tTrue, int NBins, double Xmin, double Xmax) {
+void EfficiencyFunction(TString Run, TString Var, TTree* t, TString TrueVar, 
+					    TTree* tTrue, int NBins, double Xmin, double Xmax, TString RecoQual, TString TrueQual) {
 
 	TString XLabel = "blah";
 	if (Var == "True_CandidateP_P") { XLabel = "P_{p} [GeV/c]"; }
@@ -169,10 +170,10 @@ void EfficiencyFunction(TString Run, TString Var, TTree* t, TString TrueVar, TTr
 	EffCanvas->SetBottomMargin(0.12);
 
 	TH1D* reco = new TH1D(Var,";" + XLabel + "; Efficiency [%]",NBins,Xmin,Xmax);
-	t->Draw(Var + " >>" + Var,"("+qualifier + ")*POTWeight","goff");
+	t->Draw(Var + " >>" + Var,"("+RecoQual + ")*POTWeight","goff");
 
 	TH1D* truth = new TH1D("True"+TrueVar,";" + XLabel + "; Efficiency [%]",NBins,Xmin,Xmax);
-	tTrue->Draw(TrueVar + " >>True" + TrueVar,"("+TrueQualifier + ")*POTWeight","goff");
+	tTrue->Draw(TrueVar + " >>True" + TrueVar,"("+TrueQual + ")*POTWeight","goff");
 
 	reco->SetMarkerSize(2.);
 	reco->SetMarkerStyle(20);
@@ -469,6 +470,7 @@ void PeLEE_ResoEffStudy() {
 //	std::vector<TString> Runs{"Run1"};
 //	std::vector<TString> Runs{"Run1","Run3"};
 //	std::vector<TString> Runs{"Run1","Run2","Run3","Run4","Run5"};
+	std::vector<TString> Runs{"Combined"};
 
 	const int NRuns = Runs.size();
 
@@ -490,7 +492,7 @@ void PeLEE_ResoEffStudy() {
 		// ----------------------------------------------------------------------------------------------------------------------------------------
 
 		// Reco - True diffs in muon length slices
-
+/*
 		MuonPrintCanvas(Runs[WhichRun],"Reco_Pt"+Recalibrate,tree,"AllPT");
 		MuonPrintCanvas(Runs[WhichRun],"Reco_Pt"+Recalibrate,tree,"LowPT");
 		MuonPrintCanvas(Runs[WhichRun],"Reco_Pt"+Recalibrate,tree,"MidPT");
@@ -505,12 +507,12 @@ void PeLEE_ResoEffStudy() {
 		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT"+Recalibrate,tree,"LowDeltaPhiT");
 		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT"+Recalibrate,tree,"MidDeltaPhiT");
 		MuonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT"+Recalibrate,tree,"HighDeltaPhiT");
-
+*/
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// ----------------------------------------------------------------------------------------------------------------------------------------
 
 		// Reco - True diffs in proton length slices
-
+/*
 		ProtonPrintCanvas(Runs[WhichRun],"Reco_Pt"+Recalibrate,tree,"AllPT");
 		ProtonPrintCanvas(Runs[WhichRun],"Reco_Pt"+Recalibrate,tree,"LowPT");
 		ProtonPrintCanvas(Runs[WhichRun],"Reco_Pt"+Recalibrate,tree,"MidPT");
@@ -525,14 +527,14 @@ void PeLEE_ResoEffStudy() {
 		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT"+Recalibrate,tree,"LowDeltaPhiT");
 		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT"+Recalibrate,tree,"MidDeltaPhiT");
 		ProtonPrintCanvas(Runs[WhichRun],"Reco_DeltaPhiT"+Recalibrate,tree,"HighDeltaPhiT");
-
+*/
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// ----------------------------------------------------------------------------------------------------------------------------------------
 
 		// 1D CC1p0pi efficiencies in much finer binning than the actual one used in the analysis
 
-//		EfficiencyFunction(Runs[WhichRun],"True_CandidateP_P",tree,"Proton_MCParticle_Mom",treeTruth,20,0.25,1.1);
-//		EfficiencyFunction(Runs[WhichRun],"True_CandidateMu_P",tree,"Muon_MCParticle_Mom",treeTruth,20,0.1,1.4);
+		EfficiencyFunction(Runs[WhichRun],"True_CandidateP_P",tree,"Proton_MCParticle_Mom",treeTruth,20,0.3,1.5,qualifierPPNoCut,TrueQualifierNoPPCut);
+		EfficiencyFunction(Runs[WhichRun],"True_CandidateMu_P",tree,"Muon_MCParticle_Mom",treeTruth,20,0.1,1.5,qualifierNoPCut,TrueQualifierNoPCut);
 
 //		EfficiencyFunction(Runs[WhichRun],"True_CandidateP_CosTheta",tree,"Proton_MCParticle_CosTheta",treeTruth,20,-1.,1.);
 //		EfficiencyFunction(Runs[WhichRun],"True_CandidateMu_CosTheta",tree,"Muon_MCParticle_CosTheta",treeTruth,20,-1.,1.);

@@ -154,6 +154,40 @@ void PeLEE_TwoDPlots() {
 
 		// --------------------------------------------------------------------------------------------------------
 
+		// Proton Momentum Range vs length
+
+		TH2D* hProtonMomLength = new TH2D("hProtonMomLength",";Reco Proton Momentum [GeV/c];Reco Proton Length [cm]",100,0.3,1.,100,0.,100.);
+
+		tree->Draw("CandidateP_Length:CandidateP_P_Range>>hProtonMomLength",qualifier,"goff");
+
+		TCanvas* ProtonMomentumLengthCanvas = new TCanvas("ProtonMomentumLengthCanvas_"+Runs[WhichRun],"ProtonMomentumCosLengthCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ProtonMomentumLengthCanvas->cd();
+		hProtonMomLength->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		ProtonMomentumLengthCanvas->SaveAs(PlotPath+"ProtonMomentumLengthCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonMomentumLengthCanvas;			
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Proton Momentum Range vs cos theta 
+
+		TH2D* hProtonMomCos = new TH2D("hProtonMomCos",";True Proton Momentum [GeV/c];Range Reco Proton cos#theta_{p}",50,0.3,1.,50,-1.,1.);
+
+		tree->Draw("CandidateP_CosTheta:CandidateP_P_Range>>hProtonMomCos","("+qualifier+")*(CandidateP_P_Range - True_CandidateP_P)/True_CandidateP_P * 100 .","goff");
+
+		TCanvas* ProtonMomentumCosCanvas = new TCanvas("ProtonMomentumCosCanvas_"+Runs[WhichRun],"ProtonMomentumCosCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ProtonMomentumCosCanvas->cd();
+		hProtonMomCos->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		ProtonMomentumCosCanvas->SaveAs(PlotPath+"ProtonMomentumCosCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonMomentumCosCanvas;		
+
+		// --------------------------------------------------------------------------------------------------------
+
 		// Proton Momentum Range
 
 		TH2D* hProtonMomRange = new TH2D("hProtonMomRange",";True Proton Momentum [GeV/c];Range Reco Proton Momentum [GeV/c]",100,0.2,1.1,100,0.2,1.1);

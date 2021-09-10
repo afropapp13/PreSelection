@@ -3,7 +3,7 @@
 
 # Calibration & Preselection
 
-root -l PeLEE_script_PreSelection.C
+root -b PeLEE_script_PreSelection.C
 
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_BeamOn9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_BeamOn9_Run{1,2,3}_v08_00_00_52.root
 
@@ -19,13 +19,23 @@ hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuple
 
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Run{1,2,3}_v08_00_00_52_POT.root
 
-root -l PeLEE_TwoDPlots.cpp
+root -b PeLEE_TwoDPlots.cpp
+
+# DO NOT DELETE !!!
+# my own production to perform the LFG/Pmiss/kMiss/PnProxy studies
+
+# root -b PeLEE_script_Dublicate_PreSelection.C
 
 #hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Dublicate_Overlay9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Dublicate_Overlay9_Run{1,2,3}_v08_00_00_52.root
 
-#root -l
+# root -b PeLEE_LFG_TwoDPlot.cpp
+
+## Perform the fit and store the calibartion coefficients 
+#root -b
 #.L PeLEE_CreateSplines.cpp
-#PeLEE_CreateSplines("Overlay9_Combined")
+#PeLEE_CreateSplines("Overlay9_Combined",true)
+
+root -b PeLEE_ResoEffStudy.cpp
 
 # locally
 ./PeLEE_Download2DRecoTruthPlots.sh
@@ -41,3 +51,7 @@ hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuple
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9NuWro_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
+
+
+
+
