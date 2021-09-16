@@ -171,6 +171,26 @@ void PeLEE_TwoDPlots() {
 
 		// --------------------------------------------------------------------------------------------------------
 
+		// Proton Momentum Range vs length in 0.3-0.5 GeV/c region
+
+		TH2D* ZoomInhProtonMomLength = new TH2D("ZoomInhProtonMomLength",";Reco Proton Momentum [GeV/c];Reco Proton Length [cm]",20,0.3,0.5,15,0.,15.);
+		TH2D* CaliZoomInhProtonMomLength = new TH2D("CaliZoomInhProtonMomLength",";Reco Proton Momentum [GeV/c];Reco Proton Length [cm]",20,0.3,0.5,15,0.,15.);		
+
+		tree->Draw("CandidateP_Length:CandidateP_P_Range>>ZoomInhProtonMomLength",qualifier,"goff");
+		tree->Draw("CandidateP_Length:(1+0.01*(29.354172*CandidateP_P_Range-14.674918))*CandidateP_P_Range>>CaliZoomInhProtonMomLength",qualifier,"goff");		
+
+		TCanvas* ZoomInProtonMomentumLengthCanvas = new TCanvas("ZoomInProtonMomentumLengthCanvas_"+Runs[WhichRun],"ZoomInProtonMomentumCosLengthCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ZoomInProtonMomentumLengthCanvas->cd();
+		ZoomInhProtonMomLength->Draw("coltz");
+		//CaliZoomInhProtonMomLength->Draw("coltz same");		
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		ZoomInProtonMomentumLengthCanvas->SaveAs(PlotPath+"ZoomInProtonMomentumLengthCanvas_"+Runs[WhichRun]+".pdf");
+		delete ZoomInProtonMomentumLengthCanvas;			
+
+		// --------------------------------------------------------------------------------------------------------
+
 		// Proton Momentum Range vs cos theta 
 
 		TH2D* hProtonMomCos = new TH2D("hProtonMomCos",";True Proton Momentum [GeV/c];Range Reco Proton cos#theta_{p}",50,0.3,1.,50,-1.,1.);
@@ -647,105 +667,105 @@ void PeLEE_TwoDPlots() {
 
 		// --------------------------------------------------------------------------------------------------------
 
-//		//  Muon End X
+		//  Muon End X
 
-//		TH2D* hMuonEndX = new TH2D("hMuonEndX",";True Muon End X [cm];Reco Muon End X [cm]",300,-10,270,300,-10,270);
+		TH2D* hMuonEndX = new TH2D("hMuonEndX",";True Muon End X [cm];Reco Muon End X [cm]",300,-10,270,300,-10,270);
 
-//		tree->Draw("CandidateMu_EndX:True_CandidateMu_EndX>>hMuonEndX",qualifier+" && CandidateMu_EndContainment == 1","goff");
+		tree->Draw("CandidateMu_EndX:True_CandidateMu_EndX>>hMuonEndX",qualifier+" && CandidateMu_EndContainment == 1","goff");
 
-//		TCanvas* MuonEndXCanvas = new TCanvas("MuonEndXCanvas_"+Runs[WhichRun],"MuonEndXCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		MuonEndXCanvas->cd();
-//		hMuonEndX->Draw("coltz");
+		TCanvas* MuonEndXCanvas = new TCanvas("MuonEndXCanvas_"+Runs[WhichRun],"MuonEndXCanvas_"+Runs[WhichRun],205,34,1024,768);
+		MuonEndXCanvas->cd();
+		hMuonEndX->Draw("coltz");
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
 
-//		MuonEndXCanvas->SaveAs(PlotPath+"MuonEndXCanvas_"+Runs[WhichRun]+".pdf");
-//		delete MuonEndXCanvas;
+		MuonEndXCanvas->SaveAs(PlotPath+"MuonEndXCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonEndXCanvas;
 
-		// --------------------------------------------------------------------------------------------------------
+		//--------------------------------------------------------------------------------------------------------
 
-//		// Muon End Y
+		// Muon End Y
 
-//		TH2D* hMuonEndY = new TH2D("hMuonEndY",";True Muon End Y [cm];Reco Muon End Y [cm]",300,-150,150,300,-150,150);
+		TH2D* hMuonEndY = new TH2D("hMuonEndY",";True Muon End Y [cm];Reco Muon End Y [cm]",300,-150,150,300,-150,150);
 
-//		tree->Draw("CandidateMu_EndY:True_CandidateMu_EndY>>hMuonEndY",qualifier,"goff");
+		tree->Draw("CandidateMu_EndY:True_CandidateMu_EndY>>hMuonEndY",qualifier,"goff");
 
-//		TCanvas* MuonEndYCanvas = new TCanvas("MuonEndYCanvas_"+Runs[WhichRun],"MuonEndYCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		MuonEndYCanvas->cd();
-//		hMuonEndY->Draw("coltz");
+		TCanvas* MuonEndYCanvas = new TCanvas("MuonEndYCanvas_"+Runs[WhichRun],"MuonEndYCanvas_"+Runs[WhichRun],205,34,1024,768);
+		MuonEndYCanvas->cd();
+		hMuonEndY->Draw("coltz");
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
 
-//		MuonEndYCanvas->SaveAs(PlotPath+"MuonEndYCanvas_"+Runs[WhichRun]+".pdf");
-//		delete MuonEndYCanvas;
+		MuonEndYCanvas->SaveAs(PlotPath+"MuonEndYCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonEndYCanvas;
 
-		// --------------------------------------------------------------------------------------------------------
+		//--------------------------------------------------------------------------------------------------------
 
-//		// Muon End Z
+		// Muon End Z
 
-//		TH2D* hMuonEndZ = new TH2D("hMuonEndZ",";True Muon End Z [cm];Reco Muon End Z [cm]",1200,-50,1150,1200,-50,1150);
+		TH2D* hMuonEndZ = new TH2D("hMuonEndZ",";True Muon End Z [cm];Reco Muon End Z [cm]",1200,-50,1150,1200,-50,1150);
 
-//		tree->Draw("CandidateMu_EndZ:True_CandidateMu_EndZ>>hMuonEndZ",qualifier,"goff");
+		tree->Draw("CandidateMu_EndZ:True_CandidateMu_EndZ>>hMuonEndZ",qualifier,"goff");
 
-//		TCanvas* MuonEndZCanvas = new TCanvas("MuonEndZCanvas_"+Runs[WhichRun],"MuonEndZCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		MuonEndZCanvas->cd();
-//		hMuonEndZ->Draw("coltz");
+		TCanvas* MuonEndZCanvas = new TCanvas("MuonEndZCanvas_"+Runs[WhichRun],"MuonEndZCanvas_"+Runs[WhichRun],205,34,1024,768);
+		MuonEndZCanvas->cd();
+		hMuonEndZ->Draw("coltz");
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
 
-//		MuonEndZCanvas->SaveAs(PlotPath+"MuonEndZCanvas_"+Runs[WhichRun]+".pdf");
-//		delete MuonEndZCanvas;
-
-		// --------------------------------------------------------------------------------------------------------
-
-//		// Proton End X
-
-//		TH2D* hProtonEndX = new TH2D("hProtonEndX",";True Proton End X [cm];Reco Proton End X [cm]",300,-10,290,300,-10,290);
-
-//		tree->Draw("CandidateP_EndX:True_CandidateP_EndX>>hProtonEndX",qualifier,"goff");
-
-//		TCanvas* ProtonEndXCanvas = new TCanvas("ProtonEndXCanvas_"+Runs[WhichRun],"ProtonEndXCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		ProtonEndXCanvas->cd();
-//		hProtonEndX->Draw("coltz");
-
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
-
-//		ProtonEndXCanvas->SaveAs(PlotPath+"ProtonEndXCanvas_"+Runs[WhichRun]+".pdf");
-//		delete ProtonEndXCanvas;
+		MuonEndZCanvas->SaveAs(PlotPath+"MuonEndZCanvas_"+Runs[WhichRun]+".pdf");
+		delete MuonEndZCanvas;
 
 		// --------------------------------------------------------------------------------------------------------
 
-//		// Proton End Y
+		// Proton End X
 
-//		TH2D* hProtonEndY = new TH2D("hProtonEndY",";True Proton End Y [cm];Reco Proton End Y [cm]",300,-150,150,300,-150,150);
+		TH2D* hProtonEndX = new TH2D("hProtonEndX",";True Proton End X [cm];Reco Proton End X [cm]",300,-10,290,300,-10,290);
 
-//		tree->Draw("CandidateP_EndY:True_CandidateP_EndY>>hProtonEndY",qualifier,"goff");
+		tree->Draw("CandidateP_EndX:True_CandidateP_EndX[0]>>hProtonEndX",qualifier,"goff");
 
-//		TCanvas* ProtonEndYCanvas = new TCanvas("ProtonEndYCanvas_"+Runs[WhichRun],"ProtonEndYCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		ProtonEndYCanvas->cd();
-//		hProtonEndY->Draw("coltz");
+		TCanvas* ProtonEndXCanvas = new TCanvas("ProtonEndXCanvas_"+Runs[WhichRun],"ProtonEndXCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ProtonEndXCanvas->cd();
+		hProtonEndX->Draw("coltz");
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
 
-//		ProtonEndYCanvas->SaveAs(PlotPath+"ProtonEndYCanvas_"+Runs[WhichRun]+".pdf");
-//		delete ProtonEndYCanvas;
+		ProtonEndXCanvas->SaveAs(PlotPath+"ProtonEndXCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonEndXCanvas;
 
 		// --------------------------------------------------------------------------------------------------------
 
-//		// Proton End Z
+		// Proton End Y
 
-//		TH2D* hProtonEndZ = new TH2D("hProtonEndZ",";True Proton End Z [cm];Reco Proton End Z [cm]",1200,-50,1150,1200,-50,1150);
+		TH2D* hProtonEndY = new TH2D("hProtonEndY",";True Proton End Y [cm];Reco Proton End Y [cm]",300,-150,150,300,-150,150);
 
-//		tree->Draw("CandidateP_EndZ:True_CandidateP_EndZ>>hProtonEndZ",qualifier,"goff");
+		tree->Draw("CandidateP_EndY:True_CandidateP_EndY[0]>>hProtonEndY",qualifier,"goff");
 
-//		TCanvas* ProtonEndZCanvas = new TCanvas("ProtonEndZCanvas_"+Runs[WhichRun],"ProtonEndZCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		ProtonEndZCanvas->cd();
-//		hProtonEndZ->Draw("coltz");
+		TCanvas* ProtonEndYCanvas = new TCanvas("ProtonEndYCanvas_"+Runs[WhichRun],"ProtonEndYCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ProtonEndYCanvas->cd();
+		hProtonEndY->Draw("coltz");
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
 
-//		ProtonEndZCanvas->SaveAs(PlotPath+"ProtonEndZCanvas_"+Runs[WhichRun]+".pdf");
-//		delete ProtonEndZCanvas;
+		ProtonEndYCanvas->SaveAs(PlotPath+"ProtonEndYCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonEndYCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Proton End Z
+
+		TH2D* hProtonEndZ = new TH2D("hProtonEndZ",";True Proton End Z [cm];Reco Proton End Z [cm]",1200,-50,1150,1200,-50,1150);
+
+		tree->Draw("CandidateP_EndZ:True_CandidateP_EndZ[0]>>hProtonEndZ",qualifier,"goff");
+
+		TCanvas* ProtonEndZCanvas = new TCanvas("ProtonEndZCanvas_"+Runs[WhichRun],"ProtonEndZCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ProtonEndZCanvas->cd();
+		hProtonEndZ->Draw("coltz");
+
+		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+
+		ProtonEndZCanvas->SaveAs(PlotPath+"ProtonEndZCanvas_"+Runs[WhichRun]+".pdf");
+		delete ProtonEndZCanvas;
 
 		// --------------------------------------------------------------------------------------------------------
 
@@ -769,6 +789,77 @@ void PeLEE_TwoDPlots() {
 
 		CandidateMuP_DistanceCanvas->SaveAs(PlotPath+"CandidateMuP_DistanceCanvas_"+Runs[WhichRun]+".pdf");
 		delete CandidateMuP_DistanceCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Bonus Plot: True charged pion momentum
+
+		TH1D* hPiMom = new TH1D("hPiMom",";True P_{#pi^{#pm}} [GeV/c]",35,0.,0.7);
+
+		tree->Draw("True_PionMomentum>>hPiMom",qualifierData,"goff");
+
+		TCanvas* hPiMomCanvas = new TCanvas("hPiMomCanvas_"+Runs[WhichRun],"hPiMomCanvas_"+Runs[WhichRun],205,34,1024,768);
+		hPiMomCanvas->SetLeftMargin(0.15);
+		hPiMomCanvas->cd();
+		hPiMom->SetTitle("MC Events passing CC1p0#pi selection with N>0 #pi^{#pm}");
+		hPiMom->GetYaxis()->SetTitle("POT Normalized Events");
+		hPiMom->GetYaxis()->SetTitleOffset(1.35);
+		hPiMom->SetLineColor(kBlue-6);
+		hPiMom->SetFillColor(kBlue-6);
+		hPiMom->Draw("hist");
+
+		text->DrawTextNDC(0.47, 0.91, Runs[WhichRun]);
+
+		hPiMomCanvas->SaveAs(PlotPath+"hPiMomCanvas_"+Runs[WhichRun]+".pdf");
+		delete hPiMomCanvas;	
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Bonus Plot: Zoomed in true charged pion momentum
+
+		TH1D* ZoomInhPiMom = new TH1D("ZoomInhPiMom",";True P_{#pi^{#pm}} [GeV/c]",20,0.,0.1);
+
+		tree->Draw("True_PionMomentum>>ZoomInhPiMom",qualifierData,"goff");
+
+		TCanvas* ZoomInhPiMomCanvas = new TCanvas("ZoomInhPiMomCanvas_"+Runs[WhichRun],"ZoomInhPiMomCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ZoomInhPiMomCanvas->SetLeftMargin(0.15);
+		ZoomInhPiMomCanvas->cd();
+		ZoomInhPiMom->SetTitle("MC Events passing CC1p0#pi selection with N>0 #pi^{#pm}");
+		ZoomInhPiMom->GetYaxis()->SetTitle("POT Normalized Events");
+		ZoomInhPiMom->GetYaxis()->SetTitleOffset(1.35);
+		ZoomInhPiMom->SetLineColor(kBlue-6);
+		ZoomInhPiMom->SetFillColor(kBlue-6);
+		ZoomInhPiMom->Draw("hist");
+
+		text->DrawTextNDC(0.47, 0.91, Runs[WhichRun]);
+
+		ZoomInhPiMomCanvas->SaveAs(PlotPath+"ZoomInhPiMomCanvas_"+Runs[WhichRun]+".pdf");
+		delete ZoomInhPiMomCanvas;			
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Bonus Plot: Extra Zoomed in true charged pion momentum
+
+		TH1D* ExtraZoomInhPiMom = new TH1D("ExtraZoomInhPiMom",";True P_{#pi^{#pm}} [GeV/c]",14,0.,0.07);
+
+		tree->Draw("True_PionMomentum>>ExtraZoomInhPiMom",qualifierData,"goff");
+
+		TCanvas* ExtraZoomInhPiMomCanvas = new TCanvas("ExtraZoomInhPiMomCanvas_"+Runs[WhichRun],"ExtraZoomInhPiMomCanvas_"+Runs[WhichRun],205,34,1024,768);
+		ExtraZoomInhPiMomCanvas->SetLeftMargin(0.15);
+		ExtraZoomInhPiMomCanvas->cd();
+		ExtraZoomInhPiMom->SetTitle("MC Events passing CC1p0#pi selection with N>0 #pi^{#pm}");
+		ExtraZoomInhPiMom->GetYaxis()->SetTitle("POT Normalized Events");
+		ExtraZoomInhPiMom->GetYaxis()->SetTitleOffset(1.35);
+		ExtraZoomInhPiMom->SetLineColor(kBlue-6);
+		ExtraZoomInhPiMom->SetFillColor(kBlue-6);
+		ExtraZoomInhPiMom->Draw("hist");
+
+		text->DrawTextNDC(0.47, 0.91, Runs[WhichRun]);
+
+		ExtraZoomInhPiMomCanvas->SaveAs(PlotPath+"ExtraZoomInhPiMomCanvas_"+Runs[WhichRun]+".pdf");
+		delete ExtraZoomInhPiMomCanvas;		
+
+		cout << "Fraction of charged pions below 70 MeV/c = " << 100. * ExtraZoomInhPiMom->Integral() / hPiMom->Integral() << " %"<< endl; 	
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------------

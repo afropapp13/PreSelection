@@ -100,6 +100,7 @@ void NeutrinoSelectionFilter::Loop() {
 	int NumberProtons;
 	int NumberMuons;
 	int NumberChargedPions;
+	int NumberChargedPionsAnyMom;	
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -158,6 +159,8 @@ void NeutrinoSelectionFilter::Loop() {
 	
 	std::vector<int> True_CandidateMu_StartContainment;
 	std::vector<int> True_CandidateMu_EndContainment;
+
+	std::vector<double> True_PionMomentum;
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -289,6 +292,7 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("NumberProtons",&NumberProtons);
 	tree->Branch("NumberMuons",&NumberMuons);
 	tree->Branch("NumberChargedPions",&NumberChargedPions);
+	tree->Branch("NumberChargedPionsAnyMom",&NumberChargedPionsAnyMom);	
 
 	tree->Branch("LFG_pn",&LFG_pn);
 	tree->Branch("True_Ev",&True_Ev);
@@ -355,6 +359,8 @@ void NeutrinoSelectionFilter::Loop() {
 	
 	tree->Branch("True_CandidateMu_StartContainment",&True_CandidateMu_StartContainment);
 	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
+
+	tree->Branch("True_PionMomentum",&True_PionMomentum);
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -698,6 +704,8 @@ void NeutrinoSelectionFilter::Loop() {
 		
 		True_CandidateMu_StartContainment.clear();
 		True_CandidateMu_EndContainment.clear();
+
+		True_PionMomentum.clear();		
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1296,7 +1304,7 @@ void NeutrinoSelectionFilter::Loop() {
 		
 		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fCC3p3pi = 0, fCC4p0pi = 0, fCC4p1pi = 0, fMCParticle_Mode = -1, fNC = 0, fnue = 0;
 
-		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0, TrueHeavierMesonCounter = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0, TrueHeavierMesonCounter = 0, TrueChargedPionCounterAnyMom = 0;
 		int NMCParticles = mc_pdg->size();
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
@@ -1323,18 +1331,20 @@ void NeutrinoSelectionFilter::Loop() {
 				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
 					{ TrueChargedPionCounter++; }
 
+				if ( fabs(MCParticlePdg) == AbsChargedPionPdg ) { TrueChargedPionCounterAnyMom++;  True_PionMomentum.push_back(MCParticleMomentum); }					
+
 				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
 
 				if (MCParticlePdg == NeutronPdg) { TrueNeutronCounter++; }
 
-				if ( MCParticlePdg != NeutralPionPdg && fabs(MCParticlePdg) != AbsChargedPionPdg && tools.is_meson_or_antimeson(MCParticlePdg) ) { TrueHeavierMesonCounter++; }
+				if ( MCParticlePdg != NeutralPionPdg && fabs(MCParticlePdg) != AbsChargedPionPdg && tools.is_meson_or_antimeson(MCParticlePdg) ) { TrueHeavierMesonCounter++; }				
 
 				// -----------------------------------------------------------------
 
 				// Matching the true endpoint of the CC1p candidate tracks
 
 				if ( mc_vx->at(WhichMCParticle) == True_CandidateMu_StartX.at(0) && mc_vy->at(WhichMCParticle) == True_CandidateMu_StartY.at(0) 
-				  && mc_vz->at(WhichMCParticle) == True_CandidateMu_StartZ.at(0) && CandidateMu_MCParticle_Pdg.at(0) == MuonPdg 
+				  && mc_vz->at(WhichMCParticle) == True_CandidateMu_StartZ.at(0) && MCParticlePdg == MuonPdg 
 				) { 
 
 					True_CandidateMu_EndX.push_back(mc_endx->at(WhichMCParticle));
@@ -1344,7 +1354,7 @@ void NeutrinoSelectionFilter::Loop() {
 				}
 
 				if ( mc_vx->at(WhichMCParticle) == True_CandidateP_StartX.at(0) && mc_vy->at(WhichMCParticle) == True_CandidateP_StartY.at(0) 
-				  && mc_vz->at(WhichMCParticle) == True_CandidateP_StartZ.at(0) && CandidateP_MCParticle_Pdg.at(0) == ProtonPdg 
+				  && mc_vz->at(WhichMCParticle) == True_CandidateP_StartZ.at(0) && MCParticlePdg == ProtonPdg 
 				) { 
 
 					True_CandidateP_EndX.push_back(mc_endx->at(WhichMCParticle));
@@ -1410,6 +1420,7 @@ void NeutrinoSelectionFilter::Loop() {
 		NumberProtons = TrueProtonCounter;
 		NumberMuons = TrueMuonCounter;
 		NumberChargedPions = TrueChargedPionCounter;
+		NumberChargedPionsAnyMom = TrueChargedPionCounterAnyMom;		
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
