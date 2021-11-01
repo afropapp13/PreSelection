@@ -21,13 +21,7 @@
 using namespace std;
 using namespace Constants;
 
-//double round(double var,double n) {
-
-//	std::cout << std::setprecision(2);
-//	double value = (int)(var * TMath::Power(10.,n) + .5);
-//	return (double)value / TMath::Power(10.,n);
-
-//}
+// --------------------------------------------------------------------------------------------------
 
 TString to_string_with_precision(double a_value, const int n = 3)
 {
@@ -36,6 +30,8 @@ TString to_string_with_precision(double a_value, const int n = 3)
     out << std::fixed << a_value;
     return TString(out.str());
 }
+
+// --------------------------------------------------------------------------------------------------
 
 void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar, bool StorePlots, TString Sample) {
 

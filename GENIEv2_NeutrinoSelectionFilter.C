@@ -1,5 +1,5 @@
-#define NeutrinoSelectionFilter_cxx
-#include "NeutrinoSelectionFilter.h"
+#define GENIEv2_NeutrinoSelectionFilter_cxx
+#include "GENIEv2_NeutrinoSelectionFilter.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -18,7 +18,7 @@ using namespace Constants;
 
 // -----------------------------------------------------------------------------
 
-void NeutrinoSelectionFilter::Loop() {
+void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 	// -----------------------------------------------------------------------------
 
@@ -476,115 +476,14 @@ void NeutrinoSelectionFilter::Loop() {
 	TH1D* MomentumThresholdEventPlot = new TH1D("MomentumThresholdEventPlot",";Above P threshold events",1,0,1);
 	TH1D* ContainmentEventPlot = new TH1D("ContainmentEventPlot",";Contained start point events",1,0,1);	
 
-	// --------------------------------------------------------------------------------------------------------------------------------
-
-	// POT Counting
-
-	double POTCount = -99.;
-
-	if (string(fLabel).find("Overlay") != std::string::npos) {
-
-		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
-
-		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
-		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
-		POTCount = POTCountHist->GetBinContent(1);
-		POTFile->Close();
-	
-	}
-
 	// ------------------------------------------------------------------------------------------------------------------
 
-	// POT Scaling
+	// POT Scaling // Only Run1 for Set 5
 
-	double POTScale = 1.;
-
-	double tor860_wcut = 1;
-	double E1DCNT_wcut = 1.;
-	double EXT = 1.;
-
-	if (string(fLabel).find("Run1") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run1;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run1;
-		EXT = FullEXT_Run1;
-
-	}
-	
-	if (string(fLabel).find("Run2") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run2;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run2;
-		EXT = FullEXT_Run2;
-
-	}
-	
-	if (string(fLabel).find("Run3") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run3;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run3;
-		EXT = FullEXT_Run3;
-
-	}
-	
-	if (string(fLabel).find("Run4") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run4;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run4;
-		EXT = FullEXT_Run4;
-
-	}
-
-	if (string(fLabel).find("Run5") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run5;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run5;
-		EXT = FullEXT_Run5;
-
-	}	
-	
-	if (string(fLabel).find("ExtBNB9") != std::string::npos) { POTScale = E1DCNT_wcut / EXT; }
-
-	if (string(fLabel).find("Overlay") != std::string::npos) { POTScale = tor860_wcut / POTCount; }	
+	double POTScale = Fulltor860_wcut_Run1 / (9.08E20);
 
 	POTWeight = POTScale;	
 	ROOTinoWeight = 1.;
-
-	// -----------------------------------------------------------------------------
-
-	// Only for the dublicate Overlay MC files
-	// Hacked the PeLEE module to add the true pn_n from the Local Fermi Gas
-
-	if (string(fLabel).find("Dublicate") != std::string::npos) {
-
-		fChain->SetBranchAddress("struck_nuc_mom", &struck_nuc_mom, &b_struck_nuc_mom);
-
-	}
-
-	// -----------------------------------------------------------------------------
-
-	// Only for MC 
-	// Need to take care of the bug fix / T2K tune weights & for the systematics weights
-
-	if (string(fLabel).find("Overlay") != std::string::npos) {
-
-		fChain->SetBranchAddress("weightSpline", &weightSpline, &b_weightSpline);
-		fChain->SetBranchAddress("weightTune", &weightTune, &b_weightTune);
-
-		// Only the CV samples
-
-		if ( 
-			fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-			fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run5" ||
-			fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || fLabel == "OverlayDirt9_Run3" || 
-			fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run5"				 
-		) {
-
-			fChain->SetBranchAddress("weights", &weights, &b_weights);
-
-		}
-
-	}
 
 	// -----------------------------------------------------------------------------
 
@@ -604,56 +503,9 @@ void NeutrinoSelectionFilter::Loop() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
-		// Weights for systematics
-
-		if (string(fLabel).find("Overlay") != std::string::npos) {
-
-			Weight = weightSpline;
-			T2KWeight = weightTune;
-
-			if ( 
-				fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-				fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run5" ||
-				fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || fLabel == "OverlayDirt9_Run3" || 
-				fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run5"				 
-			) {
-
-
-				for ( auto& pair : *weights ) {
-
-					if ( pair.first == "All_UBGenie") {  All_UBGenie = pair.second; }
-					else if ( pair.first == "AxFFCCQEshape_UBGenie") {  AxFFCCQEshape_UBGenie = pair.second; }
-					else if ( pair.first == "DecayAngMEC_UBGenie") {  DecayAngMEC_UBGenie = pair.second; }
-					else if ( pair.first == "NormCCCOH_UBGenie") {  NormCCCOH_UBGenie = pair.second; }
-					else if ( pair.first == "NormNCCOH_UBGenie") {  NormNCCOH_UBGenie = pair.second; }
-					else if ( pair.first == "RPA_CCQE_UBGenie") {  RPA_CCQE_UBGenie = pair.second; }
-					else if ( pair.first == "ThetaDelta2NRad_UBGenie") {  ThetaDelta2NRad_UBGenie = pair.second; }
-					else if ( pair.first == "Theta_Delta2Npi_UBGenie") {  Theta_Delta2Npi_UBGenie = pair.second; }
-					else if ( pair.first == "VecFFCCQEshape_UBGenie") {  VecFFCCQEshape_UBGenie = pair.second; }
-					else if ( pair.first == "XSecShape_CCMEC_UBGenie") {  XSecShape_CCMEC_UBGenie = pair.second; }
-
-
-					else if ( pair.first == "flux_all") {  fluxes = pair.second; }
-					else if ( pair.first == "reint_all") {  reinteractions = pair.second; }
-					else if ( pair.first == "RootinoFix_UBGenie") {  ROOTinoWeight = pair.second.at(0); }
-
-					//else {  cout << "pair.first = " << pair.first << " pair.second.size() = " << pair.second.size() << endl; }
-
-				}
-
-			}
-
-		} else {
-
-			// For BeamOn, everything will be 1
-			// For BeamOff, the POTScale should be different based on the triggers
-			// For MC, we need the POTCount for each one of the samples
-
-			Weight = 1.;
-			T2KWeight = 1.;
-			ROOTinoWeight = 1.;
-
-		}
+		Weight = 1.;
+		T2KWeight = 1.;
+		ROOTinoWeight = 1.;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------
@@ -1062,7 +914,6 @@ void NeutrinoSelectionFilter::Loop() {
 		CandidateMuEndVertexDistance.push_back(CandidateMuEndVertexMag);
 		CandidatePEndVertexDistance.push_back(CandidatePEndVertexMag);
 
-
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		// Fill in the TTree with STV variables
@@ -1085,139 +936,6 @@ void NeutrinoSelectionFilter::Loop() {
 
 		// --------------------------------------------------------------------------------------------------------------------
 		// --------------------------------------------------------------------------------------------------------------------
-
-		// Backtracking to truth, only for MC
-
-		if (string(fLabel).find("Overlay") != std::string::npos) {
-
-			// ---------------------------------------------------------------------------------------------------------------------------------
-
-			// Backtracked muon candidate
-
-			CandidateMu_MCParticle_Pdg.push_back(backtracked_pdg->at(CandidateMuonIndex));
-			CandidateMu_MCParticle_Purity.push_back(backtracked_purity->at(CandidateMuonIndex));
-
-			double CandidateMuonPx = backtracked_px->at(CandidateMuonIndex);
-			double CandidateMuonPy = backtracked_py->at(CandidateMuonIndex);
-			double CandidateMuonPz = backtracked_pz->at(CandidateMuonIndex);
-			TVector3 TrueCandidateMuonP(CandidateMuonPx,CandidateMuonPy,CandidateMuonPz);
-				
-			double CandidateMuonStartX = backtracked_start_x->at(CandidateMuonIndex);
-			double CandidateMuonStartY = backtracked_start_y->at(CandidateMuonIndex);
-			double CandidateMuonStartZ = backtracked_start_z->at(CandidateMuonIndex);						
-			TVector3 TrueCandidateMuonTrackStart(CandidateMuonStartX,CandidateMuonStartY,CandidateMuonStartZ);
-			bool TrueCandidateMuonTrackStartContainment = tools.inFVVector(TrueCandidateMuonTrackStart);
-
-			double TrueCandidateMuonTrackPhi = TrueCandidateMuonP.Phi(); // rad
-			double TrueCandidateMuonTrackPhi_Deg = TrueCandidateMuonTrackPhi * 180./ TMath::Pi(); // deg
-			double TrueCandidateMuonTrackTheta = TrueCandidateMuonP.Theta(); // rad
-			double TrueCandidateMuonTrackTheta_Deg = TrueCandidateMuonTrackTheta * 180./ TMath::Pi(); // deg
-			double TrueCandidateMuonTrackCosTheta = TrueCandidateMuonP.CosTheta();
-
-			double TrueCandidateMuonTrackMomentum_GeV = TrueCandidateMuonP.Mag(); // GeV
-			double TrueCandidateMuonTrack_E_GeV = TMath::Sqrt( TMath::Power(TrueCandidateMuonTrackMomentum_GeV,2.) + TMath::Power(MuonMass_GeV,2.) ); // GeV
-
-			True_CandidateMu_P.push_back(TrueCandidateMuonTrackMomentum_GeV);
-			True_CandidateMu_Phi.push_back(TrueCandidateMuonTrackPhi_Deg); // deg
-			True_CandidateMu_Theta.push_back(TrueCandidateMuonTrackTheta_Deg);
-			True_CandidateMu_CosTheta.push_back(TrueCandidateMuonTrackCosTheta);
-				
-			True_CandidateMu_StartX.push_back(CandidateMuonStartX);
-			True_CandidateMu_StartY.push_back(CandidateMuonStartY);
-			True_CandidateMu_StartZ.push_back(CandidateMuonStartZ);			
-			True_CandidateMu_StartContainment.push_back(TrueCandidateMuonTrackStartContainment);
-
-			// ---------------------------------------------------------------------------------------------------------------------------------
-
-			// Backtracked proton candidate
-
-			CandidateP_MCParticle_Pdg.push_back(backtracked_pdg->at(CandidateProtonIndex));
-			CandidateP_MCParticle_Purity.push_back(backtracked_purity->at(CandidateProtonIndex));
-
-			double CandidateProtonPx = backtracked_px->at(CandidateProtonIndex);
-			double CandidateProtonPy = backtracked_py->at(CandidateProtonIndex);
-			double CandidateProtonPz = backtracked_pz->at(CandidateProtonIndex);
-			TVector3 TrueCandidateProtonP(CandidateProtonPx,CandidateProtonPy,CandidateProtonPz);
-				
-			double CandidateProtonStartX = backtracked_start_x->at(CandidateProtonIndex);
-			double CandidateProtonStartY = backtracked_start_y->at(CandidateProtonIndex);
-			double CandidateProtonStartZ = backtracked_start_z->at(CandidateProtonIndex);						
-			TVector3 TrueCandidateProtonTrackStart(CandidateProtonStartX,CandidateProtonStartY,CandidateProtonStartZ);
-			bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
-
-			double TrueCandidateProtonTrackPhi = TrueCandidateProtonP.Phi(); // rad
-			double TrueCandidateProtonTrackPhi_Deg = TrueCandidateProtonTrackPhi * 180./ TMath::Pi(); // deg
-			double TrueCandidateProtonTrackTheta = TrueCandidateProtonP.Theta(); // rad
-			double TrueCandidateProtonTrackTheta_Deg = TrueCandidateProtonTrackTheta * 180./ TMath::Pi(); // deg
-			double TrueCandidateProtonTrackCosTheta = TrueCandidateProtonP.CosTheta();
-
-			double TrueCandidateProtonTrackMomentum_GeV = TrueCandidateProtonP.Mag(); // GeV
-			double TrueCandidateProtonTrack_E_GeV = TMath::Sqrt( TMath::Power(TrueCandidateProtonTrackMomentum_GeV,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV
-
-			True_CandidateP_P.push_back(TrueCandidateProtonTrackMomentum_GeV);
-			True_CandidateP_Phi.push_back(TrueCandidateProtonTrackPhi_Deg); // deg
-			True_CandidateP_Theta.push_back(TrueCandidateProtonTrackTheta_Deg);
-			True_CandidateP_CosTheta.push_back(TrueCandidateProtonTrackCosTheta);
-				
-			True_CandidateP_StartX.push_back(CandidateProtonStartX);
-			True_CandidateP_StartY.push_back(CandidateProtonStartY);
-			True_CandidateP_StartZ.push_back(CandidateProtonStartZ);			
-			True_CandidateP_StartContainment.push_back(TrueCandidateProtonTrackStartContainment);
-
-			// --------------------------------------------------------------------------------------------------------------------
-				
-			// STV & Energy Reconstruction
-				
-			TVector3 True_TVector3CandidateMuon(-1,-1,-1);
-			True_TVector3CandidateMuon.SetMag(TrueCandidateMuonTrackMomentum_GeV);
-			True_TVector3CandidateMuon.SetTheta(TrueCandidateMuonTrackTheta);
-			True_TVector3CandidateMuon.SetPhi(TrueCandidateMuonTrackPhi);
-
-			TVector3 True_TVector3CandidateProton(-1,-1,-1);
-			True_TVector3CandidateProton.SetMag(TrueCandidateProtonTrackMomentum_GeV);
-			True_TVector3CandidateProton.SetTheta(TrueCandidateProtonTrackTheta);
-			True_TVector3CandidateProton.SetPhi(TrueCandidateProtonTrackPhi);	
-
-			// --------------------------------------------------------------------------------------------------------------------		
-
-			STV_Tools true_stv_tool(True_TVector3CandidateMuon,True_TVector3CandidateProton,TrueCandidateMuonTrack_E_GeV,TrueCandidateProtonTrack_E_GeV);
-
-			True_Pt.push_back(true_stv_tool.ReturnPt());
-			True_Ptx.push_back(true_stv_tool.ReturnPtx());
-			True_Pty.push_back(true_stv_tool.ReturnPty());
-			True_PL.push_back(true_stv_tool.ReturnPL());
-			True_Pn.push_back(true_stv_tool.ReturnPn());
-			True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
-			True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
-			True_ECal.push_back(true_stv_tool.ReturnECal());
-			True_EQE.push_back(true_stv_tool.ReturnEQE());
-			True_Q2.push_back(true_stv_tool.ReturnQ2());	
-			True_A.push_back(true_stv_tool.ReturnA());	
-			True_EMiss.push_back(true_stv_tool.ReturnEMiss());	
-			True_kMiss.push_back(true_stv_tool.ReturnkMiss());	
-			True_PMiss.push_back(true_stv_tool.ReturnPMiss());
-			True_PMissMinus.push_back(true_stv_tool.ReturnPMissMinus());	
-				
-			// --------------------------------------------------------------------------------------------------------------------
-
-			// Relative Angles
-				
-			double True_DeltaPhi_Rad = True_TVector3CandidateMuon.DeltaPhi(True_TVector3CandidateProton);
-			double True_DeltaPhi_Deg = True_DeltaPhi_Rad * 180. / TMath::Pi();
-			if (True_DeltaPhi_Deg >= 360.) { True_DeltaPhi_Deg -= 360.; }
-			if (True_DeltaPhi_Deg < 0.) { True_DeltaPhi_Deg += 360.; }
-			True_DeltaPhi.push_back(True_DeltaPhi_Deg);
-				
-			double True_DeltaTheta_Rad = True_TVector3CandidateMuon.Angle(True_TVector3CandidateProton);
-			double True_DeltaTheta_Deg = True_DeltaTheta_Rad * 180. / TMath::Pi();
-			if (True_DeltaTheta_Deg >= 360.) { True_DeltaTheta_Deg -= 360.; }
-			if (True_DeltaTheta_Deg < 0.) { True_DeltaTheta_Deg += 360.; }
-			True_DeltaTheta.push_back(True_DeltaTheta_Deg);	
-
-			// ---------------------------------------------------------------------------------------------------------------------------------
-
-
-		} else { // BeamOn & ExtBNB
 
 			True_CandidateMu_P.push_back(CosmicPID);
 			True_CandidateMu_Phi.push_back(CosmicPID);
@@ -1269,35 +987,14 @@ void NeutrinoSelectionFilter::Loop() {
 			True_DeltaPhi.push_back(CosmicPID);
 			True_DeltaTheta.push_back(CosmicPID);
 
-		}
-
-		// ---------------------------------------------------------------------------------------------------------------------------------
-
-		if (string(fLabel).find("Dublicate") != std::string::npos) {
-
-			LFG_pn = struck_nuc_mom;
-
-		}
-
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		// True neutrino vertex
-
-		if (string(fLabel).find("Overlay") != std::string::npos) {
-
-			True_Ev = nu_e;
-			True_Vx = true_nu_vtx_x;
-			True_Vy = true_nu_vtx_y;
-			True_Vz = true_nu_vtx_z;
-
-		} else {
 
 			True_Ev = CosmicPID;
 			True_Vx = CosmicPID;
 			True_Vy = CosmicPID;
 			True_Vz = CosmicPID;
-
-		}
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1308,90 +1005,6 @@ void NeutrinoSelectionFilter::Loop() {
 		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fCC3p3pi = 0, fCC4p0pi = 0, fCC4p1pi = 0, fMCParticle_Mode = -1, fNC = 0, fnue = 0;
 
 		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0, TrueHeavierMesonCounter = 0, TrueChargedPionCounterAnyMom = 0;
-		int NMCParticles = mc_pdg->size();
-		
-		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
-		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
-
-		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
-
-			// MC truth information for the final-state primary particles
-
-			// CC numu events	
-
-			if ( ccnc == 0 && nu_pdg == 14) {
-
-				TVector3 MCParticle(mc_px->at(WhichMCParticle),mc_py->at(WhichMCParticle),mc_pz->at(WhichMCParticle));
-				double MCParticleMomentum = MCParticle.Mag();
-				int MCParticlePdg = mc_pdg->at(WhichMCParticle);
-
-				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= ArrayNBinsMuonMomentum[0] ) 
-					{ TrueMuonCounter++;  VectorTrueMuonIndex.push_back(WhichMCParticle); }
-
-				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= ArrayNBinsProtonMomentum[0] ) 
-					{ TrueProtonCounter++; VectorTrueProtonIndex.push_back(WhichMCParticle); }
-
-				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
-					{ TrueChargedPionCounter++; }
-
-				if ( fabs(MCParticlePdg) == AbsChargedPionPdg ) { TrueChargedPionCounterAnyMom++;  True_PionMomentum.push_back(MCParticleMomentum); }					
-
-				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
-
-				if (MCParticlePdg == NeutronPdg) { TrueNeutronCounter++; True_NeutronMomentum.push_back(MCParticleMomentum); }
-
-				if ( MCParticlePdg != NeutralPionPdg && fabs(MCParticlePdg) != AbsChargedPionPdg && tools.is_meson_or_antimeson(MCParticlePdg) ) { TrueHeavierMesonCounter++; }				
-
-				// -----------------------------------------------------------------
-
-				// Matching the true endpoint of the CC1p candidate tracks
-
-				if ( mc_vx->at(WhichMCParticle) == True_CandidateMu_StartX.at(0) && mc_vy->at(WhichMCParticle) == True_CandidateMu_StartY.at(0) 
-				  && mc_vz->at(WhichMCParticle) == True_CandidateMu_StartZ.at(0) && MCParticlePdg == MuonPdg 
-				) { 
-
-					True_CandidateMu_EndX.push_back(mc_endx->at(WhichMCParticle));
-					True_CandidateMu_EndY.push_back(mc_endy->at(WhichMCParticle));
-					True_CandidateMu_EndZ.push_back(mc_endz->at(WhichMCParticle)); 
-
-				}
-
-				if ( mc_vx->at(WhichMCParticle) == True_CandidateP_StartX.at(0) && mc_vy->at(WhichMCParticle) == True_CandidateP_StartY.at(0) 
-				  && mc_vz->at(WhichMCParticle) == True_CandidateP_StartZ.at(0) && MCParticlePdg == ProtonPdg 
-				) { 
-
-					True_CandidateP_EndX.push_back(mc_endx->at(WhichMCParticle));
-					True_CandidateP_EndY.push_back(mc_endy->at(WhichMCParticle)); 
-					True_CandidateP_EndZ.push_back(mc_endz->at(WhichMCParticle));
-
-				}
-
-				// -----------------------------------------------------------------
-
-			} // End of the demand stable final state particles and primary interactions
-
-			// NC events
-			if (ccnc == 1) { fNC = 1; }
-
-			// nu_e
-			if (nu_pdg == 12) { fnue = 1; }
-
-		} // end of the loop over the simb::MCParticles
-
-		// ------------------------------------------------------------------------------------------------
-
-		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 250 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
-
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC1p = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC1p1pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC2p = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC2p1pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p1pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p2pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p3pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC4p0pi = 1; }
-		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC4p1pi = 1; }
 
 		// ------------------------------------------------------------------------------------------------
 

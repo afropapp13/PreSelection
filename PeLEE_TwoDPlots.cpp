@@ -344,6 +344,40 @@ void PeLEE_TwoDPlots() {
 
 		// --------------------------------------------------------------------------------------------------------
 
+		// QE Total Missing Momentum
+
+		TH2D* hPnQE = new TH2D("hPnQE",";True p_{n,proxy} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnCanvasQE = new TCanvas("QEPnCanvas_"+Runs[WhichRun],"QEPnCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnCanvasQE->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":True_Pn>>hPnQE",qualifier + " && MCParticle_Mode == 0","goff");
+		hPnQE->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " QE events");
+
+		PnCanvasQE->SaveAs(PlotPath+"QEPnCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnCanvasQE;	
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// MEC Total Missing Momentum
+
+		TH2D* hPnMEC = new TH2D("hPnMEC",";True p_{n,proxy} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnCanvasMEC = new TCanvas("MECPnCanvas_"+Runs[WhichRun],"MECPnCanvas_"+Runs[WhichRun],205,34,1024,768);
+		PnCanvasMEC->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":True_Pn>>hPnMEC",qualifier + " && MCParticle_Mode == 10","goff");
+		hPnMEC->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun]+ " MEC events");
+
+		PnCanvasMEC->SaveAs(PlotPath+"MECPnCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnCanvasMEC;			
+
+		// --------------------------------------------------------------------------------------------------------
+
 		// Total Missing Momentum from light cone (L) vs Minerva recipe (M) using reco variables
 
 		TH2D* hPnLM = new TH2D("hPnLM",";Reco k_{Miss} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
@@ -358,6 +392,76 @@ void PeLEE_TwoDPlots() {
 
 		PnLMCanvas->SaveAs(PlotPath+"PnLMCanvas_"+Runs[WhichRun]+".pdf");
 		delete PnLMCanvas;
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum from light cone (L) vs Minerva recipe (M) using reco variables for QE events w/o extra FSI particles
+
+		TH2D* hPnLMQE = new TH2D("hPnLMQE",";Reco k_{Miss} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnLMCanvasQE = new TCanvas("PnLMCanvasQE_"+Runs[WhichRun],"PnLMCanvasQE_"+Runs[WhichRun],205,34,1024,768);
+		PnLMCanvasQE->cd();
+
+//		tree->Draw("Reco_Pn" + Recalibrate + ":Reco_kMiss>>hPnLMQE",qualifier+ " && NumberNeutrons == 0 && NumberChargedPions == 0 && MCParticle_Mode == 0","goff");
+		tree->Draw("Reco_Pn" + Recalibrate + ":Reco_kMiss>>hPnLMQE",qualifier+ "  && MCParticle_Mode == 0","goff");
+		hPnLMQE->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " CCQE");
+
+		PnLMCanvasQE->SaveAs(PlotPath+"QEPnLMCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnLMCanvasQE;	
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum from light cone (L) vs Minerva recipe (M) using reco variables for MEC events
+
+		TH2D* hPnLMMEC = new TH2D("hPnLMMEC",";Reco k_{Miss} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnLMCanvasMEC = new TCanvas("PnLMCanvasMEC_"+Runs[WhichRun],"PnLMCanvasMEC_"+Runs[WhichRun],205,34,1024,768);
+		PnLMCanvasMEC->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":Reco_kMiss>>hPnLMMEC",qualifier+ " && MCParticle_Mode == 10","goff");
+		hPnLMMEC->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " CCMEC");
+
+		PnLMCanvasMEC->SaveAs(PlotPath+"MECPnLMCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnLMCanvasMEC;			
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum from light cone (L) vs Minerva recipe (M) using reco variables for RES events
+
+		TH2D* hPnLMRES = new TH2D("hPnLMRES",";Reco k_{Miss} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnLMCanvasRES = new TCanvas("PnLMCanvasRES_"+Runs[WhichRun],"PnLMCanvasRES_"+Runs[WhichRun],205,34,1024,768);
+		PnLMCanvasRES->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":Reco_kMiss>>hPnLMRES",qualifier+ " && MCParticle_Mode == 1","goff");
+		hPnLMRES->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " CCRES");
+
+		PnLMCanvasRES->SaveAs(PlotPath+"RESPnLMCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnLMCanvasRES;		
+
+
+		// --------------------------------------------------------------------------------------------------------
+
+		// Total Missing Momentum from light cone (L) vs Minerva recipe (M) using reco variables for DIS events
+
+		TH2D* hPnLMDIS = new TH2D("hPnLMDIS",";Reco k_{Miss} [GeV/c];Reco p_{n,proxy} [GeV/c]",80,0,0.8,80,0,0.8);
+
+		TCanvas* PnLMCanvasDIS = new TCanvas("PnLMCanvasDIS_"+Runs[WhichRun],"PnLMCanvasDIS_"+Runs[WhichRun],205,34,1024,768);
+		PnLMCanvasDIS->cd();
+
+		tree->Draw("Reco_Pn" + Recalibrate + ":Reco_kMiss>>hPnLMDIS",qualifier+ " && MCParticle_Mode == 2","goff");
+		hPnLMDIS->Draw("coltz");
+
+		text->DrawTextNDC(0.37, 0.93, Runs[WhichRun] + " CCDIS");
+
+		PnLMCanvasDIS->SaveAs(PlotPath+"DISPnLMCanvas_"+Runs[WhichRun]+".pdf");
+		delete PnLMCanvasDIS;				
 
 		// --------------------------------------------------------------------------------------------------------
 
@@ -1027,41 +1131,223 @@ void PeLEE_TwoDPlots() {
 
 //		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-//		// Delta PT
+		// Delta PT
 
-//		TH1D* hDeltaPTReso = new TH1D("hDeltaPTReso",";(Reco-True) #deltap_{T} [deg];# Events",100,-0.5,0.5);
-//		TH1D* hDeltaPTResoUncali = new TH1D("hDeltaPTResoUncali",";(Reco-True) #deltap_{T} [deg];# Events",100,-0.5,0.5);
+		TH1D* hDeltaPTReso = new TH1D("hDeltaPTReso",";#deltap_{T} resolution [%];# Events",100,-60,60);
+		tree->Draw("(Reco_Pt" + Recalibrate + "-True_Pt)/True_Pt*100.>>hDeltaPTReso",qualifier,"goff");
 
-//		tree->Draw("(Reco_Pt" + Recalibrate + "-True_Pt)>>hDeltaPTReso",qualifier,"goff");
-//		tree->Draw("(Reco_Pt-True_Pt)>>hDeltaPTResoUncali",qualifier,"goff");
+		TCanvas* DeltaPTResoCanvas = new TCanvas("DeltaPTResoCanvas_"+Runs[WhichRun],"DeltaPTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaPTResoCanvas->cd();
+		DeltaPTResoCanvas->SetBottomMargin(0.11);		
 
-//		TCanvas* DeltaPTResoCanvas = new TCanvas("DeltaPTResoCanvas_"+Runs[WhichRun],"DeltaPTResoCanvas_"+Runs[WhichRun],205,34,1024,768);
-//		DeltaPTResoCanvas->cd();
+		hDeltaPTReso->GetXaxis()->CenterTitle();
+		hDeltaPTReso->SetLineColor(kOrange+7);
+		hDeltaPTReso->SetMarkerColor(kOrange+7);
+		hDeltaPTReso->SetMarkerSize(2.);
+		hDeltaPTReso->SetMarkerStyle(20);
 
-//		hDeltaPTReso->SetLineColor(kOrange+7);
-//		hDeltaPTReso->SetMarkerColor(kOrange+7);
-//		hDeltaPTReso->SetMarkerSize(2.);
-//		hDeltaPTReso->SetMarkerStyle(20);
+		hDeltaPTReso->Draw("p0 same");
 
-//		hDeltaPTResoUncali->SetLineColor(kBlack);
-//		hDeltaPTResoUncali->SetMarkerColor(kBlack);
-//		hDeltaPTResoUncali->SetMarkerSize(2.);
-//		hDeltaPTResoUncali->SetMarkerStyle(20);
+		TF1* fPT = new TF1("fPT","gaus",-30,30);
+		hDeltaPTReso->Fit(fPT,"RQ0");
 
-//		hDeltaPTResoUncali->Draw("p0 same");
-//		hDeltaPTReso->Draw("p0 same");
+		double mean = fPT->GetParameter(1);
+		double sigma = fPT->GetParameter(2);	
 
-//		text->DrawTextNDC(0.47, 0.93, Runs[WhichRun]);
+		text->DrawLatexNDC(0.35, 0.93, Runs[WhichRun]+", #sigma = " + TString(std::to_string(sigma)) + " %");			
 
-////		leg->Draw();
+		DeltaPTResoCanvas->SaveAs(PlotPath+"DeltaPTResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPTResoCanvas;
 
-//		TLine* lineDeltaPT = new TLine(0,0,0,1.05*hDeltaPTResoUncali->GetMaximum());
-//		lineDeltaPT->SetLineColor(kBlack);
-//		lineDeltaPT->SetLineStyle(kDashed);
-//		lineDeltaPT->Draw();
+//		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-//		DeltaPTResoCanvas->SaveAs(PlotPath+"DeltaPTResoCanvas_"+Runs[WhichRun]+".pdf");
-//		delete DeltaPTResoCanvas;
+		// Delta PL
+
+		TH1D* hDeltaPLReso = new TH1D("hDeltaPLReso",";#deltap_{L} resolution [%];# Events",100,-60,60);
+		tree->Draw("(Reco_PL" + Recalibrate + "-True_PL)/True_PL*100.>>hDeltaPLReso",qualifier,"goff");
+
+		TCanvas* DeltaPLResoCanvas = new TCanvas("DeltaPLResoCanvas_"+Runs[WhichRun],"DeltaPLResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaPLResoCanvas->cd();
+		DeltaPLResoCanvas->SetBottomMargin(0.11);		
+
+		hDeltaPLReso->GetXaxis()->CenterTitle();
+		hDeltaPLReso->SetLineColor(kOrange+7);
+		hDeltaPLReso->SetMarkerColor(kOrange+7);
+		hDeltaPLReso->SetMarkerSize(2.);
+		hDeltaPLReso->SetMarkerStyle(20);
+
+		hDeltaPLReso->Draw("p0 same");
+
+		TF1* fPL = new TF1("fPL","gaus",-30,30);
+		hDeltaPLReso->Fit(fPL,"RQ0");
+
+		double meanPL = fPL->GetParameter(1);
+		double sigmaPL = fPL->GetParameter(2);	
+
+		text->DrawLatexNDC(0.35, 0.93, Runs[WhichRun]+", #sigma = " + TString(std::to_string(sigmaPL)) + " %");			
+
+		DeltaPLResoCanvas->SaveAs(PlotPath+"DeltaPLResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPLResoCanvas;		
+
+//		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Delta PTx
+
+		TH1D* hDeltaPTxReso = new TH1D("hDeltaPTxReso",";#deltap_{T,x} resolution [%];# Events",100,-70,70);
+		tree->Draw("(Reco_Ptx" + Recalibrate + "-True_Ptx)/True_Ptx*100.>>hDeltaPTxReso",qualifier,"goff");
+
+		TCanvas* DeltaPTxResoCanvas = new TCanvas("DeltaPTxResoCanvas_"+Runs[WhichRun],"DeltaPTxResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaPTxResoCanvas->cd();
+		DeltaPTxResoCanvas->SetBottomMargin(0.11);		
+
+		hDeltaPTxReso->GetXaxis()->CenterTitle();
+		hDeltaPTxReso->SetLineColor(kOrange+7);
+		hDeltaPTxReso->SetMarkerColor(kOrange+7);
+		hDeltaPTxReso->SetMarkerSize(2.);
+		hDeltaPTxReso->SetMarkerStyle(20);
+
+		hDeltaPTxReso->Draw("p0 same");
+
+		TF1* fPTx = new TF1("fPTx","gaus",-30,30);
+		hDeltaPTxReso->Fit(fPTx,"RQ0");
+
+		double meanx = fPTx->GetParameter(1);
+		double sigmax = fPTx->GetParameter(2);	
+
+		text->DrawLatexNDC(0.35, 0.93, Runs[WhichRun]+", #sigma = " + TString(std::to_string(sigmax)) + " %");			
+
+		DeltaPTxResoCanvas->SaveAs(PlotPath+"DeltaPTxResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPTxResoCanvas;	
+		
+//		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Delta PTy
+
+		TH1D* hDeltaPTyReso = new TH1D("hDeltaPTyReso",";#deltap_{T,y} resolution [%];# Events",100,-70,70);
+		tree->Draw("(Reco_Pty" + Recalibrate + "-True_Pty)/True_Pty*100.>>hDeltaPTyReso",qualifier,"goff");
+
+		TCanvas* DeltaPTyResoCanvas = new TCanvas("DeltaPTyResoCanvas_"+Runs[WhichRun],"DeltaPTyResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaPTyResoCanvas->cd();
+		DeltaPTyResoCanvas->SetBottomMargin(0.11);		
+
+		hDeltaPTyReso->GetXaxis()->CenterTitle();
+		hDeltaPTyReso->SetLineColor(kOrange+7);
+		hDeltaPTyReso->SetMarkerColor(kOrange+7);
+		hDeltaPTyReso->SetMarkerSize(2.);
+		hDeltaPTyReso->SetMarkerStyle(20);
+
+		hDeltaPTyReso->Draw("p0 same");
+
+		TF1* fPTy = new TF1("fPTy","gaus",-30,30);
+		hDeltaPTyReso->Fit(fPTy,"RQ0");
+
+		double meany = fPTy->GetParameter(1);
+		double sigmay = fPTy->GetParameter(2);	
+
+		text->DrawLatexNDC(0.35, 0.93, Runs[WhichRun]+", #sigma = " + TString(std::to_string(sigmay)) + " %");			
+
+		DeltaPTyResoCanvas->SaveAs(PlotPath+"DeltaPTyResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPTyResoCanvas;
+
+//		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Delta Pn,proxy
+
+		TH1D* hDeltaPnReso = new TH1D("hDeltaPnReso",";P_{n,proxy} resolution [%];# Events",100,-70,70);
+		tree->Draw("(Reco_Pn" + Recalibrate + "-True_Pn)/True_Pn*100.>>hDeltaPnReso",qualifier,"goff");
+
+		TCanvas* DeltaPnResoCanvas = new TCanvas("DeltaPnResoCanvas_"+Runs[WhichRun],"DeltaPnResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		DeltaPnResoCanvas->cd();
+		DeltaPnResoCanvas->SetBottomMargin(0.11);		
+
+		hDeltaPnReso->GetXaxis()->CenterTitle();
+		hDeltaPnReso->SetLineColor(kOrange+7);
+		hDeltaPnReso->SetMarkerColor(kOrange+7);
+		hDeltaPnReso->SetMarkerSize(2.);
+		hDeltaPnReso->SetMarkerStyle(20);
+
+		hDeltaPnReso->Draw("p0 same");
+
+		TF1* fPn = new TF1("fPn","gaus",-30,30);
+		hDeltaPnReso->Fit(fPn,"RQ0");
+
+		double meanPn = fPn->GetParameter(1);
+		double sigmaPn = fPn->GetParameter(2);	
+
+		text->DrawLatexNDC(0.35, 0.93, Runs[WhichRun]+", #sigma = " + TString(std::to_string(sigmaPn)) + " %");			
+
+		DeltaPnResoCanvas->SaveAs(PlotPath+"DeltaPnResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete DeltaPnResoCanvas;		
+
+//		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// kMiss
+
+		TH1D* hkMissReso = new TH1D("hkMissReso",";k_{Miss} resolution [%];# Events",100,-60,60);
+		tree->Draw("(Reco_kMiss" + Recalibrate + "-True_kMiss)/True_kMiss*100.>>hkMissReso",qualifier,"goff");
+
+		TCanvas* kMissResoCanvas = new TCanvas("kMissResoCanvas_"+Runs[WhichRun],"kMissResoCanvas_"+Runs[WhichRun],205,34,1024,768);
+		kMissResoCanvas->cd();
+		kMissResoCanvas->SetBottomMargin(0.11);		
+
+		hkMissReso->GetXaxis()->CenterTitle();
+		hkMissReso->SetLineColor(kOrange+7);
+		hkMissReso->SetMarkerColor(kOrange+7);
+		hkMissReso->SetMarkerSize(2.);
+		hkMissReso->SetMarkerStyle(20);
+
+		hkMissReso->Draw("p0 same");
+
+		TF1* fkMiss = new TF1("fkMiss","gaus",-30,30);
+		hkMissReso->Fit(fkMiss,"RQ0");
+
+		double meankMiss = fkMiss->GetParameter(1);
+		double sigmakMiss = fkMiss->GetParameter(2);	
+
+		text->DrawLatexNDC(0.35, 0.93, Runs[WhichRun]+", #sigma = " + TString(std::to_string(sigmakMiss)) + " %");			
+
+		kMissResoCanvas->SaveAs(PlotPath+"kMissResoCanvas_"+Runs[WhichRun]+".pdf");
+		delete kMissResoCanvas;
+
+//		// -----------------------------------------------------------------------------------------------------------------------------------------
+
+		// Neutron multiplicity
+
+		TH1D* hNeutronMulti = new TH1D("hNeutronMulti",";# neutrons;# Events",11,-0.5,10.5);
+		TH1D* hNeutronMultiQE = new TH1D("hNeutronMultiQE",";# neutrons;# Events",11,-0.5,10.5);
+		TH1D* hNeutronMultiMEC = new TH1D("hNeutronMultiMEC",";# neutrons;# Events",11,-0.5,10.5);		
+
+		tree->Draw("NumberNeutrons>>hNeutronMulti",qualifier,"goff");
+		tree->Draw("NumberNeutrons>>hNeutronMultiQE",qualifier + " && MCParticle_Mode == 0","goff");
+		tree->Draw("NumberNeutrons>>hNeutronMultiMEC",qualifier + " && MCParticle_Mode == 10","goff");				
+
+		TCanvas* NeutronMultiCanvas = new TCanvas("NeutronMultiCanvas_"+Runs[WhichRun],"NeutronMultiCanvas_"+Runs[WhichRun],205,34,1024,768);
+		NeutronMultiCanvas->cd();
+		NeutronMultiCanvas->SetBottomMargin(0.11);		
+
+		hNeutronMulti->GetXaxis()->CenterTitle();
+		hNeutronMulti->SetLineColor(kOrange+7);
+		hNeutronMulti->SetMarkerColor(kOrange+7);
+		hNeutronMulti->SetMarkerSize(2.);
+		hNeutronMulti->SetMarkerStyle(20);
+		hNeutronMulti->Draw("p0 text same");	
+
+		hNeutronMultiQE->SetLineColor(kGreen+2);
+		hNeutronMultiQE->SetMarkerColor(kGreen+2);
+		hNeutronMultiQE->SetMarkerSize(2.);
+		hNeutronMultiQE->SetMarkerStyle(20);
+		hNeutronMultiQE->Draw("p0 text same");
+
+		hNeutronMultiMEC->SetLineColor(kBlue+1);
+		hNeutronMultiMEC->SetMarkerColor(kBlue+1);
+		hNeutronMultiMEC->SetMarkerSize(2.);
+		hNeutronMultiMEC->SetMarkerStyle(20);
+		hNeutronMultiMEC->Draw("p0 text same");				
+
+		text->DrawLatexNDC(0.47, 0.93, Runs[WhichRun]);			
+
+		NeutronMultiCanvas->SaveAs(PlotPath+"NeutronMultiCanvas_"+Runs[WhichRun]+".pdf");
+		delete NeutronMultiCanvas;		
 
 //		// -----------------------------------------------------------------------------------------------------------------------------------------
 
