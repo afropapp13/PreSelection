@@ -33,7 +33,7 @@ TString to_string_with_precision(double a_value, const int n = 3)
 
 // --------------------------------------------------------------------------------------------------
 
-void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar, bool StorePlots, TString Sample) {
+void ReturnGraph(TFile* OutputFile, TTree* tree, TString Qualifier, TString XVar, bool StorePlots, TString Sample) {
 
 	// --------------------------------------------------------------------------------------------------
 
@@ -311,8 +311,8 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 	TH1D* ResoPlaygroundPlots[NBinsReso];
 //	TH1D* ResoRecaliPlaygroundPlots[NBinsReso];
 
-	if (XVar == "CandidateMu_P_Range") { qualifier = qualifier + " && CandidateMu_EndContainment == 1"; }
-	if (XVar == "CandidateMu_P_MCS") { qualifier = qualifier + " && CandidateMu_EndContainment == 0"; }
+	if (XVar == "CandidateMu_P_Range") { Qualifier = Qualifier + " && CandidateMu_EndContainment == 1"; }
+	if (XVar == "CandidateMu_P_MCS") { Qualifier = Qualifier + " && CandidateMu_EndContainment == 0"; }
 
 	for (int i = 0; i < NBinsReso; i++) {
 
@@ -331,14 +331,14 @@ void ReturnGraph(TFile* OutputFile, TTree* tree, TString qualifier, TString XVar
 		TString HighThres = to_string_with_precision(Xmin + (i+1) * Step);
 		TString HighCut  = XVar + " < " + HighThres ;
 
-		tree->Draw(Reso+">>"+PlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
-//		tree->Draw(RecaliReso+">>"+RecaliPlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
+		tree->Draw(Reso+">>"+PlotName,Qualifier + " && " + LowCut + " && " + HighCut,"goff");
+//		tree->Draw(RecaliReso+">>"+RecaliPlotName,Qualifier + " && " + LowCut + " && " + HighCut,"goff");
 
 
 		if (ResoAxisLabel != "") {
 
-			tree->Draw(ResoRatio+">>"+ResoPlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
-//			tree->Draw(RecaliResoRatio+">>"+ResoRecaliPlotName,qualifier + " && " + LowCut + " && " + HighCut,"goff");
+			tree->Draw(ResoRatio+">>"+ResoPlotName,Qualifier + " && " + LowCut + " && " + HighCut,"goff");
+//			tree->Draw(RecaliResoRatio+">>"+ResoRecaliPlotName,Qualifier + " && " + LowCut + " && " + HighCut,"goff");
 
 		}
 

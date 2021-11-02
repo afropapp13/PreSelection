@@ -52,7 +52,7 @@
 
 			gROOT->ProcessLine("NeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()");
 
-			if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos && !(string(WhichSampleArray[i]).find("Dublicate") != std::string::npos))
+			if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos)
 			  { gROOT->ProcessLine("TruthNeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()"); }
 
 	}

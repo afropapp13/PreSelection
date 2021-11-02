@@ -532,6 +532,10 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 		// ----------------------------------------------------------------------------------------------------------------------------	
 
+		Run = run;
+		SubRun = sub;
+		Event = evt;		
+
 		True_Ev = nu_e;
 		True_Vx = true_nu_vtx_x;
 		True_Vy = true_nu_vtx_y;
