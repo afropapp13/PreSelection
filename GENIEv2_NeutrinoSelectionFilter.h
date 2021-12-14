@@ -1009,7 +1009,7 @@ GENIEv2_NeutrinoSelectionFilter::GENIEv2_NeutrinoSelectionFilter(TString Label, 
 
 	}
 
-	Init(tree);
+	Init(tree);	
 
 }
 
@@ -1192,7 +1192,7 @@ void GENIEv2_NeutrinoSelectionFilter::Init(TTree *tree)
    trk_llr_pid_v_v = 0;
    trk_llr_pid_y_v = 0;
    trk_llr_pid_v = 0;
-   trk_llr_pid_score_v = 0;
+   trk_llr_pid_score_v = 0;   
 
    weights = 0;
 /*   weightsFlux = 0;*/
@@ -1651,6 +1651,7 @@ void GENIEv2_NeutrinoSelectionFilter::Init(TTree *tree)
    fChain->SetBranchAddress("trk_llr_pid_v", &trk_llr_pid_v, &b_trk_llr_pid_v);
    fChain->SetBranchAddress("trk_llr_pid_score_v", &trk_llr_pid_score_v, &b_trk_llr_pid_score_v);
    Notify();
+   
 }
 
 Bool_t GENIEv2_NeutrinoSelectionFilter::Notify()

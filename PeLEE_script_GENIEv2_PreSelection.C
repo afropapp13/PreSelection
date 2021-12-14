@@ -4,7 +4,7 @@
 
 	// GENIE v2 // Fake Data Set 5
 
-	WhichSampleArray.push_back("GENIEv2_Run1"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_44/0702/prod_uboone_nu2020_fakedata_set5_reco2_v08_00_00_41_reco2.root");
+	WhichSampleArray.push_back("GENIEv2Overlay9_Combined"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_44/0702/prod_uboone_nu2020_fakedata_set5_reco2_v08_00_00_41_reco2.root");
 
 	// ----------------------------------------------------------------------------------
 

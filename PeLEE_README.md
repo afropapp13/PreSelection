@@ -42,7 +42,7 @@ root -b PeLEE_ResoEffStudy.cpp
 
 root -l PeLEE_script_DetVar_PreSelection.C
 
-# Fake Data
+# NuWro Fake Data
 
 root -l PeLEE_script_FakeData_PreSelection.C
 
@@ -53,5 +53,7 @@ hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuple
 hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
 
 
+# GENIE v2 Fake Data
 
+root -b PeLEE_script_GENIEv2_PreSelection.C
 
