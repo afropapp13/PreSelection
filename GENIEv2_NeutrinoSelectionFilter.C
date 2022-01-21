@@ -29,7 +29,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
+//	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -488,7 +489,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	// Open the truth level info
 	// to do the reco-to-truth matching 
 
-	TFile* ftruth = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+".root","readonly");
+//	TFile* ftruth = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+".root","readonly");
+	TFile* ftruth = TFile::Open("/uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+".root","readonly");
 	TTree* ttruth = (TTree*)(ftruth->Get("myPreTruthSelection"));
 
     int runT;

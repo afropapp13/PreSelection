@@ -5,19 +5,19 @@
 
 root -b PeLEE_script_PreSelection.C
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_BeamOn9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_BeamOn9_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_BeamOn9_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_BeamOn9_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_ExtBNB9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_ExtBNB9_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_ExtBNB9_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_ExtBNB9_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_OverlayDirt9_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_OverlayDirt9_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_Overlay9_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_Overlay9_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9_Run{1,2,3}_v08_00_00_52_POT.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9_Combined_v08_00_00_52_POT.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9_Run{1,2,3}_v08_00_00_52_POT.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_OverlayDirt9_Run{1,2,3}_v08_00_00_52_POT.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_OverlayDirt9_Combined_v08_00_00_52_POT.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_OverlayDirt9_Run{1,2,3}_v08_00_00_52_POT.root
 
 root -b PeLEE_TwoDPlots.cpp
 
@@ -26,7 +26,7 @@ root -b PeLEE_TwoDPlots.cpp
 
 # root -b PeLEE_script_Dublicate_PreSelection.C
 
-#hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Dublicate_Overlay9_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Dublicate_Overlay9_Run{1,2,3}_v08_00_00_52.root
+#hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_Dublicate_Overlay9_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_Dublicate_Overlay9_Run{1,2,3}_v08_00_00_52.root
 
 # root -b PeLEE_LFG_TwoDPlot.cpp
 
@@ -46,11 +46,11 @@ root -l PeLEE_script_DetVar_PreSelection.C
 
 root -l PeLEE_script_FakeData_PreSelection.C
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9NuWro_Combined_v08_00_00_52.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreTruthSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
+hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
 
 
 # GENIE v2 Fake Data

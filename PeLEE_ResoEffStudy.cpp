@@ -478,11 +478,13 @@ void PeLEE_ResoEffStudy() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
+//		TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
+		TFile* OverlayFile = TFile::Open("/uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
-		TFile* OverlayTruthFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/" + UBCodeVersion + "/PeLEETuples/PreTruthSelection_Overlay9_"\
-					  + Runs[WhichRun] + "_"+UBCodeVersion+".root","readonly");
+//		TFile* OverlayTruthFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/" + UBCodeVersion + "/PeLEETuples/PreTruthSelection_Overlay9_"\
+//					  + Runs[WhichRun] + "_"+UBCodeVersion+".root","readonly");
+		TFile* OverlayTruthFile = TFile::Open("/uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_Overlay9_"+ Runs[WhichRun] + "_"+UBCodeVersion+".root","readonly");
 		TTree* treeTruth = (TTree*)(OverlayTruthFile->Get("myPreTruthSelection"));
 
 //		TFile* DataFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PreSelection_BeamOn9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");

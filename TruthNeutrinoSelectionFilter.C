@@ -31,7 +31,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
+//	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -310,7 +311,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	if (string(fLabel).find("Overlay") != std::string::npos) {
 
-		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
+//		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
+		TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
 
 		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
 		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));

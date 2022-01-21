@@ -705,12 +705,14 @@ void PeLEE_CreateSplines(TString Sample, bool StorePlots = false) {
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
-	TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+Sample+"_"+UBCodeVersion+".root","readonly");
+//	TFile* OverlayFile = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+Sample+"_"+UBCodeVersion+".root","readonly");
+	TFile* OverlayFile = TFile::Open("/uboone/data/users/apapadop/PeLEETuples/PreSelection_"+Sample+"_"+UBCodeVersion+".root","readonly");
 	TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/Splines_"+Sample+"_"+UBCodeVersion+".root";
+//	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/Splines_"+Sample+"_"+UBCodeVersion+".root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/Splines_"+Sample+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = nullptr;
 
 	if (!StorePlots) {
