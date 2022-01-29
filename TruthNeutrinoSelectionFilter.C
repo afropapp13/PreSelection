@@ -363,6 +363,14 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	}
 
+	if (string(fLabel).find("Run4a") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4a;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4a;
+		EXT = FullEXT_Run4a;
+
+	}	
+
 	if (string(fLabel).find("Run5") != std::string::npos) {
 
 		tor860_wcut = Fulltor860_wcut_Run5;
@@ -389,9 +397,9 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 		if ( 
 			fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-			fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run5" ||
+			fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a" || fLabel == "Overlay9_Run5" ||
 			fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || fLabel == "OverlayDirt9_Run3" || 
-			fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run5"				 
+			fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run4a" || fLabel == "OverlayDirt9_Run5"				 
 		) {
 
 			fChain->SetBranchAddress("weights", &weights, &b_weights);
@@ -428,9 +436,9 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 			if ( 
 				fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-				fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run5" ||
+				fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a" || fLabel == "Overlay9_Run5" ||
 				fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || fLabel == "OverlayDirt9_Run3" || 
-				fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run5"				 
+				fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run4a" || fLabel == "OverlayDirt9_Run5"				 
 			) {
 
 
