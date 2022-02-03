@@ -14,7 +14,7 @@
 	WhichSampleArray.push_back("ExtBNB9_Run1"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_extbnb_mcc9.1_v08_00_00_25_reco2_C_all_reco2.root");
 	WhichSampleArray.push_back("ExtBNB9_Run2"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run2/data_extbnb_mcc9.1_v08_00_00_25_reco2_D_E_all_reco2.root");
 	WhichSampleArray.push_back("ExtBNB9_Run3"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_extbnb_mcc9.1_v08_00_00_25_reco2_F_G_all_reco2.root");
-	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run4a_BeamOff_reco2_reco2.root");
+	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/data_extbnb_mcc9.1_v08_00_00_25_reco2_run4a_all_reco2.root");
 
 	// MC CV
 
