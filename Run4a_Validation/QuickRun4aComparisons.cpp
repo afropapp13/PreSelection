@@ -72,13 +72,13 @@ void QuickRun4aComparisons() {
 	PlotNames.push_back("selected"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);
 	PlotNames.push_back("n_tracks"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);	
 	PlotNames.push_back("n_showers"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
-	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(100);
-	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(100);	
-	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(-100); Max.push_back(1100); NBins.push_back(100);
-	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(100);
-	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(100);
-	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(100);	
-	PlotNames.push_back("topological_score"); Min.push_back(0); Max.push_back(1); NBins.push_back(100);				
+	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(50);
+	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(50);	
+	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(-100); Max.push_back(1100); NBins.push_back(50);
+	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
+	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
+	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);	
+	PlotNames.push_back("topological_score"); Min.push_back(0); Max.push_back(1); NBins.push_back(50);				
 
 	const int NPlots = PlotNames.size();
 
@@ -106,6 +106,14 @@ void QuickRun4aComparisons() {
 		PlotCanvas->SetLeftMargin(0.15);
 		PlotCanvas->SetBottomMargin(0.15);		
 		PlotCanvas->Draw();	
+
+		TString CanvasNameAreaNorm = "AreaNormCanvas_" + PlotNames[iPlot];
+		TCanvas* PlotCanvasAreaNorm = new TCanvas(CanvasNameAreaNorm,CanvasNameAreaNorm,205,34,1024,768);
+		PlotCanvasAreaNorm->cd();
+		PlotCanvasAreaNorm->SetTopMargin(0.12);
+		PlotCanvasAreaNorm->SetLeftMargin(0.15);
+		PlotCanvasAreaNorm->SetBottomMargin(0.15);		
+		PlotCanvasAreaNorm->Draw();		
 
 		TLegend* leg = new TLegend(0.25,0.91,0.99,0.995);
 		leg->SetBorderSize(0);
@@ -145,24 +153,56 @@ void QuickRun4aComparisons() {
 			Histos[iSample]->GetYaxis()->SetTickSize(0);
 			Histos[iSample]->GetYaxis()->CenterTitle();	
 
+			TH1D* CloneAreaNorm = (TH1D*)(Histos[0]->Clone());
+
+			//----------------------------------------//
+
 			double SF = BeamOnPOT[0] / BeamOnPOT[iSample];
 //			double SF = 1. / Histos[iSample]->GetEntries();
 			Histos[iSample]->Scale(SF);
 
-			double imax = Histos[iSample]->GetMaximum();
-			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.05*imax);
+			double imax = TMath::Max(Histos[iSample]->GetMaximum(),Histos[0]->GetMaximum());			
+			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.1*imax);
+			Histos[0]->GetYaxis()->SetRangeUser(0.,1.1*imax);			
 
-			Histos[iSample]->Draw("hist same");	
+			PlotCanvas->cd();
+			Histos[iSample]->Draw("hist same");
+			Histos[0]->Draw("hist same");	
+
+			//----------------------------------------//
+
+			TH1D* Clone = (TH1D*)(Histos[iSample]->Clone());
+			double SFAreaNorm = CloneAreaNorm->Integral() / Clone->Integral();
+			Clone->Scale(SFAreaNorm);	
+
+			double imaxAreaNorm = TMath::Max(Clone->GetMaximum(),CloneAreaNorm->GetMaximum());
+			Clone->GetYaxis()->SetRangeUser(0.,1.1*imaxAreaNorm);
+			CloneAreaNorm->GetYaxis()->SetRangeUser(0.,1.1*imaxAreaNorm);
+
+			PlotCanvasAreaNorm->cd();
+			Clone->Draw("hist same");	
+			CloneAreaNorm->Draw("hist same");		
+
+			//----------------------------------------//						
 
 			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],BeamOnLabels[iSample] + ", " +TString( ToString(BeamOnPOT[iSample]) ),"l");
-			legEntry->SetTextColor( BeamOnColors.at(iSample) );
+			legEntry->SetTextColor( BeamOnColors.at(iSample) );		
+
+			//----------------------------------------//					
 
 		} // End of the loop over the samples grabing the plots	
 
+		PlotCanvas->cd();
 		leg->Draw();
 
+		PlotCanvasAreaNorm->cd();
+		leg->Draw();		
+
 		PlotCanvas->SaveAs(PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+".pdf");
+		PlotCanvasAreaNorm->SaveAs(PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+"_AreaNorm.pdf");	
+
 		delete PlotCanvas;
+		delete PlotCanvasAreaNorm;		
 
 	} // End of the loop over the plots
 
