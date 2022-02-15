@@ -57,7 +57,7 @@
 /uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_Recombination_reco2_reco2.root
 /uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_dEdx_reco2_reco2.root
 
-# Run1 numu detVar high stats
+# Run3 numu detVar high stats
 
 /uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_CV_reco2_reco2.root
 /uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_CVextra_reco2_reco2.root
