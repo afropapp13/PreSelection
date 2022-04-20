@@ -1345,7 +1345,8 @@ void NeutrinoSelectionFilter::Loop() {
 				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
 					{ TrueChargedPionCounter++; }
 
-				if ( fabs(MCParticlePdg) == AbsChargedPionPdg ) { TrueChargedPionCounterAnyMom++;  True_PionMomentum.push_back(MCParticleMomentum); }					
+				if ( fabs(MCParticlePdg) == AbsChargedPionPdg ) 
+					{ TrueChargedPionCounterAnyMom++;  True_PionMomentum.push_back(MCParticleMomentum); }					
 
 				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
 

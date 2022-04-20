@@ -1348,7 +1348,7 @@ void PeLEE_TwoDPlots() {
 		text->DrawLatexNDC(0.47, 0.93, Runs[WhichRun]);			
 
 		NeutronMultiCanvas->SaveAs(PlotPath+"NeutronMultiCanvas_"+Runs[WhichRun]+".pdf");
-		delete NeutronMultiCanvas;		
+		delete NeutronMultiCanvas;			
 
 //		// -----------------------------------------------------------------------------------------------------------------------------------------
 
