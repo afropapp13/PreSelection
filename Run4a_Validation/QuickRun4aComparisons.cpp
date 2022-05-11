@@ -47,7 +47,7 @@ void QuickRun4aComparisons() {
 
 	BeamOnNames.push_back("/uboone/data/users/apapadop/searchingfornues/run4a_neutrinoselection_filt_numu_ALL.root");
 	BeamOnLabels.push_back("Run 4a");	
-	BeamOnColors.push_back(kBlue+1);
+	BeamOnColors.push_back(kOrange+7);
 	BeamOnPOT.push_back(Fulltor860_wcut_Run4a);	
 
 	//------------------------------//		
