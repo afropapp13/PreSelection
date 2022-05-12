@@ -40,10 +40,15 @@ void QuickRun4aComparisons() {
 	std::vector<TString> BeamOnNames; std::vector<TString> BeamOnLabels; 
 	std::vector<int> BeamOnColors; std::vector<double> BeamOnPOT;
 
-	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run1_reco2_reco2.root"); 
+	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root"); 
 	BeamOnLabels.push_back("Run 1");
-	BeamOnColors.push_back(kBlack);	
+	BeamOnColors.push_back(kBlue+2);	
 	BeamOnPOT.push_back(Fulltor860_wcut_Run1);
+
+	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run3_neutrinoselection_filt_numu_ALL.root"); 
+	BeamOnLabels.push_back("Run 3");
+	BeamOnColors.push_back(kGreen+2);	
+	BeamOnPOT.push_back(Fulltor860_wcut_Run3);	
 
 	BeamOnNames.push_back("/uboone/data/users/apapadop/searchingfornues/run4a_neutrinoselection_filt_numu_ALL.root");
 	BeamOnLabels.push_back("Run 4a");	
@@ -115,9 +120,9 @@ void QuickRun4aComparisons() {
 		PlotCanvasAreaNorm->SetBottomMargin(0.15);		
 		PlotCanvasAreaNorm->Draw();		
 
-		TLegend* leg = new TLegend(0.25,0.91,0.99,0.995);
+		TLegend* leg = new TLegend(0.15,0.91,0.85,0.98);
 		leg->SetBorderSize(0);
-		leg->SetNColumns(3);
+		leg->SetNColumns(2);
 		leg->SetTextSize(TextSize-0.01);	
 		leg->SetTextFont(FontStyle);						
 
