@@ -91,11 +91,11 @@ void PeLEE_TwoDPlots() {
 
 		TCanvas* MuonMomentumRangeCanvas = new TCanvas("MuonMomentumRangeCanvas_"+Runs[WhichRun],"MuonMomentumRangeCanvas_"+Runs[WhichRun],205,34,1024,768);
 		MuonMomentumRangeCanvas->cd();
-		hMuonMomRange->SetTitle("Contained Candidate Muon Tracks");
+		//hMuonMomRange->SetTitle("Contained Candidate Muon Tracks");
 		hMuonMomRange->SetTitleSize(0.08,"t");
 		hMuonMomRange->Draw("coltz");
 
-		text->DrawTextNDC(0.47, 0.92, Runs[WhichRun]);
+		//text->DrawTextNDC(0.47, 0.92, Runs[WhichRun]);
 
 		MuonMomentumRangeCanvas->SaveAs(PlotPath+"MuonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonMomentumRangeCanvas;
