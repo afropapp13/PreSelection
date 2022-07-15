@@ -475,7 +475,14 @@ void NeutrinoSelectionFilter::Loop() {
 	TH1D* TrackLikeDaughterEventPlot = new TH1D("TrackLikeDaughterEventPlot",";2 track-like daughter events",1,0,1);
 	TH1D* MatchedTrackLikeDaughterEventPlot = new TH1D("MatchedTrackLikeDaughterEventPlot",";2 matched track-like daughter events",1,0,1);	
 	TH1D* MomentumThresholdEventPlot = new TH1D("MomentumThresholdEventPlot",";Above P threshold events",1,0,1);
-	TH1D* ContainmentEventPlot = new TH1D("ContainmentEventPlot",";Contained start point events",1,0,1);	
+	TH1D* ContainmentEventPlot = new TH1D("ContainmentEventPlot",";Contained start point events",1,0,1);
+
+	TH1D* NTrackLikeObjectsPlot = new TH1D("NTrackLikeObjectsPlot",";# track-like objects",10,-0.5,9.5);
+	TH1D* NShowerLikeObjectsPlot = new TH1D("NShowerLikeObjectsPlot",";# shower-like objects",10,-0.5,9.5);
+	TH1D* TrackHighPIDScorePlot = new TH1D("TrackHighPIDScorePlot",";higher track-like pid score",50,0.,1.);
+	TH1D* TrackLowPIDScorePlot = new TH1D("TrackLowPIDScorePlot",";lower track-like pid score",50,0.,1.);	
+	TH1D* TrackHighPIDMomentumPlot = new TH1D("TrackHighPIDMomentumPlot",";higher track-like pid momentum",50,0.,1.5);
+	TH1D* TrackLowPIDMomentumPlot = new TH1D("TrackLowPIDMomentumPlot",";lower track-like pid momentum",50,0.,1.5);					
 
 	// --------------------------------------------------------------------------------------------------------------------------------
 
@@ -826,6 +833,9 @@ void NeutrinoSelectionFilter::Loop() {
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
+		NTrackLikeObjectsPlot->Fill(reco_track_count,POTWeight*Weight*T2KWeight*ROOTinoWeight);
+		NShowerLikeObjectsPlot->Fill(reco_shower_count,POTWeight*Weight*T2KWeight*ROOTinoWeight);		
+
 		// Requirement for exactly 2 tracks and 0 showers for a CC1p0pi selection 
 
 		if (reco_shower_count != 0) { continue; }
@@ -842,11 +852,20 @@ void NeutrinoSelectionFilter::Loop() {
 		float second_pid_score = trk_llr_pid_score_v->at( CandidateIndex.at(1) );
 
 		int CandidateMuonIndex = -1.;
-		int CandidateProtonIndex = -1.;
+		int CandidateProtonIndex = -1.;		
 
-		if (first_pid_score > second_pid_score) { CandidateMuonIndex = CandidateIndex.at(0); CandidateProtonIndex = CandidateIndex.at(1); }
-		else { CandidateMuonIndex = CandidateIndex.at(1); CandidateProtonIndex = CandidateIndex.at(0); }
-		TrackLikeDaughterCounter++;
+		if (first_pid_score > second_pid_score) { 
+			
+			CandidateMuonIndex = CandidateIndex.at(0); 
+			CandidateProtonIndex = CandidateIndex.at(1); 			
+			
+		} else { 
+			
+			CandidateMuonIndex = CandidateIndex.at(1); 
+			CandidateProtonIndex = CandidateIndex.at(0); 			
+			
+		}
+		TrackLikeDaughterCounter++;		
 
 		// MuonPdg in this case / Pandora = Track-like object
 
@@ -972,6 +991,16 @@ void NeutrinoSelectionFilter::Loop() {
 		STV_Tools reco_stv_tool(TVector3CandidateMuon,TVector3CandidateProton,CandidateMuE_GeV,CandidatePE_GeV);
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
+
+		if (T2KWeight > 0 && T2KWeight < 30) {
+
+			TrackHighPIDScorePlot->Fill(trk_llr_pid_score_v->at( CandidateMuonIndex ),POTWeight*Weight*T2KWeight*ROOTinoWeight);
+			TrackLowPIDScorePlot->Fill(trk_llr_pid_score_v->at( CandidateProtonIndex ),POTWeight*Weight*T2KWeight*ROOTinoWeight);
+
+			TrackHighPIDMomentumPlot->Fill(CandidateMuMom,POTWeight*Weight*T2KWeight*ROOTinoWeight);
+			TrackLowPIDMomentumPlot->Fill(CandidatePMom,POTWeight*Weight*T2KWeight*ROOTinoWeight);
+
+		}		
 
 		// Check min momentum threshold & containment
 
