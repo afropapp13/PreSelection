@@ -8,14 +8,17 @@
 	WhichSampleArray.push_back("BeamOn9_Run2"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run2_neutrinoselection_filt_numu_ALL.root");
 	WhichSampleArray.push_back("BeamOn9_Run3"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run3_neutrinoselection_filt_numu_ALL.root");
 //	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/run4a_neutrinoselection_filt_numu_ALL.root");	
-	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
+//	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
+	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
+
 	// ExtBNB
 
 	WhichSampleArray.push_back("ExtBNB9_Run1"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_extbnb_mcc9.1_v08_00_00_25_reco2_C_all_reco2.root");
 	WhichSampleArray.push_back("ExtBNB9_Run2"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run2/data_extbnb_mcc9.1_v08_00_00_25_reco2_D_E_all_reco2.root");
 	WhichSampleArray.push_back("ExtBNB9_Run3"); SamplePath.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_extbnb_mcc9.1_v08_00_00_25_reco2_F_G_all_reco2.root");
 //	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/data_extbnb_mcc9.1_v08_00_00_25_reco2_run4a_all_reco2.root");
-	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/run4/bnb_run4a_ext_reco2_v08_00_00_57_run4a_reco2.root");
+//	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/run4/bnb_run4a_ext_reco2_v08_00_00_57_run4a_reco2.root");
+	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/run4/bnb_off_run4a_reco2_v08_00_00_57_run4a_reco2.root");	
 
 	// MC CV
 
