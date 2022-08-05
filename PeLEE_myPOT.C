@@ -19,7 +19,7 @@ void PeLEE_myPOT(TString Label, TString Sample) {
 	TTree* tree;
 	TFile* PeLEEFile = TFile::Open(Sample,"readonly");
 	TDirectory * dir = (TDirectory*)PeLEEFile->Get(Sample+":/nuselection");
-      	dir->GetObject("SubRun",tree);
+    dir->GetObject("SubRun",tree);
 
 	float pot;
 	float summed_pot = 0.;

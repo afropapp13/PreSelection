@@ -39,16 +39,31 @@ void QuickRun4aComparisons() {
 
 	std::vector<TString> BeamOnNames; std::vector<TString> BeamOnLabels; 
 	std::vector<int> BeamOnColors; std::vector<double> BeamOnPOT;
-
+	/*
 	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root"); 
 	BeamOnLabels.push_back("Run 1");
 	BeamOnColors.push_back(kBlue+2);	
 	BeamOnPOT.push_back(Fulltor860_wcut_Run1);
-
+	*/
+	//	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/numupresel/data_bnb_mcc9.1_v08_00_00_25_reco2_C1_beam_good_reco2_5e19.root"); 
+	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_bnb_mcc9.1_v08_00_00_25_reco2_C1_beam_good_reco2_5e19.root"); 
+	BeamOnLabels.push_back("Run 1");
+	//	BeamOnColors.push_back(kRed+1);	
+	BeamOnColors.push_back(kBlue+2);	
+	BeamOnPOT.push_back(5e19);
+	/*
 	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run3_neutrinoselection_filt_numu_ALL.root"); 
 	BeamOnLabels.push_back("Run 3");
 	BeamOnColors.push_back(kGreen+2);	
 	BeamOnPOT.push_back(Fulltor860_wcut_Run3);	
+	*/
+	//	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/numupresel/data_bnb_mcc9.1_v08_00_00_25_reco2_G1_beam_good_reco2_1e19.root"); 
+	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_bnb_mcc9.1_v08_00_00_25_reco2_G1_beam_good_reco2_1e19.root"); 
+	BeamOnLabels.push_back("Run 3");
+	//	BeamOnColors.push_back(kMagenta);	
+	BeamOnColors.push_back(kGreen+2);	
+	BeamOnPOT.push_back(1e19);	
+
 
 	BeamOnNames.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
 	BeamOnLabels.push_back("Run 4a");	
@@ -70,6 +85,13 @@ void QuickRun4aComparisons() {
 
 	//------------------------------//
 
+	// Cut
+
+	TString Cut = "nslice == 1";
+	//TString Cut = "";
+
+	//------------------------------//
+
 	// Plots to include
 
 	std::vector<TString> PlotNames; std::vector< double> Min; std::vector<double> Max;  std::vector<int> NBins;
@@ -84,6 +106,7 @@ void QuickRun4aComparisons() {
 	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);	
 	PlotNames.push_back("topological_score"); Min.push_back(0); Max.push_back(1); NBins.push_back(50);				
+	PlotNames.push_back("nslice"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
 
 	const int NPlots = PlotNames.size();
 
@@ -120,7 +143,7 @@ void QuickRun4aComparisons() {
 		PlotCanvasAreaNorm->SetBottomMargin(0.15);		
 		PlotCanvasAreaNorm->Draw();		
 
-		TLegend* leg = new TLegend(0.15,0.91,0.85,0.98);
+		TLegend* leg = new TLegend(0.2,0.91,0.9,0.98);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
 		leg->SetTextSize(TextSize-0.01);	
@@ -135,7 +158,7 @@ void QuickRun4aComparisons() {
 
 			HistosName[iSample] = PlotNames[iPlot] + "_" + TString( ToString(iSample) );
 			Histos[iSample] = new TH1D(HistosName[iSample],";" + PlotNames[iPlot],NBins[iPlot],Min[iPlot],Max[iPlot]);
-			EventTTree[iSample]->Draw(PlotNames[iPlot] + ">>" + HistosName[iSample],"","goff");
+			EventTTree[iSample]->Draw(PlotNames[iPlot] + ">>" + HistosName[iSample],Cut,"goff");
 
 			Histos[iSample]->SetLineWidth(4);
 			Histos[iSample]->SetLineColor( BeamOnColors.at(iSample) );	
@@ -206,7 +229,7 @@ void QuickRun4aComparisons() {
 		PlotCanvas->SaveAs(PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+".pdf");
 		PlotCanvasAreaNorm->SaveAs(PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+"_AreaNorm.pdf");	
 
-		delete PlotCanvas;
+		//delete PlotCanvas;
 		delete PlotCanvasAreaNorm;		
 
 	} // End of the loop over the plots
