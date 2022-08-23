@@ -162,7 +162,14 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<int> True_CandidateMu_EndContainment;
 
 	std::vector<double> True_PionMomentum;
-	std::vector<double> True_NeutronMomentum;	
+
+	std::vector<double> True_NeutronMomentum;
+	std::vector<double> True_NeutronCosTheta;
+	std::vector<double> True_NeutronPhi;	
+	std::vector<double> True_Neutron_StartX;
+	std::vector<double> True_Neutron_StartY;				
+	std::vector<double> True_Neutron_StartZ;
+	std::vector<bool> True_Neutron_StartContainment;	
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -218,6 +225,7 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> Reco_PL;
 	std::vector<double> Reco_Pn;
 	std::vector<double> Reco_DeltaAlphaT;
+	std::vector<double> Reco_DeltaAlpha3D;	
 	std::vector<double> Reco_DeltaPhiT;
 	std::vector<double> Reco_ECal;
 	std::vector<double> Reco_EQE;
@@ -236,6 +244,7 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_PL;
 	std::vector<double> True_Pn;
 	std::vector<double> True_DeltaAlphaT;
+	std::vector<double> True_DeltaAlpha3D;	
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_ECal;
 	std::vector<double> True_EQE;
@@ -363,7 +372,14 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
 	tree->Branch("True_PionMomentum",&True_PionMomentum);
-	tree->Branch("True_NeutronMomentum",&True_NeutronMomentum);	
+
+	tree->Branch("True_NeutronMomentum",&True_NeutronMomentum);
+	tree->Branch("True_NeutronCosTheta",&True_NeutronCosTheta);		
+	tree->Branch("True_NeutronPhi",&True_NeutronPhi);
+	tree->Branch("True_Neutron_StartX",&True_Neutron_StartX);
+	tree->Branch("True_Neutron_StartY",&True_Neutron_StartY);	
+	tree->Branch("True_Neutron_StartZ",&True_Neutron_StartZ);
+	tree->Branch("True_NeutronStart_Containment",&True_Neutron_StartContainment);		
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -418,6 +434,7 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Reco_PL",&Reco_PL);
 	tree->Branch("Reco_Pn",&Reco_Pn);
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
+	tree->Branch("Reco_DeltaAlpha3D",&Reco_DeltaAlpha3D);	
 	tree->Branch("Reco_DeltaPhiT",&Reco_DeltaPhiT);
 	tree->Branch("Reco_ECal",&Reco_ECal);
 	tree->Branch("Reco_EQE",&Reco_EQE);
@@ -436,6 +453,7 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_PL",&True_PL);
 	tree->Branch("True_Pn",&True_Pn);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
+	tree->Branch("True_DeltaAlpha3D",&True_DeltaAlpha3D);	
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_ECal",&True_ECal);
 	tree->Branch("True_EQE",&True_EQE);
@@ -726,7 +744,14 @@ void NeutrinoSelectionFilter::Loop() {
 		True_CandidateMu_EndContainment.clear();
 
 		True_PionMomentum.clear();
-		True_NeutronMomentum.clear();				
+
+		True_NeutronMomentum.clear();
+		True_NeutronCosTheta.clear();
+		True_NeutronPhi.clear();
+		True_Neutron_StartX.clear();
+		True_Neutron_StartY.clear();
+		True_Neutron_StartZ.clear();
+		True_Neutron_StartContainment.clear();													
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -781,6 +806,7 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_PL.clear();
 		Reco_Pn.clear();
 		Reco_DeltaAlphaT.clear();
+		Reco_DeltaAlpha3D.clear();		
 		Reco_DeltaPhiT.clear();
 		Reco_ECal.clear();
 		Reco_EQE.clear();
@@ -799,6 +825,7 @@ void NeutrinoSelectionFilter::Loop() {
 		True_PL.clear();
 		True_Pn.clear();
 		True_DeltaAlphaT.clear();
+		True_DeltaAlpha3D.clear();		
 		True_DeltaPhiT.clear();
 		True_ECal.clear();
 		True_EQE.clear();
@@ -840,6 +867,10 @@ void NeutrinoSelectionFilter::Loop() {
 
 		if (reco_shower_count != 0) { continue; }
 		if (reco_track_count != 2) { continue; }
+
+		// Requirement for exactly one neutrino slice
+
+		if (nslice != 1) { continue; }
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1113,6 +1144,7 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_PL.push_back(reco_stv_tool.ReturnPL());
 		Reco_Pn.push_back(reco_stv_tool.ReturnPn());
 		Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
+		Reco_DeltaAlpha3D.push_back(reco_stv_tool.ReturnDeltaAlpha3D());		
 		Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
 		Reco_ECal.push_back(reco_stv_tool.ReturnECal());
 		Reco_EQE.push_back(reco_stv_tool.ReturnEQE());
@@ -1228,6 +1260,7 @@ void NeutrinoSelectionFilter::Loop() {
 			True_PL.push_back(true_stv_tool.ReturnPL());
 			True_Pn.push_back(true_stv_tool.ReturnPn());
 			True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
+			True_DeltaAlpha3D.push_back(true_stv_tool.ReturnDeltaAlpha3D());			
 			True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
 			True_ECal.push_back(true_stv_tool.ReturnECal());
 			True_EQE.push_back(true_stv_tool.ReturnEQE());
@@ -1295,6 +1328,7 @@ void NeutrinoSelectionFilter::Loop() {
 			True_PL.push_back(CosmicPID);
 			True_Pn.push_back(CosmicPID);
 			True_DeltaAlphaT.push_back(CosmicPID);
+			True_DeltaAlpha3D.push_back(CosmicPID);			
 			True_DeltaPhiT.push_back(CosmicPID);
 			True_ECal.push_back(CosmicPID);
 			True_EQE.push_back(CosmicPID);
@@ -1347,11 +1381,20 @@ void NeutrinoSelectionFilter::Loop() {
 		
 		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fCC3p3pi = 0, fCC4p0pi = 0, fCC4p1pi = 0, fMCParticle_Mode = -1, fNC = 0, fnue = 0;
 
-		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0, TrueNeutronCounter = 0, TrueHeavierMesonCounter = 0, TrueChargedPionCounterAnyMom = 0;
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0;
+		int TrueNeutronCounter = 0, TrueHeavierMesonCounter = 0, TrueChargedPionCounterAnyMom = 0;
 		int NMCParticles = mc_pdg->size();
 		
 		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
-		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();		
+		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();
+		std::vector<int> VectorTrueNeutronIndex; VectorTrueNeutronIndex.clear();	
+
+		//----------------------------------------//
+		
+		TVector3 TrueNu_Vertex(True_Vx,True_Vy,True_Vz);
+		bool TrueNu_Vertex_Containment = tools.inFVVector(TrueNu_Vertex);
+
+		//----------------------------------------//			
 
 		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
 
@@ -1363,6 +1406,9 @@ void NeutrinoSelectionFilter::Loop() {
 
 				TVector3 MCParticle(mc_px->at(WhichMCParticle),mc_py->at(WhichMCParticle),mc_pz->at(WhichMCParticle));
 				double MCParticleMomentum = MCParticle.Mag();
+				double MCParticleCosTheta = MCParticle.CosTheta();
+				double MCParticlePhi = MCParticle.Phi()*180./TMath::Pi();				
+
 				int MCParticlePdg = mc_pdg->at(WhichMCParticle);
 
 				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= ArrayNBinsMuonMomentum[0] ) 
@@ -1379,7 +1425,18 @@ void NeutrinoSelectionFilter::Loop() {
 
 				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
 
-				if (MCParticlePdg == NeutronPdg) { TrueNeutronCounter++; True_NeutronMomentum.push_back(MCParticleMomentum); }
+				if (MCParticlePdg == NeutronPdg) { 
+					
+					TrueNeutronCounter++; 
+					True_NeutronMomentum.push_back(MCParticleMomentum);
+					True_NeutronCosTheta.push_back(MCParticleCosTheta);
+					True_NeutronPhi.push_back(MCParticlePhi);
+					True_Neutron_StartX.push_back(True_Vx);
+					True_Neutron_StartY.push_back(True_Vy);
+					True_Neutron_StartZ.push_back(True_Vz);
+					True_Neutron_StartContainment.push_back(TrueNu_Vertex_Containment);																														 				
+					
+				}
 
 				if ( MCParticlePdg != NeutralPionPdg && fabs(MCParticlePdg) != AbsChargedPionPdg && tools.is_meson_or_antimeson(MCParticlePdg) ) { TrueHeavierMesonCounter++; }				
 
@@ -1438,8 +1495,6 @@ void NeutrinoSelectionFilter::Loop() {
 
 		// Don't forget to check the true vertex containment for signal CC1p events
 
-		TVector3 TrueNu_Vertex(True_Vx,True_Vy,True_Vz);
-		bool TrueNu_Vertex_Containment = tools.inFVVector(TrueNu_Vertex);
 		if (TrueNu_Vertex_Containment == 0) { fCC1p = 0; }
 
 		// ------------------------------------------------------------------------------------------------

@@ -45,7 +45,7 @@ void PeLEE_MergeTTree(TString number,TString OutName) {
 
 	// -----------------------------------------------------------------
 
-        TChain ch("nuselection/NeutrinoSelectionFilter");
+    TChain ch("nuselection/NeutrinoSelectionFilter");
 	cout << "About to start looping!" << endl;
 	for (int i = 0;i<2500;i++) { if (i%100 == 0) { cout << "Event " << i << endl; } ch.Add(Form(pathIn+"_%s/neutrinoselection_filt_*.root",std::to_string(i).c_str())); }
 	cout << "chain events = " << ch.GetEntries() << endl << endl;
@@ -71,7 +71,7 @@ void PeLEE_MergeTTree(TString number,TString OutName) {
 
         std::cout << "path in = " << pathIn << std::endl;
 //        std::cout << "path scratch = " << pathScratch << std::endl;
-        std::cout << "path out = " << pathOut << std::endl;
+        std::cout << "file out = " << pathOut << FullOutFile << std::endl;
 
 }
 
