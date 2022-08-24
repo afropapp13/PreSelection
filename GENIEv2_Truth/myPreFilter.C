@@ -150,6 +150,7 @@ void myPreFilter::Loop() {
 	std::vector<double> True_PL;
 	std::vector<double> True_Pn;
 	std::vector<double> True_DeltaAlphaT;
+	std::vector<double> True_DeltaAlpha3D;	
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_ECal;
 	std::vector<double> True_EQE;
@@ -261,6 +262,7 @@ void myPreFilter::Loop() {
 	tree->Branch("True_PL",&True_PL);
 	tree->Branch("True_Pn",&True_Pn);
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
+	tree->Branch("True_DeltaAlpha3D",&True_DeltaAlpha3D);	
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_ECal",&True_ECal);
 	tree->Branch("True_EQE",&True_EQE);
@@ -382,6 +384,7 @@ void myPreFilter::Loop() {
 		True_PL.clear();
 		True_Pn.clear();
 		True_DeltaAlphaT.clear();
+		True_DeltaAlpha3D.clear();		
 		True_DeltaPhiT.clear();
 		True_ECal.clear();
 		True_EQE.clear();
@@ -650,6 +653,7 @@ void myPreFilter::Loop() {
 		True_PL.push_back(stv_tool.ReturnPL());
 		True_Pn.push_back(stv_tool.ReturnPn());
 		True_DeltaAlphaT.push_back(stv_tool.ReturnDeltaAlphaT());
+		True_DeltaAlpha3D.push_back(stv_tool.ReturnDeltaAlpha3D());		
 		True_DeltaPhiT.push_back(stv_tool.ReturnDeltaPhiT());
 		True_ECal.push_back(stv_tool.ReturnECal());
 		True_EQE.push_back(stv_tool.ReturnEQE());
