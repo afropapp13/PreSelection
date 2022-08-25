@@ -131,9 +131,9 @@ myPreFilter::myPreFilter(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreFilter_GENIEv2Overlay9_Combined_v08_00_00_52.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/uboone/data/users/apapadop/PeLEETuples/PreFilter_GENIEv2Overlay9_Combined_v08_00_00_52.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("/pnfs/uboone/persistent/users/apapadop/mySamples/v08_00_00_52/PeLEETuples/PreFilter_GENIEv2Overlay9_Combined_v08_00_00_52.root");
+         f = new TFile("/uboone/data/users/apapadop/PeLEETuples/PreFilter_GENIEv2Overlay9_Combined_v08_00_00_52.root");
       }
       f->GetObject("myPreFilter",tree);
 

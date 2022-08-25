@@ -29,7 +29,7 @@ void myPreFilter::Loop() {
 
 	// Output Files
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+".root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -298,7 +298,7 @@ void myPreFilter::Loop() {
 
    //----------------------------------------//
 
-	TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+"_POT.root";
+	TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples/PreSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+"_POT.root";
 
 	TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
 	TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));

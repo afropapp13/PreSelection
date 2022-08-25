@@ -50,7 +50,7 @@ void pot_tree::Loop() {
 
 	// Output File
 
-	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+"_POT.root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+"_POT.root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	OutputFile->cd();
 	POTCountHist->Write();
