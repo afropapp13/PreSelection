@@ -1,5 +1,5 @@
-#ifndef TruthNeutrinoSelectionFilter_h
-#define TruthNeutrinoSelectionFilter_h
+#ifndef recTree_h
+#define recTree_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -7,7 +7,7 @@
 
 // Header file for the classes stored in the TTree if any.
 
-class TruthNeutrinoSelectionFilter {
+class recTree {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -3108,8 +3108,8 @@ public :
    TBranch        *b_rec_true_particles_wallin;   //!
    TBranch        *b_rec_true_particles_wallout;   //!
 
-   TruthNeutrinoSelectionFilter(TTree *tree=0);
-   virtual ~TruthNeutrinoSelectionFilter();
+   recTree(TTree *tree=0);
+   virtual ~recTree();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -3121,8 +3121,8 @@ public :
 
 #endif
 
-#ifdef TruthNeutrinoSelectionFilter_cxx
-TruthNeutrinoSelectionFilter::TruthNeutrinoSelectionFilter(TTree *tree) : fChain(0) 
+#ifdef recTree_cxx
+recTree::recTree(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -3131,25 +3131,25 @@ TruthNeutrinoSelectionFilter::TruthNeutrinoSelectionFilter(TTree *tree) : fChain
       if (!f || !f->IsOpen()) {
          f = new TFile("/pnfs/sbnd/persistent/sbndpro/mcp/mc/official/MCP2022A/prodoverlay_corsika_cosmics_proton_genie_rockbox_sce/v09_37_02_04/reco2_caf/flat_caf_692-482f5e7d-c5c9-4dfc-be7c-0bf96994ed5e.root");
       }
-      f->GetObject("TruthNeutrinoSelectionFilter",tree);
+      f->GetObject("recTree",tree);
 
    }
    Init(tree);
 }
 
-TruthNeutrinoSelectionFilter::~TruthNeutrinoSelectionFilter()
+recTree::~recTree()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t TruthNeutrinoSelectionFilter::GetEntry(Long64_t entry)
+Int_t recTree::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t TruthNeutrinoSelectionFilter::LoadTree(Long64_t entry)
+Long64_t recTree::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -3162,7 +3162,7 @@ Long64_t TruthNeutrinoSelectionFilter::LoadTree(Long64_t entry)
    return centry;
 }
 
-void TruthNeutrinoSelectionFilter::Init(TTree *tree)
+void recTree::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -4726,7 +4726,7 @@ void TruthNeutrinoSelectionFilter::Init(TTree *tree)
    Notify();
 }
 
-Bool_t TruthNeutrinoSelectionFilter::Notify()
+Bool_t recTree::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -4737,18 +4737,18 @@ Bool_t TruthNeutrinoSelectionFilter::Notify()
    return kTRUE;
 }
 
-void TruthNeutrinoSelectionFilter::Show(Long64_t entry)
+void recTree::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t TruthNeutrinoSelectionFilter::Cut(Long64_t entry)
+Int_t recTree::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef TruthNeutrinoSelectionFilter_cxx
+#endif // #ifdef recTree_cxx

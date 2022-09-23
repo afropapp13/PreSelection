@@ -11,8 +11,8 @@
 #include <iomanip>
 #include <vector>
 
-#include "ubana/myClasses/Tools.h"
-#include "ubana/myClasses/STV_Tools.h"
+#include "../myClasses/Tools.h"
+#include "../myClasses/STV_Tools.h"
 
 using namespace std;
 using namespace Constants;
@@ -31,8 +31,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-//	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
-	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/sbnd/data/users/apapadop/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -342,7 +341,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	SamdefEventPlot->SetBinContent(1,fChain->GetEntries());	
 
 	// --------------------------------------------------------------------------------------------------------------------------------
-
+/*
 	// POT Counting
 
 	double POTCount = -99.;
@@ -444,7 +443,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 		}
 
-	}
+	}*/
 
 	// -----------------------------------------------------------------------------
 
@@ -463,7 +462,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		if (jentry%1000 == 0) std::cout << jentry/1000 << " k " << std::setprecision(3) << double(jentry)/nentries*100. << " %"<< std::endl;
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
-
+/*
 		// Weights for systematics
 
 		if (string(fLabel).find("Overlay") != std::string::npos) {
@@ -901,6 +900,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 		if (CC1p == 0) { continue; }
 		tree->Fill();
+		*/
 	}
 
 	// -----------------------------------------------------------------------------
