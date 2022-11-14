@@ -53,7 +53,27 @@ hadd -f /uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_Overlay9NuWro_
 hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
 
 
+# ------------------------------------------------------- #
+
+
 # GENIE v2 Fake Data
 
 root -b PeLEE_script_GENIEv2_PreSelection.C
+
+# GENIE v2 Truth Fake Data Studies
+
+cd GENIEv2_Truth
+
+# POT
+root -l
+.L pot_tree.C++
+pot_tree().Loop()
+
+# Merge truth info into one file 
+root -l
+.L particle_tree.C++
+particle_tree().Loop()
+
+# Isolate true CC1p0pi events (no reconstruction/detector effects)
+root -l PeLEE_script_GENIEv2_PreTruthSelection.C
 

@@ -64,8 +64,10 @@ void QuickRun4aComparisons() {
 	BeamOnColors.push_back(kGreen+2);	
 	BeamOnPOT.push_back(1e19);	
 
-
-	BeamOnNames.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
+	// Rutgers
+	//BeamOnNames.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
+	// Oct 2022
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_63_run4a_beam_good.root");	
 	BeamOnLabels.push_back("Run 4a");	
 	BeamOnColors.push_back(kOrange+7);
 	BeamOnPOT.push_back(Fulltor860_wcut_Run4a);	
