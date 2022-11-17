@@ -13,7 +13,9 @@
 	// Rutgers retreat May 2022
 	//WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
 	// uB Mini-Retreat Nov 14 2022
-	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_63_run4a_beam_good_fix.root");
+	//WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_63_run4a_beam_good_fix.root");
+	// Nov 14 2022: excluding low purity runs
+	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1109/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");	
 
 	// ExtBNB
 
@@ -35,7 +37,7 @@
 	// Rutgers retreat May 2022
 	//WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_nu_uboone_overlay_pelee_ntuple_run4a.root");
 	// uB Mini Retreat Nov 14 2022
-	WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2.root ");	
+	WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2.root");	
 
 	// Dirt
 

@@ -66,11 +66,18 @@ void QuickRun4aComparisons() {
 
 	// Rutgers
 	//BeamOnNames.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");
-	// Oct 2022
-	BeamOnNames.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_63_run4a_beam_good.root");	
+
+	// Oct & Nov 14-16 uB Mini Retreat 2022
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_63_run4a_beam_good_fix.root");	
 	BeamOnLabels.push_back("Run 4a");	
 	BeamOnColors.push_back(kOrange+7);
-	BeamOnPOT.push_back(Fulltor860_wcut_Run4a);	
+	BeamOnPOT.push_back(4.599e+19);	
+
+	// Nov 14-16 uB Mini Retreat 2022: removing low purity runs
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1109/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");	
+	BeamOnLabels.push_back("Run 4a (DEBUG)");	
+	BeamOnColors.push_back(kRed+1);
+	BeamOnPOT.push_back(3.05e19);		
 
 	//------------------------------//		
 
@@ -89,8 +96,8 @@ void QuickRun4aComparisons() {
 
 	// Cut
 
-	TString Cut = "nslice == 1";
-	//TString Cut = "";
+	//TString Cut = "nslice == 1";
+	TString Cut = "";
 
 	//------------------------------//
 
@@ -145,11 +152,12 @@ void QuickRun4aComparisons() {
 		PlotCanvasAreaNorm->SetBottomMargin(0.15);		
 		PlotCanvasAreaNorm->Draw();		
 
-		TLegend* leg = new TLegend(0.2,0.91,0.9,0.98);
+		TLegend* leg = new TLegend(0.05,0.91,0.9,0.98);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
-		leg->SetTextSize(TextSize-0.01);	
-		leg->SetTextFont(FontStyle);						
+		leg->SetTextSize(TextSize-0.02);	
+		leg->SetTextFont(FontStyle);
+		leg->SetMargin(0.15);								
 
 		// Loop over the samples to open the files and to get the corresponding plot
 
@@ -189,6 +197,7 @@ void QuickRun4aComparisons() {
 
 			double SF = BeamOnPOT[0] / BeamOnPOT[iSample];
 //			double SF = 1. / Histos[iSample]->GetEntries();
+			double NEvents = Histos[iSample]->GetEntries();
 			Histos[iSample]->Scale(SF);
 
 			double imax = TMath::Max(Histos[iSample]->GetMaximum(),Histos[0]->GetMaximum());			
@@ -196,8 +205,8 @@ void QuickRun4aComparisons() {
 			Histos[0]->GetYaxis()->SetRangeUser(0.,1.1*imax);			
 
 			PlotCanvas->cd();
-			Histos[iSample]->Draw("hist same");
-			Histos[0]->Draw("hist same");	
+			Histos[iSample]->Draw("e hist same");
+			Histos[0]->Draw("e hist same");	
 
 			//----------------------------------------//
 
@@ -210,12 +219,12 @@ void QuickRun4aComparisons() {
 			CloneAreaNorm->GetYaxis()->SetRangeUser(0.,1.1*imaxAreaNorm);
 
 			PlotCanvasAreaNorm->cd();
-			Clone->Draw("hist same");	
-			CloneAreaNorm->Draw("hist same");		
+			Clone->Draw("e hist same");	
+			CloneAreaNorm->Draw("e hist same");		
 
 			//----------------------------------------//						
 
-			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],BeamOnLabels[iSample] + ", " +TString( ToString(BeamOnPOT[iSample]) ),"l");
+			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],BeamOnLabels[iSample] + ", " +TString( ToString(BeamOnPOT[iSample]) ) + " (" + TString( ToString(NEvents) ) + ")","l");
 			legEntry->SetTextColor( BeamOnColors.at(iSample) );		
 
 			//----------------------------------------//					
