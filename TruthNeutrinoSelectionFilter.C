@@ -170,10 +170,13 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_Pty;
 	std::vector<double> True_PL;
 	std::vector<double> True_Pn;
+	std::vector<double> True_PnPerp;
+	std::vector<double> True_PnPar;
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaAlpha3Dq;
 	std::vector<double> True_DeltaAlpha3DMu;	
 	std::vector<double> True_DeltaPhiT;
+	std::vector<double> True_DeltaPhi3D;	
 	std::vector<double> True_ECal;
 	std::vector<double> True_EQE;
 	std::vector<double> True_Q2;
@@ -301,10 +304,13 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_Pty",&True_Pty);
 	tree->Branch("True_PL",&True_PL);
 	tree->Branch("True_Pn",&True_Pn);
+	tree->Branch("True_PnPerp",&True_PnPerp);
+	tree->Branch("True_PnPar",&True_PnPar);		
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaAlpha3Dq",&True_DeltaAlpha3Dq);
 	tree->Branch("True_DeltaAlpha3DMu",&True_DeltaAlpha3DMu);		
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
+	tree->Branch("True_DeltaPhi3D",&True_DeltaPhi3D);	
 	tree->Branch("True_ECal",&True_ECal);
 	tree->Branch("True_EQE",&True_EQE);
 	tree->Branch("True_Q2",&True_Q2);
@@ -595,6 +601,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		True_DeltaAlpha3Dq.clear();
 		True_DeltaAlpha3DMu.clear();				
 		True_DeltaPhiT.clear();
+		True_DeltaPhi3D.clear();		
 		True_ECal.clear();
 		True_EQE.clear();
 		True_Q2.clear();
@@ -866,6 +873,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 			True_DeltaAlpha3Dq.push_back(stv_tool.ReturnDeltaAlpha3Dq());
 			True_DeltaAlpha3DMu.push_back(stv_tool.ReturnDeltaAlpha3DMu());						
 			True_DeltaPhiT.push_back(stv_tool.ReturnDeltaPhiT());
+			True_DeltaPhi3D.push_back(stv_tool.ReturnDeltaPhi3D());			
 			True_ECal.push_back(stv_tool.ReturnECal());
 			True_EQE.push_back(stv_tool.ReturnEQE());
 			True_Q2.push_back(stv_tool.ReturnQ2());
