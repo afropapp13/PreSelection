@@ -584,7 +584,15 @@ void NeutrinoSelectionFilter::Loop() {
 		E1DCNT_wcut = FullE1DCNT_wcut_Run4a;
 		EXT = FullEXT_Run4a;
 
-	}	
+	}
+
+	if (string(fLabel).find("Run4aRutgers") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4aRutgers;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4aRutgers;
+		EXT = FullEXT_Run4aRutgers;
+
+	}		
 
 	if (string(fLabel).find("Run5") != std::string::npos) {
 

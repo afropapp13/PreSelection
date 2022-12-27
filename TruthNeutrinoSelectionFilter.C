@@ -417,6 +417,14 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	}	
 
+	if (string(fLabel).find("Run4aRutgers") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4aRutgers;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4aRutgers;
+		EXT = FullEXT_Run4aRutgers;
+
+	}	
+
 	if (string(fLabel).find("Run5") != std::string::npos) {
 
 		tor860_wcut = Fulltor860_wcut_Run5;
@@ -597,6 +605,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		True_Pty.clear();
 		True_PL.clear();
 		True_Pn.clear();
+		True_PnPerp.clear();
+		True_PnPar.clear();				
 		True_DeltaAlphaT.clear();
 		True_DeltaAlpha3Dq.clear();
 		True_DeltaAlpha3DMu.clear();				
@@ -869,6 +879,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 			True_Pty.push_back(stv_tool.ReturnPty());
 			True_PL.push_back(stv_tool.ReturnPL());
 			True_Pn.push_back(stv_tool.ReturnPn());
+			True_PnPerp.push_back(stv_tool.ReturnPnPerp());
+			True_PnPar.push_back(stv_tool.ReturnPnPar());						
 			True_DeltaAlphaT.push_back(stv_tool.ReturnDeltaAlphaT());
 			True_DeltaAlpha3Dq.push_back(stv_tool.ReturnDeltaAlpha3Dq());
 			True_DeltaAlpha3DMu.push_back(stv_tool.ReturnDeltaAlpha3DMu());						
