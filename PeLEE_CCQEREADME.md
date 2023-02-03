@@ -21,9 +21,9 @@ root -l PeLEE_script_DetVar_CCQEPreSelection.C
 
 root -b PeLEE_script_FakeData_CCQEPreSelection.C
 
-hadd -f /uboone/data/users/apapadop/PeLEETuples/CCQEPreSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/CCQEPreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /uboone/data/users/apapadop/PeLEETuples/CCQEPreTruthSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/CCQEPreTruthSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
+hadd -f /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreTruthSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreTruthSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
-hadd -f /uboone/data/users/apapadop/PeLEETuples/CCQEPreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /uboone/data/users/apapadop/PeLEETuples/CCQEPreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
+hadd -f /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
 
