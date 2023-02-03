@@ -31,7 +31,7 @@ void TruthCCQENeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-	TString FileName = "/uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPeLEETuples/CCQEPreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
