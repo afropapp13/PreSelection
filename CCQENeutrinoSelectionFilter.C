@@ -945,8 +945,8 @@ void CCQENeutrinoSelectionFilter::Loop() {
 
 		MomentumThresholdCounter++;
 
-		// Fully contained events
-		// Josh will probably remove it for the 2D analysis
+		// Fully contained protons
+		// Fully contained or exiting muons
 
 		if (!CandidateMuonTrackStartContainment) { continue; }
 		//if (!CandidateMuonTrackEndContainment) { continue; }
