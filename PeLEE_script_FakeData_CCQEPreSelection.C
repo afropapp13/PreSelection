@@ -22,29 +22,9 @@
 
 	gROOT->ProcessLine(".L PeLEE_myCCQEPOT.C+");
 	gROOT->ProcessLine(".L CCQENeutrinoSelectionFilter.C+");
-	gROOT->ProcessLine(".L CCQETruthNeutrinoSelectionFilter.C+");
+	gROOT->ProcessLine(".L TruthCCQENeutrinoSelectionFilter.C+");
 
 	for (int i = 0;i < (int)(WhichSampleArray.size()); i++) {
-
-		//if (string(WhichSampleArray[i]).find("Overlay") != std::string::npos)
-		//  { gROOT->ProcessLine("myPOT(\""+WhichSampleArray[i]+"\").Loop()"); }
-
-		//if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos) { 
-
-			// Run once to get uncalibrated variables from Larsoft
-			// Obtain the calibration splines
-			// Then rerun to obtain the correct calibrated variables
-			// Use the MC calibration across the whole run
-
-		//	gROOT->ProcessLine("PreSelection(\""+WhichSampleArray[i]+"\").Loop()");
-		//	gROOT->ProcessLine("CreateSplines(\""+WhichSampleArray[i]+"\")"); 
-
-		//}
-
-		//gROOT->ProcessLine("PreSelection(\""+WhichSampleArray[i]+"\").Loop()");
-
-		//if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos) 
-		//  { gROOT->ProcessLine("PreTruthSelection(\""+WhichSampleArray[i]+"\").Loop()"); } 
 
 			if (string(WhichSampleArray[i]).find("Overlay") != std::string::npos)
 			  { gROOT->ProcessLine("PeLEE_myCCQEPOT(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\")"); }
@@ -52,7 +32,7 @@
 			gROOT->ProcessLine("CCQENeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()");
 
 			if (string(WhichSampleArray[i]).find("Overlay9") != std::string::npos)
-			  { gROOT->ProcessLine("CCQETruthNeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()"); }
+			  { gROOT->ProcessLine("TruthCCQENeutrinoSelectionFilter(\""+WhichSampleArray[i]+"\",\""+SamplePath[i]+"\").Loop()"); }
 
 	}
 
