@@ -26,4 +26,3 @@ hadd -f /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreSelection_Overlay9NuW
 hadd -f /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreTruthSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreTruthSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
 hadd -f /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreSelection_Overlay9NuWro_Combined_v08_00_00_52_POT.root /uboone/data/users/apapadop/CCQEPeLEETuples/CCQEPreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52_POT.root
-
