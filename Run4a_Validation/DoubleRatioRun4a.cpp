@@ -21,7 +21,7 @@ using namespace std;
 
 using namespace Constants;
 
-void THStackRun4a() {
+void DoubleRatioRun4a() {
 
 	//------------------------------//
 
@@ -35,9 +35,8 @@ void THStackRun4a() {
 	const TString EventTTreeName = "nuselection/NeutrinoSelectionFilter";
 	
 	//const TString Cut = "trk_score_v < 0";
-	//const TString Cut = "nslice == 1";
-	const TString Cut = "nslice == 1 && topological_score > 0.5";	
-	const TString MCWeight = "weightSpline * ( (weightSpline > 0. && weightSpline < 30. && weightTune > 0. && weightTune < 30.)? weightTune:0.)";	
+	const TString Cut = "nslice == 1 && topological_score > 0.5";
+	const TString MCWeight = "weightSpline * ( (weightSpline > 0. && weightSpline < 30. && weightTune > 0. && weightTune < 30.)? weightTune:0.)";		
 	//const TString Cut = "";	
 
 	//------------------------------//
@@ -51,9 +50,13 @@ void THStackRun4a() {
 //	std::vector<TString> Runs{"Run4a"};
 	const int NRuns = Runs.size();	
 	
+	std::vector<int> Colors;	
+	
 	for (int irun = 0; irun < NRuns; irun++) {
 	
 		if (Runs[irun] == "Run1") {
+		
+			Colors.push_back(kBlue+2);
 		
 			BeamOnName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
@@ -79,6 +82,8 @@ void THStackRun4a() {
 	
 		if (Runs[irun] == "Run2") {
 		
+			Colors.push_back(kMagenta-1);		
+		
 			BeamOnName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run2_neutrinoselection_filt_numu_ALL.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
@@ -103,6 +108,8 @@ void THStackRun4a() {
 		
 		if (Runs[irun] == "Run3") {
 		
+			Colors.push_back(kGreen+2);		
+		
 			BeamOnName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run3_neutrinoselection_filt_numu_ALL.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
@@ -126,6 +133,8 @@ void THStackRun4a() {
 		}
 		
 		if (Runs[irun] == "Run4a") {
+		
+			Colors.push_back(kOrange+7);		
 		
 			BeamOnName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
@@ -157,51 +166,51 @@ void THStackRun4a() {
 
 	std::vector<TString> PlotNames; std::vector< double> Min; std::vector<double> Max;  std::vector<int> NBins;
 
-	PlotNames.push_back("selected"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);
+	//PlotNames.push_back("selected"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);
 	PlotNames.push_back("n_tracks"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);	
 	PlotNames.push_back("n_showers"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
-	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(50);
-	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(50);	
-	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(-100); Max.push_back(1100); NBins.push_back(50);
-	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
-	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
-	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);	
+	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(0.); Max.push_back(250); NBins.push_back(50);
+	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-130); Max.push_back(130); NBins.push_back(50);	
+	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(0.); Max.push_back(1000); NBins.push_back(50);
+	PlotNames.push_back("hits_u"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
+	PlotNames.push_back("hits_v"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
+	PlotNames.push_back("hits_y"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);	
 	PlotNames.push_back("topological_score"); Min.push_back(0); Max.push_back(1); NBins.push_back(50);				
 	PlotNames.push_back("nslice"); Min.push_back(-0.5); Max.push_back(2.5); NBins.push_back(3);
-	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(50);
-	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(100);		
-	PlotNames.push_back("pfpdg"); Min.push_back(9.5); Max.push_back(14.5); NBins.push_back(5);
-	PlotNames.push_back("trk_llr_pid_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(100);
-	PlotNames.push_back("pfp_generation_v"); Min.push_back(0.5); Max.push_back(4.5); NBins.push_back(4);
+	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(40);
+	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(40);		
+	PlotNames.push_back("pfpdg"); Min.push_back(10.5); Max.push_back(13.5); NBins.push_back(3);
+	PlotNames.push_back("trk_llr_pid_score_v"); Min.push_back(0.5); Max.push_back(1.); NBins.push_back(25);
+	PlotNames.push_back("pfp_generation_v"); Min.push_back(1.5); Max.push_back(4.5); NBins.push_back(3);
 
 	const int NPlots = PlotNames.size();	
 
 	//------------------------------//
 	
-	// Loop over the runs
+	// Loop over the plots to be compared
+
+	for (int iplot = 0; iplot < NPlots; iplot++) {	
 	
-	for (int irun = 0; irun < NRuns; irun++) {
+		TString CanvasName = "Canvas_" + PlotNames[iplot];
+		TCanvas* PlotCanvas = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
+		PlotCanvas->cd();
+		PlotCanvas->SetTopMargin(0.12);
+		PlotCanvas->SetLeftMargin(0.12);
+		PlotCanvas->SetBottomMargin(0.15);
+		PlotCanvas->SetGridx();
+		PlotCanvas->SetGridy();						
+		PlotCanvas->Draw();		
 
-		// Loop over the plots to be compared
-
-		for (int iplot = 0; iplot < NPlots; iplot++) {
-
-			THStack* stack = new THStack(PlotNames[iplot],"");
-
-			TString CanvasName = "Canvas_" + Runs[irun] + "_" + PlotNames[iplot];
-			TCanvas* PlotCanvas = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
-			PlotCanvas->cd();
-			PlotCanvas->SetTopMargin(0.12);
-			PlotCanvas->SetLeftMargin(0.15);
-			PlotCanvas->SetBottomMargin(0.15);		
-			PlotCanvas->Draw();		
-
-			TLegend* leg = new TLegend(0.15,0.89,0.9,0.99);
-			leg->SetBorderSize(0);
-			leg->SetNColumns(2);
-			leg->SetTextSize(TextSize);	
-			leg->SetTextFont(FontStyle);
-			leg->SetMargin(0.15);								
+		TLegend* leg = new TLegend(0.03,0.89,0.97,0.99);
+		leg->SetBorderSize(0);
+		leg->SetNColumns(2);
+		leg->SetTextSize(TextSize);	
+		leg->SetTextFont(FontStyle);
+		leg->SetMargin(0.15);		
+	
+		// Loop over the runs
+	
+		for (int irun = 0; irun < NRuns; irun++) {							
 
 			TString BeamOnHistoName = "BeamOn_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
 			TH1D* BeamOnHisto = new TH1D(BeamOnHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
@@ -217,15 +226,15 @@ void THStackRun4a() {
 			
 			TString DirtHistoName = "Dirt_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
 			TH1D* DirtHisto = new TH1D(DirtHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
-			DirtTTree[irun]->Draw(PlotNames[iplot] + ">>" + DirtHistoName,"("+Cut+")*"+ToString(DirtScale[irun]),"goff");						
-
-			BeamOnHisto->SetLineWidth(2);
-			BeamOnHisto->SetLineColor(kBlack);	
-			BeamOnHisto->SetMarkerColor(kBlack);
-			BeamOnHisto->SetMarkerStyle(20);
-			BeamOnHisto->SetMarkerSize(2.);										
+			DirtTTree[irun]->Draw(PlotNames[iplot] + ">>" + DirtHistoName,"("+Cut+")*"+ToString(DirtScale[irun]) + " * " + MCWeight,"goff");						
 
 			double DataPOT = PeLEE_ReturnBeamOnRunPOT(Runs[irun]);	
+
+			BeamOnHisto->SetLineWidth(2);
+			BeamOnHisto->SetLineColor(Colors[irun]);	
+			BeamOnHisto->SetMarkerColor(Colors[irun]);
+			BeamOnHisto->SetMarkerStyle(20);
+			BeamOnHisto->SetMarkerSize(2.);										
 
 			BeamOnHisto->GetXaxis()->SetTitleFont(FontStyle);
 			BeamOnHisto->GetXaxis()->SetLabelFont(FontStyle);
@@ -239,74 +248,33 @@ void THStackRun4a() {
 			BeamOnHisto->GetYaxis()->SetLabelFont(FontStyle);
 			BeamOnHisto->GetYaxis()->SetNdivisions(6);
 			BeamOnHisto->GetYaxis()->SetLabelSize(TextSize);
-			BeamOnHisto->GetYaxis()->SetTitle("# Events / " + TString( ToString(DataPOT) ) );
+//			BeamOnHisto->GetYaxis()->SetTitle("# Events / " + TString( ToString(DataPOT) ) );
+			BeamOnHisto->GetYaxis()->SetTitle("Data/(MC+ExtBNB)");
 			BeamOnHisto->GetYaxis()->SetTitleSize(TextSize);
-			BeamOnHisto->GetYaxis()->SetTitleOffset(1.3);
+			BeamOnHisto->GetYaxis()->SetTitleOffset(1.);
 			BeamOnHisto->GetYaxis()->SetTickSize(0);
 			BeamOnHisto->GetYaxis()->CenterTitle();	
-			BeamOnHisto->GetYaxis()->SetRangeUser(0.,1.25*BeamOnHisto->GetMaximum());
-
-			BeamOnHisto->Draw("e same");
-			double BeamOnEvents = BeamOnHisto->Integral();
-
-			TLegendEntry* legData = leg->AddEntry(BeamOnHisto, "BeamOn (" + TString( ToString(BeamOnEvents) ) + ")","ep");
-			legData->SetTextColor(kBlack);				
-
-			//----------------------------------------//			
-
-			OverlayHisto->SetLineColor(OverlayColor);
-			OverlayHisto->SetFillColor(OverlayColor);
-			OverlayHisto->SetLineWidth(1);
-			stack->Add(OverlayHisto,"hist");
-			stack->Draw("same");
-
-			double OverlayEvents = OverlayHisto->Integral();
-			TLegendEntry* legOverlay = leg->AddEntry(OverlayHisto, "MC (" + TString( ToString(OverlayEvents) ) + ")","f");
-			legOverlay->SetTextColor(OverlayColor);			
-
-			//----------------------------------------//			
-
-			DirtHisto->SetLineColor(kOrange-3);
-			DirtHisto->SetFillColor(kOrange-3);
-			DirtHisto->SetLineWidth(1);
-			stack->Add(DirtHisto,"hist");
-			stack->Draw("same");	
-
-			double DirtEvents = DirtHisto->Integral();
-			TLegendEntry* legDirt = leg->AddEntry(DirtHisto, "Dirt (" + TString( ToString(DirtEvents) ) + ")","f");
-			legDirt->SetTextColor(kOrange-3);			
+			BeamOnHisto->GetYaxis()->SetRangeUser(0.01,1.99);
 			
-			//----------------------------------------//			
+			OverlayHisto->Add(DirtHisto);
+			OverlayHisto->Add(BeamOffHisto);			
 
-			BeamOffHisto->SetLineColor(kGray+1);
-			BeamOffHisto->SetFillColor(kGray+1);
-			BeamOffHisto->SetFillStyle(3004);
-			BeamOffHisto->SetLineWidth(1);
-			stack->Add(BeamOffHisto,"hist");
-			stack->Draw("same");	
-
-			double BeamOffEvents = BeamOffHisto->Integral();
-			TLegendEntry* legBeamOff = leg->AddEntry(BeamOffHisto, "BeamOff (" + TString( ToString(BeamOffEvents) ) + ")","f");
-			legBeamOff->SetTextColor(kGray+1);
-
-			//----------------------------------------//					
-
+			double BeamOnEvents = BeamOnHisto->Integral();
+			BeamOnHisto->Divide(OverlayHisto);
 			BeamOnHisto->Draw("e same");
+			
+			TLegendEntry* legData = leg->AddEntry(BeamOnHisto, Runs[irun] + " " + TString( ToString(DataPOT) ) + " (" + TString( ToString(BeamOnEvents) ) + ")","ep");
+			legData->SetTextColor(Colors[irun]);							
 
-			leg->Draw();	
+		} // End of the loop over the runs
+		
+		leg->Draw();		
+		
+		PlotCanvas->SaveAs(PlotPath+"DoubleRatio_Validation_"+PlotNames[iplot]+".pdf");
 
-			TLatex *text = new TLatex();
-			text->SetTextFont(FontStyle);
-			text->SetTextSize(TextSize);
-			text->DrawTextNDC(0.75, 0.83, Runs[irun]);			
-
-			PlotCanvas->SaveAs(PlotPath+"THStack" + Runs[irun] + "_Validation_"+PlotNames[iplot]+".pdf");
-
-			//delete PlotCanvas;
-
-		} // End of the loop over the plots
-
-	} // End of the loop over the runs
+		//delete PlotCanvas;		
+	
+	} // End of the loop over the plots	
 
 	//------------------------------//
 

@@ -95,10 +95,26 @@ void QuickRun4aComparisons() {
 	BeamOnPOT.push_back(3.37e+19);	
 
 	// Rutgers (May 1st 2022)
+	/*
 	BeamOnNames.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");	
 	BeamOnLabels.push_back("Run 4a (Rutgers)");	
 	BeamOnColors.push_back(kRed+1);
-	BeamOnPOT.push_back(4.345e+19);				
+	BeamOnPOT.push_back(4.345e+19);	
+	*/
+	
+	// Jan 26 2023: Run3 processed with run4a machinery
+	/*
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_64_run3a_1e19_beam_good.root");	
+	BeamOnLabels.push_back("Run 3a-4a");	
+	BeamOnColors.push_back(kMagenta-2);
+	BeamOnPOT.push_back(1e+19);	
+	*/		
+
+	// Feb 8 2023: Run4b
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_64/020723/v03/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
+	BeamOnLabels.push_back("Run 4b");	
+	BeamOnColors.push_back(kMagenta-2);
+	BeamOnPOT.push_back(9.159e+19);					
 
 	//------------------------------//		
 
@@ -119,7 +135,8 @@ void QuickRun4aComparisons() {
 
 	//TString Cut = "trk_score_v < 0";
 	//TString Cut = "nslice == 1";
-	TString Cut = "";
+	//TString Cut = "";
+	TString Cut = "nslice == 1 && topological_score > 0.5 && n_tracks_contained > 0";		
 
 	//------------------------------//
 
@@ -130,19 +147,21 @@ void QuickRun4aComparisons() {
 	PlotNames.push_back("selected"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);
 	PlotNames.push_back("n_tracks"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);	
 	PlotNames.push_back("n_showers"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
-	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(50);
-	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(50);	
-	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(-100); Max.push_back(1100); NBins.push_back(50);
-	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
-	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
-	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);	
-	PlotNames.push_back("topological_score"); Min.push_back(0); Max.push_back(1); NBins.push_back(50);				
+	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(25);
+	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(25);	
+	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(-100); Max.push_back(1100); NBins.push_back(25);
+	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);
+	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);
+	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);	
+	PlotNames.push_back("topological_score"); Min.push_back(0.5); Max.push_back(1); NBins.push_back(25);				
 	PlotNames.push_back("nslice"); Min.push_back(-0.5); Max.push_back(2.5); NBins.push_back(3);
-	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(50);
-	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(100);		
+	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(25);
+	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);		
 	PlotNames.push_back("pfpdg"); Min.push_back(9.5); Max.push_back(14.5); NBins.push_back(5);
-	PlotNames.push_back("trk_llr_pid_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(100);
+	PlotNames.push_back("trk_llr_pid_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);
 	PlotNames.push_back("pfp_generation_v"); Min.push_back(0.5); Max.push_back(4.5); NBins.push_back(4);
+	PlotNames.push_back("cos(trk_theta_v)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);
+	PlotNames.push_back("cos(trk_theta)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);		
 
 	const int NPlots = PlotNames.size();
 
@@ -166,11 +185,12 @@ void QuickRun4aComparisons() {
 		TString CanvasName = "Canvas_" + PlotNames[iPlot];
 		TCanvas* PlotCanvas = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
 		PlotCanvas->cd();
-		PlotCanvas->SetTopMargin(0.12);
+		PlotCanvas->SetTopMargin(0.14);
 		PlotCanvas->SetLeftMargin(0.15);
 		PlotCanvas->SetBottomMargin(0.15);		
 		PlotCanvas->Draw();	
 
+		/*
 		TString CanvasNameAreaNorm = "AreaNormCanvas_" + PlotNames[iPlot];
 		TCanvas* PlotCanvasAreaNorm = new TCanvas(CanvasNameAreaNorm,CanvasNameAreaNorm,205,34,1024,768);
 		PlotCanvasAreaNorm->cd();
@@ -178,8 +198,9 @@ void QuickRun4aComparisons() {
 		PlotCanvasAreaNorm->SetLeftMargin(0.15);
 		PlotCanvasAreaNorm->SetBottomMargin(0.15);		
 		PlotCanvasAreaNorm->Draw();		
+*/
 
-		TLegend* leg = new TLegend(0.05,0.91,0.9,0.98);
+		TLegend* leg = new TLegend(0.05,0.92,0.9,0.99);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
 		leg->SetTextSize(TextSize-0.02);	
@@ -193,7 +214,11 @@ void QuickRun4aComparisons() {
 
 		for (int iSample = 0; iSample < NSamples; iSample++) {	
 
-			HistosName[iSample] = PlotNames[iPlot] + "_" + TString( ToString(iSample) );
+			TString HistoNameTString = PlotNames[iPlot];
+			HistoNameTString.ReplaceAll("(","_").ReplaceAll(")","_");
+
+			HistosName[iSample] = HistoNameTString + "_" + TString( ToString(iSample) );
+
 			Histos[iSample] = new TH1D(HistosName[iSample],";" + PlotNames[iPlot],NBins[iPlot],Min[iPlot],Max[iPlot]);
 			EventTTree[iSample]->Draw(PlotNames[iPlot] + ">>" + HistosName[iSample],Cut,"goff");
 
@@ -218,7 +243,9 @@ void QuickRun4aComparisons() {
 			Histos[iSample]->GetYaxis()->SetTickSize(0);
 			Histos[iSample]->GetYaxis()->CenterTitle();	
 
+			/*
 			TH1D* CloneAreaNorm = (TH1D*)(Histos[0]->Clone());
+			*/
 
 			//----------------------------------------//
 
@@ -237,9 +264,9 @@ void QuickRun4aComparisons() {
 
 			//----------------------------------------//
 
-			TH1D* Clone = (TH1D*)(Histos[iSample]->Clone());
+			/*TH1D* Clone = (TH1D*)(Histos[iSample]->Clone());
 			double SFAreaNorm = CloneAreaNorm->Integral() / Clone->Integral();
-			Clone->Scale(SFAreaNorm);	
+			Clone->Scale(SFAreaNorm);
 
 			double imaxAreaNorm = TMath::Max(Clone->GetMaximum(),CloneAreaNorm->GetMaximum());
 			Clone->GetYaxis()->SetRangeUser(0.,1.1*imaxAreaNorm);
@@ -247,7 +274,7 @@ void QuickRun4aComparisons() {
 
 			PlotCanvasAreaNorm->cd();
 			Clone->Draw("e hist same");	
-			CloneAreaNorm->Draw("e hist same");		
+			CloneAreaNorm->Draw("e hist same");*/	
 
 			//----------------------------------------//						
 
@@ -263,18 +290,26 @@ void QuickRun4aComparisons() {
 		
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
-		text->SetTextSize(TextSize);
-		text->DrawTextNDC(0.14, 0.9, "BeamOn");		
+		text->SetTextSize(0.05);
+		text->DrawTextNDC(0.16, 0.82, "BeamOn");		
 
-		PlotCanvasAreaNorm->cd();
+		/*PlotCanvasAreaNorm->cd();*
 		leg->Draw();	
-		text->DrawTextNDC(0.14, 0.9, "BeamOn");			
+		text->DrawTextNDC(0.16, 0.85, "BeamOn");*/			
 
-		PlotCanvas->SaveAs(PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+".pdf");
-		PlotCanvasAreaNorm->SaveAs(PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+"_AreaNorm.pdf");	
+		TString CanvasNameTString = PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+".pdf";
+		CanvasNameTString.ReplaceAll("(","_").ReplaceAll(")","_");
+
+		/*
+		TString CanvasNameTStringNorm = PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+"_AreaNorm.pdf";
+		CanvasNameTStringNorm.ReplaceAll("(","_").ReplaceAll(")","_");		
+		*/
+
+		PlotCanvas->SaveAs(CanvasNameTString);
+		/*PlotCanvasAreaNorm->SaveAs(CanvasNameTStringNorm);*/	
 
 		//delete PlotCanvas;
-		delete PlotCanvasAreaNorm;		
+		//delete PlotCanvasAreaNorm;		
 
 	} // End of the loop over the plots
 
