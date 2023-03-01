@@ -111,10 +111,10 @@ void QuickRun4aComparisons() {
 	*/		
 
 	// Feb 8 2023: Run4b
-	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_64/020723/v03/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
 	BeamOnLabels.push_back("Run 4b");	
 	BeamOnColors.push_back(kMagenta-2);
-	BeamOnPOT.push_back(9.159e+19);					
+	BeamOnPOT.push_back(1.4e+20);					
 
 	//------------------------------//		
 
@@ -149,7 +149,7 @@ void QuickRun4aComparisons() {
 	PlotNames.push_back("n_showers"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
 	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(25);
 	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(25);	
-	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(-100); Max.push_back(1100); NBins.push_back(25);
+	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(0.); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);	

@@ -47,7 +47,7 @@ void THStackRun4a() {
 	std::vector<TString> OverlayName; std::vector<TFile*> OverlayFile; std::vector<TTree*> OverlayTTree; std::vector<double> OverlayScale;
 	std::vector<TString> DirtName;    std::vector<TFile*> DirtFile;    std::vector<TTree*> DirtTTree;    std::vector<double> DirtScale;
 	
-	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a"};
+	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b"};
 //	std::vector<TString> Runs{"Run4a"};
 	const int NRuns = Runs.size();	
 	
@@ -147,7 +147,31 @@ void THStackRun4a() {
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
 			DirtScale.push_back(0.046); // fix															
 		
-		}				
+		}			
+
+		if (Runs[irun] == "Run4b") {
+		
+			BeamOnName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
+			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
+			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
+			BeamOnScale.push_back(1.);
+			
+			BeamOffName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
+			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
+			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
+			BeamOffScale.push_back(0.356); 	
+			
+			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
+			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
+			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
+			OverlayScale.push_back(0.227);
+			
+			DirtName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
+			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
+			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
+			DirtScale.push_back(0.54); 															
+		
+		}					
 	
 	}
 

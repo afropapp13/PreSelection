@@ -46,7 +46,7 @@ void DoubleRatioRun4a() {
 	std::vector<TString> OverlayName; std::vector<TFile*> OverlayFile; std::vector<TTree*> OverlayTTree; std::vector<double> OverlayScale;
 	std::vector<TString> DirtName;    std::vector<TFile*> DirtFile;    std::vector<TTree*> DirtTTree;    std::vector<double> DirtScale;
 	
-	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a"};
+	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b"};
 //	std::vector<TString> Runs{"Run4a"};
 	const int NRuns = Runs.size();	
 	
@@ -82,7 +82,7 @@ void DoubleRatioRun4a() {
 	
 		if (Runs[irun] == "Run2") {
 		
-			Colors.push_back(kMagenta-1);		
+			Colors.push_back(kAzure-4);		
 		
 			BeamOnName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run2_neutrinoselection_filt_numu_ALL.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
@@ -156,7 +156,33 @@ void DoubleRatioRun4a() {
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
 			DirtScale.push_back(0.046); // fix															
 		
-		}				
+		}		
+
+		if (Runs[irun] == "Run4b") {
+
+			Colors.push_back(kRed-2);			
+		
+			BeamOnName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
+			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
+			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
+			BeamOnScale.push_back(1.);
+			
+			BeamOffName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
+			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
+			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
+			BeamOffScale.push_back(0.356); 	
+			
+			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
+			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
+			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
+			OverlayScale.push_back(0.227);
+			
+			DirtName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
+			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
+			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
+			DirtScale.push_back(0.54); 															
+		
+		}					
 	
 	}
 
@@ -206,14 +232,16 @@ void DoubleRatioRun4a() {
 		leg->SetNColumns(2);
 		leg->SetTextSize(TextSize);	
 		leg->SetTextFont(FontStyle);
-		leg->SetMargin(0.15);		
+		leg->SetMargin(0.15);
+
+		TH1D* BeamOnHisto[NRuns];		
 	
 		// Loop over the runs
 	
 		for (int irun = 0; irun < NRuns; irun++) {							
 
 			TString BeamOnHistoName = "BeamOn_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
-			TH1D* BeamOnHisto = new TH1D(BeamOnHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
+			BeamOnHisto[irun] = new TH1D(BeamOnHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			BeamOnTTree[irun]->Draw(PlotNames[iplot] + ">>" + BeamOnHistoName,"("+Cut+")*"+ToString(BeamOnScale[irun]),"goff");
 			
 			TString BeamOffHistoName = "BeamOff_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
@@ -230,49 +258,97 @@ void DoubleRatioRun4a() {
 
 			double DataPOT = PeLEE_ReturnBeamOnRunPOT(Runs[irun]);	
 
-			BeamOnHisto->SetLineWidth(2);
-			BeamOnHisto->SetLineColor(Colors[irun]);	
-			BeamOnHisto->SetMarkerColor(Colors[irun]);
-			BeamOnHisto->SetMarkerStyle(20);
-			BeamOnHisto->SetMarkerSize(2.);										
+			BeamOnHisto[irun]->SetLineWidth(2);
+			BeamOnHisto[irun]->SetLineColor(Colors[irun]);	
+			BeamOnHisto[irun]->SetMarkerColor(Colors[irun]);
+			BeamOnHisto[irun]->SetMarkerStyle(20);
+			BeamOnHisto[irun]->SetMarkerSize(2.);										
 
-			BeamOnHisto->GetXaxis()->SetTitleFont(FontStyle);
-			BeamOnHisto->GetXaxis()->SetLabelFont(FontStyle);
-			BeamOnHisto->GetXaxis()->SetNdivisions(8);
-			BeamOnHisto->GetXaxis()->SetLabelSize(TextSize);
-			BeamOnHisto->GetXaxis()->SetTitleSize(TextSize);	
-			BeamOnHisto->GetXaxis()->SetTitleOffset(1.1);					
-			BeamOnHisto->GetXaxis()->CenterTitle();						
+			BeamOnHisto[irun]->GetXaxis()->SetTitleFont(FontStyle);
+			BeamOnHisto[irun]->GetXaxis()->SetLabelFont(FontStyle);
+			BeamOnHisto[irun]->GetXaxis()->SetNdivisions(8);
+			BeamOnHisto[irun]->GetXaxis()->SetLabelSize(TextSize);
+			BeamOnHisto[irun]->GetXaxis()->SetTitleSize(TextSize);	
+			BeamOnHisto[irun]->GetXaxis()->SetTitleOffset(1.1);					
+			BeamOnHisto[irun]->GetXaxis()->CenterTitle();						
 
-			BeamOnHisto->GetYaxis()->SetTitleFont(FontStyle);
-			BeamOnHisto->GetYaxis()->SetLabelFont(FontStyle);
-			BeamOnHisto->GetYaxis()->SetNdivisions(6);
-			BeamOnHisto->GetYaxis()->SetLabelSize(TextSize);
-//			BeamOnHisto->GetYaxis()->SetTitle("# Events / " + TString( ToString(DataPOT) ) );
-			BeamOnHisto->GetYaxis()->SetTitle("Data/(MC+ExtBNB)");
-			BeamOnHisto->GetYaxis()->SetTitleSize(TextSize);
-			BeamOnHisto->GetYaxis()->SetTitleOffset(1.);
-			BeamOnHisto->GetYaxis()->SetTickSize(0);
-			BeamOnHisto->GetYaxis()->CenterTitle();	
-			BeamOnHisto->GetYaxis()->SetRangeUser(0.01,1.99);
+			BeamOnHisto[irun]->GetYaxis()->SetTitleFont(FontStyle);
+			BeamOnHisto[irun]->GetYaxis()->SetLabelFont(FontStyle);
+			BeamOnHisto[irun]->GetYaxis()->SetNdivisions(6);
+			BeamOnHisto[irun]->GetYaxis()->SetLabelSize(TextSize);
+//			BeamOnHisto[irun]->GetYaxis()->SetTitle("# Events / " + TString( ToString(DataPOT) ) );
+			BeamOnHisto[irun]->GetYaxis()->SetTitle("Data/(MC+ExtBNB)");
+			BeamOnHisto[irun]->GetYaxis()->SetTitleSize(TextSize);
+			BeamOnHisto[irun]->GetYaxis()->SetTitleOffset(1.);
+			BeamOnHisto[irun]->GetYaxis()->SetTickSize(0);
+			BeamOnHisto[irun]->GetYaxis()->CenterTitle();	
+			BeamOnHisto[irun]->GetYaxis()->SetRangeUser(0.01,1.99);
 			
 			OverlayHisto->Add(DirtHisto);
 			OverlayHisto->Add(BeamOffHisto);			
 
-			double BeamOnEvents = BeamOnHisto->Integral();
-			BeamOnHisto->Divide(OverlayHisto);
-			BeamOnHisto->Draw("e same");
+			double BeamOnEvents = BeamOnHisto[irun]->Integral();
+			BeamOnHisto[irun]->Divide(OverlayHisto);
+			BeamOnHisto[irun]->Draw("e same");
 			
-			TLegendEntry* legData = leg->AddEntry(BeamOnHisto, Runs[irun] + " " + TString( ToString(DataPOT) ) + " (" + TString( ToString(BeamOnEvents) ) + ")","ep");
+			TLegendEntry* legData = leg->AddEntry(BeamOnHisto[irun], Runs[irun] + " " + TString( ToString(DataPOT) ) + " (" + TString( ToString(BeamOnEvents) ) + ")","ep");
 			legData->SetTextColor(Colors[irun]);							
 
 		} // End of the loop over the runs
-		
-		leg->Draw();		
-		
-		PlotCanvas->SaveAs(PlotPath+"DoubleRatio_Validation_"+PlotNames[iplot]+".pdf");
 
-		//delete PlotCanvas;		
+		leg->Draw();	
+
+		PlotCanvas->SaveAs(PlotPath+"DoubleRatio_Validation_"+PlotNames[iplot]+".pdf");
+		//delete PlotCanvas;				
+
+		//------------------------------//
+
+		// Double ratio plots to 1st run in array
+		// Run 1 is ideally the reference point
+
+		// Create the canvas that will host the double ratio		
+
+		TString CanvasNameDouble = "DoubleRatioToRunOneCanvas_" + PlotNames[iplot];
+		TCanvas* PlotCanvasDouble = new TCanvas(CanvasNameDouble,CanvasNameDouble,205,34,1024,768);
+		PlotCanvasDouble->cd();
+		PlotCanvasDouble->SetTopMargin(0.12);
+		PlotCanvasDouble->SetLeftMargin(0.12);
+		PlotCanvasDouble->SetBottomMargin(0.15);
+		PlotCanvasDouble->SetGridx();
+		PlotCanvasDouble->SetGridy();						
+		PlotCanvasDouble->Draw();		
+
+		TLegend* legDouble = new TLegend(0.03,0.89,0.97,0.99);
+		legDouble->SetBorderSize(0);
+		legDouble->SetNColumns(2);
+		legDouble->SetTextSize(TextSize);	
+		legDouble->SetTextFont(FontStyle);
+		legDouble->SetMargin(0.15);
+
+		TH1D* BeamOnHistoRatio[NRuns-1];		
+
+		// Loop over the runs
+		// Start from the 2nd element of the run array
+	
+		for (int irun = 1; irun < NRuns; irun++) {	
+
+			// Clone the irun ratio plot
+			BeamOnHistoRatio[irun-1]->Clone(BeamOnHisto[irun]);	
+			// Divide it by the 0th ratio plot
+			BeamOnHistoRatio[irun-1]->Divide(BeamOnHisto[0]);
+			BeamOnHistoRatio[irun-1]->GetYaxis()->SetTitle("Double Ratio to Run 1");			
+			BeamOnHistoRatio[irun-1]->Draw("e same");
+			
+			TLegendEntry* legDataDouble = leg->AddEntry(BeamOnHistoRatio[irun-1], Runs[irun],"ep");
+			legDataDouble->SetTextColor(Colors[irun]);			
+
+
+		} // End of the loop over the runs
+
+		PlotCanvasDouble->SaveAs(PlotPath+"DoubleRatioToRunOne_Validation_"+PlotNames[iplot]+".pdf");
+		//delete PlotCanvasDouble;				
+
+		//------------------------------//				
 	
 	} // End of the loop over the plots	
 

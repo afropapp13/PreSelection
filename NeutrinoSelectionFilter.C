@@ -71,6 +71,58 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> VecFFCCQEshape_UBGenie;
 	std::vector<double> XSecShape_CCMEC_UBGenie;
 
+	//----------------------------------------//
+
+	// detailed xsec uncertainty contributions 
+
+	std::vector<double> AGKYpT1pi_UBGenie;
+	std::vector<double> AGKYxF1pi_UBGenie;
+	std::vector<double> AhtBY_UBGenie;
+	std::vector<double> BhtBY_UBGenie;
+	std::vector<double> CV1uBY_UBGenie;
+	std::vector<double> CV2uBY_UBGenie;
+	std::vector<double> EtaNCEL_UBGenie;
+	std::vector<double> FrAbs_N_UBGenie;
+	std::vector<double> FrAbs_pi_UBGenie;
+	std::vector<double> FrCEx_N_UBGenie;
+	std::vector<double> FrCEx_pi_UBGenie;
+	std::vector<double> FrInel_N_UBGenie;
+	std::vector<double> FrInel_pi_UBGenie;
+	std::vector<double> FrPiProd_N_UBGenie;
+	std::vector<double> FrPiProd_pi_UBGenie;
+	std::vector<double> FracDelta_CCMEC_UBGenie;	
+	std::vector<double> FracPN_CCMEC_UBGenie;
+	std::vector<double> MFP_N_UBGenie;
+	std::vector<double> MFP_pi_UBGenie;
+	std::vector<double> MaCCQE_UBGenie;
+	std::vector<double> MaCCRES_UBGenie;
+	std::vector<double> MaNCEL_UBGenie;
+	std::vector<double> MaNCRES_UBGenie;
+	std::vector<double> MvCCRES_UBGenie;
+	std::vector<double> MvNCRES_UBGenie;
+	std::vector<double> NonRESBGvbarnCC1pi_UBGenie;
+	std::vector<double> NonRESBGvbarnCC2pi_UBGenie;
+	std::vector<double> NonRESBGvbarnNC1pi_UBGenie;
+	std::vector<double> NonRESBGvbarnNC2pi_UBGenie;
+	std::vector<double> NonRESBGvbarpCC1pi_UBGenie;
+	std::vector<double> NonRESBGvbarpCC2pi_UBGenie;
+	std::vector<double> NonRESBGvbarpNC1pi_UBGenie;
+	std::vector<double> NonRESBGvbarpNC2pi_UBGenie;
+	std::vector<double> NonRESBGvnCC1pi_UBGenie;
+	std::vector<double> NonRESBGvnCC2pi_UBGenie;
+	std::vector<double> NonRESBGvnNC1pi_UBGenie;
+	std::vector<double> NonRESBGvnNC2pi_UBGenie;
+	std::vector<double> NonRESBGvpCC1pi_UBGenie;
+	std::vector<double> NonRESBGvpCC2pi_UBGenie;
+	std::vector<double> NonRESBGvpNC1pi_UBGenie;
+	std::vector<double> NonRESBGvpNC2pi_UBGenie;
+	std::vector<double> NormCCMEC_UBGenie;
+	std::vector<double> NormNCMEC_UBGenie;
+	std::vector<double> RDecBR1eta_UBGenie;
+	std::vector<double> RDecBR1gamma_UBGenie;		
+
+	//----------------------------------------//
+
 	std::vector<double> fluxes; // flux variations in single weight
 
 	std::vector<double> reinteractions; // G4 weights in single weight
@@ -225,6 +277,8 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> Reco_PL;
 	std::vector<double> Reco_Pn;
 	std::vector<double> Reco_PnPerp;
+	std::vector<double> Reco_PnPerpx;
+	std::vector<double> Reco_PnPerpy;		
 	std::vector<double> Reco_PnPar;
 	std::vector<double> Reco_DeltaAlphaT;
 	std::vector<double> Reco_DeltaAlpha3Dq;
@@ -248,6 +302,8 @@ void NeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_PL;
 	std::vector<double> True_Pn;
 	std::vector<double> True_PnPerp;
+	std::vector<double> True_PnPerpx;
+	std::vector<double> True_PnPerpy;	
 	std::vector<double> True_PnPar;		
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaAlpha3Dq;
@@ -287,6 +343,58 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Theta_Delta2Npi_UBGenie", &Theta_Delta2Npi_UBGenie);
 	tree->Branch("VecFFCCQEshape_UBGenie", &VecFFCCQEshape_UBGenie);
 	tree->Branch("XSecShape_CCMEC_UBGenie", &XSecShape_CCMEC_UBGenie);
+
+	//----------------------------------------//
+
+	// detailed xsec uncertainties
+
+	tree->Branch("AGKYpT1pi_UBGenie", &AGKYpT1pi_UBGenie);
+	tree->Branch("AGKYxF1pi_UBGenie", &AGKYxF1pi_UBGenie);
+	tree->Branch("AhtBY_UBGenie", &AhtBY_UBGenie);
+	tree->Branch("BhtBY_UBGenie", &BhtBY_UBGenie);
+	tree->Branch("CV1uBY_UBGenie", &CV1uBY_UBGenie);
+	tree->Branch("CV2uBY_UBGenie", &CV2uBY_UBGenie);
+	tree->Branch("EtaNCEL_UBGenie", &EtaNCEL_UBGenie);
+	tree->Branch("FrAbs_N_UBGenie", &FrAbs_N_UBGenie);
+	tree->Branch("FrAbs_pi_UBGenie", &FrAbs_pi_UBGenie);
+	tree->Branch("FrCEx_N_UBGenie", &FrCEx_N_UBGenie);
+	tree->Branch("FrCEx_pi_UBGenie", &FrCEx_pi_UBGenie);
+	tree->Branch("FrInel_N_UBGenie", &FrInel_N_UBGenie);												
+	tree->Branch("FrInel_pi_UBGenie", &FrInel_pi_UBGenie);
+	tree->Branch("FrPiProd_N_UBGenie", &FrPiProd_N_UBGenie);
+	tree->Branch("FrPiProd_pi_UBGenie", &FrPiProd_pi_UBGenie);
+	tree->Branch("FracDelta_CCMEC_UBGenie", &FracDelta_CCMEC_UBGenie);	
+	tree->Branch("FracPN_CCMEC_UBGenie", &FracPN_CCMEC_UBGenie);
+	tree->Branch("MFP_N_UBGenie", &MFP_N_UBGenie);
+	tree->Branch("MFP_pi_UBGenie", &MFP_pi_UBGenie);
+	tree->Branch("MaCCQE_UBGenie", &MaCCQE_UBGenie);
+	tree->Branch("MaCCRES_UBGenie", &MaCCRES_UBGenie);
+	tree->Branch("MaNCEL_UBGenie", &MaNCEL_UBGenie);
+	tree->Branch("MaNCRES_UBGenie", &MaNCRES_UBGenie);
+	tree->Branch("MvCCRES_UBGenie", &MvCCRES_UBGenie);
+	tree->Branch("MvNCRES_UBGenie", &MvNCRES_UBGenie);
+	tree->Branch("NonRESBGvbarnCC1pi_UBGenie", &NonRESBGvbarnCC1pi_UBGenie);
+	tree->Branch("NonRESBGvbarnCC2pi_UBGenie", &NonRESBGvbarnCC2pi_UBGenie);
+	tree->Branch("NonRESBGvbarnNC1pi_UBGenie", &NonRESBGvbarnNC1pi_UBGenie);
+	tree->Branch("NonRESBGvbarnNC2pi_UBGenie", &NonRESBGvbarnNC2pi_UBGenie);
+	tree->Branch("NonRESBGvbarpCC1pi_UBGenie", &NonRESBGvbarpCC1pi_UBGenie);
+	tree->Branch("NonRESBGvbarpCC2pi_UBGenie", &NonRESBGvbarpCC2pi_UBGenie);
+	tree->Branch("NonRESBGvbarpNC1pi_UBGenie", &NonRESBGvbarpNC1pi_UBGenie);
+	tree->Branch("NonRESBGvbarpNC2pi_UBGenie", &NonRESBGvbarpNC2pi_UBGenie);
+	tree->Branch("NonRESBGvnCC1pi_UBGenie", &NonRESBGvnCC1pi_UBGenie);
+	tree->Branch("NonRESBGvnCC2pi_UBGenie", &NonRESBGvnCC2pi_UBGenie);
+	tree->Branch("NonRESBGvnNC1pi_UBGenie", &NonRESBGvnNC1pi_UBGenie);
+	tree->Branch("NonRESBGvnNC2pi_UBGenie", &NonRESBGvnNC2pi_UBGenie);
+	tree->Branch("NonRESBGvpCC1pi_UBGenie", &NonRESBGvpCC1pi_UBGenie);
+	tree->Branch("NonRESBGvpCC2pi_UBGenie", &NonRESBGvpCC2pi_UBGenie);
+	tree->Branch("NonRESBGvpNC1pi_UBGenie", &NonRESBGvpNC1pi_UBGenie);
+	tree->Branch("NonRESBGvpNC2pi_UBGenie", &NonRESBGvpNC2pi_UBGenie);
+	tree->Branch("NormCCMEC_UBGenie", &NormCCMEC_UBGenie);
+	tree->Branch("NormNCMEC_UBGenie", &NormNCMEC_UBGenie);
+	tree->Branch("RDecBR1eta_UBGenie", &RDecBR1eta_UBGenie);
+	tree->Branch("RDecBR1gamma_UBGenie", &RDecBR1gamma_UBGenie);
+
+	//----------------------------------------//		
 
 	tree->Branch("fluxes", &fluxes);
 
@@ -442,6 +550,8 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Reco_PL",&Reco_PL);
 	tree->Branch("Reco_Pn",&Reco_Pn);
 	tree->Branch("Reco_PnPerp",&Reco_PnPerp);
+	tree->Branch("Reco_PnPerpx",&Reco_PnPerpx);
+	tree->Branch("Reco_PnPerpy",&Reco_PnPerpy);		
 	tree->Branch("Reco_PnPar",&Reco_PnPar);		
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
 	tree->Branch("Reco_DeltaAlpha3Dq",&Reco_DeltaAlpha3Dq);
@@ -465,6 +575,8 @@ void NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_PL",&True_PL);
 	tree->Branch("True_Pn",&True_Pn);
 	tree->Branch("True_PnPerp",&True_PnPerp);
+	tree->Branch("True_PnPerpx",&True_PnPerpx);
+	tree->Branch("True_PnPerpy",&True_PnPerpy);		
 	tree->Branch("True_PnPar",&True_PnPar);		
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaAlpha3Dq",&True_DeltaAlpha3Dq);
@@ -592,13 +704,29 @@ void NeutrinoSelectionFilter::Loop() {
 		E1DCNT_wcut = FullE1DCNT_wcut_Run4aRutgers;
 		EXT = FullEXT_Run4aRutgers;
 
-	}		
+	}
+
+	if (string(fLabel).find("Run4b") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4b;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4b;
+		EXT = FullEXT_Run4b;
+
+	}			
 
 	if (string(fLabel).find("Run5") != std::string::npos) {
 
 		tor860_wcut = Fulltor860_wcut_Run5;
 		E1DCNT_wcut = FullE1DCNT_wcut_Run5;
 		EXT = FullEXT_Run5;
+
+	}	
+
+	if (string(fLabel).find("Run5a") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run5a;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run5a;
+		EXT = FullEXT_Run5a;
 
 	}	
 	
@@ -634,14 +762,25 @@ void NeutrinoSelectionFilter::Loop() {
 
 		if ( 
 			fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-			fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a" || fLabel == "Overlay9_Run5" ||
+			fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a" || fLabel == "Overlay9_Run4aRutgers" || fLabel == "Overlay9_Run4b" || 
+			fLabel == "Overlay9_Run5" || fLabel == "Overlay9_Run5a" ||
 			fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || fLabel == "OverlayDirt9_Run3" || 
-			fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run4a" || fLabel == "OverlayDirt9_Run5"				 
+			fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run4a" || fLabel == "OverlayDirt9_Run4aRutgers" || fLabel == "OverlayDirt9_Run4b" || 
+			fLabel == "OverlayDirt9_Run5" || fLabel == "OverlayDirt9_Run5a"
 		) {
 
 			fChain->SetBranchAddress("weights", &weights, &b_weights);
 
 		}
+
+		if ( 
+			fLabel == "Overlay9_Run1_DecompXSecUnc"			 
+		) {
+
+			fChain->SetBranchAddress("weightsGenieUp", &weightsGenieUp, &b_weightsGenieUp);
+			fChain->SetBranchAddress("weightsGenieDn", &weightsGenieDn, &b_weightsGenieDn);			
+
+		}		
 
 	}
 
@@ -672,10 +811,11 @@ void NeutrinoSelectionFilter::Loop() {
 
 			if ( 
 				fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-				fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a" || fLabel == "Overlay9_Run5" ||
+				fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a" || fLabel == "Overlay9_Run4aRutgers" || fLabel == "Overlay9_Run4b" || 
+				fLabel == "Overlay9_Run5" || fLabel == "Overlay9_Run5a" ||
 				fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || 
-				fLabel == "OverlayDirt9_Run3" || fLabel == "OverlayDirt9_Run4a" ||
-				fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run5"				 
+				fLabel == "OverlayDirt9_Run3" || fLabel == "OverlayDirt9_Run4a" ||fLabel == "OverlayDirt9_Run4aRutgers" || fLabel == "OverlayDirt9_Run4b" ||
+				fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run5" || fLabel == "OverlayDirt9_Run5a"			 
 			) {
 
 
@@ -702,6 +842,65 @@ void NeutrinoSelectionFilter::Loop() {
 				}
 
 			}
+
+			if ( 
+				fLabel == "Overlay9_Run1_DecompXSecUnc"				 
+			) {
+
+				// Loop over the detailed xsec knobs
+				// Divide the weights by 1000.
+
+				for (int ixsec = 0; ixsec < (int)(weightsGenieUp->size()); ixsec++ ) {
+
+					if (ixsec == 0) { AGKYpT1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); AGKYpT1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 1) { AGKYxF1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); AGKYxF1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 2) { AhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); AhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 4) { BhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); BhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 5) { CV1uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); CV1uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 6) { CV2uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); CV2uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 8) { EtaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); EtaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 9) { FrAbs_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrAbs_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 10) { FrAbs_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrAbs_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 11) { FrCEx_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrCEx_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 12) { FrCEx_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrCEx_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 13) { FrInel_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrInel_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 14) { FrInel_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrInel_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 15) { FrPiProd_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrPiProd_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 16) { FrPiProd_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrPiProd_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 17) { FracDelta_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FracDelta_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }					
+					if (ixsec == 18) { FracPN_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FracPN_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 19) { MFP_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MFP_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 20) { MFP_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MFP_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 21) { MaCCQE_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaCCQE_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 22) { MaCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 23) { MaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 24) { MaNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 25) { MvCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MvCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 26) { MvNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MvNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 27) { NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 28) { NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 29) { NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 30) { NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 31) { NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 32) { NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 33) { NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 34) { NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 35) { NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 36) { NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 37) { NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 38) { NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 39) { NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 40) { NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 41) { NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 42) { NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 43) { NormCCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NormCCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 44) { NormNCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NormNCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 45) { RDecBR1eta_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); RDecBR1eta_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 46) { RDecBR1gamma_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); RDecBR1gamma_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+
+				} // End of the loop over the detailed xsec knobs
+
+			}			
 
 		} else {
 
@@ -830,6 +1029,8 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_PL.clear();
 		Reco_Pn.clear();
 		Reco_PnPerp.clear();
+		Reco_PnPerpx.clear();	
+		Reco_PnPerpy.clear();			
 		Reco_PnPar.clear();				
 		Reco_DeltaAlphaT.clear();
 		Reco_DeltaAlpha3Dq.clear();
@@ -853,6 +1054,8 @@ void NeutrinoSelectionFilter::Loop() {
 		True_PL.clear();
 		True_Pn.clear();
 		True_PnPerp.clear();
+		True_PnPerpx.clear();
+		True_PnPerpy.clear();				
 		True_PnPar.clear();				
 		True_DeltaAlphaT.clear();
 		True_DeltaAlpha3Dq.clear();
@@ -1176,6 +1379,8 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_PL.push_back(reco_stv_tool.ReturnPL());
 		Reco_Pn.push_back(reco_stv_tool.ReturnPn());
 		Reco_PnPerp.push_back(reco_stv_tool.ReturnPnPerp());
+		Reco_PnPerpx.push_back(reco_stv_tool.ReturnPnPerpy());
+		Reco_PnPerpy.push_back(reco_stv_tool.ReturnPnPerpy());				
 		Reco_PnPar.push_back(reco_stv_tool.ReturnPnPar());				
 		Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
 		Reco_DeltaAlpha3Dq.push_back(reco_stv_tool.ReturnDeltaAlpha3Dq());
@@ -1296,6 +1501,8 @@ void NeutrinoSelectionFilter::Loop() {
 			True_PL.push_back(true_stv_tool.ReturnPL());
 			True_Pn.push_back(true_stv_tool.ReturnPn());
 			True_PnPerp.push_back(true_stv_tool.ReturnPnPerp());
+			True_PnPerpx.push_back(true_stv_tool.ReturnPnPerpx());
+			True_PnPerpy.push_back(true_stv_tool.ReturnPnPerpy());						
 			True_PnPar.push_back(true_stv_tool.ReturnPnPar());						
 			True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
 			True_DeltaAlpha3Dq.push_back(true_stv_tool.ReturnDeltaAlpha3Dq());
@@ -1368,6 +1575,8 @@ void NeutrinoSelectionFilter::Loop() {
 			True_PL.push_back(CosmicPID);
 			True_Pn.push_back(CosmicPID);
 			True_PnPerp.push_back(CosmicPID);
+			True_PnPerpx.push_back(CosmicPID);
+			True_PnPerpy.push_back(CosmicPID);						
 			True_PnPar.push_back(CosmicPID);						
 			True_DeltaAlphaT.push_back(CosmicPID);
 			True_DeltaAlpha3Dq.push_back(CosmicPID);

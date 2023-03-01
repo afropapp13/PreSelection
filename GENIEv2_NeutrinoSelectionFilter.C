@@ -218,6 +218,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	std::vector<double> Reco_PL;
 	std::vector<double> Reco_Pn;
 	std::vector<double> Reco_PnPerp;
+	std::vector<double> Reco_PnPerpx;
+	std::vector<double> Reco_PnPerpy;		
 	std::vector<double> Reco_PnPar;
 	std::vector<double> Reco_DeltaAlphaT;
 	std::vector<double> Reco_DeltaAlpha3Dq;
@@ -241,6 +243,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_PL;
 	std::vector<double> True_Pn;
 	std::vector<double> True_PnPerp;
+	std::vector<double> True_PnPerpx;
+	std::vector<double> True_PnPerpy;		
 	std::vector<double> True_PnPar;		
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaAlpha3Dq;
@@ -428,6 +432,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Reco_PL",&Reco_PL);
 	tree->Branch("Reco_Pn",&Reco_Pn);
 	tree->Branch("Reco_PnPerp",&Reco_PnPerp);
+	tree->Branch("Reco_PnPerpx",&Reco_PnPerpx);
+	tree->Branch("Reco_PnPerpy",&Reco_PnPerpy);		
 	tree->Branch("Reco_PnPar",&Reco_PnPar);		
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
 	tree->Branch("Reco_DeltaAlpha3Dq",&Reco_DeltaAlpha3Dq);
@@ -451,6 +457,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_PL",&True_PL);
 	tree->Branch("True_Pn",&True_Pn);
 	tree->Branch("True_PnPerp",&True_PnPerp);
+	tree->Branch("True_PnPerpx",&True_PnPerpx);
+	tree->Branch("True_PnPerpy",&True_PnPerpy);		
 	tree->Branch("True_PnPar",&True_PnPar);		
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaAlpha3Dq",&True_DeltaAlpha3Dq);
@@ -785,6 +793,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		Reco_PL.clear();
 		Reco_Pn.clear();
 		Reco_PnPerp.clear();
+		Reco_PnPerpx.clear();
+		Reco_PnPerpy.clear();				
 		Reco_PnPar.clear();			
 		Reco_DeltaAlphaT.clear();
 		Reco_DeltaAlpha3Dq.clear();
@@ -808,6 +818,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		True_PL.clear();
 		True_Pn.clear();
 		True_PnPerp.clear();
+		True_PnPerpx.clear();
+		True_PnPerpy.clear();				
 		True_PnPar.clear();				
 		True_DeltaAlphaT.clear();
 		True_DeltaAlpha3Dq.clear();
@@ -1107,6 +1119,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		Reco_PL.push_back(reco_stv_tool.ReturnPL());
 		Reco_Pn.push_back(reco_stv_tool.ReturnPn());
 		Reco_PnPerp.push_back(reco_stv_tool.ReturnPnPerp());
+		Reco_PnPerpx.push_back(reco_stv_tool.ReturnPnPerpx());
+		Reco_PnPerpy.push_back(reco_stv_tool.ReturnPnPerpy());				
 		Reco_PnPar.push_back(reco_stv_tool.ReturnPnPar());				
 		Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
 		Reco_DeltaAlpha3Dq.push_back(reco_stv_tool.ReturnDeltaAlpha3Dq());
@@ -1270,6 +1284,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 			True_PL.push_back(true_stv_tool.ReturnPL());
 			True_Pn.push_back(true_stv_tool.ReturnPn());
 			True_PnPerp.push_back(true_stv_tool.ReturnPnPerp());
+			True_PnPerpx.push_back(true_stv_tool.ReturnPnPerpx());
+			True_PnPerpy.push_back(true_stv_tool.ReturnPnPerpy());						
 			True_PnPar.push_back(true_stv_tool.ReturnPnPar());						
 			True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
 			True_DeltaAlpha3Dq.push_back(true_stv_tool.ReturnDeltaAlpha3Dq());
@@ -1364,6 +1380,8 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 			True_PL.push_back(CosmicPID);
 			True_Pn.push_back(CosmicPID);
 			True_PnPerp.push_back(CosmicPID);
+			True_PnPerpx.push_back(CosmicPID);
+			True_PnPerpy.push_back(CosmicPID);						
 			True_PnPar.push_back(CosmicPID);						
 			True_DeltaAlphaT.push_back(CosmicPID);
 			True_DeltaAlpha3Dq.push_back(CosmicPID);

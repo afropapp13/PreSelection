@@ -17,7 +17,9 @@
 	// Nov 14 2022: excluding low purity runs
 	//WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1109/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
 	// Nov 23 2023: w/o low purity runs and after chat with Zarko for the current
-	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");		
+	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
+	WhichSampleArray.push_back("BeamOn9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
+//	WhichSampleArray.push_back("BeamOn9_Run5a"); SamplePath.push_back("");				
 
 	// ExtBNB
 
@@ -32,6 +34,8 @@
 	//WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuple_bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");	
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");	
+	WhichSampleArray.push_back("ExtBNB9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
+//	WhichSampleArray.push_back("ExtBNB9_Run5a"); SamplePath.push_back("");			
 	
 	// MC CV
 
@@ -44,7 +48,9 @@
 	//WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2.root");	
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
-	
+	WhichSampleArray.push_back("Overlay9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
+//	WhichSampleArray.push_back("Overlay9_Run5a"); SamplePath.push_back("");		
+
 	// Dirt
 
 	WhichSampleArray.push_back("OverlayDirt9_Run1"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run1_reco2_reco2.root");
@@ -55,7 +61,9 @@
 	// uB Mini Retreat Nov 14 2022
 	//WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1109/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2.root");	
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
-	WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");		
+	WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
+	WhichSampleArray.push_back("OverlayDirt9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
+//	WhichSampleArray.push_back("OverlayDirt9_Run5a"); SamplePath.push_back("");				
 
 	// buggy dirt sample
 
@@ -63,7 +71,13 @@
 //	WhichSampleArray.push_back("OverlayDirt9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_dirt_overlay_v08_00_00_35_all_run2_reco2_reco2.root");
 //	WhichSampleArray.push_back("OverlayDirt9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run3_reco2_reco2.root");
 
-	// ----------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------- //
+
+	// PRD comments: request to decompose the xsec uncertainties
+
+	WhichSampleArray.push_back("Overlay9_Run1_DecompXSecUnc"); SamplePath.push_back("/uboone/app/users/cerati/pelee-split-genie-knobs/srcs/neutrinoselection_filt_46k.root");	
+
+	// ---------------------------------------------------------------------------------- //
 
 	gROOT->ProcessLine(".L ../../myClasses/Tools.cxx+");
 	gROOT->ProcessLine(".L ../../myClasses/STV_Tools.cxx+");	
