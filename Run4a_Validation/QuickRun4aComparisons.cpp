@@ -200,10 +200,10 @@ void QuickRun4aComparisons() {
 		PlotCanvasAreaNorm->Draw();		
 */
 
-		TLegend* leg = new TLegend(0.05,0.92,0.9,0.99);
+		TLegend* leg = new TLegend(0.13,0.88,0.95,0.99);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
-		leg->SetTextSize(TextSize-0.02);	
+		leg->SetTextSize(TextSize-0.01);	
 		leg->SetTextFont(FontStyle);
 		leg->SetMargin(0.15);								
 
@@ -222,7 +222,7 @@ void QuickRun4aComparisons() {
 			Histos[iSample] = new TH1D(HistosName[iSample],";" + PlotNames[iPlot],NBins[iPlot],Min[iPlot],Max[iPlot]);
 			EventTTree[iSample]->Draw(PlotNames[iPlot] + ">>" + HistosName[iSample],Cut,"goff");
 
-			Histos[iSample]->SetLineWidth(4);
+			Histos[iSample]->SetLineWidth(2);
 			Histos[iSample]->SetLineColor( BeamOnColors.at(iSample) );	
 
 			Histos[iSample]->GetXaxis()->SetTitleFont(FontStyle);
@@ -259,8 +259,11 @@ void QuickRun4aComparisons() {
 			Histos[0]->GetYaxis()->SetRangeUser(0.,1.1*imax);			
 
 			PlotCanvas->cd();
-			Histos[iSample]->Draw("e hist same");
-			Histos[0]->Draw("e hist same");	
+			Histos[iSample]->SetMarkerColor(BeamOnColors.at(iSample));
+			Histos[iSample]->SetMarkerStyle(20);
+			Histos[iSample]->SetMarkerSize(2.);				
+			Histos[iSample]->Draw("e same");
+			Histos[0]->Draw("e same");	
 
 			//----------------------------------------//
 

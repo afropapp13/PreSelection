@@ -46,7 +46,8 @@ void DoubleRatioRun4a() {
 	std::vector<TString> OverlayName; std::vector<TFile*> OverlayFile; std::vector<TTree*> OverlayTTree; std::vector<double> OverlayScale;
 	std::vector<TString> DirtName;    std::vector<TFile*> DirtFile;    std::vector<TTree*> DirtTTree;    std::vector<double> DirtScale;
 	
-	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b"};
+//	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b"};
+	std::vector<TString> Runs{"Run1","Run2","Run3","Run4b"};
 //	std::vector<TString> Runs{"Run4a"};
 	const int NRuns = Runs.size();	
 	
@@ -134,7 +135,7 @@ void DoubleRatioRun4a() {
 		
 		if (Runs[irun] == "Run4a") {
 		
-			Colors.push_back(kOrange+7);		
+			Colors.push_back(kRed-2);		
 		
 			BeamOnName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
@@ -160,7 +161,7 @@ void DoubleRatioRun4a() {
 
 		if (Runs[irun] == "Run4b") {
 
-			Colors.push_back(kRed-2);			
+			Colors.push_back(kOrange+7);			
 		
 			BeamOnName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
@@ -208,6 +209,8 @@ void DoubleRatioRun4a() {
 	PlotNames.push_back("pfpdg"); Min.push_back(10.5); Max.push_back(13.5); NBins.push_back(3);
 	PlotNames.push_back("trk_llr_pid_score_v"); Min.push_back(0.5); Max.push_back(1.); NBins.push_back(25);
 	PlotNames.push_back("pfp_generation_v"); Min.push_back(1.5); Max.push_back(4.5); NBins.push_back(3);
+	PlotNames.push_back("cos(trk_theta_v)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);
+	//PlotNames.push_back("cos(trk_theta)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);	
 
 	const int NPlots = PlotNames.size();	
 
@@ -216,7 +219,7 @@ void DoubleRatioRun4a() {
 	// Loop over the plots to be compared
 
 	for (int iplot = 0; iplot < NPlots; iplot++) {	
-	
+		
 		TString CanvasName = "Canvas_" + PlotNames[iplot];
 		TCanvas* PlotCanvas = new TCanvas(CanvasName,CanvasName,205,34,1024,768);
 		PlotCanvas->cd();
@@ -234,25 +237,30 @@ void DoubleRatioRun4a() {
 		leg->SetTextFont(FontStyle);
 		leg->SetMargin(0.15);
 
-		TH1D* BeamOnHisto[NRuns];		
+		TH1D* BeamOnHisto[NRuns];	
+
+		TString HistoNameTString = PlotNames[iplot];
+		HistoNameTString.ReplaceAll("(","_").ReplaceAll(")","_");
 	
 		// Loop over the runs
 	
-		for (int irun = 0; irun < NRuns; irun++) {							
+		for (int irun = 0; irun < NRuns; irun++) {	
 
-			TString BeamOnHistoName = "BeamOn_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString HistosName = HistoNameTString + "_" + TString( ToString(irun) );
+
+			TString BeamOnHistoName = "BeamOn_" +HistosName + "_" + TString(Runs[irun]);
 			BeamOnHisto[irun] = new TH1D(BeamOnHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			BeamOnTTree[irun]->Draw(PlotNames[iplot] + ">>" + BeamOnHistoName,"("+Cut+")*"+ToString(BeamOnScale[irun]),"goff");
 			
-			TString BeamOffHistoName = "BeamOff_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString BeamOffHistoName = "BeamOff_" +HistosName + "_" + TString(Runs[irun]);
 			TH1D* BeamOffHisto = new TH1D(BeamOffHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			BeamOffTTree[irun]->Draw(PlotNames[iplot] + ">>" + BeamOffHistoName,"("+Cut+")*"+ToString(BeamOffScale[irun]),"goff");
 			
-			TString OverlayHistoName = "Overlay_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString OverlayHistoName = "Overlay_" +HistosName + "_" + TString(Runs[irun]);
 			TH1D* OverlayHisto = new TH1D(OverlayHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			OverlayTTree[irun]->Draw(PlotNames[iplot] + ">>" + OverlayHistoName,"("+Cut+")*"+ToString(OverlayScale[irun]) + " * " + MCWeight,"goff");
 			
-			TString DirtHistoName = "Dirt_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString DirtHistoName = "Dirt_" +HistosName + "_" + TString(Runs[irun]);
 			TH1D* DirtHisto = new TH1D(DirtHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			DirtTTree[irun]->Draw(PlotNames[iplot] + ">>" + DirtHistoName,"("+Cut+")*"+ToString(DirtScale[irun]) + " * " + MCWeight,"goff");						
 
@@ -298,7 +306,7 @@ void DoubleRatioRun4a() {
 
 		leg->Draw();	
 
-		PlotCanvas->SaveAs(PlotPath+"DoubleRatio_Validation_"+PlotNames[iplot]+".pdf");
+		PlotCanvas->SaveAs(PlotPath+"DoubleRatio_Validation_"+HistoNameTString+".pdf");
 		//delete PlotCanvas;				
 
 		//------------------------------//
@@ -318,9 +326,9 @@ void DoubleRatioRun4a() {
 		PlotCanvasDouble->SetGridy();						
 		PlotCanvasDouble->Draw();		
 
-		TLegend* legDouble = new TLegend(0.03,0.89,0.97,0.99);
+		TLegend* legDouble = new TLegend(0.2,0.89,0.9,0.99);
 		legDouble->SetBorderSize(0);
-		legDouble->SetNColumns(2);
+		legDouble->SetNColumns(3);
 		legDouble->SetTextSize(TextSize);	
 		legDouble->SetTextFont(FontStyle);
 		legDouble->SetMargin(0.15);
@@ -333,19 +341,21 @@ void DoubleRatioRun4a() {
 		for (int irun = 1; irun < NRuns; irun++) {	
 
 			// Clone the irun ratio plot
-			BeamOnHistoRatio[irun-1]->Clone(BeamOnHisto[irun]);	
+			BeamOnHistoRatio[irun-1] = (TH1D*)BeamOnHisto[irun]->Clone();	
 			// Divide it by the 0th ratio plot
 			BeamOnHistoRatio[irun-1]->Divide(BeamOnHisto[0]);
 			BeamOnHistoRatio[irun-1]->GetYaxis()->SetTitle("Double Ratio to Run 1");			
 			BeamOnHistoRatio[irun-1]->Draw("e same");
 			
-			TLegendEntry* legDataDouble = leg->AddEntry(BeamOnHistoRatio[irun-1], Runs[irun],"ep");
+			TLegendEntry* legDataDouble = legDouble->AddEntry(BeamOnHistoRatio[irun-1], Runs[irun],"ep");
 			legDataDouble->SetTextColor(Colors[irun]);			
 
 
 		} // End of the loop over the runs
 
-		PlotCanvasDouble->SaveAs(PlotPath+"DoubleRatioToRunOne_Validation_"+PlotNames[iplot]+".pdf");
+		legDouble->Draw();
+
+		PlotCanvasDouble->SaveAs(PlotPath+"DoubleRatioToRunOne_Validation_"+HistoNameTString+".pdf");
 		//delete PlotCanvasDouble;				
 
 		//------------------------------//				

@@ -200,6 +200,8 @@ public :
 /*   vector<unsigned short> *weightsFlux;*/
 /*   vector<unsigned short> *weightsGenie;*/
 /*   vector<unsigned short> *weightsReint;*/
+   vector<unsigned short> *weightsGenieUp;
+   vector<unsigned short> *weightsGenieDn;
    Float_t         weightSpline;
    Float_t         weightTune;
 //   Float_t         weightSplineTimesTune;
@@ -667,6 +669,8 @@ public :
 /*   TBranch        *b_weightsFlux;   //!                                                                                                     */
 /*   TBranch        *b_weightsGenie;   //!                                                                                                    */
 /*   TBranch        *b_weightsReint;   //!                                                                                                    */
+   TBranch        *b_weightsGenieUp;   //!
+   TBranch        *b_weightsGenieDn;   //! 
    TBranch        *b_weightSpline;   //!                                                                                                    
    TBranch        *b_weightTune;   //!                                                                                                      
 //   TBranch        *b_weightSplineTimesTune;   //!                                                                                           
@@ -1198,6 +1202,8 @@ void TruthNeutrinoSelectionFilter::Init(TTree *tree)
 /*   weightsFlux = 0;*/
 /*   weightsGenie = 0;*/
 /*   weightsReint = 0;*/
+   weightsGenieUp = 0;
+   weightsGenieDn = 0;
 
    // Set branch addresses and branch pointers
 
