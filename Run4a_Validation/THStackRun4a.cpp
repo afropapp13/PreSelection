@@ -184,19 +184,20 @@ void THStackRun4a() {
 	PlotNames.push_back("selected"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);
 	PlotNames.push_back("n_tracks"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);	
 	PlotNames.push_back("n_showers"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
-	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(50);
-	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(50);	
-	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(-100); Max.push_back(1100); NBins.push_back(50);
+	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(0.); Max.push_back(250.); NBins.push_back(50);
+	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-110); Max.push_back(110); NBins.push_back(50);	
+	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(0.); Max.push_back(1050); NBins.push_back(50);
 	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(50);	
-	PlotNames.push_back("topological_score"); Min.push_back(0); Max.push_back(1); NBins.push_back(50);				
-	PlotNames.push_back("nslice"); Min.push_back(-0.5); Max.push_back(2.5); NBins.push_back(3);
+	PlotNames.push_back("topological_score"); Min.push_back(0.5); Max.push_back(1.); NBins.push_back(25);				
+	PlotNames.push_back("nslice"); Min.push_back(0.5); Max.push_back(1.5); NBins.push_back(1);
 	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(50);
-	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(100);		
-	PlotNames.push_back("pfpdg"); Min.push_back(9.5); Max.push_back(14.5); NBins.push_back(5);
+	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);		
+	PlotNames.push_back("pfpdg"); Min.push_back(10.5); Max.push_back(13.5); NBins.push_back(3);
 	PlotNames.push_back("trk_llr_pid_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(100);
-	PlotNames.push_back("pfp_generation_v"); Min.push_back(0.5); Max.push_back(4.5); NBins.push_back(4);
+	PlotNames.push_back("pfp_generation_v"); Min.push_back(1.5); Max.push_back(4.5); NBins.push_back(3);
+	PlotNames.push_back("cos(trk_theta_v)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);	
 
 	const int NPlots = PlotNames.size();	
 
@@ -220,26 +221,29 @@ void THStackRun4a() {
 			PlotCanvas->SetBottomMargin(0.15);		
 			PlotCanvas->Draw();		
 
-			TLegend* leg = new TLegend(0.15,0.89,0.9,0.99);
+			TLegend* leg = new TLegend(0.2,0.89,0.9,0.99);
 			leg->SetBorderSize(0);
 			leg->SetNColumns(2);
 			leg->SetTextSize(TextSize);	
 			leg->SetTextFont(FontStyle);
-			leg->SetMargin(0.15);								
+			leg->SetMargin(0.15);	
+			
+			TString HistoNameTString = PlotNames[iplot];
+			HistoNameTString.ReplaceAll("(","_").ReplaceAll(")","_");										
 
-			TString BeamOnHistoName = "BeamOn_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString BeamOnHistoName = "BeamOn_" + HistoNameTString + "_" + TString(Runs[irun]);
 			TH1D* BeamOnHisto = new TH1D(BeamOnHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			BeamOnTTree[irun]->Draw(PlotNames[iplot] + ">>" + BeamOnHistoName,"("+Cut+")*"+ToString(BeamOnScale[irun]),"goff");
 			
-			TString BeamOffHistoName = "BeamOff_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString BeamOffHistoName = "BeamOff_" + HistoNameTString + "_" + TString(Runs[irun]);
 			TH1D* BeamOffHisto = new TH1D(BeamOffHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			BeamOffTTree[irun]->Draw(PlotNames[iplot] + ">>" + BeamOffHistoName,"("+Cut+")*"+ToString(BeamOffScale[irun]),"goff");
 			
-			TString OverlayHistoName = "Overlay_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString OverlayHistoName = "Overlay_" + HistoNameTString + "_" + TString(Runs[irun]);
 			TH1D* OverlayHisto = new TH1D(OverlayHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			OverlayTTree[irun]->Draw(PlotNames[iplot] + ">>" + OverlayHistoName,"("+Cut+")*"+ToString(OverlayScale[irun]) + " * " + MCWeight,"goff");
 			
-			TString DirtHistoName = "Dirt_" +PlotNames[iplot] + "_" + TString(Runs[irun]);
+			TString DirtHistoName = "Dirt_" + HistoNameTString + "_" + TString(Runs[irun]);
 			TH1D* DirtHisto = new TH1D(DirtHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			DirtTTree[irun]->Draw(PlotNames[iplot] + ">>" + DirtHistoName,"("+Cut+")*"+ToString(DirtScale[irun]),"goff");						
 
@@ -273,7 +277,8 @@ void THStackRun4a() {
 			BeamOnHisto->Draw("e same");
 			double BeamOnEvents = BeamOnHisto->Integral();
 
-			TLegendEntry* legData = leg->AddEntry(BeamOnHisto, "BeamOn (" + TString( ToString(BeamOnEvents) ) + ")","ep");
+			//TLegendEntry* legData = leg->AddEntry(BeamOnHisto, "BeamOn (" + TString( ToString(BeamOnEvents) ) + ")","ep");
+			TLegendEntry* legData = leg->AddEntry(BeamOnHisto, "BeamOn","ep");			
 			legData->SetTextColor(kBlack);				
 
 			//----------------------------------------//			
@@ -285,7 +290,8 @@ void THStackRun4a() {
 			stack->Draw("same");
 
 			double OverlayEvents = OverlayHisto->Integral();
-			TLegendEntry* legOverlay = leg->AddEntry(OverlayHisto, "MC (" + TString( ToString(OverlayEvents) ) + ")","f");
+//			TLegendEntry* legOverlay = leg->AddEntry(OverlayHisto, "MC (" + TString( ToString(OverlayEvents) ) + ")","f");
+			TLegendEntry* legOverlay = leg->AddEntry(OverlayHisto, "MC","f");
 			legOverlay->SetTextColor(OverlayColor);			
 
 			//----------------------------------------//			
@@ -297,7 +303,8 @@ void THStackRun4a() {
 			stack->Draw("same");	
 
 			double DirtEvents = DirtHisto->Integral();
-			TLegendEntry* legDirt = leg->AddEntry(DirtHisto, "Dirt (" + TString( ToString(DirtEvents) ) + ")","f");
+//			TLegendEntry* legDirt = leg->AddEntry(DirtHisto, "Dirt (" + TString( ToString(DirtEvents) ) + ")","f");
+			TLegendEntry* legDirt = leg->AddEntry(DirtHisto, "Dirt","f");
 			legDirt->SetTextColor(kOrange-3);			
 			
 			//----------------------------------------//			
@@ -310,7 +317,8 @@ void THStackRun4a() {
 			stack->Draw("same");	
 
 			double BeamOffEvents = BeamOffHisto->Integral();
-			TLegendEntry* legBeamOff = leg->AddEntry(BeamOffHisto, "BeamOff (" + TString( ToString(BeamOffEvents) ) + ")","f");
+//			TLegendEntry* legBeamOff = leg->AddEntry(BeamOffHisto, "BeamOff (" + TString( ToString(BeamOffEvents) ) + ")","f");
+			TLegendEntry* legBeamOff = leg->AddEntry(BeamOffHisto, "BeamOff","f");
 			legBeamOff->SetTextColor(kGray+1);
 
 			//----------------------------------------//					
@@ -324,7 +332,7 @@ void THStackRun4a() {
 			text->SetTextSize(TextSize);
 			text->DrawTextNDC(0.75, 0.83, Runs[irun]);			
 
-			PlotCanvas->SaveAs(PlotPath+"THStack" + Runs[irun] + "_Validation_"+PlotNames[iplot]+".pdf");
+			PlotCanvas->SaveAs(PlotPath+"THStack" + Runs[irun] + "_Validation_"+ HistoNameTString +".pdf");
 
 			//delete PlotCanvas;
 

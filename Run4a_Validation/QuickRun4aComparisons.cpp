@@ -42,40 +42,44 @@ void QuickRun4aComparisons() {
 	
 	// Full Run 1 
 	
-	/*
+	
 	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root"); 
 	BeamOnLabels.push_back("Run 1");
 	BeamOnColors.push_back(kBlue+2);	
 	BeamOnPOT.push_back(Fulltor860_wcut_Run1);
-	*/
-
-	// 5e19 Run 1 Open data sample
 	
+
+	/*
+	// 5e19 Run 1 Open data sample
 	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_bnb_mcc9.1_v08_00_00_25_reco2_C1_beam_good_reco2_5e19.root"); 
 	BeamOnLabels.push_back("Run 1");
 	BeamOnColors.push_back(kBlue+2);	
 	BeamOnPOT.push_back(5e19);
+	*/
 	
-	/*
+	
 	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run2_neutrinoselection_filt_numu_ALL.root"); 
 	BeamOnLabels.push_back("Run 2");
-	BeamOnColors.push_back(kMagenta);	
+	BeamOnColors.push_back(kAzure-4);	
 	BeamOnPOT.push_back(2.62e20);
-	*/
+	
 
-	/*
+	
 	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run3_neutrinoselection_filt_numu_ALL.root"); 
 	BeamOnLabels.push_back("Run 3");
 	BeamOnColors.push_back(kGreen+2);	
 	BeamOnPOT.push_back(Fulltor860_wcut_Run3);	
-	*/
+	
+	
+	/*
 	//	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/numupresel/data_bnb_mcc9.1_v08_00_00_25_reco2_G1_beam_good_reco2_1e19.root"); 
 	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_bnb_mcc9.1_v08_00_00_25_reco2_G1_beam_good_reco2_1e19.root"); 
 	BeamOnLabels.push_back("Run 3");
 	//	BeamOnColors.push_back(kMagenta);	
 	BeamOnColors.push_back(kGreen+2);	
 	BeamOnPOT.push_back(1e19);	
-
+	*/
+	
 	// Oct & Nov 14-16 uB Mini Retreat 2022
 	//BeamOnNames.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_63_run4a_beam_good_fix.root");	
 	//BeamOnLabels.push_back("Run 4a");	
@@ -88,12 +92,14 @@ void QuickRun4aComparisons() {
 	//BeamOnColors.push_back(kRed+1);
 	//BeamOnPOT.push_back(3.05e19);	
 	
+	/*
 	// Nov 23 2022 post uB Mini Retreat w/o low purity runs and with correct current after chat with Zarko
 	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");	
 	BeamOnLabels.push_back("Run 4a");	
-	BeamOnColors.push_back(kOrange+7);
+	BeamOnColors.push_back(kRed-2);
 	BeamOnPOT.push_back(3.37e+19);	
-
+	*/
+	
 	// Rutgers (May 1st 2022)
 	/*
 	BeamOnNames.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");	
@@ -110,10 +116,10 @@ void QuickRun4aComparisons() {
 	BeamOnPOT.push_back(1e+19);	
 	*/		
 
-	// Feb 8 2023: Run4b
+	// March 3 2023: Run4b
 	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
 	BeamOnLabels.push_back("Run 4b");	
-	BeamOnColors.push_back(kMagenta-2);
+	BeamOnColors.push_back(kOrange+7);
 	BeamOnPOT.push_back(1.4e+20);					
 
 	//------------------------------//		
@@ -136,7 +142,8 @@ void QuickRun4aComparisons() {
 	//TString Cut = "trk_score_v < 0";
 	//TString Cut = "nslice == 1";
 	//TString Cut = "";
-	TString Cut = "nslice == 1 && topological_score > 0.5 && n_tracks_contained > 0";		
+	//TString Cut = "nslice == 1 && topological_score > 0.5 && n_tracks_contained > 0";
+	TString Cut = "nslice == 1 && topological_score > 0.5";			
 
 	//------------------------------//
 
@@ -147,21 +154,21 @@ void QuickRun4aComparisons() {
 	PlotNames.push_back("selected"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);
 	PlotNames.push_back("n_tracks"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);	
 	PlotNames.push_back("n_showers"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
-	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(-20); Max.push_back(270); NBins.push_back(25);
-	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-150); Max.push_back(150); NBins.push_back(25);	
+	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(0.); Max.push_back(250); NBins.push_back(25);
+	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-110); Max.push_back(110); NBins.push_back(25);	
 	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(0.); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_u"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_v"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_y"); Min.push_back(0); Max.push_back(1000); NBins.push_back(25);	
 	PlotNames.push_back("topological_score"); Min.push_back(0.5); Max.push_back(1); NBins.push_back(25);				
-	PlotNames.push_back("nslice"); Min.push_back(-0.5); Max.push_back(2.5); NBins.push_back(3);
+	PlotNames.push_back("nslice"); Min.push_back(0.5); Max.push_back(1.5); NBins.push_back(1);
 	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(25);
 	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);		
-	PlotNames.push_back("pfpdg"); Min.push_back(9.5); Max.push_back(14.5); NBins.push_back(5);
+	PlotNames.push_back("pfpdg"); Min.push_back(10.5); Max.push_back(13.5); NBins.push_back(3);
 	PlotNames.push_back("trk_llr_pid_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);
-	PlotNames.push_back("pfp_generation_v"); Min.push_back(0.5); Max.push_back(4.5); NBins.push_back(4);
+	PlotNames.push_back("pfp_generation_v"); Min.push_back(1.5); Max.push_back(4.5); NBins.push_back(3);
 	PlotNames.push_back("cos(trk_theta_v)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);
-	PlotNames.push_back("cos(trk_theta)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);		
+	//PlotNames.push_back("cos(trk_theta)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);		
 
 	const int NPlots = PlotNames.size();
 
@@ -200,12 +207,12 @@ void QuickRun4aComparisons() {
 		PlotCanvasAreaNorm->Draw();		
 */
 
-		TLegend* leg = new TLegend(0.13,0.88,0.95,0.99);
+		TLegend* leg = new TLegend(0.2,0.88,0.95,0.99);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
 		leg->SetTextSize(TextSize-0.01);	
 		leg->SetTextFont(FontStyle);
-		leg->SetMargin(0.15);								
+		leg->SetMargin(0.1);								
 
 		// Loop over the samples to open the files and to get the corresponding plot
 
@@ -281,7 +288,8 @@ void QuickRun4aComparisons() {
 
 			//----------------------------------------//						
 
-			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],BeamOnLabels[iSample] + ", " +TString( ToString(BeamOnPOT[iSample]) ) + " (" + TString( ToString(NEvents) ) + ")","l");
+//			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],BeamOnLabels[iSample] + ", " +TString( ToString(BeamOnPOT[iSample]) ) + " (" + TString( ToString(NEvents) ) + ")","l");
+			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],BeamOnLabels[iSample] + ", " +TString( ToString(BeamOnPOT[iSample]) ),"l");
 			legEntry->SetTextColor( BeamOnColors.at(iSample) );		
 
 			//----------------------------------------//					

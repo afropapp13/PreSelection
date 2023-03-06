@@ -65,15 +65,15 @@ root -b PeLEE_script_GENIEv2_PreSelection.C
 cd GENIEv2_Truth
 
 # POT
-root -l
+root -b
 .L pot_tree.C++
 pot_tree().Loop()
 
 # Merge truth info into one file 
-root -l
+root -b
 .L particle_tree.C++
 particle_tree().Loop()
 
 # Isolate true CC1p0pi events (no reconstruction/detector effects)
-root -l PeLEE_script_GENIEv2_PreTruthSelection.C
+root -b PeLEE_script_GENIEv2_PreTruthSelection.C
 
