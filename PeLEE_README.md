@@ -40,11 +40,11 @@ root -b PeLEE_ResoEffStudy.cpp
 # locally
 ./PeLEE_Download2DRecoTruthPlots.sh
 
-root -l PeLEE_script_DetVar_PreSelection.C
+root -b PeLEE_script_DetVar_PreSelection.C
 
 # NuWro Fake Data
 
-root -l PeLEE_script_FakeData_PreSelection.C
+root -b PeLEE_script_FakeData_PreSelection.C
 
 hadd -f /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Combined_v08_00_00_52.root /uboone/data/users/apapadop/PeLEETuples/PreSelection_Overlay9NuWro_Run{1,2,3}_v08_00_00_52.root
 
