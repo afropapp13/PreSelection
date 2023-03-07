@@ -1379,7 +1379,7 @@ void NeutrinoSelectionFilter::Loop() {
 		Reco_PL.push_back(reco_stv_tool.ReturnPL());
 		Reco_Pn.push_back(reco_stv_tool.ReturnPn());
 		Reco_PnPerp.push_back(reco_stv_tool.ReturnPnPerp());
-		Reco_PnPerpx.push_back(reco_stv_tool.ReturnPnPerpy());
+		Reco_PnPerpx.push_back(reco_stv_tool.ReturnPnPerpx());
 		Reco_PnPerpy.push_back(reco_stv_tool.ReturnPnPerpy());				
 		Reco_PnPar.push_back(reco_stv_tool.ReturnPnPar());				
 		Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
