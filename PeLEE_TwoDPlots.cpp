@@ -24,6 +24,9 @@ void PeLEE_TwoDPlots() {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
+	gStyle->SetPalette(kRainBow); 
+	gStyle->SetNumberContours(999); 
+
 	gStyle->SetTitleSize(0.0,"t");
 	gStyle->SetTitleFont(132,"t");
 
@@ -96,6 +99,7 @@ void PeLEE_TwoDPlots() {
 		hMuonMomRange->Draw("coltz");
 
 		//text->DrawTextNDC(0.47, 0.92, Runs[WhichRun]);
+		text->DrawTextNDC(0.17, 0.85, "(b)");		
 
 		MuonMomentumRangeCanvas->SaveAs(PlotPath+"MuonMomentum2DRangeCanvas_"+Runs[WhichRun]+".pdf");
 		delete MuonMomentumRangeCanvas;
@@ -115,6 +119,7 @@ void PeLEE_TwoDPlots() {
 		hMuonMomRangeNoQC->Draw("coltz");
 
 		//text->DrawTextNDC(0.47, 0.92, Runs[WhichRun]);
+		text->DrawTextNDC(0.17, 0.85, "(a)");		
 
 		MuonMomentumRangeCanvasNoQC->SaveAs(PlotPath+"MuonMomentum2DRangeCanvasNoQC_"+Runs[WhichRun]+".pdf");
 		delete MuonMomentumRangeCanvasNoQC;

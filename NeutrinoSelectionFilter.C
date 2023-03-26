@@ -75,51 +75,51 @@ void NeutrinoSelectionFilter::Loop() {
 
 	// detailed xsec uncertainty contributions 
 
-	std::vector<double> AGKYpT1pi_UBGenie;
-	std::vector<double> AGKYxF1pi_UBGenie;
-	std::vector<double> AhtBY_UBGenie;
-	std::vector<double> BhtBY_UBGenie;
-	std::vector<double> CV1uBY_UBGenie;
-	std::vector<double> CV2uBY_UBGenie;
-	std::vector<double> EtaNCEL_UBGenie;
-	std::vector<double> FrAbs_N_UBGenie;
-	std::vector<double> FrAbs_pi_UBGenie;
-	std::vector<double> FrCEx_N_UBGenie;
-	std::vector<double> FrCEx_pi_UBGenie;
-	std::vector<double> FrInel_N_UBGenie;
-	std::vector<double> FrInel_pi_UBGenie;
-	std::vector<double> FrPiProd_N_UBGenie;
-	std::vector<double> FrPiProd_pi_UBGenie;
-	std::vector<double> FracDelta_CCMEC_UBGenie;	
-	std::vector<double> FracPN_CCMEC_UBGenie;
-	std::vector<double> MFP_N_UBGenie;
-	std::vector<double> MFP_pi_UBGenie;
-	std::vector<double> MaCCQE_UBGenie;
-	std::vector<double> MaCCRES_UBGenie;
-	std::vector<double> MaNCEL_UBGenie;
-	std::vector<double> MaNCRES_UBGenie;
-	std::vector<double> MvCCRES_UBGenie;
-	std::vector<double> MvNCRES_UBGenie;
-	std::vector<double> NonRESBGvbarnCC1pi_UBGenie;
-	std::vector<double> NonRESBGvbarnCC2pi_UBGenie;
-	std::vector<double> NonRESBGvbarnNC1pi_UBGenie;
-	std::vector<double> NonRESBGvbarnNC2pi_UBGenie;
-	std::vector<double> NonRESBGvbarpCC1pi_UBGenie;
-	std::vector<double> NonRESBGvbarpCC2pi_UBGenie;
-	std::vector<double> NonRESBGvbarpNC1pi_UBGenie;
-	std::vector<double> NonRESBGvbarpNC2pi_UBGenie;
-	std::vector<double> NonRESBGvnCC1pi_UBGenie;
-	std::vector<double> NonRESBGvnCC2pi_UBGenie;
-	std::vector<double> NonRESBGvnNC1pi_UBGenie;
-	std::vector<double> NonRESBGvnNC2pi_UBGenie;
-	std::vector<double> NonRESBGvpCC1pi_UBGenie;
-	std::vector<double> NonRESBGvpCC2pi_UBGenie;
-	std::vector<double> NonRESBGvpNC1pi_UBGenie;
-	std::vector<double> NonRESBGvpNC2pi_UBGenie;
-	std::vector<double> NormCCMEC_UBGenie;
-	std::vector<double> NormNCMEC_UBGenie;
-	std::vector<double> RDecBR1eta_UBGenie;
-	std::vector<double> RDecBR1gamma_UBGenie;		
+	vector<unsigned short>  AGKYpT1pi_UBGenie;
+	vector<unsigned short>  AGKYxF1pi_UBGenie;
+	vector<unsigned short>  AhtBY_UBGenie;
+	vector<unsigned short>  BhtBY_UBGenie;
+	vector<unsigned short>  CV1uBY_UBGenie;
+	vector<unsigned short>  CV2uBY_UBGenie;
+	vector<unsigned short>  EtaNCEL_UBGenie;
+	vector<unsigned short>  FrAbs_N_UBGenie;
+	vector<unsigned short>  FrAbs_pi_UBGenie;
+	vector<unsigned short>  FrCEx_N_UBGenie;
+	vector<unsigned short>  FrCEx_pi_UBGenie;
+	vector<unsigned short>  FrInel_N_UBGenie;
+	vector<unsigned short>  FrInel_pi_UBGenie;
+	vector<unsigned short>  FrPiProd_N_UBGenie;
+	vector<unsigned short>  FrPiProd_pi_UBGenie;
+	vector<unsigned short>  FracDelta_CCMEC_UBGenie;	
+	vector<unsigned short>  FracPN_CCMEC_UBGenie;
+	vector<unsigned short>  MFP_N_UBGenie;
+	vector<unsigned short>  MFP_pi_UBGenie;
+	vector<unsigned short>  MaCCQE_UBGenie;
+	vector<unsigned short>  MaCCRES_UBGenie;
+	vector<unsigned short>  MaNCEL_UBGenie;
+	vector<unsigned short>  MaNCRES_UBGenie;
+	vector<unsigned short>  MvCCRES_UBGenie;
+	vector<unsigned short>  MvNCRES_UBGenie;
+	vector<unsigned short>  NonRESBGvbarnCC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvbarnCC2pi_UBGenie;
+	vector<unsigned short>  NonRESBGvbarnNC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvbarnNC2pi_UBGenie;
+	vector<unsigned short>  NonRESBGvbarpCC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvbarpCC2pi_UBGenie;
+	vector<unsigned short>  NonRESBGvbarpNC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvbarpNC2pi_UBGenie;
+	vector<unsigned short>  NonRESBGvnCC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvnCC2pi_UBGenie;
+	vector<unsigned short>  NonRESBGvnNC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvnNC2pi_UBGenie;
+	vector<unsigned short>  NonRESBGvpCC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvpCC2pi_UBGenie;
+	vector<unsigned short>  NonRESBGvpNC1pi_UBGenie;
+	vector<unsigned short>  NonRESBGvpNC2pi_UBGenie;
+	vector<unsigned short>  NormCCMEC_UBGenie;
+	vector<unsigned short>  NormNCMEC_UBGenie;
+	vector<unsigned short>  RDecBR1eta_UBGenie;
+	vector<unsigned short>  RDecBR1gamma_UBGenie;		
 
 	//----------------------------------------//
 
@@ -852,51 +852,51 @@ void NeutrinoSelectionFilter::Loop() {
 
 				for (int ixsec = 0; ixsec < (int)(weightsGenieUp->size()); ixsec++ ) {
 
-					if (ixsec == 0) { AGKYpT1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); AGKYpT1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 1) { AGKYxF1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); AGKYxF1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 2) { AhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); AhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 4) { BhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); BhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 5) { CV1uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); CV1uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 6) { CV2uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); CV2uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 8) { EtaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); EtaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 9) { FrAbs_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrAbs_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 10) { FrAbs_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrAbs_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 11) { FrCEx_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrCEx_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 12) { FrCEx_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrCEx_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 13) { FrInel_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrInel_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 14) { FrInel_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrInel_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 15) { FrPiProd_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrPiProd_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 16) { FrPiProd_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FrPiProd_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 17) { FracDelta_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FracDelta_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }					
-					if (ixsec == 18) { FracPN_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); FracPN_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 19) { MFP_N_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MFP_N_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 20) { MFP_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MFP_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 21) { MaCCQE_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaCCQE_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 22) { MaCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 23) { MaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 24) { MaNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MaNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 25) { MvCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MvCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 26) { MvNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); MvNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 27) { NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 28) { NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 29) { NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 30) { NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 31) { NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 32) { NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 33) { NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 34) { NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 35) { NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 36) { NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 37) { NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 38) { NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 39) { NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 40) { NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 41) { NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 42) { NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 43) { NormCCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NormCCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 44) { NormNCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); NormNCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 45) { RDecBR1eta_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); RDecBR1eta_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
-					if (ixsec == 46) { RDecBR1gamma_UBGenie.push_back(weightsGenieUp->at(ixsec)/1000.); RDecBR1gamma_UBGenie.push_back(weightsGenieDn->at(ixsec)/1000.); }
+					if (ixsec == 0) { AGKYpT1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); AGKYpT1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 1) { AGKYxF1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); AGKYxF1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 2) { AhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); AhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 4) { BhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); BhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 5) { CV1uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); CV1uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 6) { CV2uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); CV2uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 8) { EtaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)); EtaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 9) { FrAbs_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrAbs_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 10) { FrAbs_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrAbs_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 11) { FrCEx_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrCEx_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 12) { FrCEx_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrCEx_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 13) { FrInel_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrInel_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 14) { FrInel_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrInel_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 15) { FrPiProd_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrPiProd_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 16) { FrPiProd_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrPiProd_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 17) { FracDelta_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); FracDelta_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }					
+					if (ixsec == 18) { FracPN_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); FracPN_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 19) { MFP_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); MFP_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 20) { MFP_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); MFP_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 21) { MaCCQE_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaCCQE_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 22) { MaCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 23) { MaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 24) { MaNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 25) { MvCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MvCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 26) { MvNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MvNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 27) { NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 28) { NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 29) { NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 30) { NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 31) { NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 32) { NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 33) { NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 34) { NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 35) { NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 36) { NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 37) { NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 38) { NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 39) { NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 40) { NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 41) { NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 42) { NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 43) { NormCCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); NormCCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 44) { NormNCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); NormNCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 45) { RDecBR1eta_UBGenie.push_back(weightsGenieUp->at(ixsec)); RDecBR1eta_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
+					if (ixsec == 46) { RDecBR1gamma_UBGenie.push_back(weightsGenieUp->at(ixsec)); RDecBR1gamma_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
 
 				} // End of the loop over the detailed xsec knobs
 

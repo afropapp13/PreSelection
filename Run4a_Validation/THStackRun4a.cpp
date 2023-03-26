@@ -135,17 +135,17 @@ void THStackRun4a() {
 			BeamOffName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.318); // fix	
+			BeamOffScale.push_back(0.318);
 			
 			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(0.107); // fix	
+			OverlayScale.push_back(0.107); 	
 			
 			DirtName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(0.046); // fix															
+			DirtScale.push_back(0.046); 														
 		
 		}			
 

@@ -77,9 +77,9 @@ void MCComparisons() {
 
 	//TString Cut = "trk_score_v < 0";
 	//TString Cut = "nslice == 1";
-	TString Cut = " (0<1) ";
+	//TString Cut = " (0<1) ";
 	//TString Cut = "nslice == 1 && topological_score > 0.5 && n_tracks_contained > 0";
-	//TString Cut = "nslice == 1 && topological_score > 0.5";			
+	TString Cut = "nslice == 1 && topological_score > 0.5";			
 
 	//------------------------------//
 
@@ -126,8 +126,8 @@ void MCComparisons() {
 
 	std::vector<TString> InteractionLabels = {"","QE","MEC","RES","DIS"};	
 
-//	const TString MCWeight = "weightSpline * ( (weightSpline > 0. && weightSpline < 30. && weightTune > 0. && weightTune < 30.)? weightTune:0.)";	
-	const TString MCWeight = "weightSpline";
+	const TString MCWeight = "weightSpline * ( (weightSpline > 0. && weightSpline < 30. && weightTune > 0. && weightTune < 30.)? weightTune:0.)";	
+//	const TString MCWeight = "weightSpline";
 
 	//------------------------------//		
 
@@ -201,7 +201,7 @@ void MCComparisons() {
 				Histos[iSample]->GetYaxis()->SetTitle("# Events / " + TString( ToString(MCPOT[0]) ) );
 				Histos[iSample]->GetYaxis()->SetTitleSize(TextSize);
 				Histos[iSample]->GetYaxis()->SetTitleOffset(1.3);
-				Histos[iSample]->GetYaxis()->SetTickSize(0);
+				Histos[iSample]->GetYaxis()->SetTickSize(0.02);
 				Histos[iSample]->GetYaxis()->CenterTitle();	
 
 				//----------------------------------------//

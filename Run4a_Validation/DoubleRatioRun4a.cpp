@@ -145,17 +145,17 @@ void DoubleRatioRun4a() {
 			BeamOffName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.318); // fix	
+			BeamOffScale.push_back(0.318);
 			
 			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(0.107); // fix	
+			OverlayScale.push_back(0.107);
 			
 			DirtName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(0.046); // fix															
+			DirtScale.push_back(0.046);														
 		
 		}		
 
@@ -237,7 +237,10 @@ void DoubleRatioRun4a() {
 		leg->SetTextFont(FontStyle);
 		leg->SetMargin(0.15);
 
-		TH1D* BeamOnHisto[NRuns];	
+		TH1D* BeamOnHisto[NRuns];
+		TH1D* BeamOffHisto[NRuns];	
+		TH1D* OverlayHisto[NRuns];				
+		TH1D* DirtHisto[NRuns];
 
 		TString HistoNameTString = PlotNames[iplot];
 		HistoNameTString.ReplaceAll("(","_").ReplaceAll(")","_");
@@ -253,16 +256,16 @@ void DoubleRatioRun4a() {
 			BeamOnTTree[irun]->Draw(PlotNames[iplot] + ">>" + BeamOnHistoName,"("+Cut+")*"+ToString(BeamOnScale[irun]),"goff");
 			
 			TString BeamOffHistoName = "BeamOff_" +HistosName + "_" + TString(Runs[irun]);
-			TH1D* BeamOffHisto = new TH1D(BeamOffHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
+			BeamOffHisto[irun] = new TH1D(BeamOffHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			BeamOffTTree[irun]->Draw(PlotNames[iplot] + ">>" + BeamOffHistoName,"("+Cut+")*"+ToString(BeamOffScale[irun]),"goff");
 			
 			TString OverlayHistoName = "Overlay_" +HistosName + "_" + TString(Runs[irun]);
-			TH1D* OverlayHisto = new TH1D(OverlayHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
+			OverlayHisto[irun] = new TH1D(OverlayHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
 			OverlayTTree[irun]->Draw(PlotNames[iplot] + ">>" + OverlayHistoName,"("+Cut+")*"+ToString(OverlayScale[irun]) + " * " + MCWeight,"goff");
 			
 			TString DirtHistoName = "Dirt_" +HistosName + "_" + TString(Runs[irun]);
-			TH1D* DirtHisto = new TH1D(DirtHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
-			DirtTTree[irun]->Draw(PlotNames[iplot] + ">>" + DirtHistoName,"("+Cut+")*"+ToString(DirtScale[irun]) + " * " + MCWeight,"goff");						
+			DirtHisto[irun] = new TH1D(DirtHistoName,";" + PlotNames[iplot],NBins[iplot],Min[iplot],Max[iplot]);
+			DirtTTree[irun]->Draw(PlotNames[iplot] + ">>" + DirtHistoName,"("+Cut+")*"+ToString(DirtScale[irun]),"goff");						
 
 			double DataPOT = PeLEE_ReturnBeamOnRunPOT(Runs[irun]);	
 
@@ -288,15 +291,15 @@ void DoubleRatioRun4a() {
 			BeamOnHisto[irun]->GetYaxis()->SetTitle("Data/(MC+ExtBNB)");
 			BeamOnHisto[irun]->GetYaxis()->SetTitleSize(TextSize);
 			BeamOnHisto[irun]->GetYaxis()->SetTitleOffset(1.);
-			BeamOnHisto[irun]->GetYaxis()->SetTickSize(0);
+			BeamOnHisto[irun]->GetYaxis()->SetTickSize(0.02);
 			BeamOnHisto[irun]->GetYaxis()->CenterTitle();	
 			BeamOnHisto[irun]->GetYaxis()->SetRangeUser(0.01,1.99);
 			
-			OverlayHisto->Add(DirtHisto);
-			OverlayHisto->Add(BeamOffHisto);			
+			OverlayHisto[irun]->Add(DirtHisto[irun]);
+			OverlayHisto[irun]->Add(BeamOffHisto[irun]);			
 
 			double BeamOnEvents = BeamOnHisto[irun]->Integral();
-			BeamOnHisto[irun]->Divide(OverlayHisto);
+			BeamOnHisto[irun]->Divide(OverlayHisto[irun]);
 			BeamOnHisto[irun]->Draw("e same");
 			
 			//TLegendEntry* legData = leg->AddEntry(BeamOnHisto[irun], Runs[irun] + " " + TString( ToString(DataPOT) ) + " (" + TString( ToString(BeamOnEvents) ) + ")","ep");

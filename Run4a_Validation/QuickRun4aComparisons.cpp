@@ -120,7 +120,13 @@ void QuickRun4aComparisons() {
 	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
 	BeamOnLabels.push_back("Run 4b");	
 	BeamOnColors.push_back(kOrange+7);
-	BeamOnPOT.push_back(1.4e+20);					
+	BeamOnPOT.push_back(1.4e+20);	
+
+	// March 20 2023: Run5
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/031923/v00/bnb_on_run5_reco2_v08_00_00_66_run5_reco2_beam_good.root");	
+	BeamOnLabels.push_back("Run 5");	
+	BeamOnColors.push_back(kMagenta+1);
+	BeamOnPOT.push_back(3.397e+19);					
 
 	//------------------------------//		
 
@@ -247,7 +253,7 @@ void QuickRun4aComparisons() {
 			Histos[iSample]->GetYaxis()->SetTitle("# Events / " + TString( ToString(BeamOnPOT[0]) ) );
 			Histos[iSample]->GetYaxis()->SetTitleSize(TextSize);
 			Histos[iSample]->GetYaxis()->SetTitleOffset(1.3);
-			Histos[iSample]->GetYaxis()->SetTickSize(0);
+			Histos[iSample]->GetYaxis()->SetTickSize(0.02);
 			Histos[iSample]->GetYaxis()->CenterTitle();	
 
 			/*
