@@ -848,7 +848,7 @@ void NeutrinoSelectionFilter::Loop() {
 			) {
 
 				// Loop over the detailed xsec knobs
-				// Divide the weights by 1000.
+				// The detailed xsec knobs are unshorted int's.
 
 				for (int ixsec = 0; ixsec < (int)(weightsGenieUp->size()); ixsec++ ) {
 
