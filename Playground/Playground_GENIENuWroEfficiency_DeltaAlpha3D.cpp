@@ -22,7 +22,7 @@ using namespace Constants;
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
-void Playground_GENIENuWroEfficiency() {
+void Playground_GENIENuWroEfficiency_DeltaAlpha3D() {
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -46,10 +46,14 @@ void Playground_GENIENuWroEfficiency() {
 	const int NRuns = Runs.size();
 
 	TString Cuts = CC1p +" && "+ Containment + " && " + ProtonMom + " && " + DeltaPhiT + " && " + MuonMom + " && " + QualityCut + " && " + MinMuonVertexDist\
-		+ " && " + MinProtonVertexDist + " && " + AvoidFlippedTracks + " && True_CandidateMu_P > 0.1 && True_CandidateMu_P < 1.2 && True_CandidateP_P > 0.3 && True_CandidateP_P < 1. && CandidateP_LLR_PID < 0.05";	
+		+ " && " + MinProtonVertexDist + " && True_CandidateMu_P > 0.1 && True_CandidateMu_P < 1.2 && True_CandidateP_P > 0.3 && True_CandidateP_P < 1. && CandidateP_LLR_PID < 0.05"
+		+ " && " + AvoidFlippedTracks + " && Reco_Pn > 0.3 && sqrt(Reco_Q2) > 0.5";	
 
-	TString TrueCC1p = "CC1p && NumberPi0 == 0 && Muon_MCParticle_Mom > 0.1 && Muon_MCParticle_Mom < 1.2 && Proton_MCParticle_Mom > 0.3 && Proton_MCParticle_Mom < 1.";	
+	TString LocalTrueCC1p = "CC1p && NumberPi0 == 0 && Muon_MCParticle_Mom > 0.1 && Muon_MCParticle_Mom < 1.2 && Proton_MCParticle_Mom > 0.3 && Proton_MCParticle_Mom < 1. && "
+		+ TrueCC1p + " && True_Pn > 0.3  && sqrt(True_Q2) > 0.5";	
 
+//	TString truevar = "True_DeltaAlpha3Dq"; TString varlabel = "#alpha_{3D,q} [deg]";
+	TString truevar = "True_DeltaAlpha3DMu"; TString varlabel = "#alpha_{3D,#mu} [deg]";
 
 	for (int WhichRun = 0; WhichRun < NRuns; WhichRun++) {
 
@@ -71,11 +75,11 @@ void Playground_GENIENuWroEfficiency() {
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);	
 
-		TLegend* leg = new TLegend(0.63,0.6,0.85,0.8);
+		TLegend* leg = new TLegend(0.15,0.91,0.85,0.99);
 		leg->SetBorderSize(0);
 		leg->SetTextSize(0.05);
 		leg->SetTextFont(132);
-		leg->SetNColumns(1);
+		leg->SetNColumns(2);
 		leg->SetMargin(0.1);
 		
 		TCanvas* EffCanvas = new TCanvas("EffCanvas_"+Runs[WhichRun],"EffCanvas_"+Runs[WhichRun],205,34,1024,768);
@@ -85,52 +89,55 @@ void Playground_GENIENuWroEfficiency() {
 
 		//----------------------------------------//
 
-		TH1D* GENIEReco = new TH1D("GENIEReco",";#delta#alpha_{T} [deg];Efficiency",NBinsDeltaAlphaT,ArrayNBinsDeltaAlphaT);	
-		GENIEtree->Draw("True_DeltaAlphaT>>GENIEReco","("+Cuts+")*POTWeight * Weight * ROOTinoWeight","goff");	//T2KWeight
+		TH1D* GENIEReco = new TH1D("GENIEReco",";" + varlabel + ";Efficiency",NBinsDeltaAlpha3Dq,ArrayNBinsDeltaAlpha3Dq);	
+		GENIEtree->Draw(truevar+">>GENIEReco","("+Cuts+")*POTWeight * Weight * ROOTinoWeight","goff");	//T2KWeight
 
-		TH1D* GENIETrue = new TH1D("GENIETrue",";#delta#alpha_{T} [deg];Efficiency",NBinsDeltaAlphaT,ArrayNBinsDeltaAlphaT);	
-		TruthGENIEtree->Draw("True_DeltaAlphaT>>GENIETrue","("+TrueCC1p+")*POTWeight * Weight * ROOTinoWeight","goff");	//T2KWeight
+		TH1D* GENIETrue = new TH1D("GENIETrue",";" + varlabel + ";Efficiency",NBinsDeltaAlpha3Dq,ArrayNBinsDeltaAlpha3Dq);	
+		TruthGENIEtree->Draw(truevar+">>GENIETrue","("+LocalTrueCC1p+")*POTWeight * Weight * ROOTinoWeight","goff");	//T2KWeight
 		
 		GENIEReco->Divide(GENIETrue);	
 
 		//----------------------------------------//		
 
-		TH1D* NuWroReco = new TH1D("NuWroReco",";#delta#alpha_{T} [deg];Efficiency",NBinsDeltaAlphaT,ArrayNBinsDeltaAlphaT);	
-		NuWrotree->Draw("True_DeltaAlphaT>>NuWroReco","("+Cuts+")*POTWeight","goff");		
+		TH1D* NuWroReco = new TH1D("NuWroReco",";" + varlabel + ";Efficiency",NBinsDeltaAlpha3Dq,ArrayNBinsDeltaAlpha3Dq);	
+		NuWrotree->Draw(truevar+">>NuWroReco","("+Cuts+")*POTWeight","goff");		
 
-		TH1D* NuWroTrue = new TH1D("NuWroTrue",";#delta#alpha_{T} [deg];Efficiency",NBinsDeltaAlphaT,ArrayNBinsDeltaAlphaT);	
-		TruthNuWrotree->Draw("True_DeltaAlphaT>>NuWroTrue","("+TrueCC1p+")*POTWeight","goff");	
+		TH1D* NuWroTrue = new TH1D("NuWroTrue",";" + varlabel + ";Efficiency",NBinsDeltaAlpha3Dq,ArrayNBinsDeltaAlpha3Dq);	
+		TruthNuWrotree->Draw(truevar+">>NuWroTrue","("+LocalTrueCC1p+")*POTWeight","goff");	
 
 		NuWroReco->Divide(NuWroTrue);
 
 		//----------------------------------------//									
 
-		GENIEReco->GetXaxis()->CenterTitle();
-		GENIEReco->GetYaxis()->SetTitleOffset(1.4);
-
 		GENIEReco->SetLineColor(OverlayColor);
 		GENIEReco->SetMarkerColor(OverlayColor);
 		GENIEReco->SetMarkerSize(2.);
 		GENIEReco->SetMarkerStyle(20);
-		GENIEReco->GetYaxis()->SetRangeUser(0.,0.15);		
-		GENIEReco->Draw("p0 same");	
+		GENIEReco->SetTitle("");		
 
+		GENIEReco->GetXaxis()->CenterTitle();
+
+		GENIEReco->GetYaxis()->SetTitleOffset(1.4);
+		GENIEReco->GetYaxis()->SetRangeUser(0.,0.18);
+
+		GENIEReco->Draw("p0 same");	
 
 		NuWroReco->SetLineColor(kOrange+7);
 		NuWroReco->SetMarkerColor(kOrange+7);
 		NuWroReco->SetMarkerSize(2.);
 		NuWroReco->SetMarkerStyle(20);
-		NuWroReco->Draw("p0 same");	
+
+		//NuWroReco->Draw("p0 same");	
 
 		TLegendEntry* lGENIE = leg->AddEntry(GENIEReco,"GENIE","p");
 		lGENIE->SetTextColor(OverlayColor);	
 
-		TLegendEntry* lNuWro = leg->AddEntry(NuWroReco,"NuWro","p");
-		lNuWro->SetTextColor(kOrange+7);		
+		//TLegendEntry* lNuWro = leg->AddEntry(NuWroReco,"NuWro","p");
+		//lNuWro->SetTextColor(kOrange+7);		
 
 		leg->Draw();				
 
-		text->DrawLatexNDC(0.47, 0.93, Cuts);			
+		//text->DrawLatexNDC(0.47, 0.93, Cuts);			
 
 		//EffCanvas->SaveAs(PlotPath+"EffCanvas_"+Runs[WhichRun]+".pdf");
 		//delete EffCanvas;		
