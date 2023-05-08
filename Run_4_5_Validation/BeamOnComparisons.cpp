@@ -21,7 +21,7 @@ using namespace std;
 
 using namespace Constants;
 
-void QuickRun4aComparisons() {
+void BeamOnComparisons() {
 
 	//------------------------------//
 
@@ -117,16 +117,17 @@ void QuickRun4aComparisons() {
 	*/		
 
 	// March 3 2023: Run4b
-	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
+/*	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
 	BeamOnLabels.push_back("Run 4b");	
 	BeamOnColors.push_back(kOrange+7);
-	BeamOnPOT.push_back(1.4e+20);	
+	BeamOnPOT.push_back(1.4e+20);
+*/		
 
 	// March 20 2023: Run5
-	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/031923/v00/bnb_on_run5_reco2_v08_00_00_66_run5_reco2_beam_good.root");	
+	BeamOnNames.push_back("/uboone/data/users/apapadop/searchingfornues/data_beamon_v08_00_00_67_pelee_ntuple_run5_v67.root");	
 	BeamOnLabels.push_back("Run 5");	
-	BeamOnColors.push_back(kMagenta+1);
-	BeamOnPOT.push_back(3.397e+19);					
+	BeamOnColors.push_back(kRed+1);
+	BeamOnPOT.push_back(3.473e+19);					
 
 	//------------------------------//		
 
@@ -146,10 +147,10 @@ void QuickRun4aComparisons() {
 	// Cut
 
 	//TString Cut = "trk_score_v < 0";
-	//TString Cut = "nslice == 1";
+	TString Cut = "nslice == 1";
 	//TString Cut = "";
 	//TString Cut = "nslice == 1 && topological_score > 0.5 && n_tracks_contained > 0";
-	TString Cut = "nslice == 1 && topological_score > 0.5";			
+	//TString Cut = "nslice == 1 && topological_score > 0.5";			
 
 	//------------------------------//
 
@@ -166,7 +167,7 @@ void QuickRun4aComparisons() {
 	PlotNames.push_back("hits_u"); Min.push_back(1); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_v"); Min.push_back(1); Max.push_back(1000); NBins.push_back(25);
 	PlotNames.push_back("hits_y"); Min.push_back(1); Max.push_back(1000); NBins.push_back(25);	
-	PlotNames.push_back("topological_score"); Min.push_back(0.5); Max.push_back(1); NBins.push_back(25);				
+	PlotNames.push_back("topological_score"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);				
 	PlotNames.push_back("nslice"); Min.push_back(0.5); Max.push_back(1.5); NBins.push_back(1);
 	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(25);
 	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);		

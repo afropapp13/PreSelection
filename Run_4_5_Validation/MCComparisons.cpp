@@ -53,10 +53,17 @@ void MCComparisons() {
 	MCColors.push_back(kGreen+2);	
 	MCPOT.push_back(1.34E+21);	
 
+/*
 	MCNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");	
 	MCLabels.push_back("Run 4b");	
 	MCColors.push_back(kOrange+7);
-	MCPOT.push_back(6.1428283e+20);					
+	MCPOT.push_back(6.1428283e+20);
+*/
+
+	MCNames.push_back("/uboone/data/users/apapadop/searchingfornues/mc_overlay_v08_00_00_67_pelee_ntuple_run5_v67.root");	
+	MCLabels.push_back("Run 5");	
+	MCColors.push_back(kRed+1);
+	MCPOT.push_back(1.02168e+21);						
 
 	//------------------------------//		
 
@@ -76,10 +83,10 @@ void MCComparisons() {
 	// Cut
 
 	//TString Cut = "trk_score_v < 0";
-	//TString Cut = "nslice == 1";
+	TString Cut = "nslice == 1";
 	//TString Cut = " (0<1) ";
 	//TString Cut = "nslice == 1 && topological_score > 0.5 && n_tracks_contained > 0";
-	TString Cut = "nslice == 1 && topological_score > 0.5";			
+	//TString Cut = "nslice == 1 && topological_score > 0.5";			
 
 	//------------------------------//
 
@@ -100,7 +107,7 @@ void MCComparisons() {
 	PlotNames.push_back("hits_u"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_v"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_y"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);	
-	PlotNames.push_back("topological_score"); Min.push_back(0.5); Max.push_back(1); NBins.push_back(25);				
+	PlotNames.push_back("topological_score"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);				
 	PlotNames.push_back("nslice"); Min.push_back(0.5); Max.push_back(1.5); NBins.push_back(1);
 	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(40);
 	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(40);		

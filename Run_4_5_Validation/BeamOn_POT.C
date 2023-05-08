@@ -12,7 +12,7 @@ using namespace std;
 
 void BeamOn_POT() {
 	 
-	TString Sample = "/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/031923/v00/bnb_on_run5_reco2_v08_00_00_66_run5_reco2_beam_good.root";
+	TString Sample = "/uboone/data/users/apapadop/searchingfornues/data_beamon_v08_00_00_67_pelee_ntuple_run5_v67.root";
 	TString Label = "BeamOn_Run5";
 
 	ofstream fpot;
@@ -40,3 +40,6 @@ void BeamOn_POT() {
 	fpot.close();
 
 } // End of the program
+
+// then run 
+// python /uboone/app/users/zarko/getDataInfo.py --run-subrun-list BeamOn_Run5.txt -v 2

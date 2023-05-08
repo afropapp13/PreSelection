@@ -22,7 +22,7 @@ using namespace std;
 
 using namespace Constants;
 
-void ExtBNBComparisons() {
+void DirtComparisons() {
 
 	//------------------------------//
 
@@ -35,34 +35,41 @@ void ExtBNBComparisons() {
 
 	//------------------------------//
 
-	std::vector<TString> ExtBNBNames; std::vector<TString> ExtBNBLabels; 
-	std::vector<int> ExtBNBColors; std::vector<double> ExtBNBTriggers;
+	std::vector<TString> DirtNames; std::vector<TString> DirtLabels; 
+	std::vector<int> DirtColors; std::vector<double> DirtTriggers;
 	
-	ExtBNBNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_extbnb_mcc9.1_v08_00_00_25_reco2_C_all_reco2.root"); 
-	ExtBNBLabels.push_back("Run 1");
-	ExtBNBColors.push_back(kBlue+2);	
-	ExtBNBTriggers.push_back(65498807.0);	
+	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run1_reco2_reco2.root"); 
+	DirtLabels.push_back("Run 1");
+	DirtColors.push_back(kBlue+2);	
+	DirtTriggers.push_back(7.41E+20);	
 	
-	ExtBNBNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run2/data_extbnb_mcc9.1_v08_00_00_25_reco2_D_E_all_reco2.root"); 
-	ExtBNBLabels.push_back("Run 2");
-	ExtBNBColors.push_back(kAzure-4);	
-	ExtBNBTriggers.push_back(152404890.0);
+	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run2_reco2_reco2.root"); 
+	DirtLabels.push_back("Run 2");
+	DirtColors.push_back(kAzure-4);	
+	DirtTriggers.push_back(7.56E+20);
 	
-	ExtBNBNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_extbnb_mcc9.1_v08_00_00_25_reco2_F_G_all_reco2.root"); 
-	ExtBNBLabels.push_back("Run 3");
-	ExtBNBColors.push_back(kGreen+2);	
-	ExtBNBTriggers.push_back(214555174.0);	
+	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run3_reco2_reco2.root"); 
+	DirtLabels.push_back("Run 3");
+	DirtColors.push_back(kGreen+2);	
+	DirtTriggers.push_back(7.29E+20);	
 
-	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");	
-	ExtBNBLabels.push_back("Run 4b");	
-	ExtBNBColors.push_back(kOrange+7);
-	ExtBNBTriggers.push_back(92797963.);					
+/*
+	DirtNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");	
+	DirtLabels.push_back("Run 4b");	
+	DirtColors.push_back(kOrange+7);
+	DirtTriggers.push_back(2.5824087e+20);
+*/	
+
+	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/mc_dirt_v08_00_00_67_pelee_ntuple_run5_v67.root");	
+	DirtLabels.push_back("Run 5");	
+	DirtColors.push_back(kRed+1);
+	DirtTriggers.push_back(3.67173e+20);						
 
 	//------------------------------//		
 
-	const int NSamples = ExtBNBNames.size();
+	const int NSamples = DirtNames.size();
 
-	std::vector<TFile*> ExtBNBFiles; ExtBNBFiles.resize(NSamples);
+	std::vector<TFile*> DirtFiles; DirtFiles.resize(NSamples);
 
 	//------------------------------//
 
@@ -113,8 +120,8 @@ void ExtBNBComparisons() {
 
 	for (int iSample = 0; iSample < NSamples; iSample++) {
 
-		ExtBNBFiles[iSample] = new TFile(ExtBNBNames[iSample],"readonly");
-		EventTTree[iSample] = (TTree*)( ExtBNBFiles[iSample]->Get(EventTTreeName) );
+		DirtFiles[iSample] = new TFile(DirtNames[iSample],"readonly");
+		EventTTree[iSample] = (TTree*)( DirtFiles[iSample]->Get(EventTTreeName) );
 
 	} // End of the loop over the samples
 
@@ -158,7 +165,7 @@ void ExtBNBComparisons() {
 			EventTTree[iSample]->Draw(PlotNames[iPlot] + ">>" + HistosName[iSample], Cut ,"goff");
 
 			Histos[iSample]->SetLineWidth(2);
-			Histos[iSample]->SetLineColor( ExtBNBColors.at(iSample) );	
+			Histos[iSample]->SetLineColor( DirtColors.at(iSample) );	
 
 			Histos[iSample]->GetXaxis()->SetTitleFont(FontStyle);
 			Histos[iSample]->GetXaxis()->SetLabelFont(FontStyle);
@@ -172,7 +179,7 @@ void ExtBNBComparisons() {
 			Histos[iSample]->GetYaxis()->SetLabelFont(FontStyle);
 			Histos[iSample]->GetYaxis()->SetNdivisions(6);
 			Histos[iSample]->GetYaxis()->SetLabelSize(TextSize);
-			Histos[iSample]->GetYaxis()->SetTitle("# Events / " + TString( ToString(ExtBNBTriggers[0]) ) );
+			Histos[iSample]->GetYaxis()->SetTitle("# Events / " + TString( ToString(DirtTriggers[0]) ) );
 			Histos[iSample]->GetYaxis()->SetTitleSize(TextSize);
 			Histos[iSample]->GetYaxis()->SetTitleOffset(1.3);
 			Histos[iSample]->GetYaxis()->SetTickSize(0.02);
@@ -180,7 +187,7 @@ void ExtBNBComparisons() {
 
 			//----------------------------------------//
 
-			double SF = ExtBNBTriggers[0] / ExtBNBTriggers[iSample];
+			double SF = DirtTriggers[0] / DirtTriggers[iSample];
 			double NEvents = Histos[iSample]->GetEntries();
 			Histos[iSample]->Scale(SF);
 
@@ -189,14 +196,14 @@ void ExtBNBComparisons() {
 			Histos[0]->GetYaxis()->SetRangeUser(0.,1.1*imax);			
 
 			PlotCanvas->cd();
-			Histos[iSample]->SetMarkerColor(ExtBNBColors.at(iSample));
+			Histos[iSample]->SetMarkerColor(DirtColors.at(iSample));
 			Histos[iSample]->SetMarkerStyle(20);
 			Histos[iSample]->SetMarkerSize(2.);				
-			Histos[iSample]->Draw("e same");
-			Histos[0]->Draw("e same");	
+			Histos[iSample]->Draw("hist same");
+			Histos[0]->Draw("hist same");	
 
-			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],ExtBNBLabels[iSample] + ", " +TString( ToString(ExtBNBTriggers[iSample]) ),"ep");
-			legEntry->SetTextColor( ExtBNBColors.at(iSample) );		
+			TLegendEntry* legEntry = leg->AddEntry(Histos[iSample],DirtLabels[iSample] + ", " +TString( ToString(DirtTriggers[iSample]) ),"l");
+			legEntry->SetTextColor( DirtColors.at(iSample) );		
 
 			//----------------------------------------//					
 
@@ -208,9 +215,9 @@ void ExtBNBComparisons() {
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);
-		text->DrawTextNDC(0.16, 0.82, "ExtBNB");				
+		text->DrawTextNDC(0.16, 0.82, "Dirt");				
 
-		TString CanvasNameTString = PlotPath+"ExtBNBComparison_"+PlotNames[iPlot]+".pdf";
+		TString CanvasNameTString = PlotPath+"DirtComparison_"+PlotNames[iPlot]+".pdf";
 		CanvasNameTString.ReplaceAll("(","_").ReplaceAll(")","_");
 
 		PlotCanvas->SaveAs(CanvasNameTString);

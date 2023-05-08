@@ -21,7 +21,7 @@ using namespace std;
 
 using namespace Constants;
 
-void THStackRun4a() {
+void THStacked() {
 
 	//------------------------------//
 
@@ -36,7 +36,7 @@ void THStackRun4a() {
 	
 	//const TString Cut = "trk_score_v < 0";
 	//const TString Cut = "nslice == 1";
-	const TString Cut = "nslice == 1 && topological_score > 0.5";	
+	const TString Cut = "nslice == 1";	
 	const TString MCWeight = "weightSpline * ( (weightSpline > 0. && weightSpline < 30. && weightTune > 0. && weightTune < 30.)? weightTune:0.)";	
 	//const TString Cut = "";	
 
@@ -47,7 +47,7 @@ void THStackRun4a() {
 	std::vector<TString> OverlayName; std::vector<TFile*> OverlayFile; std::vector<TTree*> OverlayTTree; std::vector<double> OverlayScale;
 	std::vector<TString> DirtName;    std::vector<TFile*> DirtFile;    std::vector<TTree*> DirtTTree;    std::vector<double> DirtScale;
 	
-	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b"};
+	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b","Run5"};
 //	std::vector<TString> Runs{"Run4a"};
 	const int NRuns = Runs.size();	
 	
@@ -171,7 +171,31 @@ void THStackRun4a() {
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
 			DirtScale.push_back(0.54); 															
 		
-		}					
+		}	
+
+		if (Runs[irun] == "Run5") {		
+		
+			BeamOnName.push_back("/uboone/data/users/apapadop/searchingfornues/data_beamon_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
+			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
+			BeamOnScale.push_back(1.);
+			
+			BeamOffName.push_back("/uboone/data/users/apapadop/searchingfornues/data_extbnb_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
+			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
+			BeamOffScale.push_back(0.2330806633); 	
+			
+			OverlayName.push_back("/uboone/data/users/apapadop/searchingfornues/mc_overlay_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
+			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
+			OverlayScale.push_back(3.40E-02);
+			
+			DirtName.push_back("/uboone/data/users/apapadop/searchingfornues/mc_dirt_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
+			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
+			DirtScale.push_back(9.46E-02); 															
+		
+		}						
 	
 	}
 
@@ -190,7 +214,7 @@ void THStackRun4a() {
 	PlotNames.push_back("hits_u"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_v"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_y"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);	
-	PlotNames.push_back("topological_score"); Min.push_back(0.5); Max.push_back(1.); NBins.push_back(25);				
+	PlotNames.push_back("topological_score"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);				
 	PlotNames.push_back("nslice"); Min.push_back(0.5); Max.push_back(1.5); NBins.push_back(1);
 	PlotNames.push_back("nu_flashmatch_score"); Min.push_back(0.); Max.push_back(50.); NBins.push_back(50);
 	PlotNames.push_back("trk_score_v"); Min.push_back(0.); Max.push_back(1.); NBins.push_back(50);		

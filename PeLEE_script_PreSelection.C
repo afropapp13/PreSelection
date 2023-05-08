@@ -19,7 +19,7 @@
 	// Nov 23 2023: w/o low purity runs and after chat with Zarko for the current
 	//WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
 	WhichSampleArray.push_back("BeamOn9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
-//	WhichSampleArray.push_back("BeamOn9_Run5a"); SamplePath.push_back("");				
+	WhichSampleArray.push_back("BeamOn9_Run5"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/data_beamon_v08_00_00_67_pelee_ntuple_run5_v67.root");				
 
 	// ExtBNB
 
@@ -35,7 +35,7 @@
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	//WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");	
 	WhichSampleArray.push_back("ExtBNB9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
-//	WhichSampleArray.push_back("ExtBNB9_Run5a"); SamplePath.push_back("");			
+	WhichSampleArray.push_back("ExtBNB9_Run5"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/data_extbnb_v08_00_00_67_pelee_ntuple_run5_v67.root");			
 	
 	// MC CV
 
@@ -49,7 +49,7 @@
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	//WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
 	WhichSampleArray.push_back("Overlay9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
-//	WhichSampleArray.push_back("Overlay9_Run5a"); SamplePath.push_back("");		
+	WhichSampleArray.push_back("Overlay9_Run5"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/mc_overlay_v08_00_00_67_pelee_ntuple_run5_v67.root");		
 
 	// Dirt
 
@@ -63,7 +63,7 @@
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	//WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
 	WhichSampleArray.push_back("OverlayDirt9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
-//	WhichSampleArray.push_back("OverlayDirt9_Run5a"); SamplePath.push_back("");				
+	WhichSampleArray.push_back("OverlayDirt9_Run5a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/mc_dirt_v08_00_00_67_pelee_ntuple_run5_v67.root");				
 
 	// buggy dirt sample
 
