@@ -71,7 +71,7 @@ void DoubleRatio() {
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
 			BeamOffScale.push_back(0.551754065);	
 			
-			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run1_reco2_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run1_reco2_reco2.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
 			OverlayScale.push_back(0.123664122);	
@@ -97,7 +97,7 @@ void DoubleRatio() {
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
 			BeamOffScale.push_back(0.407111347);	
 			
-			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run2_reco2_D1D2_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run2_reco2_D1D2_reco2.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
 			OverlayScale.push_back(0.256862745);	
@@ -123,7 +123,7 @@ void DoubleRatio() {
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
 			BeamOffScale.push_back(0.284369535);
 			
-			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run3_reco2_G_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run3_reco2_G_reco2.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
 			OverlayScale.push_back(0.190298507);	
@@ -139,22 +139,22 @@ void DoubleRatio() {
 		
 			Colors.push_back(kRed-2);		
 		
-			BeamOnName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
 			BeamOffScale.push_back(0.318);
 			
-			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
 			OverlayScale.push_back(0.107);
 			
-			DirtName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
 			DirtScale.push_back(0.046);														
@@ -165,22 +165,22 @@ void DoubleRatio() {
 
 			Colors.push_back(kOrange+7);			
 		
-			BeamOnName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
 			BeamOffScale.push_back(0.356); 	
 			
-			OverlayName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
 			OverlayScale.push_back(0.227);
 			
-			DirtName.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
 			DirtScale.push_back(0.54); 															
@@ -224,9 +224,9 @@ void DoubleRatio() {
 	//PlotNames.push_back("selected"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);
 	PlotNames.push_back("n_tracks"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);	
 	PlotNames.push_back("n_showers"); Min.push_back(-0.5); Max.push_back(5.5); NBins.push_back(6);
-	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(0.); Max.push_back(250); NBins.push_back(50);
-	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-110); Max.push_back(110); NBins.push_back(50);	
-	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(0.); Max.push_back(1000); NBins.push_back(50);
+	PlotNames.push_back("reco_nu_vtx_sce_x"); Min.push_back(10.); Max.push_back(246.); NBins.push_back(25);
+	PlotNames.push_back("reco_nu_vtx_sce_y"); Min.push_back(-105.); Max.push_back(105.); NBins.push_back(25);	
+	PlotNames.push_back("reco_nu_vtx_sce_z"); Min.push_back(10.); Max.push_back(1026.); NBins.push_back(25);
 	PlotNames.push_back("hits_u"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_v"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);
 	PlotNames.push_back("hits_y"); Min.push_back(1); Max.push_back(1000); NBins.push_back(50);	
@@ -239,6 +239,8 @@ void DoubleRatio() {
 	PlotNames.push_back("pfp_generation_v"); Min.push_back(1.5); Max.push_back(4.5); NBins.push_back(3);
 	PlotNames.push_back("cos(trk_theta_v)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);
 	//PlotNames.push_back("cos(trk_theta)"); Min.push_back(-1.); Max.push_back(1.); NBins.push_back(20);	
+	PlotNames.push_back("crtveto"); Min.push_back(-0.5); Max.push_back(1.5); NBins.push_back(2);	
+	PlotNames.push_back("crthitpe"); Min.push_back(40); Max.push_back(570); NBins.push_back(100);	
 
 	const int NPlots = PlotNames.size();	
 
@@ -258,7 +260,7 @@ void DoubleRatio() {
 		PlotCanvas->SetGridy();						
 		PlotCanvas->Draw();		
 
-		TLegend* leg = new TLegend(0.03,0.89,0.97,0.99);
+		TLegend* leg = new TLegend(0.15,0.89,0.97,0.99);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
 		leg->SetTextSize(TextSize);	

@@ -1,5 +1,7 @@
 {
 
+	//pnfsToXRootD /pnfs/persistent/path/to/your/file
+
 	vector<TString> WhichSampleArray; vector<TString> SamplePath; 
 
 	// Full BeamOn Samples
