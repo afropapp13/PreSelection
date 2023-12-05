@@ -9,17 +9,17 @@
 #include <fstream>
 #include <stdlib.h>
 
-#include "ubana/myClasses/Constants.h"
+#include "../myClasses/Constants.h"
 
 using namespace std;
 using namespace Constants;
 
-void PeLEE_myPOT(TString Label, TString Sample) {
+void calculate_pot(TString Label, TString Sample) {
 	 
 	TTree* tree;
 	TFile* PeLEEFile = TFile::Open(Sample,"readonly");
 	TDirectory * dir = (TDirectory*)PeLEEFile->Get(Sample+":/nuselection");
-    dir->GetObject("SubRun",tree);
+	dir->GetObject("SubRun",tree);
 
 	float pot;
 	float summed_pot = 0.;
@@ -47,8 +47,7 @@ void PeLEE_myPOT(TString Label, TString Sample) {
 
 	// Output File
 
-//	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+Label+"_"+UBCodeVersion+"_POT.root";
-	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreSelection_"+Label+"_"+UBCodeVersion+"_POT.root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples_3D_ECal/PreSelection_"+Label+"_"+UBCodeVersion+"_POT.root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	OutputFile->cd();
 	POTCountHist->Write();

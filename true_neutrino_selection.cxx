@@ -1,18 +1,19 @@
-#define TruthNeutrinoSelectionFilter_cxx
-#include "TruthNeutrinoSelectionFilter.h"
+#define true_neutrino_selection_cxx
+#include "true_neutrino_selection.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <TVector3.h>
 #include <TLorentzVector.h>
+#include <TString.h>
 
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <vector>
 
-#include "ubana/myClasses/Tools.h"
-#include "ubana/myClasses/STV_Tools.h"
+#include "../myClasses/Tools.h"
+#include "../myClasses/STV_Tools.h"
 
 using namespace std;
 using namespace Constants;
@@ -20,7 +21,7 @@ using namespace Constants;
 // -----------------------------------------------------------------------------
 
 
-void TruthNeutrinoSelectionFilter::Loop() {
+void true_neutrino_selection::Loop() {
 
 	// -----------------------------------------------------------------------------
 
@@ -31,8 +32,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-//	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
-	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples_3D_ECal/PreTruthSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -50,7 +50,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
-//	int PassedSwTrigger;
 	double Weight;
 	double T2KWeight;
 	double ROOTinoWeight;
@@ -59,77 +58,18 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	int Run;
 	int SubRun;
 	int Event;
+	TString run_period;
 
-//	std::vector<unsigned short> genie;
 	std::vector<double> All_UBGenie;
 	std::vector<double> AxFFCCQEshape_UBGenie;
 	std::vector<double> DecayAngMEC_UBGenie;
 	std::vector<double> NormCCCOH_UBGenie;
 	std::vector<double> NormNCCOH_UBGenie;
-//	std::vector<double> RPA_CCQE_Reduced_UBGenie;
 	std::vector<double> RPA_CCQE_UBGenie;
 	std::vector<double> ThetaDelta2NRad_UBGenie;
 	std::vector<double> Theta_Delta2Npi_UBGenie;
 	std::vector<double> VecFFCCQEshape_UBGenie;
 	std::vector<double> XSecShape_CCMEC_UBGenie;
-
-	//----------------------------------------//
-
-	// detailed xsec uncertainty contributions 
-
-	vector<unsigned short>  AGKYpT1pi_UBGenie;
-	vector<unsigned short>  AGKYxF1pi_UBGenie;
-	vector<unsigned short>  AhtBY_UBGenie;
-	vector<unsigned short>  BhtBY_UBGenie;
-	vector<unsigned short>  CV1uBY_UBGenie;
-	vector<unsigned short>  CV2uBY_UBGenie;
-	vector<unsigned short>  EtaNCEL_UBGenie;
-	vector<unsigned short>  FrAbs_N_UBGenie;
-	vector<unsigned short>  FrAbs_pi_UBGenie;
-	vector<unsigned short>  FrCEx_N_UBGenie;
-	vector<unsigned short>  FrCEx_pi_UBGenie;
-	vector<unsigned short>  FrInel_N_UBGenie;
-	vector<unsigned short>  FrInel_pi_UBGenie;
-	vector<unsigned short>  FrPiProd_N_UBGenie;
-	vector<unsigned short>  FrPiProd_pi_UBGenie;
-	vector<unsigned short>  FracDelta_CCMEC_UBGenie;	
-	vector<unsigned short>  FracPN_CCMEC_UBGenie;
-	vector<unsigned short>  MFP_N_UBGenie;
-	vector<unsigned short>  MFP_pi_UBGenie;
-	vector<unsigned short>  MaCCQE_UBGenie;
-	vector<unsigned short>  MaCCRES_UBGenie;
-	vector<unsigned short>  MaNCEL_UBGenie;
-	vector<unsigned short>  MaNCRES_UBGenie;
-	vector<unsigned short>  MvCCRES_UBGenie;
-	vector<unsigned short>  MvNCRES_UBGenie;
-	vector<unsigned short>  NonRESBGvbarnCC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvbarnCC2pi_UBGenie;
-	vector<unsigned short>  NonRESBGvbarnNC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvbarnNC2pi_UBGenie;
-	vector<unsigned short>  NonRESBGvbarpCC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvbarpCC2pi_UBGenie;
-	vector<unsigned short>  NonRESBGvbarpNC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvbarpNC2pi_UBGenie;
-	vector<unsigned short>  NonRESBGvnCC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvnCC2pi_UBGenie;
-	vector<unsigned short>  NonRESBGvnNC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvnNC2pi_UBGenie;
-	vector<unsigned short>  NonRESBGvpCC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvpCC2pi_UBGenie;
-	vector<unsigned short>  NonRESBGvpNC1pi_UBGenie;
-	vector<unsigned short>  NonRESBGvpNC2pi_UBGenie;
-	vector<unsigned short>  NormCCMEC_UBGenie;
-	vector<unsigned short>  NormNCMEC_UBGenie;
-	vector<unsigned short>  RDecBR1eta_UBGenie;
-	vector<unsigned short>  RDecBR1gamma_UBGenie;	
-
-	// Unisims
-	vector<unsigned short> UnShortAxFFCCQEshape_UBGenie;
-	vector<unsigned short> UnShortDecayAngMEC_UBGenie;
-	vector<unsigned short> UnShortRPA_CCQE_UBGenie;
-	vector<unsigned short> UnShortTheta_Delta2Npi_UBGenie;
-	vector<unsigned short> UnShortVecFFCCQEshape_UBGenie;
-	vector<unsigned short> UnShortXSecShape_CCMEC_UBGenie;		
 
 	//----------------------------------------//	
 
@@ -166,10 +106,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	std::vector<int> Muon_MCParticle_Mode;
 	std::vector<double> Muon_MCParticle_Mom;
-//	std::vector<double> Muon_MCParticle_KE;
 	std::vector<double> Muon_MCParticle_Phi;
 	std::vector<double> Muon_MCParticle_CosTheta;
-//	std::vector<double> Muon_MCParticle_Length;
 	std::vector<double> Muon_MCParticle_StartX;
 	std::vector<double> Muon_MCParticle_StartY;
 	std::vector<double> Muon_MCParticle_StartZ;
@@ -184,7 +122,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	std::vector<int> Proton_MCParticle_Mode;
 	std::vector<double> Proton_MCParticle_Mom;
-//	std::vector<double> Proton_MCParticle_KE;
 	std::vector<double> Proton_MCParticle_Phi;
 	std::vector<double> Proton_MCParticle_CosTheta;
 	std::vector<double> Proton_MCParticle_Length;
@@ -202,7 +139,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	std::vector<int> Neutron_MCParticle_Mode;
 	std::vector<double> Neutron_MCParticle_Mom;
-//	std::vector<double> Neutron_MCParticle_KE;
 	std::vector<double> Neutron_MCParticle_Phi;
 	std::vector<double> Neutron_MCParticle_CosTheta;
 	std::vector<double> Neutron_MCParticle_Length;
@@ -257,78 +193,18 @@ void TruthNeutrinoSelectionFilter::Loop() {
 	tree->Branch("Run",&Run);
 	tree->Branch("SubRun",&SubRun);
 	tree->Branch("Event",&Event);	
-
-//	tree->Branch("genie", &genie);
+	tree->Branch("run_period",&run_period);
+	
 	tree->Branch("All_UBGenie", &All_UBGenie);
 	tree->Branch("AxFFCCQEshape_UBGenie", &AxFFCCQEshape_UBGenie);
 	tree->Branch("DecayAngMEC_UBGenie", &DecayAngMEC_UBGenie);
 	tree->Branch("NormCCCOH_UBGenie", &NormCCCOH_UBGenie);
 	tree->Branch("NormNCCOH_UBGenie", &NormNCCOH_UBGenie);
-//	tree->Branch("RPA_CCQE_Reduced_UBGenie", &RPA_CCQE_Reduced_UBGenie);
 	tree->Branch("RPA_CCQE_UBGenie", &RPA_CCQE_UBGenie);
 	tree->Branch("ThetaDelta2NRad_UBGenie", &ThetaDelta2NRad_UBGenie);
 	tree->Branch("Theta_Delta2Npi_UBGenie", &Theta_Delta2Npi_UBGenie);
 	tree->Branch("VecFFCCQEshape_UBGenie", &VecFFCCQEshape_UBGenie);
 	tree->Branch("XSecShape_CCMEC_UBGenie", &XSecShape_CCMEC_UBGenie);
-
-	//----------------------------------------//
-
-	// detailed xsec uncertainties
-
-	tree->Branch("AGKYpT1pi_UBGenie", &AGKYpT1pi_UBGenie);
-	tree->Branch("AGKYxF1pi_UBGenie", &AGKYxF1pi_UBGenie);
-	tree->Branch("AhtBY_UBGenie", &AhtBY_UBGenie);
-	tree->Branch("BhtBY_UBGenie", &BhtBY_UBGenie);
-	tree->Branch("CV1uBY_UBGenie", &CV1uBY_UBGenie);
-	tree->Branch("CV2uBY_UBGenie", &CV2uBY_UBGenie);
-	tree->Branch("EtaNCEL_UBGenie", &EtaNCEL_UBGenie);
-	tree->Branch("FrAbs_N_UBGenie", &FrAbs_N_UBGenie);
-	tree->Branch("FrAbs_pi_UBGenie", &FrAbs_pi_UBGenie);
-	tree->Branch("FrCEx_N_UBGenie", &FrCEx_N_UBGenie);
-	tree->Branch("FrCEx_pi_UBGenie", &FrCEx_pi_UBGenie);
-	tree->Branch("FrInel_N_UBGenie", &FrInel_N_UBGenie);												
-	tree->Branch("FrInel_pi_UBGenie", &FrInel_pi_UBGenie);
-	tree->Branch("FrPiProd_N_UBGenie", &FrPiProd_N_UBGenie);
-	tree->Branch("FrPiProd_pi_UBGenie", &FrPiProd_pi_UBGenie);
-	tree->Branch("FracDelta_CCMEC_UBGenie", &FracDelta_CCMEC_UBGenie);	
-	tree->Branch("FracPN_CCMEC_UBGenie", &FracPN_CCMEC_UBGenie);
-	tree->Branch("MFP_N_UBGenie", &MFP_N_UBGenie);
-	tree->Branch("MFP_pi_UBGenie", &MFP_pi_UBGenie);
-	tree->Branch("MaCCQE_UBGenie", &MaCCQE_UBGenie);
-	tree->Branch("MaCCRES_UBGenie", &MaCCRES_UBGenie);
-	tree->Branch("MaNCEL_UBGenie", &MaNCEL_UBGenie);
-	tree->Branch("MaNCRES_UBGenie", &MaNCRES_UBGenie);
-	tree->Branch("MvCCRES_UBGenie", &MvCCRES_UBGenie);
-	tree->Branch("MvNCRES_UBGenie", &MvNCRES_UBGenie);
-	tree->Branch("NonRESBGvbarnCC1pi_UBGenie", &NonRESBGvbarnCC1pi_UBGenie);
-	tree->Branch("NonRESBGvbarnCC2pi_UBGenie", &NonRESBGvbarnCC2pi_UBGenie);
-	tree->Branch("NonRESBGvbarnNC1pi_UBGenie", &NonRESBGvbarnNC1pi_UBGenie);
-	tree->Branch("NonRESBGvbarnNC2pi_UBGenie", &NonRESBGvbarnNC2pi_UBGenie);
-	tree->Branch("NonRESBGvbarpCC1pi_UBGenie", &NonRESBGvbarpCC1pi_UBGenie);
-	tree->Branch("NonRESBGvbarpCC2pi_UBGenie", &NonRESBGvbarpCC2pi_UBGenie);
-	tree->Branch("NonRESBGvbarpNC1pi_UBGenie", &NonRESBGvbarpNC1pi_UBGenie);
-	tree->Branch("NonRESBGvbarpNC2pi_UBGenie", &NonRESBGvbarpNC2pi_UBGenie);
-	tree->Branch("NonRESBGvnCC1pi_UBGenie", &NonRESBGvnCC1pi_UBGenie);
-	tree->Branch("NonRESBGvnCC2pi_UBGenie", &NonRESBGvnCC2pi_UBGenie);
-	tree->Branch("NonRESBGvnNC1pi_UBGenie", &NonRESBGvnNC1pi_UBGenie);
-	tree->Branch("NonRESBGvnNC2pi_UBGenie", &NonRESBGvnNC2pi_UBGenie);
-	tree->Branch("NonRESBGvpCC1pi_UBGenie", &NonRESBGvpCC1pi_UBGenie);
-	tree->Branch("NonRESBGvpCC2pi_UBGenie", &NonRESBGvpCC2pi_UBGenie);
-	tree->Branch("NonRESBGvpNC1pi_UBGenie", &NonRESBGvpNC1pi_UBGenie);
-	tree->Branch("NonRESBGvpNC2pi_UBGenie", &NonRESBGvpNC2pi_UBGenie);
-	tree->Branch("NormCCMEC_UBGenie", &NormCCMEC_UBGenie);
-	tree->Branch("NormNCMEC_UBGenie", &NormNCMEC_UBGenie);
-	tree->Branch("RDecBR1eta_UBGenie", &RDecBR1eta_UBGenie);
-	tree->Branch("RDecBR1gamma_UBGenie", &RDecBR1gamma_UBGenie);
-
-	// Unisims
-
-	tree->Branch("UnShortAxFFCCQEshape_UBGenie", &UnShortAxFFCCQEshape_UBGenie);
-	tree->Branch("UnShortDecayAngMEC_UBGenie", &UnShortDecayAngMEC_UBGenie);
-	tree->Branch("UnShortRPA_CCQE_UBGenie", &UnShortRPA_CCQE_UBGenie);
-	tree->Branch("UnShortTheta_Delta2Npi_UBGenie", &UnShortTheta_Delta2Npi_UBGenie);
-	tree->Branch("UnShortVecFFCCQEshape_UBGenie", &UnShortVecFFCCQEshape_UBGenie);
-	tree->Branch("UnShortXSecShape_CCMEC_UBGenie", &UnShortXSecShape_CCMEC_UBGenie);	
 
 	//----------------------------------------//		
 
@@ -365,10 +241,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		
 	tree->Branch("Muon_MCParticle_Mode",&Muon_MCParticle_Mode);
 	tree->Branch("Muon_MCParticle_Mom",&Muon_MCParticle_Mom);
-//	tree->Branch("Muon_MCParticle_KE",&Muon_MCParticle_KE);
 	tree->Branch("Muon_MCParticle_Phi",&Muon_MCParticle_Phi);
 	tree->Branch("Muon_MCParticle_CosTheta",&Muon_MCParticle_CosTheta);
-//	tree->Branch("Muon_MCParticle_Length",&Muon_MCParticle_Length);
 	tree->Branch("Muon_MCParticle_StartX",&Muon_MCParticle_StartX);
 	tree->Branch("Muon_MCParticle_StartY",&Muon_MCParticle_StartY);
 	tree->Branch("Muon_MCParticle_StartZ",&Muon_MCParticle_StartZ);
@@ -383,7 +257,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		
 	tree->Branch("Proton_MCParticle_Mode",&Proton_MCParticle_Mode);
 	tree->Branch("Proton_MCParticle_Mom",&Proton_MCParticle_Mom);
-//	tree->Branch("Proton_MCParticle_KE",&Proton_MCParticle_KE);
 	tree->Branch("Proton_MCParticle_Phi",&Proton_MCParticle_Phi);
 	tree->Branch("Proton_MCParticle_CosTheta",&Proton_MCParticle_CosTheta);
 	tree->Branch("Proton_MCParticle_Length",&Proton_MCParticle_Length);
@@ -401,7 +274,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		
 	tree->Branch("Neutron_MCParticle_Mode",&Neutron_MCParticle_Mode);
 	tree->Branch("Neutron_MCParticle_Mom",&Neutron_MCParticle_Mom);
-//	tree->Branch("Neutron_MCParticle_KE",&Neutron_MCParticle_KE);
 	tree->Branch("Neutron_MCParticle_Phi",&Neutron_MCParticle_Phi);
 	tree->Branch("Neutron_MCParticle_CosTheta",&Neutron_MCParticle_CosTheta);
 	tree->Branch("Neutron_MCParticle_Length",&Neutron_MCParticle_Length);
@@ -482,8 +354,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 	if (string(fLabel).find("Overlay") != std::string::npos) {
 
-//		TString PathToPOTFile = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
-		TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
+		TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples_3D_ECal/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";
 
 		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
 		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
@@ -507,7 +378,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		tor860_wcut = Fulltor860_wcut_Run1;
 		E1DCNT_wcut = FullE1DCNT_wcut_Run1;
 		EXT = FullEXT_Run1;
-
+		run_period = "Run1";
 	}
 	
 	if (string(fLabel).find("Run2") != std::string::npos) {
@@ -515,7 +386,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		tor860_wcut = Fulltor860_wcut_Run2;
 		E1DCNT_wcut = FullE1DCNT_wcut_Run2;
 		EXT = FullEXT_Run2;
-
+		run_period = "Run2";
+	
 	}
 	
 	if (string(fLabel).find("Run3") != std::string::npos) {
@@ -523,31 +395,17 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		tor860_wcut = Fulltor860_wcut_Run3;
 		E1DCNT_wcut = FullE1DCNT_wcut_Run3;
 		EXT = FullEXT_Run3;
-
+		run_period = "Run3";
+	
 	}
 	
-	if (string(fLabel).find("Run4") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run4;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run4;
-		EXT = FullEXT_Run4;
-
-	}
-
 	if (string(fLabel).find("Run4a") != std::string::npos) {
 
 		tor860_wcut = Fulltor860_wcut_Run4a;
 		E1DCNT_wcut = FullE1DCNT_wcut_Run4a;
 		EXT = FullEXT_Run4a;
-
-	}	
-
-	if (string(fLabel).find("Run4aRutgers") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run4aRutgers;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run4aRutgers;
-		EXT = FullEXT_Run4aRutgers;
-
+		run_period = "Run4a";
+	
 	}	
 
 	if (string(fLabel).find("Run4b") != std::string::npos) {
@@ -555,25 +413,38 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		tor860_wcut = Fulltor860_wcut_Run4b;
 		E1DCNT_wcut = FullE1DCNT_wcut_Run4b;
 		EXT = FullEXT_Run4b;
-
+		run_period = "Run4b";
+	
 	}	
+
+	if (string(fLabel).find("Run4c") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4c;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4c;
+		EXT = FullEXT_Run4c;
+		run_period = "Run4c";
+	
+	}	
+
+	if (string(fLabel).find("Run4d") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4d;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4d;
+		EXT = FullEXT_Run4d;
+		run_period = "Run4d";
+	
+	}	
+
 
 	if (string(fLabel).find("Run5") != std::string::npos) {
 
 		tor860_wcut = Fulltor860_wcut_Run5;
 		E1DCNT_wcut = FullE1DCNT_wcut_Run5;
 		EXT = FullEXT_Run5;
-
+		run_period = "Run5";
+	
 	}
 
-	if (string(fLabel).find("Run5a") != std::string::npos) {
-
-		tor860_wcut = Fulltor860_wcut_Run5a;
-		E1DCNT_wcut = FullE1DCNT_wcut_Run5a;
-		EXT = FullEXT_Run5a;
-
-	}		
-	
 	if (string(fLabel).find("ExtBNB9") != std::string::npos) { POTScale = E1DCNT_wcut / EXT; }
 
 	if (string(fLabel).find("Overlay") != std::string::npos) { POTScale = tor860_wcut / POTCount; }	
@@ -591,26 +462,27 @@ void TruthNeutrinoSelectionFilter::Loop() {
 		fChain->SetBranchAddress("weightTune", &weightTune, &b_weightTune);
 
 		if ( 
-			fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-			fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a"|| fLabel == "Overlay9_Run4aRutgers" || fLabel == "Overlay9_Run4b" || 
-			fLabel == "Overlay9_Run5" || fLabel == "Overlay9_Run5a" ||
-			fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || fLabel == "OverlayDirt9_Run3" || 
-			fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run4a" || fLabel == "OverlayDirt9_Run4aRutgers" || fLabel == "OverlayDirt9_Run4b" ||
-			fLabel == "OverlayDirt9_Run5" || fLabel == "OverlayDirt9_Run5a"		 
+			   fLabel == "Overlay9_Run1" 
+			|| fLabel == "Overlay9_Run2" 
+			|| fLabel == "Overlay9_Run3" 
+			|| fLabel == "Overlay9_Run4a"
+			|| fLabel == "Overlay9_Run4b" 
+			|| fLabel == "Overlay9_Run4c"
+			|| fLabel == "Overlay9_Run4d" 
+			|| fLabel == "Overlay9_Run5" 
+			|| fLabel == "OverlayDirt9_Run1" 
+			|| fLabel == "OverlayDirt9_Run2" 
+			|| fLabel == "OverlayDirt9_Run3" 
+			|| fLabel == "OverlayDirt9_Run4a" 
+			|| fLabel == "OverlayDirt9_Run4b" 
+			|| fLabel == "OverlayDirt9_Run4c" 
+			|| fLabel == "OverlayDirt9_Run4d" 
+			|| fLabel == "OverlayDirt9_Run5"		 
 		) {
 
 			fChain->SetBranchAddress("weights", &weights, &b_weights);
 
 		}
-
-		if ( 
-			fLabel == "Overlay9_Run1_DecompXSecUnc"			 
-		) {
-
-			fChain->SetBranchAddress("weightsGenieUp", &weightsGenieUp, &b_weightsGenieUp);
-			fChain->SetBranchAddress("weightsGenieDn", &weightsGenieDn, &b_weightsGenieDn);			
-
-		}			
 
 	}
 
@@ -622,7 +494,7 @@ void TruthNeutrinoSelectionFilter::Loop() {
       
 		Long64_t ientry = LoadTree(jentry);
 		if (ientry < 0) break;
-      	nb = fChain->GetEntry(jentry);   nbytes += nb;
+      		nb = fChain->GetEntry(jentry);   nbytes += nb;
 
 		TotalCounter++;
 
@@ -641,12 +513,20 @@ void TruthNeutrinoSelectionFilter::Loop() {
 			ROOTinoWeight = 1.;
 
 			if ( 
-				fLabel == "Overlay9_Run1" || fLabel == "Overlay9_Run2" || fLabel == "Overlay9_Run3" || 
-				fLabel == "Overlay9_Run4" || fLabel == "Overlay9_Run4a" || fLabel == "Overlay9_Run4aRutgers" || fLabel == "Overlay9_Run4b" || 
-				fLabel == "Overlay9_Run5" || fLabel == "Overlay9_Run5a" ||
-				fLabel == "OverlayDirt9_Run1" || fLabel == "OverlayDirt9_Run2" || fLabel == "OverlayDirt9_Run3" || 
-				fLabel == "OverlayDirt9_Run4" || fLabel == "OverlayDirt9_Run4a" || fLabel == "OverlayDirt9_Run4aRutgers" || fLabel == "OverlayDirt9_Run4b" || 
-				fLabel == "OverlayDirt9_Run5" || fLabel == "OverlayDirt9_Run5a"	 
+				   fLabel == "Overlay9_Run1" 
+				|| fLabel == "Overlay9_Run2" 
+				|| fLabel == "Overlay9_Run3" 
+				|| fLabel == "Overlay9_Run4a" 
+				|| fLabel == "Overlay9_Run4b" 
+				|| fLabel == "Overlay9_Run4c" 
+				|| fLabel == "Overlay9_Run4d" 
+				|| fLabel == "Overlay9_Run5"
+				|| fLabel == "OverlayDirt9_Run1" 
+				|| fLabel == "OverlayDirt9_Run2" 
+				|| fLabel == "OverlayDirt9_Run3" 
+				|| fLabel == "OverlayDirt9_Run4a"
+				|| fLabel == "OverlayDirt9_Run4b" 
+				|| fLabel == "OverlayDirt9_Run5"	 
 			) {
 
 
@@ -674,127 +554,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 			}
 
-			if ( 
-				fLabel == "Overlay9_Run1_DecompXSecUnc"				 
-			) {
-
-				// Loop over the detailed xsec knobs
-				// The detailed xsec knobs are unshorted int's.
-
-				AGKYpT1pi_UBGenie.clear();
-				AGKYxF1pi_UBGenie.clear();
-				AhtBY_UBGenie.clear();
-				BhtBY_UBGenie.clear();
-				CV1uBY_UBGenie.clear();
-				CV2uBY_UBGenie.clear();
-				EtaNCEL_UBGenie.clear();
-				FrAbs_N_UBGenie.clear();
-				FrAbs_pi_UBGenie.clear();
-				FrCEx_N_UBGenie.clear();
-				FrCEx_pi_UBGenie.clear();
-				FrInel_N_UBGenie.clear();
-				FrInel_pi_UBGenie.clear();
-				FrPiProd_N_UBGenie.clear();
-				FrPiProd_pi_UBGenie.clear();
-				FracDelta_CCMEC_UBGenie.clear();
-				FracPN_CCMEC_UBGenie.clear();
-				MFP_N_UBGenie.clear();
-				MFP_pi_UBGenie.clear();
-				MaCCQE_UBGenie.clear();
-				MaCCRES_UBGenie.clear();
-				MaNCEL_UBGenie.clear();
-				MaNCRES_UBGenie.clear();
-				MvCCRES_UBGenie.clear();
-				MvNCRES_UBGenie.clear();
-				NonRESBGvbarnCC1pi_UBGenie.clear();
-				NonRESBGvbarnCC2pi_UBGenie.clear();
-				NonRESBGvbarnNC1pi_UBGenie.clear();
-				NonRESBGvbarnNC2pi_UBGenie.clear();
-				NonRESBGvbarpCC1pi_UBGenie.clear();
-				NonRESBGvbarpCC2pi_UBGenie.clear();
-				NonRESBGvbarpNC1pi_UBGenie.clear();
-				NonRESBGvbarpNC2pi_UBGenie.clear();
-				NonRESBGvnCC1pi_UBGenie.clear();
-				NonRESBGvnCC2pi_UBGenie.clear();
-				NonRESBGvnNC1pi_UBGenie.clear();
-				NonRESBGvnNC2pi_UBGenie.clear();
-				NonRESBGvpCC1pi_UBGenie.clear();
-				NonRESBGvpCC2pi_UBGenie.clear();
-				NonRESBGvpNC1pi_UBGenie.clear();
-				NonRESBGvpNC2pi_UBGenie.clear();
-				NormCCMEC_UBGenie.clear();
-				NormNCMEC_UBGenie.clear();
-				RDecBR1eta_UBGenie.clear();
-				RDecBR1gamma_UBGenie.clear();	
-
-				// Unisims
-
-				UnShortAxFFCCQEshape_UBGenie.clear();
-				UnShortDecayAngMEC_UBGenie.clear();
-				UnShortRPA_CCQE_UBGenie.clear();
-				UnShortTheta_Delta2Npi_UBGenie.clear();
-				UnShortVecFFCCQEshape_UBGenie.clear();
-				UnShortXSecShape_CCMEC_UBGenie.clear();									
-
-				for (int ixsec = 0; ixsec < (int)(weightsGenieUp->size()); ixsec++ ) {
-
-					if (knobList.at(ixsec) == "AGKYpT1pi_UBGenie") { AGKYpT1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); AGKYpT1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "AGKYxF1pi_UBGenie") { AGKYxF1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); AGKYxF1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "AhtBY_UBGenie") { AhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); AhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "AxFFCCQEshape_UBGenie") { UnShortAxFFCCQEshape_UBGenie.push_back(weightsGenieUp->at(ixsec)); UnShortAxFFCCQEshape_UBGenie.push_back(weightsGenieDn->at(ixsec)); }					
-					if (knobList.at(ixsec) == "BhtBY_UBGenie") { BhtBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); BhtBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "CV1uBY_UBGenie") { CV1uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); CV1uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "CV2uBY_UBGenie") { CV2uBY_UBGenie.push_back(weightsGenieUp->at(ixsec)); CV2uBY_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "DecayAngMEC_UBGenie") { UnShortDecayAngMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); UnShortDecayAngMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }					
-					if (knobList.at(ixsec) == "EtaNCEL_UBGenie") { EtaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)); EtaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrAbs_N_UBGenie") { FrAbs_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrAbs_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrAbs_pi_UBGenie") { FrAbs_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrAbs_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrCEx_N_UBGenie") { FrCEx_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrCEx_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrCEx_pi_UBGenie") { FrCEx_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrCEx_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrInel_N_UBGenie") { FrInel_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrInel_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrInel_pi_UBGenie") { FrInel_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrInel_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrPiProd_N_UBGenie") { FrPiProd_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrPiProd_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FrPiProd_pi_UBGenie") { FrPiProd_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); FrPiProd_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "FracDelta_CCMEC_UBGenie") { FracDelta_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); FracDelta_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }					
-					if (knobList.at(ixsec) == "FracPN_CCMEC_UBGenie") { FracPN_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); FracPN_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MFP_N_UBGenie") { MFP_N_UBGenie.push_back(weightsGenieUp->at(ixsec)); MFP_N_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MFP_pi_UBGenie") { MFP_pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); MFP_pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MaCCQE_UBGenie") { MaCCQE_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaCCQE_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MaCCRES_UBGenie") { MaCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MaNCEL_UBGenie") { MaNCEL_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaNCEL_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MaNCRES_UBGenie") { MaNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MaNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MvCCRES_UBGenie") { MvCCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MvCCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "MvNCRES_UBGenie") { MvNCRES_UBGenie.push_back(weightsGenieUp->at(ixsec)); MvNCRES_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarnCC1pi_UBGenie") { NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarnCC2pi_UBGenie") { NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarnNC1pi_UBGenie") { NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarnNC2pi_UBGenie") { NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarpCC1pi_UBGenie") { NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarpCC2pi_UBGenie") { NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarpNC1pi_UBGenie") { NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvbarpNC2pi_UBGenie") { NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvbarpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvnCC1pi_UBGenie") { NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvnCC2pi_UBGenie") { NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvnNC1pi_UBGenie") { NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvnNC2pi_UBGenie") { NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvnNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvpCC1pi_UBGenie") { NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpCC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvpCC2pi_UBGenie") { NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpCC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvpNC1pi_UBGenie") { NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpNC1pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NonRESBGvpNC2pi_UBGenie") { NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieUp->at(ixsec)); NonRESBGvpNC2pi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NormCCMEC_UBGenie") { NormCCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); NormCCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "NormNCMEC_UBGenie") { NormNCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); NormNCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "RDecBR1eta_UBGenie") { RDecBR1eta_UBGenie.push_back(weightsGenieUp->at(ixsec)); RDecBR1eta_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "RDecBR1gamma_UBGenie") { RDecBR1gamma_UBGenie.push_back(weightsGenieUp->at(ixsec)); RDecBR1gamma_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "RPA_CCQE_UBGenie") { UnShortRPA_CCQE_UBGenie.push_back(weightsGenieUp->at(ixsec)); UnShortRPA_CCQE_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "Theta_Delta2Npi_UBGenie") { UnShortTheta_Delta2Npi_UBGenie.push_back(weightsGenieUp->at(ixsec)); UnShortTheta_Delta2Npi_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "VecFFCCQEshape_UBGenie") { UnShortVecFFCCQEshape_UBGenie.push_back(weightsGenieUp->at(ixsec)); UnShortVecFFCCQEshape_UBGenie.push_back(weightsGenieDn->at(ixsec)); }
-					if (knobList.at(ixsec) == "XSecShape_CCMEC_UBGenie") { UnShortXSecShape_CCMEC_UBGenie.push_back(weightsGenieUp->at(ixsec)); UnShortXSecShape_CCMEC_UBGenie.push_back(weightsGenieDn->at(ixsec)); }																				
-
-
-				} // End of the loop over the detailed xsec knobs
-
-			}						
-
 		} else {
 
 			// For BeamOn, everything will be 1
@@ -813,10 +572,8 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 		Muon_MCParticle_Mode.clear();
 		Muon_MCParticle_Mom.clear();
-//		Muon_MCParticle_KE.clear();
 		Muon_MCParticle_Phi.clear();
 		Muon_MCParticle_CosTheta.clear();
-//		Muon_MCParticle_Length.clear();
 		Muon_MCParticle_StartX.clear();
 		Muon_MCParticle_StartY.clear();
 		Muon_MCParticle_StartZ.clear();
@@ -833,7 +590,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 		Proton_MCParticle_Mode.clear();
 		Proton_MCParticle_Mom.clear();
-//		Proton_MCParticle_KE.clear();
 		Proton_MCParticle_Phi.clear();
 		Proton_MCParticle_CosTheta.clear();
 		Proton_MCParticle_Length.clear();
@@ -854,7 +610,6 @@ void TruthNeutrinoSelectionFilter::Loop() {
 
 		Neutron_MCParticle_Mode.clear();
 		Neutron_MCParticle_Mom.clear();
-//		Neutron_MCParticle_KE.clear();
 		Neutron_MCParticle_Phi.clear();
 		Neutron_MCParticle_CosTheta.clear();
 		Neutron_MCParticle_Length.clear();
@@ -1049,25 +804,18 @@ void TruthNeutrinoSelectionFilter::Loop() {
 			bool Muon_TrueStartContainment = tools.inFVVector(Muon_TVector3TrueStart);
 			bool Muon_TrueEndContainment = tools.inFVVector(Muon_TVector3TrueEnd);
 
-//			double Muon_TrueLength = Muon_TVector3True.Mag();
 			double Muon_TrueTheta = Muon_TVector3True.Theta();
 			double Muon_TrueTheta_Deg = Muon_TrueTheta * 180./TMath::Pi();
 			double Muon_TruePhi = Muon_TVector3True.Phi();
 			double Muon_TruePhi_Deg = Muon_TruePhi * 180./TMath::Pi();
 			double Muon_TrueCosTheta = Muon_TVector3True.CosTheta();
 			double Muon_TrueMomentum_GeV = Muon_TVector3True.Mag(); // GeV
-//			double Muon_TrueMomentum_MeV = 1000. * Muon_TrueMomentum_GeV; // MeV
-//			double Muon_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueMuonIndex.at(0)),Muon_TrueMomentum_MeV); // MeV
-//			double Muon_TrueKE_GeV = Muon_TrueKE_MeV / 1000.; // GeV
-//			double Muon_TrueE_GeV = Muon_TrueKE_GeV + MuonMass_GeV; // GeV			
 			double Muon_TrueE_GeV = TMath::Sqrt( TMath::Power(Muon_TrueMomentum_GeV,2.) + TMath::Power(MuonMass_GeV,2.) ); // GeV			
 			
 			Muon_MCParticle_Mode.push_back(interaction);
 			Muon_MCParticle_Mom.push_back(Muon_TrueMomentum_GeV);
-//			Muon_MCParticle_KE.push_back(Muon_TrueKE_GeV);
 			Muon_MCParticle_Phi.push_back(Muon_TruePhi_Deg);
 			Muon_MCParticle_CosTheta.push_back(Muon_TrueCosTheta);
-//			Muon_MCParticle_Length.push_back(Muon_TrueLength);
 			Muon_MCParticle_StartX.push_back(Muon_TVector3TrueStart.X());
 			Muon_MCParticle_StartY.push_back(Muon_TVector3TrueStart.Y());
 			Muon_MCParticle_StartZ.push_back(Muon_TVector3TrueStart.Z());
@@ -1101,25 +849,18 @@ void TruthNeutrinoSelectionFilter::Loop() {
 			bool Proton_TrueStartContainment = tools.inFVVector(Proton_TVector3TrueStart);
 			bool Proton_TrueEndContainment = tools.inFVVector(Proton_TVector3TrueEnd);
 
-//			double Proton_TrueLength = Proton_TVector3TrueChange.Mag();
 			double Proton_TrueTheta = Proton_TVector3True.Theta();
 			double Proton_TrueTheta_Deg = Proton_TrueTheta * 180./TMath::Pi();
 			double Proton_TruePhi = Proton_TVector3True.Phi();
 			double Proton_TruePhi_Deg = Proton_TruePhi * 180./TMath::Pi();
 			double Proton_TrueCosTheta = Proton_TVector3True.CosTheta();
 			double Proton_TrueMomentum_GeV = Proton_TVector3True.Mag(); // GeV
-//			double Proton_TrueMomentum_MeV = 1000. * Proton_TrueMomentum_GeV; // MeV
-//			double Proton_TrueKE_MeV = tools.PToKE(MCParticle_PdgCode->at(VectorTrueProtonIndex.at(0)),Proton_TrueMomentum_MeV); // MeV
-//			double Proton_TrueKE_GeV = Proton_TrueKE_MeV / 1000.; // GeV
-//			double Proton_TrueE_GeV = Proton_TrueKE_GeV + ProtonMass_GeV; // GeV						
 			double Proton_TrueE_GeV = TMath::Sqrt( TMath::Power(Proton_TrueMomentum_GeV,2.) + TMath::Power(ProtonMass_GeV,2.) ); // GeV						
 			
 			Proton_MCParticle_Mode.push_back(interaction);
 			Proton_MCParticle_Mom.push_back(Proton_TrueMomentum_GeV);
-//			Proton_MCParticle_KE.push_back(Proton_TrueKE_GeV);
 			Proton_MCParticle_Phi.push_back(Proton_TruePhi_Deg);
 			Proton_MCParticle_CosTheta.push_back(Proton_TrueCosTheta);
-//			Proton_MCParticle_Length.push_back(Proton_TrueLength);
 			Proton_MCParticle_StartX.push_back(Proton_TVector3TrueStart.X());
 			Proton_MCParticle_StartY.push_back(Proton_TVector3TrueStart.Y());
 			Proton_MCParticle_StartZ.push_back(Proton_TVector3TrueStart.Z());

@@ -1,5 +1,5 @@
-#ifndef GENIEv2_NeutrinoSelectionFilter_h
-#define GENIEv2_NeutrinoSelectionFilter_h
+#ifndef true_neutrino_selection_h
+#define true_neutrino_selection_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -14,7 +14,7 @@
 #include "string"
 #include "vector"
 
-#include "ubana/myClasses/Constants.h"
+#include "../myClasses/Constants.h"
 
 #include <vector>
 #include <iostream>
@@ -24,7 +24,7 @@
 
 using namespace Constants;
 
-class GENIEv2_NeutrinoSelectionFilter {
+class true_neutrino_selection {
 
 private:
 	TString fSample;
@@ -80,7 +80,6 @@ public :
    Float_t         theta;
    Bool_t          isVtxInFiducial;
    Bool_t          truthFiducial;
-   Float_t         struck_nuc_mom;
    Float_t         true_nu_vtx_t;
    Float_t         true_nu_vtx_x;
    Float_t         true_nu_vtx_y;
@@ -198,9 +197,6 @@ public :
    Int_t           filter_ccinclusive;
 
    map<string,vector<double> > *weights;
-/*   vector<unsigned short> *weightsFlux;*/
-/*   vector<unsigned short> *weightsGenie;*/
-/*   vector<unsigned short> *weightsReint;*/
    Float_t         weightSpline;
    Float_t         weightTune;
 //   Float_t         weightSplineTimesTune;
@@ -548,7 +544,6 @@ public :
    TBranch        *b_theta;   //!
    TBranch        *b_isVtxInFiducial;   //!
    TBranch        *b_truthFiducial;   //!
-   TBranch        *b_struck_nuc_mom;   //!
    TBranch        *b_true_nu_vtx_t;   //!
    TBranch        *b_true_nu_vtx_x;   //!
    TBranch        *b_true_nu_vtx_y;   //!
@@ -666,9 +661,6 @@ public :
    TBranch        *b_filter_ccinclusive;   //!
 
    TBranch        *b_weights;   //!                                                                                                         
-/*   TBranch        *b_weightsFlux;   //!                                                                                                     */
-/*   TBranch        *b_weightsGenie;   //!                                                                                                    */
-/*   TBranch        *b_weightsReint;   //!                                                                                                    */
    TBranch        *b_weightSpline;   //!                                                                                                    
    TBranch        *b_weightTune;   //!                                                                                                      
 //   TBranch        *b_weightSplineTimesTune;   //!                                                                                           
@@ -972,8 +964,8 @@ public :
    TBranch        *b_trk_llr_pid_v;   //!
    TBranch        *b_trk_llr_pid_score_v;   //!
 
-   GENIEv2_NeutrinoSelectionFilter(TString Label = "", TString Sample = "", TTree *tree=0);
-   virtual ~GENIEv2_NeutrinoSelectionFilter();
+   true_neutrino_selection(TString Label = "", TString Sample = "", TTree *tree=0);
+   virtual ~true_neutrino_selection();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -985,14 +977,16 @@ public :
 
 #endif
 
-#ifdef GENIEv2_NeutrinoSelectionFilter_cxx
-GENIEv2_NeutrinoSelectionFilter::GENIEv2_NeutrinoSelectionFilter(TString Label, TString Sample, TTree *tree) : fChain(0) {
+#ifdef true_neutrino_selection_cxx
+true_neutrino_selection::true_neutrino_selection(TString Label, TString Sample, TTree *tree) : fChain(0) {
 
 	// if parameter tree is not specified (or zero), connect the file
 	// used to generate this class and read the Tree.
 
 	fLabel = Label;
 	fSample = Sample;
+
+// "/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root"
 
 	if (tree == 0) {
 
@@ -1009,23 +1003,23 @@ GENIEv2_NeutrinoSelectionFilter::GENIEv2_NeutrinoSelectionFilter(TString Label, 
 
 	}
 
-	Init(tree);	
+	Init(tree);
 
 }
 
-GENIEv2_NeutrinoSelectionFilter::~GENIEv2_NeutrinoSelectionFilter()
+true_neutrino_selection::~true_neutrino_selection()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t GENIEv2_NeutrinoSelectionFilter::GetEntry(Long64_t entry)
+Int_t true_neutrino_selection::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t GENIEv2_NeutrinoSelectionFilter::LoadTree(Long64_t entry)
+Long64_t true_neutrino_selection::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -1038,7 +1032,7 @@ Long64_t GENIEv2_NeutrinoSelectionFilter::LoadTree(Long64_t entry)
    return centry;
 }
 
-void GENIEv2_NeutrinoSelectionFilter::Init(TTree *tree)
+void true_neutrino_selection::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -1192,12 +1186,9 @@ void GENIEv2_NeutrinoSelectionFilter::Init(TTree *tree)
    trk_llr_pid_v_v = 0;
    trk_llr_pid_y_v = 0;
    trk_llr_pid_v = 0;
-   trk_llr_pid_score_v = 0;   
+   trk_llr_pid_score_v = 0;
 
    weights = 0;
-/*   weightsFlux = 0;*/
-/*   weightsGenie = 0;*/
-/*   weightsReint = 0;*/
 
    // Set branch addresses and branch pointers
 
@@ -1651,10 +1642,9 @@ void GENIEv2_NeutrinoSelectionFilter::Init(TTree *tree)
    fChain->SetBranchAddress("trk_llr_pid_v", &trk_llr_pid_v, &b_trk_llr_pid_v);
    fChain->SetBranchAddress("trk_llr_pid_score_v", &trk_llr_pid_score_v, &b_trk_llr_pid_score_v);
    Notify();
-   
 }
 
-Bool_t GENIEv2_NeutrinoSelectionFilter::Notify()
+Bool_t true_neutrino_selection::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -1665,18 +1655,18 @@ Bool_t GENIEv2_NeutrinoSelectionFilter::Notify()
    return kTRUE;
 }
 
-void GENIEv2_NeutrinoSelectionFilter::Show(Long64_t entry)
+void true_neutrino_selection::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t GENIEv2_NeutrinoSelectionFilter::Cut(Long64_t entry)
+Int_t true_neutrino_selection::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef GENIEv2_NeutrinoSelectionFilter_cxx
+#endif // #ifdef true_neutrino_selection_cxx

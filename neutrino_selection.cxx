@@ -1,24 +1,25 @@
-#define GENIEv2_NeutrinoSelectionFilter_cxx
-#include "GENIEv2_NeutrinoSelectionFilter.h"
+#define neutrino_selection_cxx
+#include "neutrino_selection.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <TVector3.h>
 #include <TLorentzVector.h>
+#include <TString.h>
 
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <vector>
 
-#include "ubana/myClasses/Tools.h"
-#include "ubana/myClasses/STV_Tools.h"
+#include "../myClasses/Tools.h"
+#include "../myClasses/STV_Tools.h"
 using namespace std;
 using namespace Constants;
 
 // -----------------------------------------------------------------------------
 
-void GENIEv2_NeutrinoSelectionFilter::Loop() {
+void neutrino_selection::Loop() {
 
 	// -----------------------------------------------------------------------------
 
@@ -29,8 +30,7 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 	// Output Files
 
-//	TString FileName = "/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
-	TString FileName = "/uboone/data/users/apapadop/PeLEETuples/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/uboone/data/users/apapadop/PeLEETuples_3D_ECal/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -57,19 +57,20 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	int Run;
 	int SubRun;
 	int Event;
+	TString run_period;
 
-//	std::vector<unsigned short> genie;
 	std::vector<double> All_UBGenie;
 	std::vector<double> AxFFCCQEshape_UBGenie;
 	std::vector<double> DecayAngMEC_UBGenie;
 	std::vector<double> NormCCCOH_UBGenie;
 	std::vector<double> NormNCCOH_UBGenie;
-//	std::vector<double> RPA_CCQE_Reduced_UBGenie;
 	std::vector<double> RPA_CCQE_UBGenie;
 	std::vector<double> ThetaDelta2NRad_UBGenie;
 	std::vector<double> Theta_Delta2Npi_UBGenie;
 	std::vector<double> VecFFCCQEshape_UBGenie;
 	std::vector<double> XSecShape_CCMEC_UBGenie;
+
+	//----------------------------------------//
 
 	std::vector<double> fluxes; // flux variations in single weight
 
@@ -107,6 +108,10 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 	float NuScore;
 	float FlashScore; 
+	float fCosmicIPAll3D;
+	float fCosmicDirAll3D;
+	int fcrtveto;
+	float fcrthitpe;
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -124,13 +129,11 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	std::vector<double> CandidateMuEndVertexDistance;
 	std::vector<double> CandidatePEndVertexDistance;
 
-//	std::vector<double> CandidateMu_TrackScore;			
 	std::vector<double> CandidateMu_P_Range;
 	std::vector<double> CandidateMu_P_MCS;	
 	std::vector<double> CandidateMu_Phi;
 	std::vector<double> CandidateMu_CosTheta;
 	std::vector<double> CandidateMu_Theta;
-//	std::vector<double> CandidateMu_Chi2_YPlane;
 	std::vector<double> CandidateMu_LLR_PID;
 	std::vector<int> CandidateMu_StartContainment;
 	std::vector<int> CandidateMu_EndContainment;
@@ -148,7 +151,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_CandidateMu_Phi;
 	std::vector<double> True_CandidateMu_Theta;
 	std::vector<double> True_CandidateMu_CosTheta;
-//	std::vector<double> True_CandidateMu_Length;
 	
 	std::vector<double> True_CandidateMu_StartX;
 	std::vector<double> True_CandidateMu_StartY;
@@ -162,17 +164,21 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	std::vector<int> True_CandidateMu_EndContainment;
 
 	std::vector<double> True_PionMomentum;
-	std::vector<double> True_NeutronMomentum;	
+
+	std::vector<double> True_NeutronMomentum;
+	std::vector<double> True_NeutronCosTheta;
+	std::vector<double> True_NeutronPhi;	
+	std::vector<double> True_Neutron_StartX;
+	std::vector<double> True_Neutron_StartY;				
+	std::vector<double> True_Neutron_StartZ;
+	std::vector<bool> True_Neutron_StartContainment;	
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------
 
-//	std::vector<double> CandidateP_TrackScore;
 	std::vector<double> CandidateP_P_Range;
-//	std::vector<double> CandidateP_P_MCS;	
 	std::vector<double> CandidateP_Phi;
 	std::vector<double> CandidateP_Theta;
 	std::vector<double> CandidateP_CosTheta;
-//	std::vector<double> CandidateP_Chi2_YPlane;
 	std::vector<double> CandidateP_LLR_PID;
 	std::vector<int> CandidateP_StartContainment;
 	std::vector<int> CandidateP_EndContainment;
@@ -190,7 +196,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_CandidateP_Phi;
 	std::vector<double> True_CandidateP_Theta;
 	std::vector<double> True_CandidateP_CosTheta;
-//	std::vector<double> True_CandidateP_Length;
 	
 	std::vector<double> True_CandidateP_StartX;
 	std::vector<double> True_CandidateP_StartY;
@@ -244,11 +249,11 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	std::vector<double> True_Pn;
 	std::vector<double> True_PnPerp;
 	std::vector<double> True_PnPerpx;
-	std::vector<double> True_PnPerpy;		
+	std::vector<double> True_PnPerpy;	
 	std::vector<double> True_PnPar;		
 	std::vector<double> True_DeltaAlphaT;
 	std::vector<double> True_DeltaAlpha3Dq;
-	std::vector<double> True_DeltaAlpha3DMu;	
+	std::vector<double> True_DeltaAlpha3DMu;		
 	std::vector<double> True_DeltaPhiT;
 	std::vector<double> True_DeltaPhi3D;	
 	std::vector<double> True_ECal;
@@ -271,19 +276,20 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Run",&Run);
 	tree->Branch("SubRun",&SubRun);
 	tree->Branch("Event",&Event);	
-
-//	tree->Branch("genie", &genie);
+	tree->Branch("run_period",&run_period);
+	
 	tree->Branch("All_UBGenie", &All_UBGenie);
 	tree->Branch("AxFFCCQEshape_UBGenie", &AxFFCCQEshape_UBGenie);
 	tree->Branch("DecayAngMEC_UBGenie", &DecayAngMEC_UBGenie);
 	tree->Branch("NormCCCOH_UBGenie", &NormCCCOH_UBGenie);
 	tree->Branch("NormNCCOH_UBGenie", &NormNCCOH_UBGenie);
-//	tree->Branch("RPA_CCQE_Reduced_UBGenie", &RPA_CCQE_Reduced_UBGenie);
 	tree->Branch("RPA_CCQE_UBGenie", &RPA_CCQE_UBGenie);
 	tree->Branch("ThetaDelta2NRad_UBGenie", &ThetaDelta2NRad_UBGenie);
 	tree->Branch("Theta_Delta2Npi_UBGenie", &Theta_Delta2Npi_UBGenie);
 	tree->Branch("VecFFCCQEshape_UBGenie", &VecFFCCQEshape_UBGenie);
 	tree->Branch("XSecShape_CCMEC_UBGenie", &XSecShape_CCMEC_UBGenie);
+
+	//----------------------------------------//		
 
 	tree->Branch("fluxes", &fluxes);
 
@@ -320,6 +326,10 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 	tree->Branch("NuScore",&NuScore);
 	tree->Branch("FlashScore",&FlashScore);
+	tree->Branch("CosmicIPAll3D",&fCosmicIPAll3D);
+	tree->Branch("CosmicDirAll3D",&fCosmicDirAll3D);
+	tree->Branch("crtveto",&fcrtveto);
+	tree->Branch("crthitpe",&fcrthitpe);
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -339,13 +349,11 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		
 	// --------------------------------------------------------------------------------------------------------------------------------------------	
 
-//	tree->Branch("CandidateMu_TrackScore",&CandidateMu_TrackScore);		
 	tree->Branch("CandidateMu_P_Range",&CandidateMu_P_Range);
 	tree->Branch("CandidateMu_P_MCS",&CandidateMu_P_MCS);	
 	tree->Branch("CandidateMu_Phi",&CandidateMu_Phi);
 	tree->Branch("CandidateMu_Theta",&CandidateMu_Theta);
 	tree->Branch("CandidateMu_CosTheta",&CandidateMu_CosTheta);
-//	tree->Branch("CandidateMu_Chi2_YPlane",&CandidateMu_Chi2_YPlane);
 	tree->Branch("CandidateMu_LLR_PID",&CandidateMu_LLR_PID);
 	tree->Branch("CandidateMu_StartContainment",&CandidateMu_StartContainment);
 	tree->Branch("CandidateMu_EndContainment",&CandidateMu_EndContainment);
@@ -363,7 +371,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_CandidateMu_Phi",&True_CandidateMu_Phi);
 	tree->Branch("True_CandidateMu_Theta",&True_CandidateMu_Theta);
 	tree->Branch("True_CandidateMu_CosTheta",&True_CandidateMu_CosTheta);
-//	tree->Branch("True_CandidateMu_Length",&True_CandidateMu_Length);
 	
 	tree->Branch("True_CandidateMu_StartX",&True_CandidateMu_StartX);
 	tree->Branch("True_CandidateMu_StartY",&True_CandidateMu_StartY);	
@@ -377,19 +384,22 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_CandidateMu_EndContainment",&True_CandidateMu_EndContainment);
 
 	tree->Branch("True_PionMomentum",&True_PionMomentum);
-	tree->Branch("True_NeutronMomentum",&True_NeutronMomentum);	
+
+	tree->Branch("True_NeutronMomentum",&True_NeutronMomentum);
+	tree->Branch("True_NeutronCosTheta",&True_NeutronCosTheta);		
+	tree->Branch("True_NeutronPhi",&True_NeutronPhi);
+	tree->Branch("True_Neutron_StartX",&True_Neutron_StartX);
+	tree->Branch("True_Neutron_StartY",&True_Neutron_StartY);	
+	tree->Branch("True_Neutron_StartZ",&True_Neutron_StartZ);
+	tree->Branch("True_NeutronStart_Containment",&True_Neutron_StartContainment);		
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
-//	tree->Branch("CandidateP_TrackScore",&CandidateP_TrackScore);
 	tree->Branch("CandidateP_P_Range",&CandidateP_P_Range);
-//	tree->Branch("CandidateP_P_MCS",&CandidateP_P_MCS);	
 	tree->Branch("CandidateP_Phi",&CandidateP_Phi);
 	tree->Branch("CandidateP_Theta",&CandidateP_Theta);
 	tree->Branch("CandidateP_CosTheta",&CandidateP_CosTheta);
-//	tree->Branch("CandidateP_Chi2_YPlane",&CandidateP_Chi2_YPlane);
 	tree->Branch("CandidateP_LLR_PID",&CandidateP_LLR_PID);
-//	tree->Branch("CandidateP_ThreePlaneChi2",&CandidateP_ThreePlaneChi2);
 	tree->Branch("CandidateP_StartContainment",&CandidateP_StartContainment);
 	tree->Branch("CandidateP_EndContainment",&CandidateP_EndContainment);
 	tree->Branch("CandidateP_Length",&CandidateP_Length);	
@@ -406,7 +416,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_CandidateP_Phi",&True_CandidateP_Phi);
 	tree->Branch("True_CandidateP_Theta",&True_CandidateP_Theta);
 	tree->Branch("True_CandidateP_CosTheta",&True_CandidateP_CosTheta);
-//	tree->Branch("True_CandidateP_Length",&True_CandidateP_Length);
 	
 	tree->Branch("True_CandidateP_StartX",&True_CandidateP_StartX);
 	tree->Branch("True_CandidateP_StartY",&True_CandidateP_StartY);	
@@ -437,7 +446,7 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("Reco_PnPar",&Reco_PnPar);		
 	tree->Branch("Reco_DeltaAlphaT",&Reco_DeltaAlphaT);
 	tree->Branch("Reco_DeltaAlpha3Dq",&Reco_DeltaAlpha3Dq);
-	tree->Branch("Reco_DeltaAlpha3DMu",&Reco_DeltaAlpha3DMu);	
+	tree->Branch("Reco_DeltaAlpha3DMu",&Reco_DeltaAlpha3DMu);		
 	tree->Branch("Reco_DeltaPhiT",&Reco_DeltaPhiT);
 	tree->Branch("Reco_DeltaPhi3D",&Reco_DeltaPhi3D);	
 	tree->Branch("Reco_ECal",&Reco_ECal);
@@ -462,7 +471,7 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	tree->Branch("True_PnPar",&True_PnPar);		
 	tree->Branch("True_DeltaAlphaT",&True_DeltaAlphaT);
 	tree->Branch("True_DeltaAlpha3Dq",&True_DeltaAlpha3Dq);
-	tree->Branch("True_DeltaAlpha3DMu",&True_DeltaAlpha3DMu);		
+	tree->Branch("True_DeltaAlpha3DMu",&True_DeltaAlpha3DMu);
 	tree->Branch("True_DeltaPhiT",&True_DeltaPhiT);
 	tree->Branch("True_DeltaPhi3D",&True_DeltaPhi3D);	
 	tree->Branch("True_ECal",&True_ECal);
@@ -503,166 +512,159 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 	TH1D* TrackLikeDaughterEventPlot = new TH1D("TrackLikeDaughterEventPlot",";2 track-like daughter events",1,0,1);
 	TH1D* MatchedTrackLikeDaughterEventPlot = new TH1D("MatchedTrackLikeDaughterEventPlot",";2 matched track-like daughter events",1,0,1);	
 	TH1D* MomentumThresholdEventPlot = new TH1D("MomentumThresholdEventPlot",";Above P threshold events",1,0,1);
-	TH1D* ContainmentEventPlot = new TH1D("ContainmentEventPlot",";Contained start point events",1,0,1);	
+	TH1D* ContainmentEventPlot = new TH1D("ContainmentEventPlot",";Contained start point events",1,0,1);
+
+	TH1D* NTrackLikeObjectsPlot = new TH1D("NTrackLikeObjectsPlot",";# track-like objects",10,-0.5,9.5);
+	TH1D* NShowerLikeObjectsPlot = new TH1D("NShowerLikeObjectsPlot",";# shower-like objects",10,-0.5,9.5);
+	TH1D* TrackHighPIDScorePlot = new TH1D("TrackHighPIDScorePlot",";higher track-like pid score",50,0.,1.);
+	TH1D* TrackLowPIDScorePlot = new TH1D("TrackLowPIDScorePlot",";lower track-like pid score",50,0.,1.);	
+	TH1D* TrackHighPIDMomentumPlot = new TH1D("TrackHighPIDMomentumPlot",";higher track-like pid momentum",50,0.,1.5);
+	TH1D* TrackLowPIDMomentumPlot = new TH1D("TrackLowPIDMomentumPlot",";lower track-like pid momentum",50,0.,1.5);					
+
+	// --------------------------------------------------------------------------------------------------------------------------------
+
+	// POT Counting
+
+	double POTCount = -99.;
+
+	if (string(fLabel).find("Overlay") != std::string::npos) {
+
+		TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples_3D_ECal/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";		
+
+		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
+		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
+		POTCount = POTCountHist->GetBinContent(1);
+		POTFile->Close();
+	
+	}
 
 	// ------------------------------------------------------------------------------------------------------------------
 
 	// POT Scaling
 
-	POTWeight = Fulltor860_wcut_Combined / (9.08E20);	
+	double POTScale = 1.;
+
+	double tor860_wcut = 1;
+	double E1DCNT_wcut = 1.;
+	double EXT = 1.;
+
+	if (string(fLabel).find("Run1") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run1;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run1;
+		EXT = FullEXT_Run1;
+		run_period = "Run1";	
+	}
+	
+	if (string(fLabel).find("Run2") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run2;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run2;
+		EXT = FullEXT_Run2;
+		run_period = "Run2";	
+	
+	}
+	
+	if (string(fLabel).find("Run3") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run3;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run3;
+		EXT = FullEXT_Run3;
+		run_period = "Run3";	
+
+	}
+	
+	if (string(fLabel).find("Run4a") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4a;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4a;
+		EXT = FullEXT_Run4a;
+		run_period = "Run4a";	
+
+	}
+
+	if (string(fLabel).find("Run4b") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4b;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4b;
+		EXT = FullEXT_Run4b;
+		run_period = "Run4b";	
+
+	}			
+
+	if (string(fLabel).find("Run4c") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4c;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4c;
+		EXT = FullEXT_Run4c;
+		run_period = "Run4c";	
+
+	}			
+
+	if (string(fLabel).find("Run4d") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4d;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4d;
+		EXT = FullEXT_Run4d;
+		run_period = "Run4d";	
+
+	}			
+
+	if (string(fLabel).find("Run5") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run5;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run5;
+		EXT = FullEXT_Run5;
+		run_period = "Run5";	
+
+	}	
+
+	if (string(fLabel).find("ExtBNB9") != std::string::npos) { POTScale = E1DCNT_wcut / EXT; }
+
+	if (string(fLabel).find("Overlay") != std::string::npos) { POTScale = tor860_wcut / POTCount; }	
+
+	POTWeight = POTScale;	
 	ROOTinoWeight = 1.;
 
-   //----------------------------------------//
+	// -----------------------------------------------------------------------------
 
-	// Open the truth level info
-	// to do the reco-to-truth matching 
+	// Only for MC 
+	// Need to take care of the bug fix / T2K tune weights & for the systematics weights
 
-//	TFile* ftruth = TFile::Open("/pnfs/uboone/persistent/users/apapadop/mySamples/"+UBCodeVersion+"/PeLEETuples/PreTruthSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+".root","readonly");
-	TFile* ftruth = TFile::Open("/uboone/data/users/apapadop/PeLEETuples/PreTruthSelection_GENIEv2Overlay9_Combined_"+UBCodeVersion+".root","readonly");
-	TTree* ttruth = (TTree*)(ftruth->Get("myPreTruthSelection"));
+	if (string(fLabel).find("Overlay") != std::string::npos) {
 
-    int runT;
-    int subrunT;
-    int eventT;
-	int CC1pT;
-	int CC1p1piT;
-	int CC2pT;
-	int CC2p1piT;
-	int CC3pT;
-	int CC3p1piT;
-	int CC3p2piT;
-	int CC3p3piT;
-	int CC4p0piT;
-	int CC4p1piT;  
+		fChain->SetBranchAddress("weightSpline", &weightSpline, &b_weightSpline);
+		fChain->SetBranchAddress("weightTune", &weightTune, &b_weightTune);
 
-	double True_EvT;
-	double True_VxT;
-	double True_VyT;
-	double True_VzT;	
+		// Only the CV samples
 
-   //----------------------------------------//
+		if ( 
+			   fLabel == "Overlay9_Run1" 
+			|| fLabel == "Overlay9_Run2" 
+			|| fLabel == "Overlay9_Run3" 
+			|| fLabel == "Overlay9_Run4a" 
+			|| fLabel == "Overlay9_Run4b" 
+			|| fLabel == "Overlay9_Run4c" 
+			|| fLabel == "Overlay9_Run4d" 
+			|| fLabel == "Overlay9_Run5"
+			|| fLabel == "OverlayDirt9_Run1" 
+			|| fLabel == "OverlayDirt9_Run2" 
+			|| fLabel == "OverlayDirt9_Run3"  
+			|| fLabel == "OverlayDirt9_Run4a" 
+			|| fLabel == "OverlayDirt9_Run4b" 
+			|| fLabel == "OverlayDirt9_Run4c" 
+			|| fLabel == "OverlayDirt9_Run4d" 
+			|| fLabel == "OverlayDirt9_Run5"
+		) {
 
-	std::vector<int> *Muon_MCParticle_Mode;
-	std::vector<double> *Muon_MCParticle_Mom;
-	std::vector<double> *Muon_MCParticle_Phi;
-	std::vector<double> *Muon_MCParticle_CosTheta;
-	std::vector<double> *Muon_MCParticle_StartX;
-	std::vector<double> *Muon_MCParticle_StartY;
-	std::vector<double> *Muon_MCParticle_StartZ;
-	std::vector<int> *Muon_MCParticle_StartContainment;
-	std::vector<double> *Muon_MCParticle_EndX;
-	std::vector<double> *Muon_MCParticle_EndY;
-	std::vector<double> *Muon_MCParticle_EndZ;
-	std::vector<int> *Muon_MCParticle_EndContainment;
-	std::vector<int> *Muon_MCParticle_Pdg;
+			fChain->SetBranchAddress("weights", &weights, &b_weights);
 
-	Muon_MCParticle_Mode = 0; 
-	Muon_MCParticle_Mom = 0;
-	Muon_MCParticle_Phi = 0;
-	Muon_MCParticle_CosTheta = 0;
-	Muon_MCParticle_StartX = 0;
-	Muon_MCParticle_StartY = 0;	
-	Muon_MCParticle_StartZ = 0;	
-	Muon_MCParticle_StartContainment = 0;
-	Muon_MCParticle_EndX = 0;
-	Muon_MCParticle_EndY = 0;
-	Muon_MCParticle_EndZ = 0;	
-	Muon_MCParticle_EndContainment = 0;	
-	Muon_MCParticle_Pdg = 0;	
+		}
 
-   //----------------------------------------//   
+	}
 
-	std::vector<int> *Proton_MCParticle_Mode;
-	std::vector<double> *Proton_MCParticle_Mom;
-	std::vector<double> *Proton_MCParticle_Phi;
-	std::vector<double> *Proton_MCParticle_CosTheta;
-	std::vector<double> *Proton_MCParticle_Length;
-	std::vector<double> *Proton_MCParticle_StartX;
-	std::vector<double> *Proton_MCParticle_StartY;
-	std::vector<double> *Proton_MCParticle_StartZ;
-	std::vector<int> *Proton_MCParticle_StartContainment;
-	std::vector<double> *Proton_MCParticle_EndX;
-	std::vector<double> *Proton_MCParticle_EndY;
-	std::vector<double> *Proton_MCParticle_EndZ;
-	std::vector<int> *Proton_MCParticle_EndContainment;
-	std::vector<int> *Proton_MCParticle_Pdg;
+	// -----------------------------------------------------------------------------
 
-	Proton_MCParticle_Mode = 0; 
-	Proton_MCParticle_Mom = 0;
-	Proton_MCParticle_Phi = 0;
-	Proton_MCParticle_CosTheta = 0;
-	Proton_MCParticle_StartX = 0;
-	Proton_MCParticle_StartY = 0;	
-	Proton_MCParticle_StartZ = 0;	
-	Proton_MCParticle_StartContainment = 0;
-	Proton_MCParticle_EndX = 0;
-	Proton_MCParticle_EndY = 0;
-	Proton_MCParticle_EndZ = 0;	
-	Proton_MCParticle_EndContainment = 0;	
-	Proton_MCParticle_Pdg = 0;	
-   
-   //------------------------------//
-
-    ttruth->SetBranchAddress("Run", &runT);
-    ttruth->SetBranchAddress("SubRun", &subrunT);
-    ttruth->SetBranchAddress("Event", &eventT);
- 	ttruth->SetBranchAddress("CC1p",&CC1pT);
-	ttruth->SetBranchAddress("CC1p1pi",&CC1p1piT);
-	ttruth->SetBranchAddress("CC2p",&CC2pT);
-	ttruth->SetBranchAddress("CC2p1pi",&CC2p1piT);
-	ttruth->SetBranchAddress("CC3p",&CC3pT);
-	ttruth->SetBranchAddress("CC3p1pi",&CC3p1piT);
-	ttruth->SetBranchAddress("CC3p2pi",&CC3p2piT);
-	ttruth->SetBranchAddress("CC3p3pi",&CC3p3piT);
-	ttruth->SetBranchAddress("CC4p0pi",&CC4p0piT);
-	ttruth->SetBranchAddress("CC4p1pi",&CC4p1piT);
-
-  //----------------------------------------//
-
-	ttruth->SetBranchAddress("Muon_MCParticle_Mode",&Muon_MCParticle_Mode);
-	ttruth->SetBranchAddress("Muon_MCParticle_Mom",&Muon_MCParticle_Mom);
-	ttruth->SetBranchAddress("Muon_MCParticle_Phi",&Muon_MCParticle_Phi);
-	ttruth->SetBranchAddress("Muon_MCParticle_CosTheta",&Muon_MCParticle_CosTheta);
-	ttruth->SetBranchAddress("Muon_MCParticle_StartX",&Muon_MCParticle_StartX);
-	ttruth->SetBranchAddress("Muon_MCParticle_StartY",&Muon_MCParticle_StartY);
-	ttruth->SetBranchAddress("Muon_MCParticle_StartZ",&Muon_MCParticle_StartZ);
-	ttruth->SetBranchAddress("Muon_MCParticle_StartContainment",&Muon_MCParticle_StartContainment);
-	ttruth->SetBranchAddress("Muon_MCParticle_EndX",&Muon_MCParticle_EndX);
-	ttruth->SetBranchAddress("Muon_MCParticle_EndY",&Muon_MCParticle_EndY);
-	ttruth->SetBranchAddress("Muon_MCParticle_EndZ",&Muon_MCParticle_EndZ);
-	ttruth->SetBranchAddress("Muon_MCParticle_EndContainment",&Muon_MCParticle_EndContainment);
-	ttruth->SetBranchAddress("Muon_MCParticle_Pdg",&Muon_MCParticle_Pdg);
-
-   //----------------------------------------//
-
-	ttruth->SetBranchAddress("Proton_MCParticle_Mode",&Proton_MCParticle_Mode);
-	ttruth->SetBranchAddress("Proton_MCParticle_Mom",&Proton_MCParticle_Mom);
-	ttruth->SetBranchAddress("Proton_MCParticle_Phi",&Proton_MCParticle_Phi);
-	ttruth->SetBranchAddress("Proton_MCParticle_CosTheta",&Proton_MCParticle_CosTheta);
-	ttruth->SetBranchAddress("Proton_MCParticle_StartX",&Proton_MCParticle_StartX);
-	ttruth->SetBranchAddress("Proton_MCParticle_StartY",&Proton_MCParticle_StartY);
-	ttruth->SetBranchAddress("Proton_MCParticle_StartZ",&Proton_MCParticle_StartZ);
-	ttruth->SetBranchAddress("Proton_MCParticle_StartContainment",&Proton_MCParticle_StartContainment);
-	ttruth->SetBranchAddress("Proton_MCParticle_EndX",&Proton_MCParticle_EndX);
-	ttruth->SetBranchAddress("Proton_MCParticle_EndY",&Proton_MCParticle_EndY);
-	ttruth->SetBranchAddress("Proton_MCParticle_EndZ",&Proton_MCParticle_EndZ);
-	ttruth->SetBranchAddress("Proton_MCParticle_EndContainment",&Proton_MCParticle_EndContainment);
-	ttruth->SetBranchAddress("Proton_MCParticle_Pdg",&Proton_MCParticle_Pdg);	
-
-   //------------------------------//
-
-	ttruth->SetBranchAddress("True_Ev",&True_EvT);
-	ttruth->SetBranchAddress("True_Vx",&True_VxT);
-	ttruth->SetBranchAddress("True_Vy",&True_VyT);
-	ttruth->SetBranchAddress("True_Vz",&True_VzT);			
-
-   //------------------------------//	
-
-	Long64_t nentriesmctruth = ttruth->GetEntriesFast();
-
-   //------------------------------//
-
-//	for (Long64_t jentry=0; jentry<1000;jentry++) {
 	for (Long64_t jentry=0; jentry<nentries;jentry++) {
 
 		// -----------------------------------------------------------------------------
@@ -679,11 +681,68 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
 
-		// Weights
+		// Weights for systematics
 
-		Weight = 1.;
-		T2KWeight = 1.;
-		ROOTinoWeight = 1.;
+		if (string(fLabel).find("Overlay") != std::string::npos) {
+
+			Weight = weightSpline;
+			T2KWeight = weightTune;
+
+			if (
+				   fLabel == "Overlay9_Run1"
+				|| fLabel == "Overlay9_Run2"
+				|| fLabel == "Overlay9_Run3"
+				|| fLabel == "Overlay9_Run4a"
+				|| fLabel == "Overlay9_Run4b"
+				|| fLabel == "Overlay9_Run4c"
+				|| fLabel == "Overlay9_Run4d"
+				|| fLabel == "Overlay9_Run5"
+				|| fLabel == "OverlayDirt9_Run1"
+				|| fLabel == "OverlayDirt9_Run2"
+				|| fLabel == "OverlayDirt9_Run3"
+				|| fLabel == "OverlayDirt9_Run4a"
+				|| fLabel == "OverlayDirt9_Run4b"
+				|| fLabel == "OverlayDirt9_Run4c"
+				|| fLabel == "OverlayDirt9_Run4d"
+				|| fLabel == "OverlayDirt9_Run5"
+			) {
+
+
+				for ( auto& pair : *weights ) {
+
+					if ( pair.first == "All_UBGenie") {  All_UBGenie = pair.second; }
+					else if ( pair.first == "AxFFCCQEshape_UBGenie") {  AxFFCCQEshape_UBGenie = pair.second; }
+					else if ( pair.first == "DecayAngMEC_UBGenie") {  DecayAngMEC_UBGenie = pair.second; }
+					else if ( pair.first == "NormCCCOH_UBGenie") {  NormCCCOH_UBGenie = pair.second; }
+					else if ( pair.first == "NormNCCOH_UBGenie") {  NormNCCOH_UBGenie = pair.second; }
+					else if ( pair.first == "RPA_CCQE_UBGenie") {  RPA_CCQE_UBGenie = pair.second; }
+					else if ( pair.first == "ThetaDelta2NRad_UBGenie") {  ThetaDelta2NRad_UBGenie = pair.second; }
+					else if ( pair.first == "Theta_Delta2Npi_UBGenie") {  Theta_Delta2Npi_UBGenie = pair.second; }
+					else if ( pair.first == "VecFFCCQEshape_UBGenie") {  VecFFCCQEshape_UBGenie = pair.second; }
+					else if ( pair.first == "XSecShape_CCMEC_UBGenie") {  XSecShape_CCMEC_UBGenie = pair.second; }
+
+
+					else if ( pair.first == "flux_all") {  fluxes = pair.second; }
+					else if ( pair.first == "reint_all") {  reinteractions = pair.second; }
+					else if ( pair.first == "RootinoFix_UBGenie") {  ROOTinoWeight = pair.second.at(0); }
+
+					//else {  cout << "pair.first = " << pair.first << " pair.second.size() = " << pair.second.size() << endl; }
+
+				}
+
+			}
+
+		} else {
+
+			// For BeamOn, everything will be 1
+			// For BeamOff, the POTScale should be different based on the triggers
+			// For MC, we need the POTCount for each one of the samples
+
+			Weight = 1.;
+			T2KWeight = 1.;
+			ROOTinoWeight = 1.;
+
+		}
 
 		// -----------------------------------------------------------------------------------------------------------------------------------
 		// -----------------------------------------------------------------------------------------------------------------------------------
@@ -699,15 +758,12 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		CandidateMuEndVertexDistance.clear();
 		CandidatePEndVertexDistance.clear();
 
-//		CandidateMu_TrackScore.clear();								
 		CandidateMu_P_Range.clear();
 		CandidateMu_P_MCS.clear();		
 		CandidateMu_Phi.clear();
 		CandidateMu_Theta.clear();
 		CandidateMu_CosTheta.clear();
-//		CandidateMu_Chi2_YPlane.clear();
 		CandidateMu_LLR_PID.clear();
-//		CandidateMu_ThreePlaneChi2.clear();
 		CandidateMu_StartContainment.clear();
 		CandidateMu_EndContainment.clear();
 		CandidateMu_Length.clear();		
@@ -724,7 +780,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		True_CandidateMu_Phi.clear();
 		True_CandidateMu_Theta.clear();
 		True_CandidateMu_CosTheta.clear();
-//		True_CandidateMu_Length.clear();
 		
 		True_CandidateMu_StartX.clear();
 		True_CandidateMu_StartY.clear();
@@ -738,19 +793,22 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		True_CandidateMu_EndContainment.clear();
 
 		True_PionMomentum.clear();
-		True_NeutronMomentum.clear();				
+
+		True_NeutronMomentum.clear();
+		True_NeutronCosTheta.clear();
+		True_NeutronPhi.clear();
+		True_Neutron_StartX.clear();
+		True_Neutron_StartY.clear();
+		True_Neutron_StartZ.clear();
+		True_Neutron_StartContainment.clear();													
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
-//		CandidateP_TrackScore.clear();
 		CandidateP_P_Range.clear();
-//		CandidateP_P_MCS.clear();		
 		CandidateP_Phi.clear();
 		CandidateP_Theta.clear();
 		CandidateP_CosTheta.clear();
-//		CandidateP_Chi2_YPlane.clear();
 		CandidateP_LLR_PID.clear();
-//		CandidateP_ThreePlaneChi2.clear();
 		CandidateP_StartContainment.clear();
 		CandidateP_EndContainment.clear();
 		CandidateP_Length.clear();		
@@ -767,7 +825,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		True_CandidateP_Phi.clear();
 		True_CandidateP_Theta.clear();
 		True_CandidateP_CosTheta.clear();
-//		True_CandidateP_Length.clear();
 		
 		True_CandidateP_StartX.clear();
 		True_CandidateP_StartY.clear();
@@ -793,14 +850,14 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		Reco_PL.clear();
 		Reco_Pn.clear();
 		Reco_PnPerp.clear();
-		Reco_PnPerpx.clear();
-		Reco_PnPerpy.clear();				
-		Reco_PnPar.clear();			
+		Reco_PnPerpx.clear();	
+		Reco_PnPerpy.clear();			
+		Reco_PnPar.clear();				
 		Reco_DeltaAlphaT.clear();
 		Reco_DeltaAlpha3Dq.clear();
 		Reco_DeltaAlpha3DMu.clear();				
 		Reco_DeltaPhiT.clear();
-		Reco_DeltaPhi3D.clear();	
+		Reco_DeltaPhi3D.clear();		
 		Reco_ECal.clear();
 		Reco_EQE.clear();
 		Reco_Q2.clear();
@@ -859,10 +916,17 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
+		NTrackLikeObjectsPlot->Fill(reco_track_count,POTWeight*Weight*T2KWeight*ROOTinoWeight);
+		NShowerLikeObjectsPlot->Fill(reco_shower_count,POTWeight*Weight*T2KWeight*ROOTinoWeight);		
+
 		// Requirement for exactly 2 tracks and 0 showers for a CC1p0pi selection 
 
 		if (reco_shower_count != 0) { continue; }
 		if (reco_track_count != 2) { continue; }
+
+		// Requirement for exactly one neutrino slice
+
+		if (nslice != 1) { continue; }
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -875,11 +939,20 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		float second_pid_score = trk_llr_pid_score_v->at( CandidateIndex.at(1) );
 
 		int CandidateMuonIndex = -1.;
-		int CandidateProtonIndex = -1.;
+		int CandidateProtonIndex = -1.;		
 
-		if (first_pid_score > second_pid_score) { CandidateMuonIndex = CandidateIndex.at(0); CandidateProtonIndex = CandidateIndex.at(1); }
-		else { CandidateMuonIndex = CandidateIndex.at(1); CandidateProtonIndex = CandidateIndex.at(0); }
-		TrackLikeDaughterCounter++;
+		if (first_pid_score > second_pid_score) { 
+			
+			CandidateMuonIndex = CandidateIndex.at(0); 
+			CandidateProtonIndex = CandidateIndex.at(1); 			
+			
+		} else { 
+			
+			CandidateMuonIndex = CandidateIndex.at(1); 
+			CandidateProtonIndex = CandidateIndex.at(0); 			
+			
+		}
+		TrackLikeDaughterCounter++;		
 
 		// MuonPdg in this case / Pandora = Track-like object
 
@@ -889,8 +962,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		MatchedTrackPFParticleCounter++;
 
 		// So at this point we have identified our muon & proton candidates
-
-		if (trk_llr_pid_score_v->at(CandidateProtonIndex) > 0.05 ) { continue; }
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -902,6 +973,10 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 		NuScore = topological_score; // double check
 		FlashScore = nu_flashmatch_score; // double check
+		fCosmicIPAll3D = CosmicIPAll3D;
+		fCosmicDirAll3D = CosmicDirAll3D;
+		fcrtveto = crtveto;
+		fcrthitpe = crthitpe;
 
 		// ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -1008,6 +1083,16 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
+		if (T2KWeight > 0 && T2KWeight < 30) {
+
+			TrackHighPIDScorePlot->Fill(trk_llr_pid_score_v->at( CandidateMuonIndex ),POTWeight*Weight*T2KWeight*ROOTinoWeight);
+			TrackLowPIDScorePlot->Fill(trk_llr_pid_score_v->at( CandidateProtonIndex ),POTWeight*Weight*T2KWeight*ROOTinoWeight);
+
+			TrackHighPIDMomentumPlot->Fill(CandidateMuMom,POTWeight*Weight*T2KWeight*ROOTinoWeight);
+			TrackLowPIDMomentumPlot->Fill(CandidatePMom,POTWeight*Weight*T2KWeight*ROOTinoWeight);
+
+		}		
+
 		// Check min momentum threshold & containment
 
 		if (CandidateMuMom < ArrayNBinsMuonMomentum[0]) { continue; }
@@ -1016,7 +1101,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		MomentumThresholdCounter++;
 
 		// Fully contained events
-		// Josh will probably remove it for the 2D analysis
 
 		if (!CandidateMuonTrackStartContainment) { continue; }
 		if (!CandidateMuonTrackEndContainment) { continue; }
@@ -1108,7 +1192,6 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		CandidateMuEndVertexDistance.push_back(CandidateMuEndVertexMag);
 		CandidatePEndVertexDistance.push_back(CandidatePEndVertexMag);
 
-
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		// Fill in the TTree with STV variables
@@ -1124,7 +1207,7 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 		Reco_PnPar.push_back(reco_stv_tool.ReturnPnPar());				
 		Reco_DeltaAlphaT.push_back(reco_stv_tool.ReturnDeltaAlphaT());
 		Reco_DeltaAlpha3Dq.push_back(reco_stv_tool.ReturnDeltaAlpha3Dq());
-		Reco_DeltaAlpha3DMu.push_back(reco_stv_tool.ReturnDeltaAlpha3DMu());			
+		Reco_DeltaAlpha3DMu.push_back(reco_stv_tool.ReturnDeltaAlpha3DMu());				
 		Reco_DeltaPhiT.push_back(reco_stv_tool.ReturnDeltaPhiT());
 		Reco_DeltaPhi3D.push_back(reco_stv_tool.ReturnDeltaPhi3D());		
 		Reco_ECal.push_back(reco_stv_tool.ReturnECal());
@@ -1143,64 +1226,21 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 		if (string(fLabel).find("Overlay") != std::string::npos) {
 
-			//----------------------------------------//
-
-			int TrueEventIndex = -1;			
-
-			//----------------------------------------//	
-
-			Long64_t nbytesmctruth = 0, nbmctruth = 0;
-
-			for (int itrue = 0; itrue < nentriesmctruth; itrue++) {
-		//	for (int itrue = 0; itrue < 100; itrue++) {
-
-//				if (itrue%200000 == 0) std::cout << "outer loop event = " << jentry << ", inner loop " << itrue/1000 << " k " << std::setprecision(3) << double(itrue)/nentries*100. << " %"<< std::endl;		
-
-				Long64_t imcentry = ttruth->LoadTree(itrue);
-				if (imcentry < 0) { cout << "Abort true TTree!" << endl; break; }		
-				nbmctruth = ttruth->GetEntry(itrue); 
-				nbytesmctruth += nbmctruth;
-
-				if (run == int(runT) && sub == int(subrunT) && evt == int(eventT) )
-				{ TrueEventIndex = itrue; goto mcevent; }
-
-			}	
-
-			mcevent: nbmctruth = ttruth->GetEntry(TrueEventIndex);  
-			//cout << "Matched event with true index = " << TrueEventIndex << endl;	
-
-			if (TrueEventIndex == -1) { goto nomatch; }		
-
-			//----------------------------------------//
-
-			CC1p = CC1pT;
-			CC1p1pi = CC1p1piT;
-			CC2p = CC2pT;
-			CC2p1pi = CC2p1piT;
-			CC3p = CC3pT;
-			CC3p1pi = CC3p1piT;
-			CC3p2pi = CC3p2piT;			
-			CC3p3pi = CC3p3pi;
-			CC4p0pi = CC4p0piT;
-			CC4p1pi = CC4p1piT;
-
-			MCParticle_Mode = Muon_MCParticle_Mode->at(0);				
-
 			// ---------------------------------------------------------------------------------------------------------------------------------
 
 			// Backtracked muon candidate
 
-			CandidateMu_MCParticle_Pdg.push_back(Muon_MCParticle_Pdg->at(0));
-			CandidateMu_MCParticle_Purity.push_back(CosmicPID);
+			CandidateMu_MCParticle_Pdg.push_back(backtracked_pdg->at(CandidateMuonIndex));
+			CandidateMu_MCParticle_Purity.push_back(backtracked_purity->at(CandidateMuonIndex));
 
-			TVector3 TrueCandidateMuonP(-1,-1,-1);
-			TrueCandidateMuonP.SetMag(Muon_MCParticle_Mom->at(0));
-			TrueCandidateMuonP.SetTheta( TMath::ACos(Muon_MCParticle_CosTheta->at(0)) );
-			TrueCandidateMuonP.SetPhi(Muon_MCParticle_Phi->at(0) * TMath::Pi() / 180.);						
+			double CandidateMuonPx = backtracked_px->at(CandidateMuonIndex);
+			double CandidateMuonPy = backtracked_py->at(CandidateMuonIndex);
+			double CandidateMuonPz = backtracked_pz->at(CandidateMuonIndex);
+			TVector3 TrueCandidateMuonP(CandidateMuonPx,CandidateMuonPy,CandidateMuonPz);
 				
-			double CandidateMuonStartX = Muon_MCParticle_StartX->at(0);
-			double CandidateMuonStartY = Muon_MCParticle_StartY->at(0);
-			double CandidateMuonStartZ = Muon_MCParticle_StartZ->at(0);						
+			double CandidateMuonStartX = backtracked_start_x->at(CandidateMuonIndex);
+			double CandidateMuonStartY = backtracked_start_y->at(CandidateMuonIndex);
+			double CandidateMuonStartZ = backtracked_start_z->at(CandidateMuonIndex);						
 			TVector3 TrueCandidateMuonTrackStart(CandidateMuonStartX,CandidateMuonStartY,CandidateMuonStartZ);
 			bool TrueCandidateMuonTrackStartContainment = tools.inFVVector(TrueCandidateMuonTrackStart);
 
@@ -1227,17 +1267,17 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 
 			// Backtracked proton candidate
 
-			CandidateP_MCParticle_Pdg.push_back(Proton_MCParticle_Pdg->at(0));
-			CandidateP_MCParticle_Purity.push_back(CosmicPID);
+			CandidateP_MCParticle_Pdg.push_back(backtracked_pdg->at(CandidateProtonIndex));
+			CandidateP_MCParticle_Purity.push_back(backtracked_purity->at(CandidateProtonIndex));
 
-			TVector3 TrueCandidateProtonP(-1,-1,-1);
-			TrueCandidateProtonP.SetMag(Proton_MCParticle_Mom->at(0));
-			TrueCandidateProtonP.SetTheta( TMath::ACos(Proton_MCParticle_CosTheta->at(0)) );
-			TrueCandidateProtonP.SetPhi(Proton_MCParticle_Phi->at(0) * TMath::Pi() / 180.);
+			double CandidateProtonPx = backtracked_px->at(CandidateProtonIndex);
+			double CandidateProtonPy = backtracked_py->at(CandidateProtonIndex);
+			double CandidateProtonPz = backtracked_pz->at(CandidateProtonIndex);
+			TVector3 TrueCandidateProtonP(CandidateProtonPx,CandidateProtonPy,CandidateProtonPz);
 				
-			double CandidateProtonStartX = Proton_MCParticle_StartX->at(0);
-			double CandidateProtonStartY = Proton_MCParticle_StartY->at(0);
-			double CandidateProtonStartZ = Proton_MCParticle_StartZ->at(0);						
+			double CandidateProtonStartX = backtracked_start_x->at(CandidateProtonIndex);
+			double CandidateProtonStartY = backtracked_start_y->at(CandidateProtonIndex);
+			double CandidateProtonStartZ = backtracked_start_z->at(CandidateProtonIndex);						
 			TVector3 TrueCandidateProtonTrackStart(CandidateProtonStartX,CandidateProtonStartY,CandidateProtonStartZ);
 			bool TrueCandidateProtonTrackStartContainment = tools.inFVVector(TrueCandidateProtonTrackStart);
 
@@ -1289,7 +1329,7 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 			True_PnPar.push_back(true_stv_tool.ReturnPnPar());						
 			True_DeltaAlphaT.push_back(true_stv_tool.ReturnDeltaAlphaT());
 			True_DeltaAlpha3Dq.push_back(true_stv_tool.ReturnDeltaAlpha3Dq());
-			True_DeltaAlpha3DMu.push_back(true_stv_tool.ReturnDeltaAlpha3DMu());					
+			True_DeltaAlpha3DMu.push_back(true_stv_tool.ReturnDeltaAlpha3DMu());						
 			True_DeltaPhiT.push_back(true_stv_tool.ReturnDeltaPhiT());
 			True_DeltaPhi3D.push_back(true_stv_tool.ReturnDeltaPhi3D());			
 			True_ECal.push_back(true_stv_tool.ReturnECal());
@@ -1317,32 +1357,10 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 			if (True_DeltaTheta_Deg < 0.) { True_DeltaTheta_Deg += 360.; }
 			True_DeltaTheta.push_back(True_DeltaTheta_Deg);	
 
-			True_Ev = True_EvT;
-			True_Vx = True_VxT;
-			True_Vy = True_VyT;
-			True_Vz = True_VzT;			
-
 			// ---------------------------------------------------------------------------------------------------------------------------------
 
 
 		} else { // BeamOn & ExtBNB
-
-			nomatch:
-
-			//----------------------------------------//
-
-			CC1p = 0;
-			CC1p1pi = 0;
-			CC2p = 0;
-			CC2p1pi = 0;
-			CC3p = 0;
-			CC3p1pi = 0;
-			CC3p2pi = 0;			
-			CC3p3pi = 0;
-			CC4p0pi = 0;
-			CC4p1pi = 0;
-
-			MCParticle_Mode = CosmicPID;
 
 			True_CandidateMu_P.push_back(CosmicPID);
 			True_CandidateMu_Phi.push_back(CosmicPID);
@@ -1362,7 +1380,7 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 			True_CandidateP_P.push_back(CosmicPID);
 			True_CandidateP_Phi.push_back(CosmicPID);
 			True_CandidateP_Theta.push_back(CosmicPID);
-			True_CandidateP_CosTheta.push_back(false);
+			True_CandidateP_CosTheta.push_back(CosmicPID);
 				
 			True_CandidateP_StartX.push_back(CosmicPID);
 			True_CandidateP_StartY.push_back(CosmicPID);
@@ -1401,18 +1419,181 @@ void GENIEv2_NeutrinoSelectionFilter::Loop() {
 			True_DeltaPhi.push_back(CosmicPID);
 			True_DeltaTheta.push_back(CosmicPID);
 
+		}
+
+		// ---------------------------------------------------------------------------------------------------------------------------------
+
+		// True neutrino vertex
+
+		if (string(fLabel).find("Overlay") != std::string::npos) {
+
+			True_Ev = nu_e;
+			True_Vx = true_nu_vtx_x;
+			True_Vy = true_nu_vtx_y;
+			True_Vz = true_nu_vtx_z;
+
+		} else {
+
 			True_Ev = CosmicPID;
 			True_Vx = CosmicPID;
 			True_Vy = CosmicPID;
-			True_Vz = CosmicPID;			
+			True_Vz = CosmicPID;
 
 		}
 
-   		//----------------------------------------//
-		   
+		// ---------------------------------------------------------------------------------------------------------------------------------
+
+		// Now truth level loop 
+
+		// MCParticle Loop
+		
+		int fCC1p = 0, fCC1p1pi = 0, fCC2p = 0, fCC2p1pi = 0, fCC3p = 0, fCC3p1pi = 0, fCC3p2pi = 0, fCC3p3pi = 0, fCC4p0pi = 0, fCC4p1pi = 0, fMCParticle_Mode = -1, fNC = 0, fnue = 0;
+
+		int TrueMuonCounter = 0, TrueProtonCounter = 0, TrueChargedPionCounter = 0, TruePi0Counter = 0;
+		int TrueNeutronCounter = 0, TrueHeavierMesonCounter = 0, TrueChargedPionCounterAnyMom = 0;
+		int NMCParticles = mc_pdg->size();
+		
+		std::vector<int> VectorTrueMuonIndex; VectorTrueMuonIndex.clear();
+		std::vector<int> VectorTrueProtonIndex; VectorTrueProtonIndex.clear();
+		std::vector<int> VectorTrueNeutronIndex; VectorTrueNeutronIndex.clear();	
+
+		//----------------------------------------//
+		
+		TVector3 TrueNu_Vertex(True_Vx,True_Vy,True_Vz);
+		bool TrueNu_Vertex_Containment = tools.inFVVector(TrueNu_Vertex);
+
+		//----------------------------------------//			
+
+		for (int WhichMCParticle = 0; WhichMCParticle < NMCParticles; WhichMCParticle++) {
+
+			// MC truth information for the final-state primary particles
+
+			// CC numu events	
+
+			if ( ccnc == 0 && nu_pdg == 14) {
+
+				TVector3 MCParticle(mc_px->at(WhichMCParticle),mc_py->at(WhichMCParticle),mc_pz->at(WhichMCParticle));
+				double MCParticleMomentum = MCParticle.Mag();
+				double MCParticleCosTheta = MCParticle.CosTheta();
+				double MCParticlePhi = MCParticle.Phi()*180./TMath::Pi();				
+
+				int MCParticlePdg = mc_pdg->at(WhichMCParticle);
+
+				if ( MCParticlePdg == MuonPdg && MCParticleMomentum >= ArrayNBinsMuonMomentum[0] ) 
+					{ TrueMuonCounter++;  VectorTrueMuonIndex.push_back(WhichMCParticle); }
+
+				if ( MCParticlePdg == ProtonPdg && MCParticleMomentum >= ArrayNBinsProtonMomentum[0] ) 
+					{ TrueProtonCounter++; VectorTrueProtonIndex.push_back(WhichMCParticle); }
+
+				if ( fabs(MCParticlePdg) == AbsChargedPionPdg && MCParticleMomentum >= ChargedPionMomentumThres ) 
+					{ TrueChargedPionCounter++; }
+
+				if ( fabs(MCParticlePdg) == AbsChargedPionPdg ) 
+					{ TrueChargedPionCounterAnyMom++;  True_PionMomentum.push_back(MCParticleMomentum); }					
+
+				if (MCParticlePdg == NeutralPionPdg) { TruePi0Counter++; }
+
+				if (MCParticlePdg == NeutronPdg) { 
+					
+					TrueNeutronCounter++; 
+					True_NeutronMomentum.push_back(MCParticleMomentum);
+					True_NeutronCosTheta.push_back(MCParticleCosTheta);
+					True_NeutronPhi.push_back(MCParticlePhi);
+					True_Neutron_StartX.push_back(True_Vx);
+					True_Neutron_StartY.push_back(True_Vy);
+					True_Neutron_StartZ.push_back(True_Vz);
+					True_Neutron_StartContainment.push_back(TrueNu_Vertex_Containment);																														 				
+					
+				}
+
+				if ( MCParticlePdg != NeutralPionPdg && fabs(MCParticlePdg) != AbsChargedPionPdg && tools.is_meson_or_antimeson(MCParticlePdg) ) { TrueHeavierMesonCounter++; }				
+
+				// -----------------------------------------------------------------
+
+				// Matching the true endpoint of the CC1p candidate tracks
+
+				if ( mc_vx->at(WhichMCParticle) == True_CandidateMu_StartX.at(0) && mc_vy->at(WhichMCParticle) == True_CandidateMu_StartY.at(0) 
+				  && mc_vz->at(WhichMCParticle) == True_CandidateMu_StartZ.at(0) && MCParticlePdg == MuonPdg 
+				) { 
+
+					True_CandidateMu_EndX.push_back(mc_endx->at(WhichMCParticle));
+					True_CandidateMu_EndY.push_back(mc_endy->at(WhichMCParticle));
+					True_CandidateMu_EndZ.push_back(mc_endz->at(WhichMCParticle)); 
+
+				}
+
+				if ( mc_vx->at(WhichMCParticle) == True_CandidateP_StartX.at(0) && mc_vy->at(WhichMCParticle) == True_CandidateP_StartY.at(0) 
+				  && mc_vz->at(WhichMCParticle) == True_CandidateP_StartZ.at(0) && MCParticlePdg == ProtonPdg 
+				) { 
+
+					True_CandidateP_EndX.push_back(mc_endx->at(WhichMCParticle));
+					True_CandidateP_EndY.push_back(mc_endy->at(WhichMCParticle)); 
+					True_CandidateP_EndZ.push_back(mc_endz->at(WhichMCParticle));
+
+				}
+
+				// -----------------------------------------------------------------
+
+			} // End of the demand stable final state particles and primary interactions
+
+			// NC events
+			if (ccnc == 1) { fNC = 1; }
+
+			// nu_e
+			if (nu_pdg == 12) { fnue = 1; }
+
+		} // end of the loop over the simb::MCParticles
+
+		// ------------------------------------------------------------------------------------------------
+
+		// Signal definition: 1 mu (Pmu > 100 MeV / c), 1p (Pp > 250 MeV / c) & 0 pi+/- (Ppi > 70 MeV / c)
+
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC1p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 1 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC1p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC2p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 2 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC2p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p1pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 2 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p2pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 3 && TrueChargedPionCounter == 3 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC3p3pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 0 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC4p0pi = 1; }
+		if (TrueMuonCounter == 1 && TrueProtonCounter == 4 && TrueChargedPionCounter == 1 && TruePi0Counter == 0 && TrueHeavierMesonCounter == 0) { fCC4p1pi = 1; }
+
+		// ------------------------------------------------------------------------------------------------
+
+		// Don't forget to check the true vertex containment for signal CC1p events
+
+		if (TrueNu_Vertex_Containment == 0) { fCC1p = 0; }
+
+		// ------------------------------------------------------------------------------------------------
+
+		nue = fnue;
+		NC = fNC;
+		CC1p = fCC1p;
+		CC1p1pi = fCC1p1pi;
+		CC2p = fCC2p;
+		CC2p1pi = fCC2p1pi;
+		CC3p = fCC3p;
+		CC3p1pi = fCC3p1pi;
+		CC3p2pi = fCC3p2pi;			
+		CC3p3pi = fCC3p3pi;
+		CC4p0pi = fCC4p0pi;
+		CC4p1pi = fCC4p1pi;
+
+		MCParticle_Mode = interaction;
+
+		NumberPi0 = TruePi0Counter;
+		NumberNeutrons = TrueNeutronCounter;
+		NumberProtons = TrueProtonCounter;
+		NumberMuons = TrueMuonCounter;
+		NumberChargedPions = TrueChargedPionCounter;
+		NumberChargedPionsAnyMom = TrueChargedPionCounterAnyMom;		
+
+		// ---------------------------------------------------------------------------------------------------------------------------------
+
 		EventCounter++;
 
-   		//----------------------------------------//
+		// ---------------------------------------------------------------------------------------------------------------------------------
 
 		tree->Fill();
 

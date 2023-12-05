@@ -1,5 +1,5 @@
-#ifndef TruthNeutrinoSelectionFilter_h
-#define TruthNeutrinoSelectionFilter_h
+#ifndef neutrino_selection_h
+#define neutrino_selection_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -14,7 +14,7 @@
 #include "string"
 #include "vector"
 
-#include "ubana/myClasses/Constants.h"
+#include "../myClasses/Constants.h"
 
 #include <vector>
 #include <iostream>
@@ -24,7 +24,7 @@
 
 using namespace Constants;
 
-class TruthNeutrinoSelectionFilter {
+class neutrino_selection {
 
 private:
 	TString fSample;
@@ -80,6 +80,7 @@ public :
    Float_t         theta;
    Bool_t          isVtxInFiducial;
    Bool_t          truthFiducial;
+   Float_t         struck_nuc_mom;
    Float_t         true_nu_vtx_t;
    Float_t         true_nu_vtx_x;
    Float_t         true_nu_vtx_y;
@@ -197,26 +198,8 @@ public :
    Int_t           filter_ccinclusive;
 
    map<string,vector<double> > *weights;
-/*   vector<unsigned short> *weightsFlux;*/
-/*   vector<unsigned short> *weightsGenie;*/
-/*   vector<unsigned short> *weightsReint;*/
-   vector<unsigned short> *weightsGenieUp;
-   vector<unsigned short> *weightsGenieDn;
    Float_t         weightSpline;
    Float_t         weightTune;
-//   Float_t         weightSplineTimesTune;
-/*   Double_t        knobRPAup;*/
-/*   Double_t        knobRPAdn;*/
-/*   Double_t        knobCCMECup;*/
-/*   Double_t        knobCCMECdn;*/
-/*   Double_t        knobAxFFCCQEup;*/
-/*   Double_t        knobAxFFCCQEdn;*/
-/*   Double_t        knobVecFFCCQEup;*/
-/*   Double_t        knobVecFFCCQEdn;*/
-/*   Double_t        knobDecayAngMECup;*/
-/*   Double_t        knobDecayAngMECdn;*/
-/*   Double_t        knobThetaDelta2Npiup;*/
-/*   Double_t        knobThetaDelta2Npidn;*/
 
    Float_t         flash_pe;
    Float_t         flash_time;
@@ -549,6 +532,7 @@ public :
    TBranch        *b_theta;   //!
    TBranch        *b_isVtxInFiducial;   //!
    TBranch        *b_truthFiducial;   //!
+   TBranch        *b_struck_nuc_mom;   //!
    TBranch        *b_true_nu_vtx_t;   //!
    TBranch        *b_true_nu_vtx_x;   //!
    TBranch        *b_true_nu_vtx_y;   //!
@@ -666,26 +650,8 @@ public :
    TBranch        *b_filter_ccinclusive;   //!
 
    TBranch        *b_weights;   //!                                                                                                         
-/*   TBranch        *b_weightsFlux;   //!                                                                                                     */
-/*   TBranch        *b_weightsGenie;   //!                                                                                                    */
-/*   TBranch        *b_weightsReint;   //!                                                                                                    */
-   TBranch        *b_weightsGenieUp;   //!
-   TBranch        *b_weightsGenieDn;   //! 
    TBranch        *b_weightSpline;   //!                                                                                                    
    TBranch        *b_weightTune;   //!                                                                                                      
-//   TBranch        *b_weightSplineTimesTune;   //!                                                                                           
-/*   TBranch        *b_knobRPAup;   //!                                                                                                       */
-/*   TBranch        *b_knobRPAdn;   //!                                                                                                       */
-/*   TBranch        *b_knobCCMECup;   //!                                                                                                     */
-/*   TBranch        *b_knobCCMECdn;   //!                                                                                                     */
-/*   TBranch        *b_knobAxFFCCQEup;   //!                                                                                                  */
-/*   TBranch        *b_knobAxFFCCQEdn;   //!                                                                                                  */
-/*   TBranch        *b_knobVecFFCCQEup;   //!                                                                                                 */
-/*   TBranch        *b_knobVecFFCCQEdn;   //!                                                                                                 */
-/*   TBranch        *b_knobDecayAngMECup;   //!                                                                                               */
-/*   TBranch        *b_knobDecayAngMECdn;   //!                                                                                               */
-/*   TBranch        *b_knobThetaDelta2Npiup;   //!                                                                                            */
-/*   TBranch        *b_knobThetaDelta2Npidn;   //! */
 
    TBranch        *b_flash_pe;   //!
    TBranch        *b_flash_time;   //!
@@ -974,8 +940,8 @@ public :
    TBranch        *b_trk_llr_pid_v;   //!
    TBranch        *b_trk_llr_pid_score_v;   //!
 
-   TruthNeutrinoSelectionFilter(TString Label = "", TString Sample = "", TTree *tree=0);
-   virtual ~TruthNeutrinoSelectionFilter();
+   neutrino_selection(TString Label = "", TString Sample = "", TTree *tree=0);
+   virtual ~neutrino_selection();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -987,16 +953,14 @@ public :
 
 #endif
 
-#ifdef TruthNeutrinoSelectionFilter_cxx
-TruthNeutrinoSelectionFilter::TruthNeutrinoSelectionFilter(TString Label, TString Sample, TTree *tree) : fChain(0) {
+#ifdef neutrino_selection_cxx
+neutrino_selection::neutrino_selection(TString Label, TString Sample, TTree *tree) : fChain(0) {
 
 	// if parameter tree is not specified (or zero), connect the file
 	// used to generate this class and read the Tree.
 
 	fLabel = Label;
 	fSample = Sample;
-
-// "/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root"
 
 	if (tree == 0) {
 
@@ -1017,19 +981,19 @@ TruthNeutrinoSelectionFilter::TruthNeutrinoSelectionFilter(TString Label, TStrin
 
 }
 
-TruthNeutrinoSelectionFilter::~TruthNeutrinoSelectionFilter()
+neutrino_selection::~neutrino_selection()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t TruthNeutrinoSelectionFilter::GetEntry(Long64_t entry)
+Int_t neutrino_selection::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t TruthNeutrinoSelectionFilter::LoadTree(Long64_t entry)
+Long64_t neutrino_selection::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -1042,7 +1006,7 @@ Long64_t TruthNeutrinoSelectionFilter::LoadTree(Long64_t entry)
    return centry;
 }
 
-void TruthNeutrinoSelectionFilter::Init(TTree *tree)
+void neutrino_selection::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -1199,12 +1163,7 @@ void TruthNeutrinoSelectionFilter::Init(TTree *tree)
    trk_llr_pid_score_v = 0;
 
    weights = 0;
-/*   weightsFlux = 0;*/
-/*   weightsGenie = 0;*/
-/*   weightsReint = 0;*/
-   weightsGenieUp = 0;
-   weightsGenieDn = 0;
-
+   
    // Set branch addresses and branch pointers
 
    if (!tree) return;
@@ -1659,7 +1618,7 @@ void TruthNeutrinoSelectionFilter::Init(TTree *tree)
    Notify();
 }
 
-Bool_t TruthNeutrinoSelectionFilter::Notify()
+Bool_t neutrino_selection::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -1670,18 +1629,18 @@ Bool_t TruthNeutrinoSelectionFilter::Notify()
    return kTRUE;
 }
 
-void TruthNeutrinoSelectionFilter::Show(Long64_t entry)
+void neutrino_selection::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t TruthNeutrinoSelectionFilter::Cut(Long64_t entry)
+Int_t neutrino_selection::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef TruthNeutrinoSelectionFilter_cxx
+#endif // #ifdef neutrino_selection_cxx
