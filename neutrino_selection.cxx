@@ -536,7 +536,7 @@ void neutrino_selection::Loop() {
 
 	if (string(fLabel).find("Overlay") != std::string::npos) {
 
-		TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples_3D_ECal/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";		
+		TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples_Atmospherics/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";		
 
 		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
 		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
