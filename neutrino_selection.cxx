@@ -583,6 +583,15 @@ void neutrino_selection::Loop() {
 
 	}
 
+	if (string(fLabel).find("Run4") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run4;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run4;
+		EXT = FullEXT_Run4;
+		run_period = "Run4";	
+
+	}			
+
 	if (string(fLabel).find("Run4b") != std::string::npos) {
 
 		tor860_wcut = Fulltor860_wcut_Run4b;

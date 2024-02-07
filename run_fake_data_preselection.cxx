@@ -8,7 +8,9 @@
 	WhichSampleArray.push_back("Overlay9NuWro_Run2"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run2_NuWro_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9NuWro_Run3"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_NuWro_reco2_reco2.root");
         WhichSampleArray.push_back("Overlay9NuWro_Run4a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4a_pelee.root");
-        WhichSampleArray.push_back("Overlay9NuWro_Run4"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root");
+        WhichSampleArray.push_back("Overlay9NuWro_Run4b"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root");
+        WhichSampleArray.push_back("Overlay9NuWro_Run4c"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root");
+        WhichSampleArray.push_back("Overlay9NuWro_Run4d"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root");
 
 	// ----------------------------------------------------------------------------------
 
