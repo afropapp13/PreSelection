@@ -17,12 +17,12 @@ using namespace std;
 
 void merge_ttree() {
 
-        TString pathIn = "/pnfs/uboone/scratch/users/apapadop/nuwro_run4/neutrinoselection_filt_*.root";
+        TString pathIn = "/pnfs/uboone/scratch/users/apapadop/nuwro_run5/neutrinoselection_filt_*.root";
         TString pathOut = "/uboone/data/users/apapadop/searchingfornues/";
 
 	// -----------------------------------------------------------------
 
-	TString FullOutFile = pathOut+"high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root";
+	TString FullOutFile = pathOut+"high_stat_prodgenie_bnb_nu_nuwro_overlay_run5_pelee.root";
 	TFile* f = TFile::Open(FullOutFile,"recreate");
 	f->cd();
 	f->mkdir("nuselection")->cd();
