@@ -31,9 +31,9 @@ hadd -f ${path_in}/PreSelection_Overlay9_Combined_CV_${version}_POT.root ${path_
 hadd -f ${path_in}/PreTruthSelection_Overlay9_Combined_CV_${version}.root ${path_in}/PreTruthSelection_Overlay9_Run{1,2,3,4b,4c,4d,5}_CV_${version}.root
 
 # CV extra
-hadd -f ${path_in}/PreSelection_Overlay9_Combined_CVExtra_${version}.root ${path_in}/PreSelection_Overlay9_Run{1,2,3,4b,4c,4d,5}_CV_${version}.root
-hadd -f ${path_in}/PreSelection_Overlay9_Combined_CVExtra_${version}_POT.root ${path_in}/PreSelection_Overlay9_Run{1,2,3,4b,4c,4d,5}_CV_${version}_POT.root
-hadd -f ${path_in}/PreTruthSelection_Overlay9_Combined_CVExtra_${version}.root ${path_in}/PreTruthSelection_Overlay9_Run{1,2,3,4b,4c,4d,5}_CVExtra_${version}.root
+hadd -f ${path_in}/PreSelection_Overlay9_Combined_CVextra_${version}.root ${path_in}/PreSelection_Overlay9_Run{1,2,3}_CVextra_${version}.root ${path_in}/PreSelection_Overlay9_Run{4b,4c,4d,5}_CV_${version}.root
+hadd -f ${path_in}/PreSelection_Overlay9_Combined_CVextra_${version}_POT.root ${path_in}/PreSelection_Overlay9_Run{1,2,3}_CVextra_${version}_POT.root ${path_in}/PreSelection_Overlay9_Run{4b,4c,4d,5}_CV_${version}_POT.root
+hadd -f ${path_in}/PreTruthSelection_Overlay9_Combined_CVextra_${version}.root ${path_in}/PreTruthSelection_Overlay9_Run{1,2,3}_CVextra_${version}.root ${path_in}/PreTruthSelection_Overlay9_Run{4b,4c,4d,5}_CV_${version}.root
 
 # LYDown
 hadd -f ${path_in}/PreSelection_Overlay9_Combined_LYDown_${version}.root ${path_in}/PreSelection_Overlay9_Run{1,2,3,4b,4c,4d,5}_LYDown_${version}.root
@@ -84,9 +84,9 @@ hadd -f ${path_in}/PreTruthSelection_Overlay9_Combined_X_${version}.root ${path_
 
 # NuWro files
 
-hadd -f ${path_in}/PreSelection_Overlay9NuWro_Combined_${version}.root ${path_in}/PreSelection_Overlay9NuWro_Run{1,2,3,4b,4c,4d}_${version}.root
-hadd -f ${path_in}/PreTruthSelection_Overlay9NuWro_Combined_${version}.root ${path_in}/PreTruthSelection_Overlay9NuWro_Run{1,2,3,4b,4c,4d}_${version}.root
-hadd -f ${path_in}/PreSelection_Overlay9NuWro_Combined_${version}_POT.root ${path_in}/PreSelection_Overlay9NuWro_Run{1,2,3,4b,4c,4d}_${version}_POT.root
+hadd -f ${path_in}/PreSelection_Overlay9NuWro_Combined_${version}.root ${path_in}/PreSelection_Overlay9NuWro_Run{1,2,3,4b,4c,4d,5}_${version}.root
+hadd -f ${path_in}/PreTruthSelection_Overlay9NuWro_Combined_${version}.root ${path_in}/PreTruthSelection_Overlay9NuWro_Run{1,2,3,4b,4c,4d,5}_${version}.root
+hadd -f ${path_in}/PreSelection_Overlay9NuWro_Combined_${version}_POT.root ${path_in}/PreSelection_Overlay9NuWro_Run{1,2,3,4b,4c,4d,5}_${version}_POT.root
 
 ######################
 

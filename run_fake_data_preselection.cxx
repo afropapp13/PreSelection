@@ -11,6 +11,7 @@
         WhichSampleArray.push_back("Overlay9NuWro_Run4b"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root");
         WhichSampleArray.push_back("Overlay9NuWro_Run4c"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root");
         WhichSampleArray.push_back("Overlay9NuWro_Run4d"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4_pelee.root");
+        WhichSampleArray.push_back("Overlay9NuWro_Run5"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/high_stat_prodgenie_bnb_nu_nuwro_overlay_run5_pelee.root");
 
 	// ----------------------------------------------------------------------------------
 
