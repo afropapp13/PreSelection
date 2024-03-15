@@ -6,7 +6,7 @@
 
 	// Full BeamOn Samples
 
-	WhichSampleArray.push_back("BeamOn9_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run1_C1.root");
+	WhichSampleArray.push_back("BeamOn9_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run1_C1.root");
 	WhichSampleArray.push_back("BeamOn9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/combined/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run2.root");
 	WhichSampleArray.push_back("BeamOn9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run3.root");
 	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOn_PeLee_ntuples_run4a_ana.root");
