@@ -236,7 +236,7 @@ void neutrino_selection::Loop() {
 	std::vector<double> Reco_Q2;
 	std::vector<double> Reco_DeltaPhi;
 	std::vector<double> Reco_DeltaTheta;
-	std::vector<double> Reco_ThetaZ;
+	std::vector<double> Reco_ThetaVis;
 
 	std::vector<double> True_A;
 	std::vector<double> True_kMiss;
@@ -262,7 +262,7 @@ void neutrino_selection::Loop() {
 	std::vector<double> True_Q2;		
 	std::vector<double> True_DeltaPhi;
 	std::vector<double> True_DeltaTheta;	
-	std::vector<double> True_ThetaZ;	
+	std::vector<double> True_ThetaVis;	
 
 
 	std::vector<double> StartToStartDistance;
@@ -457,7 +457,7 @@ void neutrino_selection::Loop() {
 	tree->Branch("Reco_Q2",&Reco_Q2);
 	tree->Branch("Reco_DeltaPhi",&Reco_DeltaPhi);
 	tree->Branch("Reco_DeltaTheta",&Reco_DeltaTheta);	
-	tree->Branch("Reco_ThetaZ",&Reco_ThetaZ);	
+	tree->Branch("Reco_ThetaVis",&Reco_ThetaVis);	
 
 
 	tree->Branch("True_A",&True_A);
@@ -484,7 +484,7 @@ void neutrino_selection::Loop() {
 	tree->Branch("True_Q2",&True_Q2);
 	tree->Branch("True_DeltaPhi",&True_DeltaPhi);
 	tree->Branch("True_DeltaTheta",&True_DeltaTheta);
-	tree->Branch("True_ThetaZ",&True_ThetaZ);
+	tree->Branch("True_ThetaVis",&True_ThetaVis);
 
 
 	tree->Branch("StartToStartDistance",&StartToStartDistance);
@@ -879,7 +879,7 @@ void neutrino_selection::Loop() {
 		Reco_Q2.clear();
 		Reco_DeltaPhi.clear();
 		Reco_DeltaTheta.clear();
-		Reco_ThetaZ.clear();
+		Reco_ThetaVis.clear();
 
 		True_A.clear();		
 		True_kMiss.clear();
@@ -905,7 +905,7 @@ void neutrino_selection::Loop() {
 		True_Q2.clear();
 		True_DeltaPhi.clear();
 		True_DeltaTheta.clear();
-		True_ThetaZ.clear();
+		True_ThetaVis.clear();
 
 
 		StartToStartDistance.clear();
@@ -1237,7 +1237,7 @@ void neutrino_selection::Loop() {
 		Reco_kMiss.push_back(reco_stv_tool.ReturnkMiss());
 		Reco_PMiss.push_back(reco_stv_tool.ReturnPMiss());
 		Reco_PMissMinus.push_back(reco_stv_tool.ReturnPMissMinus());
-		Reco_ThetaZ.push_back(reco_stv_tool.ReturnThetaZ());
+		Reco_ThetaVis.push_back(reco_stv_tool.ReturnThetaVis());
 
 		// --------------------------------------------------------------------------------------------------------------------
 		// --------------------------------------------------------------------------------------------------------------------
@@ -1360,7 +1360,7 @@ void neutrino_selection::Loop() {
 			True_kMiss.push_back(true_stv_tool.ReturnkMiss());	
 			True_PMiss.push_back(true_stv_tool.ReturnPMiss());
 			True_PMissMinus.push_back(true_stv_tool.ReturnPMissMinus());	
-			True_ThetaZ.push_back(true_stv_tool.ReturnThetaZ());	
+			True_ThetaVis.push_back(true_stv_tool.ReturnThetaVis());	
 				
 			// --------------------------------------------------------------------------------------------------------------------
 
@@ -1439,7 +1439,7 @@ void neutrino_selection::Loop() {
 
 			True_DeltaPhi.push_back(CosmicPID);
 			True_DeltaTheta.push_back(CosmicPID);
-			True_ThetaZ.push_back(CosmicPID);
+			True_ThetaVis.push_back(CosmicPID);
 
 		}
 

@@ -181,7 +181,7 @@ void true_neutrino_selection::Loop() {
 	
 	std::vector<double> True_DeltaPhi;
 	std::vector<double> True_DeltaTheta;	
-	std::vector<double> True_ThetaZ;	
+	std::vector<double> True_ThetaVis;	
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------------------------------------------------------	
@@ -315,7 +315,7 @@ void true_neutrino_selection::Loop() {
 	
 	tree->Branch("True_DeltaPhi",&True_DeltaPhi);
 	tree->Branch("True_DeltaTheta",&True_DeltaTheta);				
-	tree->Branch("True_ThetaZ",&True_ThetaZ);				
+	tree->Branch("True_ThetaVis",&True_ThetaVis);				
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -661,7 +661,7 @@ void true_neutrino_selection::Loop() {
 		
 		True_DeltaPhi.clear();
 		True_DeltaTheta.clear();			
-		True_ThetaZ.clear();			
+		True_ThetaVis.clear();			
 
 		// ----------------------------------------------------------------------------------------------------------------------------	
 
@@ -938,7 +938,7 @@ void true_neutrino_selection::Loop() {
 			if (True_DeltaTheta_Deg < 0.) { True_DeltaTheta_Deg += 360.; }
 			True_DeltaTheta.push_back(True_DeltaTheta_Deg);							
 	
-			True_ThetaZ.push_back(stv_tool.ReturnThetaZ());							
+			True_ThetaVis.push_back(stv_tool.ReturnThetaVis());							
 			
 		}
 
