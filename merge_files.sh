@@ -3,7 +3,7 @@
 #######################
 
 export version=v08_00_00_70;
-export path_in=/uboone/data/users/apapadop/PeLEETuples_3D_ECal/;
+export path_in=/exp/uboone/data/users/apapadop/PeLEETuples_3D_ECal/;
 
 # CV files
 
