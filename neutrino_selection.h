@@ -201,8 +201,8 @@ public :
    Float_t         weightSpline;
    Float_t         weightTune;
 
-   Float_t         flash_pe;
-   Float_t         flash_time;
+   //Float_t         flash_pe;
+   //Float_t         flash_time;
    Float_t         nu_flashmatch_score;
    Float_t         best_cosmic_flashmatch_score;
    Float_t         best_obviouscosmic_flashmatch_score;
@@ -653,8 +653,8 @@ public :
    TBranch        *b_weightSpline;   //!                                                                                                    
    TBranch        *b_weightTune;   //!                                                                                                      
 
-   TBranch        *b_flash_pe;   //!
-   TBranch        *b_flash_time;   //!
+   //TBranch        *b_flash_pe;   //!
+   //TBranch        *b_flash_time;   //!
    TBranch        *b_nu_flashmatch_score;   //!
    TBranch        *b_best_cosmic_flashmatch_score;   //!
    TBranch        *b_best_obviouscosmic_flashmatch_score;   //!
@@ -1329,8 +1329,8 @@ void neutrino_selection::Init(TTree *tree)
    fChain->SetBranchAddress("filter_ncpi0", &filter_ncpi0, &b_filter_ncpi0);
    fChain->SetBranchAddress("filter_pi0", &filter_pi0, &b_filter_pi0);
    fChain->SetBranchAddress("filter_ccinclusive", &filter_ccinclusive, &b_filter_ccinclusive);
-   fChain->SetBranchAddress("flash_pe", &flash_pe, &b_flash_pe);
-   fChain->SetBranchAddress("flash_time", &flash_time, &b_flash_time);
+   //fChain->SetBranchAddress("flash_pe", &flash_pe, &b_flash_pe);
+   //fChain->SetBranchAddress("flash_time", &flash_time, &b_flash_time);
    fChain->SetBranchAddress("nu_flashmatch_score", &nu_flashmatch_score, &b_nu_flashmatch_score);
    fChain->SetBranchAddress("best_cosmic_flashmatch_score", &best_cosmic_flashmatch_score, &b_best_cosmic_flashmatch_score);
    fChain->SetBranchAddress("best_obviouscosmic_flashmatch_score", &best_obviouscosmic_flashmatch_score, &b_best_obviouscosmic_flashmatch_score);
