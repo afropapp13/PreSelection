@@ -115,11 +115,6 @@ void neutrino_selection::Loop() {
 
 	// ------------------------------------------------------------------------------------------------------------------------------------------
 
-	std::vector<double> BeamFlashes_TotalPE;
-	std::vector<double> BeamFlashes_Time;
-
-	// ------------------------------------------------------------------------------------------------------------------------------------------
-
 	std::vector<double> CandidateMuP_Distance;
 	std::vector<float> Vertex_X;
 	std::vector<float> Vertex_Y;
@@ -334,11 +329,6 @@ void neutrino_selection::Loop() {
 	tree->Branch("crtveto",&fcrtveto);
 	tree->Branch("crthitpe",&fcrthitpe);
 
-	// ------------------------------------------------------------------------------------------------------------------------------------------
-
-	tree->Branch("BeamFlashes_TotalPE",&BeamFlashes_TotalPE);
-	tree->Branch("BeamFlashes_Time",&BeamFlashes_Time);
-
 	// --------------------------------------------------------------------------------------------------------------------------------------------
 
 	tree->Branch("CandidateMuP_Distance",&CandidateMuP_Distance);
@@ -536,7 +526,7 @@ void neutrino_selection::Loop() {
 
 	if (string(fLabel).find("Overlay") != std::string::npos) {
 
-		TString PathToPOTFile = "/uboone/data/users/apapadop/PeLEETuples_Atmospherics/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";		
+		TString PathToPOTFile = "/exp/uboone/data/users/apapadop/PeLEETuples_Atmospherics/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";		
 
 		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
 		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
@@ -996,17 +986,6 @@ void neutrino_selection::Loop() {
 		fCosmicDirAll3D = CosmicDirAll3D;
 		fcrtveto = crtveto;
 		fcrthitpe = crthitpe;
-
-		// ----------------------------------------------------------------------------------------------------------------------------------
-
-		// Beam Flashes
-		// By definition, only 1 beam flash
-
-		BeamFlashes_TotalPE.clear();
-		BeamFlashes_Time.clear();
-
-		BeamFlashes_TotalPE.push_back(flash_pe);
-		BeamFlashes_Time.push_back(flash_time);
 
 		// ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1654,6 +1633,7 @@ void neutrino_selection::Loop() {
 	OutputFile->Write();
 	OutputFile->Close();
 	std::cout << std::endl << "File " << FileName << " has been created"<< std::endl << std::endl;
+	cout << "pot scale = " << POTScale << endl;
 
 	// -----------------------------------------------------------------------------
 
