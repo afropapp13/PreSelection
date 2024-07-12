@@ -12,6 +12,8 @@
 	// Full BeamOn Samples
 
 	WhichSampleArray.push_back("BeamOn9_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run1_C1.root");
+	WhichSampleArray.push_back("BeamOn9_Run1A_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1_opentrigger/run1_bnb_opentrigger_pandora_real_ntuple_3v_A_ana.root");
+	WhichSampleArray.push_back("BeamOn9_Run1B_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1_opentrigger/run1_bnb_opentrigger_pandora_real_ntuple_3v_B_ana.root");
 	WhichSampleArray.push_back("BeamOn9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run2/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run2.root");
 	WhichSampleArray.push_back("BeamOn9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/run3_bnb_beam_on_crtremerging_pandora_reco2_run3_ana.root");
 	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOn_PeLee_ntuples_run4a_ana.root");
@@ -23,6 +25,8 @@
 	// ExtBNB
 
 	WhichSampleArray.push_back("ExtBNB9_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run1.root");
+	WhichSampleArray.push_back("ExtBNB9_Run1A_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run1.root");
+	WhichSampleArray.push_back("ExtBNB9_Run1B_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run1.root");
 	WhichSampleArray.push_back("ExtBNB9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run2/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run2.root");
 	WhichSampleArray.push_back("ExtBNB9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run3.root");
 	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOff_PeLee_ntuples_run4a_ana.root");
@@ -34,6 +38,8 @@
 	// MC CV
 
 	WhichSampleArray.push_back("Overlay9_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/overlay_peleeTuple_uboone_v08_00_00_70_run1_nu.root");
+	WhichSampleArray.push_back("Overlay9_Run1A_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/overlay_peleeTuple_uboone_v08_00_00_70_run1_nu.root");
+	WhichSampleArray.push_back("Overlay9_Run1B_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/overlay_peleeTuple_uboone_v08_00_00_70_run1_nu.root");
 	WhichSampleArray.push_back("Overlay9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run2/overlay_peleeTuple_uboone_v08_00_00_70_run2_nu.root");
 	WhichSampleArray.push_back("Overlay9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/overlay_peleeTuple_uboone_v08_00_00_70_run3_nu.root");
 	WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/run4a_bnb_nu_overlay_unified_pandora_reco2_run4a_ana.root");
@@ -45,6 +51,8 @@
 	// Dirt
 
 	WhichSampleArray.push_back("OverlayDirt9_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/overlay_peleeTuple_uboone_v08_00_00_70_run1_dirt.root");
+	WhichSampleArray.push_back("OverlayDirt9_Run1A_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/overlay_peleeTuple_uboone_v08_00_00_70_run1_dirt.root");
+	WhichSampleArray.push_back("OverlayDirt9_Run1B_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/overlay_peleeTuple_uboone_v08_00_00_70_run1_dirt.root");
 	WhichSampleArray.push_back("OverlayDirt9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run2/overlay_peleeTuple_uboone_v08_00_00_70_run2a_dirt.root");
 	WhichSampleArray.push_back("OverlayDirt9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/overlay_peleeTuple_uboone_v08_00_00_70_run3_dirt.root");
 	WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_BNB_dirt_overlay_Pandora_Unified_Reco2_fixed_run4a_ana.root");
@@ -59,6 +67,8 @@
 	// NuWro
 
 	WhichSampleArray.push_back("Overlay9NuWro_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_NuWro_reco2_reco2.root");
+	WhichSampleArray.push_back("Overlay9NuWro_Run1A_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_NuWro_reco2_reco2.root");
+	WhichSampleArray.push_back("Overlay9NuWro_Run1B_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run1_NuWro_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9NuWro_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run2/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run2_NuWro_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9NuWro_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/high_stat_prodgenie_bnb_nu_overlay_DetVar_Run3_NuWro_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9NuWro_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/high_stat_prodgenie_bnb_nu_nuwro_overlay_run4a_pelee.root");
