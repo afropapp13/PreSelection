@@ -47,7 +47,7 @@ void calculate_pot(TString Label, TString Sample) {
 
 	// Output File
 
-	TString FileName = "/exp/uboone/data/users/apapadop/PeLEETuples_Atmospherics/PreSelection_"+Label+"_"+UBCodeVersion+"_POT.root";
+	TString FileName = "/exp/uboone/data/users/"+UserID+"/PeLEETuples_Atmospherics/PreSelection_"+Label+"_"+UBCodeVersion+"_POT.root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	OutputFile->cd();
 	POTCountHist->Write();

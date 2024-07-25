@@ -30,7 +30,7 @@ void neutrino_selection::Loop() {
 
 	// Output Files
 
-	TString FileName = "/exp/uboone/data/users/apapadop/PeLEETuples_Atmospherics/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
+	TString FileName = "/exp/uboone/data/users/"+UserID+"/PeLEETuples_Atmospherics/PreSelection_"+fLabel+"_"+UBCodeVersion+".root";
 	TFile* OutputFile = new TFile(FileName,"recreate");
 	std::cout << std::endl << "File " << FileName << " to be created"<< std::endl << std::endl;
 
@@ -526,7 +526,7 @@ void neutrino_selection::Loop() {
 
 	if (string(fLabel).find("Overlay") != std::string::npos) {
 
-		TString PathToPOTFile = "/exp/uboone/data/users/apapadop/PeLEETuples_Atmospherics/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";		
+		TString PathToPOTFile = "/exp/uboone/data/users/"+UserID+"/PeLEETuples_Atmospherics/PreSelection_"+fLabel+"_"+UBCodeVersion+"_POT.root";		
 
 		TFile* POTFile = TFile::Open(PathToPOTFile,"readonly");
 		TH1D* POTCountHist = (TH1D*)(POTFile->Get("POTCountHist"));
