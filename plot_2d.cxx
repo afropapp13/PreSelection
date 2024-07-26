@@ -50,7 +50,7 @@ void plot_2d() {
 
 		// -----------------------------------------------------------------------------------------------------------------------------------------
 
-		TFile* OverlayFile = TFile::Open("/exp/uboone/data/users/apapadop/PeLEETuples_3D_ECal/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
+		TFile* OverlayFile = TFile::Open("/exp/uboone/data/users/"+UserID+"/PeLEETuples_3D_ECal/PreSelection_Overlay9_"+Runs[WhichRun]+"_"+UBCodeVersion+".root","readonly");
 		TTree* tree = (TTree*)(OverlayFile->Get("myPreSelection"));
 
 		TLatex *text = new TLatex();
