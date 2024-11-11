@@ -12,8 +12,8 @@
 	// Full BeamOn Samples
 
 	WhichSampleArray.push_back("BeamOn9_Run1"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run1_C1.root");
-	WhichSampleArray.push_back("BeamOn9_Run1A_open_trigger"); SamplePath.push_back("/exp/uboone/data/users/mguzzo/analysis_retreat_sept24/samples/run1_beamon_opentrigger_bnb_pandora_3v_a_reprocessing_v08_00_00_83_ntuple_ntuple_ana_goodruns.root");
-	WhichSampleArray.push_back("BeamOn9_Run1B_open_trigger"); SamplePath.push_back("/exp/uboone/data/users/mguzzo/analysis_retreat_sept24/samples/run1_beamon_opentrigger_bnb_pandora_3v_b_reprocessing_v08_00_00_83_ntuple_ntuple_ana_goodruns.root");
+	WhichSampleArray.push_back("BeamOn9_Run1A_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1_opentrigger/run1_beamon_opentrigger_bnb_pandora_3v_a_reprocessing_v08_00_00_83_ntuple_ntuple_ana.root");
+	WhichSampleArray.push_back("BeamOn9_Run1B_open_trigger"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1_opentrigger/run1_beamon_opentrigger_bnb_pandora_3v_b_reprocessing_v08_00_00_83_beam_good_ntuple_ntuple_ana.root");
 	WhichSampleArray.push_back("BeamOn9_Run2"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run2/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run2.root");
 	WhichSampleArray.push_back("BeamOn9_Run3"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/run3_bnb_beam_on_crtremerging_pandora_reco2_run3_ana.root");
 	WhichSampleArray.push_back("BeamOn9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOn_PeLee_ntuples_run4a_ana.root");
@@ -233,7 +233,6 @@ WhichSampleArray.push_back("Overlay9_Run3_ThetaXZ"); SamplePath.push_back("/pnfs
 	
 	// ---------------------------------------------------------------------------------- //
 	// ---------------------------------------------------------------------------------- //
-
 
 	gROOT->ProcessLine(".L ../myClasses/Tools.cxx+");
 	gROOT->ProcessLine(".L ../myClasses/STV_Tools.cxx+");	
