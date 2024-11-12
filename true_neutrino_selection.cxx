@@ -381,6 +381,22 @@ void true_neutrino_selection::Loop() {
 		run_period = "Run1";
 	}
 	
+	if (string(fLabel).find("Run1A") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run1A_open_trigger;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run1A_open_trigger;
+		EXT = FullEXT_Run1A_open_trigger;
+		run_period = "Run1A_open_trigger";	
+	}
+
+	if (string(fLabel).find("Run1B") != std::string::npos) {
+
+		tor860_wcut = Fulltor860_wcut_Run1B_open_trigger;
+		E1DCNT_wcut = FullE1DCNT_wcut_Run1B_open_trigger;
+		EXT = FullEXT_Run1B_open_trigger;
+		run_period = "Run1B_open_trigger";	
+	}
+	
 	if (string(fLabel).find("Run2") != std::string::npos) {
 
 		tor860_wcut = Fulltor860_wcut_Run2;
