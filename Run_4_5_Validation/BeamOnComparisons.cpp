@@ -17,7 +17,7 @@ using namespace std;
 
 #include "../../Secondary_Code/myFunctions.cpp"
 
-#include "ubana/myClasses/Constants.h"
+#include "../../../myClasses/Constants.h"
 
 using namespace Constants;
 
@@ -40,94 +40,55 @@ void BeamOnComparisons() {
 	std::vector<TString> BeamOnNames; std::vector<TString> BeamOnLabels; 
 	std::vector<int> BeamOnColors; std::vector<double> BeamOnPOT;
 	
-	// Full Run 1 
-	
-	
-	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root"); 
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run1_C1.root"); 
 	BeamOnLabels.push_back("Run 1");
 	BeamOnColors.push_back(kBlue+2);	
 	BeamOnPOT.push_back(Fulltor860_wcut_Run1);
 	
-
-	/*
-	// 5e19 Run 1 Open data sample
-	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_bnb_mcc9.1_v08_00_00_25_reco2_C1_beam_good_reco2_5e19.root"); 
-	BeamOnLabels.push_back("Run 1");
-	BeamOnColors.push_back(kBlue+2);	
-	BeamOnPOT.push_back(5e19);
-	*/
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1_opentrigger/run1_bnb_opentrigger_pandora_real_ntuple_3v_A_ana_goodruns.root"); 
+	BeamOnLabels.push_back("Run 1A open trigger");
+	BeamOnColors.push_back(kMagenta);	
+	BeamOnPOT.push_back(Fulltor860_wcut_Run1A_open_trigger);
 	
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run1_opentrigger/run1_bnb_opentrigger_pandora_real_ntuple_3v_B_ana_goodruns.root"); 
+	BeamOnLabels.push_back("Run 1B open trigger");
+	BeamOnColors.push_back(kPink+2);	
+	BeamOnPOT.push_back(Fulltor860_wcut_Run1B_open_trigger);
 	
-	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run2_neutrinoselection_filt_numu_ALL.root"); 
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/combined/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run2.root"); 
 	BeamOnLabels.push_back("Run 2");
 	BeamOnColors.push_back(kAzure-4);	
-	BeamOnPOT.push_back(2.62e20);
-	
+	BeamOnPOT.push_back(Fulltor860_wcut_Run2);
 
-	
-	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run3_neutrinoselection_filt_numu_ALL.root"); 
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/run3_bnb_beam_on_crtremerging_pandora_reco2_run3_ana.root"); 
 	BeamOnLabels.push_back("Run 3");
 	BeamOnColors.push_back(kGreen+2);	
 	BeamOnPOT.push_back(Fulltor860_wcut_Run3);	
 	
-	
-	/*
-	//	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/numupresel/data_bnb_mcc9.1_v08_00_00_25_reco2_G1_beam_good_reco2_1e19.root"); 
-	BeamOnNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_bnb_mcc9.1_v08_00_00_25_reco2_G1_beam_good_reco2_1e19.root"); 
-	BeamOnLabels.push_back("Run 3");
-	//	BeamOnColors.push_back(kMagenta);	
-	BeamOnColors.push_back(kGreen+2);	
-	BeamOnPOT.push_back(1e19);	
-	*/
-	
-	// Oct & Nov 14-16 uB Mini Retreat 2022
-	//BeamOnNames.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_63_run4a_beam_good_fix.root");	
-	//BeamOnLabels.push_back("Run 4a");	
-	//BeamOnColors.push_back(kOrange+7);
-	//BeamOnPOT.push_back(4.599e+19);	
-
-	// Nov 14-16 uB Mini Retreat 2022: removing low purity runs
-	//BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1109/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");	
-	//BeamOnLabels.push_back("Run 4a (DEBUG)");	
-	//BeamOnColors.push_back(kRed+1);
-	//BeamOnPOT.push_back(3.05e19);	
-	
-	/*
-	// Nov 23 2022 post uB Mini Retreat w/o low purity runs and with correct current after chat with Zarko
-	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");	
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOn_PeLee_ntuples_run4a_ana.root");	
 	BeamOnLabels.push_back("Run 4a");	
-	BeamOnColors.push_back(kRed-2);
-	BeamOnPOT.push_back(3.37e+19);	
-	*/
-	
-	// Rutgers (May 1st 2022)
-	/*
-	BeamOnNames.push_back("/pnfs/uboone/persistent/run4/bnb_on_run4a_reco2_v08_00_00_57_run4a_reco2.root");	
-	BeamOnLabels.push_back("Run 4a (Rutgers)");	
-	BeamOnColors.push_back(kRed+1);
-	BeamOnPOT.push_back(4.345e+19);	
-	*/
-	
-	// Jan 26 2023: Run3 processed with run4a machinery
-	/*
-	BeamOnNames.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuples_bnb_beam_on_data_v08_00_00_64_run3a_1e19_beam_good.root");	
-	BeamOnLabels.push_back("Run 3a-4a");	
-	BeamOnColors.push_back(kMagenta-2);
-	BeamOnPOT.push_back(1e+19);	
-	*/		
-
-	// March 3 2023: Run4b
-/*	BeamOnNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");	
+	BeamOnColors.push_back(kViolet);
+	BeamOnPOT.push_back(Fulltor860_wcut_Run4a);	
+		
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/run4b_bnb_beamon_crtremerging_pandora_reco2_run4b_ana.root");	
 	BeamOnLabels.push_back("Run 4b");	
 	BeamOnColors.push_back(kOrange+7);
-	BeamOnPOT.push_back(1.4e+20);
-*/		
-
-	// March 20 2023: Run5
-	BeamOnNames.push_back("/uboone/data/users/apapadop/searchingfornues/data_beamon_v08_00_00_67_pelee_ntuple_run5_v67.root");	
+	BeamOnPOT.push_back(Fulltor860_wcut_Run4b);
+		
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4c/run4c_bnb_beamon_crtremerging_pandora_reco2_run4c_ana.root");	
+	BeamOnLabels.push_back("Run 4c");	
+	BeamOnColors.push_back(kMagenta-7);
+	BeamOnPOT.push_back(Fulltor860_wcut_Run4c);
+	
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4d/Run4d_bnb_beamOn_PeLee_ntuples_run4d_ana_ana.root");	
+	BeamOnLabels.push_back("Run 4d");	
+	BeamOnColors.push_back(kCyan-3);
+	BeamOnPOT.push_back(Fulltor860_wcut_Run4d);
+	
+	BeamOnNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run5/run5_bnb_beamon_PeLEE_ntuples_run5_ana.root");	
 	BeamOnLabels.push_back("Run 5");	
 	BeamOnColors.push_back(kRed+1);
-	BeamOnPOT.push_back(3.473e+19);					
+	BeamOnPOT.push_back(Fulltor860_wcut_Run5);					
 
 	//------------------------------//		
 
@@ -217,10 +178,10 @@ void BeamOnComparisons() {
 		PlotCanvasAreaNorm->Draw();		
 */
 
-		TLegend* leg = new TLegend(0.3,0.88,0.95,0.99);
+		TLegend* leg = new TLegend(0.01,0.87,0.99,0.98);
 		leg->SetBorderSize(0);
-		leg->SetNColumns(2);
-		leg->SetTextSize(TextSize-0.01);	
+		leg->SetNColumns(3);
+		leg->SetTextSize(TextSize-0.02);	
 		leg->SetTextFont(FontStyle);
 		leg->SetMargin(0.1);								
 
@@ -272,8 +233,8 @@ void BeamOnComparisons() {
 			Histos[iSample]->Scale(SF);
 
 			double imax = TMath::Max(Histos[iSample]->GetMaximum(),Histos[0]->GetMaximum());			
-			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.1*imax);
-			Histos[0]->GetYaxis()->SetRangeUser(0.,1.1*imax);			
+			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.05*imax);
+			Histos[0]->GetYaxis()->SetRangeUser(0.,1.05*imax);			
 
 			PlotCanvas->cd();
 			Histos[iSample]->SetMarkerColor(BeamOnColors.at(iSample));
@@ -312,13 +273,13 @@ void BeamOnComparisons() {
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);
-		text->DrawTextNDC(0.16, 0.82, "BeamOn");		
+		text->DrawTextNDC(0.18, 0.82, "BeamOn");		
 
 		/*PlotCanvasAreaNorm->cd();*
 		leg->Draw();	
 		text->DrawTextNDC(0.16, 0.85, "BeamOn");*/			
 
-		TString CanvasNameTString = PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+".pdf";
+		TString CanvasNameTString = "/exp/"+PlotPath+"Run4a_Validation_"+PlotNames[iPlot]+".pdf";
 		CanvasNameTString.ReplaceAll("(","_").ReplaceAll(")","_");
 
 		/*

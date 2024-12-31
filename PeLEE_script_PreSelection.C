@@ -36,6 +36,9 @@
 	//WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/uboonepro/run4_validation/pelee_ntuple_bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");	
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	//WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");	
+	
+	// 11/21/2023
+	WhichSampleArray.push_back("ExtBNB9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOff_PeLee_ntuples_run4a_ana.root");
 	WhichSampleArray.push_back("ExtBNB9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
 	WhichSampleArray.push_back("ExtBNB9_Run5"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/data_extbnb_v08_00_00_67_pelee_ntuple_run5_v67.root");			
 	
@@ -50,6 +53,9 @@
 	//WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2.root");	
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	//WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
+	
+	// 11/21/2023
+	WhichSampleArray.push_back("Overlay9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/run4a_bnb_nu_overlay_unified_pandora_reco2_run4a_ana.root");
 	WhichSampleArray.push_back("Overlay9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
 	WhichSampleArray.push_back("Overlay9_Run5"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/mc_overlay_v08_00_00_67_pelee_ntuple_run5_v67.root");		
 
@@ -64,6 +70,10 @@
 	//WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1109/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2.root");	
 	// Nov 23 2022: w/o low purity runs and after chat with Zarko about current
 	//WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
+	
+
+	// 11/21/2023
+	WhichSampleArray.push_back("OverlayDirt9_Run4a"); SamplePath.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_BNB_dirt_overlay_Pandora_Unified_Reco2_fixed_run4a_ana.root");
 	WhichSampleArray.push_back("OverlayDirt9_Run4b"); SamplePath.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
 	WhichSampleArray.push_back("OverlayDirt9_Run5a"); SamplePath.push_back("/uboone/data/users/apapadop/searchingfornues/mc_dirt_v08_00_00_67_pelee_ntuple_run5_v67.root");				
 

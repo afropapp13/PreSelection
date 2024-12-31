@@ -38,32 +38,46 @@ void ExtBNBComparisons() {
 	std::vector<TString> ExtBNBNames; std::vector<TString> ExtBNBLabels; 
 	std::vector<int> ExtBNBColors; std::vector<double> ExtBNBTriggers;
 	
-	ExtBNBNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_extbnb_mcc9.1_v08_00_00_25_reco2_C_all_reco2.root"); 
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/combined/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run1.root"); 
 	ExtBNBLabels.push_back("Run 1");
 	ExtBNBColors.push_back(kBlue+2);	
-	ExtBNBTriggers.push_back(65498807.0);	
+	ExtBNBTriggers.push_back(65744587);	
 	
-	ExtBNBNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run2/data_extbnb_mcc9.1_v08_00_00_25_reco2_D_E_all_reco2.root"); 
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/combined/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run2.root"); 
 	ExtBNBLabels.push_back("Run 2");
 	ExtBNBColors.push_back(kAzure-4);	
-	ExtBNBTriggers.push_back(152404890.0);
+	ExtBNBTriggers.push_back(153905891);
 	
-	ExtBNBNames.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_extbnb_mcc9.1_v08_00_00_25_reco2_F_G_all_reco2.root"); 
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run3.root"); 
 	ExtBNBLabels.push_back("Run 3");
 	ExtBNBColors.push_back(kGreen+2);	
-	ExtBNBTriggers.push_back(214555174.0);	
+	ExtBNBTriggers.push_back(207167629);	
 
-/*
-	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");	
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOff_PeLee_ntuples_run4a_ana.root");	
+	ExtBNBLabels.push_back("Run 4a");	
+	ExtBNBColors.push_back(kViolet);
+	ExtBNBTriggers.push_back(27596585);
+
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/Run4b_bnb_beamOff_PeLee_ntuples_run4b_ana.root");	
 	ExtBNBLabels.push_back("Run 4b");	
 	ExtBNBColors.push_back(kOrange+7);
-	ExtBNBTriggers.push_back(92797963.);
-*/
+	ExtBNBTriggers.push_back(91167643);
 
-	ExtBNBNames.push_back("/uboone/data/users/apapadop/searchingfornues/data_extbnb_v08_00_00_67_pelee_ntuple_run5_v67.root");	
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4c/Run4c_bnb_beamOff_PeLee_ntuples_run4c_ana_ana.root");	
+	ExtBNBLabels.push_back("Run 4c");	
+	ExtBNBColors.push_back(kMagenta-7);
+	ExtBNBTriggers.push_back(50978641);
+
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4d/Run4d_bnb_beamOff_PeLee_ntuples_run4d_ana_ana.root");	
+	ExtBNBLabels.push_back("Run 4d");	
+	ExtBNBColors.push_back(kCyan-3);
+	ExtBNBTriggers.push_back(75637751);
+
+
+	ExtBNBNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run5/Run5_bnb_beamOff_PeLee_ntuples_run5_ana_ana.root");	
 	ExtBNBLabels.push_back("Run 5");	
 	ExtBNBColors.push_back(kRed+1);
-	ExtBNBTriggers.push_back(35657042.0);						
+	ExtBNBTriggers.push_back(115079907);						
 
 	//------------------------------//		
 
@@ -144,10 +158,10 @@ void ExtBNBComparisons() {
 		PlotCanvas->SetBottomMargin(0.15);		
 		PlotCanvas->Draw();	
 
-		TLegend* leg = new TLegend(0.3,0.88,0.95,0.99);
+		TLegend* leg = new TLegend(0.3,0.87,0.95,0.98);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
-		leg->SetTextSize(TextSize-0.01);	
+		leg->SetTextSize(TextSize-0.02);	
 		leg->SetTextFont(FontStyle);
 		leg->SetMargin(0.1);								
 
@@ -194,8 +208,8 @@ void ExtBNBComparisons() {
 			Histos[iSample]->Scale(SF);
 
 			double imax = TMath::Max(Histos[iSample]->GetMaximum(),Histos[0]->GetMaximum());			
-			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.1*imax);
-			Histos[0]->GetYaxis()->SetRangeUser(0.,1.1*imax);			
+			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.08*imax);
+			Histos[0]->GetYaxis()->SetRangeUser(0.,1.08*imax);			
 
 			PlotCanvas->cd();
 			Histos[iSample]->SetMarkerColor(ExtBNBColors.at(iSample));

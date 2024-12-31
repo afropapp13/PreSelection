@@ -38,32 +38,45 @@ void DirtComparisons() {
 	std::vector<TString> DirtNames; std::vector<TString> DirtLabels; 
 	std::vector<int> DirtColors; std::vector<double> DirtTriggers;
 	
-	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run1_reco2_reco2.root"); 
+	DirtNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run1_dirt.root"); 
 	DirtLabels.push_back("Run 1");
 	DirtColors.push_back(kBlue+2);	
-	DirtTriggers.push_back(7.41E+20);	
+	DirtTriggers.push_back(3.16E+20);	
 	
-	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run2_reco2_reco2.root"); 
+	DirtNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run2a_dirt.root"); 
 	DirtLabels.push_back("Run 2");
 	DirtColors.push_back(kAzure-4);	
-	DirtTriggers.push_back(7.56E+20);
+	DirtTriggers.push_back(5.47E+20);
 	
-	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run3_reco2_reco2.root"); 
+	DirtNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run3_dirt.root"); 
 	DirtLabels.push_back("Run 3");
 	DirtColors.push_back(kGreen+2);	
-	DirtTriggers.push_back(7.29E+20);	
+	DirtTriggers.push_back(3.27e20);	
 
-/*
-	DirtNames.push_back("/pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");	
+	DirtNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_BNB_dirt_overlay_Pandora_Unified_Reco2_fixed_run4a_ana.root");	
+	DirtLabels.push_back("Run 4a");	
+	DirtColors.push_back(kViolet);
+	DirtTriggers.push_back(1.1e20);
+
+	DirtNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/Run4b_BNB_dirt_overlay_Pandora_Reco2_reco2_ana.root");	
 	DirtLabels.push_back("Run 4b");	
 	DirtColors.push_back(kOrange+7);
-	DirtTriggers.push_back(2.5824087e+20);
-*/	
+	DirtTriggers.push_back(3.02e20);
 
-	DirtNames.push_back("/uboone/data/users/apapadop/searchingfornues/mc_dirt_v08_00_00_67_pelee_ntuple_run5_v67.root");	
+	DirtNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run4c_dirt.root");	
+	DirtLabels.push_back("Run 4c");	
+	DirtColors.push_back(kMagenta-7);
+	DirtTriggers.push_back(1.78e20);
+
+	DirtNames.push_back("/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4d/Run4d_BNB_dirt_overlay_Pandora_Unified_Reco2_reco2_ana.root");	
+	DirtLabels.push_back("Run 4d");	
+	DirtColors.push_back(kCyan-3);
+	DirtTriggers.push_back(2.01e20);
+
+	DirtNames.push_back("/pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run5_dirt.root");	
 	DirtLabels.push_back("Run 5");	
 	DirtColors.push_back(kRed+1);
-	DirtTriggers.push_back(3.67173e+20);						
+	DirtTriggers.push_back(3.57e20);
 
 	//------------------------------//		
 
@@ -83,10 +96,10 @@ void DirtComparisons() {
 	// Cut
 
 	//TString Cut = "trk_score_v < 0";
-	//TString Cut = "nslice == 1";
+	TString Cut = "nslice == 1";
 	//TString Cut = " (0<1) ";
 	//TString Cut = "nslice == 1 && topological_score > 0.5 && n_tracks_contained > 0";
-	TString Cut = "nslice == 1 && topological_score > 0.5";			
+	//TString Cut = "nslice == 1 && topological_score > 0.5";			
 
 	//------------------------------//
 
@@ -144,10 +157,10 @@ void DirtComparisons() {
 		PlotCanvas->SetBottomMargin(0.15);		
 		PlotCanvas->Draw();	
 
-		TLegend* leg = new TLegend(0.3,0.88,0.95,0.99);
+		TLegend* leg = new TLegend(0.3,0.87,0.95,0.98);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
-		leg->SetTextSize(TextSize-0.01);	
+		leg->SetTextSize(TextSize-0.02);	
 		leg->SetTextFont(FontStyle);
 		leg->SetMargin(0.1);								
 
@@ -194,8 +207,8 @@ void DirtComparisons() {
 			Histos[iSample]->Scale(SF);
 
 			double imax = TMath::Max(Histos[iSample]->GetMaximum(),Histos[0]->GetMaximum());			
-			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.1*imax);
-			Histos[0]->GetYaxis()->SetRangeUser(0.,1.1*imax);			
+			Histos[iSample]->GetYaxis()->SetRangeUser(0.,1.05*imax);
+			Histos[0]->GetYaxis()->SetRangeUser(0.,1.05*imax);			
 
 			PlotCanvas->cd();
 			Histos[iSample]->SetMarkerColor(DirtColors.at(iSample));
@@ -217,7 +230,7 @@ void DirtComparisons() {
 		TLatex *text = new TLatex();
 		text->SetTextFont(FontStyle);
 		text->SetTextSize(0.05);
-		text->DrawTextNDC(0.16, 0.82, "Dirt");				
+		text->DrawTextNDC(0.18, 0.82, "Dirt");				
 
 		TString CanvasNameTString = PlotPath+"DirtComparison_"+PlotNames[iPlot]+".pdf";
 		CanvasNameTString.ReplaceAll("(","_").ReplaceAll(")","_");

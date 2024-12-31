@@ -12,7 +12,7 @@ using namespace std;
 
 void BeamOn_POT() {
 	 
-	TString Sample = "/uboone/data/users/apapadop/searchingfornues/data_beamon_v08_00_00_67_pelee_ntuple_run5_v67.root";
+	TString Sample = "/pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run5/run5_bnb_beamon_PeLEE_ntuples_run5_ana.root";
 	TString Label = "BeamOn_Run5";
 
 	ofstream fpot;

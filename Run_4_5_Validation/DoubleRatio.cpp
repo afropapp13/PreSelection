@@ -47,10 +47,9 @@ void DoubleRatio() {
 	std::vector<TString> OverlayName; std::vector<TFile*> OverlayFile; std::vector<TTree*> OverlayTTree; std::vector<double> OverlayScale;
 	std::vector<TString> DirtName;    std::vector<TFile*> DirtFile;    std::vector<TTree*> DirtTTree;    std::vector<double> DirtScale;
 	
-//	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b"};
-//	std::vector<TString> Runs{"Run1","Run2","Run3","Run4b","Run5"};
-	std::vector<TString> Runs{"Run1","Run2","Run3","Run5"};
-//	std::vector<TString> Runs{"Run4a"};
+	std::vector<TString> Runs{"Run1","Run2","Run3","Run4a","Run4b","Run4c","Run4d","Run5"};
+	//std::vector<TString> Runs{"Run1"};
+	
 	const int NRuns = Runs.size();	
 	
 	std::vector<int> Colors;	
@@ -61,25 +60,25 @@ void DoubleRatio() {
 		
 			Colors.push_back(kBlue+2);
 		
-			BeamOnName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run1_neutrinoselection_filt_numu_ALL.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run1_C1.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run1/data_extbnb_mcc9.1_v08_00_00_25_reco2_C_all_reco2.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/combined/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run1.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.551754065);	
+			BeamOffScale.push_back(0.57);	
 			
-			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run1_reco2_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run1_nu.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(0.123664122);	
+			OverlayScale.push_back(0.13);	
 			
-			DirtName.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run1_reco2_reco2.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run1_dirt.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(0.218623482);															
+			DirtScale.push_back(0.528);															
 		
 		}
 	
@@ -87,25 +86,25 @@ void DoubleRatio() {
 		
 			Colors.push_back(kAzure-4);		
 		
-			BeamOnName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run2_neutrinoselection_filt_numu_ALL.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/combined/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run2.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run2/data_extbnb_mcc9.1_v08_00_00_25_reco2_D_E_all_reco2.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/combined/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run2.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.407111347);	
+			BeamOffScale.push_back(0.402);	
 			
-			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run2_reco2_D1D2_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run2_nu.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(0.256862745);	
+			OverlayScale.push_back(0.257);	
 			
-			DirtName.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run2_reco2_reco2.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run2a_dirt.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(0.346560847);															
+			DirtScale.push_back(0.477);															
 		
 		}	
 		
@@ -113,104 +112,159 @@ void DoubleRatio() {
 		
 			Colors.push_back(kGreen+2);		
 		
-			BeamOnName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_41/cc0pinp/0617/nslice/run3_neutrinoselection_filt_numu_ALL.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/bnb_beam_on_peleeTuple_uboone_v08_00_00_70_run3.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("/uboone/data/users/davidc/searchingfornues/v08_00_00_43/0702/run3/data_extbnb_mcc9.1_v08_00_00_25_reco2_F_G_all_reco2.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run3/bnb_beam_off_peleeTuple_uboone_v08_00_00_70_run3.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.284369535);
+			BeamOffScale.push_back(0.296);
 			
-			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run3_reco2_G_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run3_nu.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(0.190298507);	
+			OverlayScale.push_back(0.195);	
 			
-			DirtName.push_back("/uboone/data/users/apapadop/searchingfornues/prodgenie_bnb_dirt_overlay_mcc9.1_v08_00_00_26_run3_reco2_reco2.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run3_dirt.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(0.349794239);															
+			DirtScale.push_back(0.785);															
 		
 		}
 		
 		if (Runs[irun] == "Run4a") {
 		
-			Colors.push_back(kRed-2);		
+			Colors.push_back(kViolet);		
 		
-			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_on_run4a_reco2_v08_00_00_63_POT_DEBUG_run4a_reco2_beam_good.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOn_PeLee_ntuples_run4a_ana.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/quality/bnb_run4a_ext_reco2_v08_00_00_63_run4a_reco2_all.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_bnb_beamOff_PeLee_ntuples_run4a_ana.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.318);
+			BeamOffScale.push_back(0.349);
 			
-			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_standard_nu_overlay_run4a_reco2_WC_v08_00_00_63_pndr_reco2_reco2_goodruns_goodbeam.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/run4a_bnb_nu_overlay_unified_pandora_reco2_run4a_ana.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(0.107);
+			OverlayScale.push_back(0.223);
 			
-			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_63/1121/prod_extunbiased_bnb_dirt_overlay_run4a_reco2_v08_00_00_63_run4a_reco2_goodruns_goodbeam.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/Run4a_BNB_dirt_overlay_Pandora_Unified_Reco2_fixed_run4a_ana.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(0.046);														
-		
+			DirtScale.push_back(0.5);
+
+
 		}		
 
 		if (Runs[irun] == "Run4b") {
 
 			Colors.push_back(kOrange+7);			
 		
-			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_on_run4b_reco2_v08_00_00_63_run4b_reco2_beam_good.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/Run4b_bnb_beamOn_PeLee_ntuples_run4b_ana.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/bnb_run4b_ext_reco2_v08_00_00_63_run4b_reco2_all.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/Run4b_bnb_beamOff_PeLee_ntuples_run4b_ana.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.356); 	
+			BeamOffScale.push_back(0.381); 	
 			
-			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/run4b_bnb_nu_overlay_unified_pandora_reco2_run4b_ana.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(0.227);
+			OverlayScale.push_back(0.194);
 			
-			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/prod_extunbiased_bnb_dirt_overlay_run4b_v08_00_00_63_run4b_reco2.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/Run4b_BNB_dirt_overlay_Pandora_Reco2_reco2_ana.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(0.54); 															
+			DirtScale.push_back(0.487);
 		
 		}
+
+		if (Runs[irun] == "Run4c") {
+
+			Colors.push_back(kMagenta-7);			
+		
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4c/Run4c_bnb_beamOn_PeLee_ntuples_run4c_ana_ana.root");
+			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
+			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
+			BeamOnScale.push_back(1.);
+			
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4c/Run4c_bnb_beamOff_PeLee_ntuples_run4c_ana_ana.root");
+			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
+			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
+			BeamOffScale.push_back(0.405); 	
+			
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run4c_nu.root");
+			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
+			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
+			OverlayScale.push_back(0.196);
+			
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run4c_dirt.root");
+			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
+			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
+			DirtScale.push_back(0.512);
+		
+		}
+
+		if (Runs[irun] == "Run4d") {
+
+			Colors.push_back(kCyan-3);			
+		
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4d/Run4d_bnb_beamOn_PeLee_ntuples_run4d_ana_ana.root");
+			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
+			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
+			BeamOnScale.push_back(1.);
+			
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4d/Run4d_bnb_beamOff_PeLee_ntuples_run4d_ana_ana.root");
+			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
+			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
+			BeamOffScale.push_back(0.151); 	
+			
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run4d_nu.root");
+			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
+			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
+			OverlayScale.push_back(0.0578);
+			
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4d/Run4d_BNB_dirt_overlay_Pandora_Unified_Reco2_reco2_ana.root");
+			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
+			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
+			DirtScale.push_back(0.249);
+		
+		}
+
+
 
 		if (Runs[irun] == "Run5") {
 
 			Colors.push_back(kRed+1);			
 		
-			BeamOnName.push_back("/uboone/data/users/apapadop/searchingfornues/data_beamon_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			BeamOnName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run5/run5_bnb_beamon_PeLEE_ntuples_run5_ana.root");
 			BeamOnFile.push_back(new TFile(BeamOnName[irun],"readonly"));
 			BeamOnTTree.push_back( (TTree*)( BeamOnFile[irun]->Get(EventTTreeName) ) );
 			BeamOnScale.push_back(1.);
 			
-			BeamOffName.push_back("/uboone/data/users/apapadop/searchingfornues/data_extbnb_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			BeamOffName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run5/Run5_bnb_beamOff_PeLee_ntuples_run5_ana_ana.root");
 			BeamOffFile.push_back(new TFile(BeamOffName[irun],"readonly"));
 			BeamOffTTree.push_back( (TTree*)( BeamOffFile[irun]->Get(EventTTreeName) ) );
-			BeamOffScale.push_back(0.2330806633); 	
+			BeamOffScale.push_back(0.323); 	
 			
-			OverlayName.push_back("/uboone/data/users/apapadop/searchingfornues/mc_overlay_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			OverlayName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run5/run5_bnb_nu_overlay_ntuple_v08_00_00_67_run5_ana.root");
 			OverlayFile.push_back(new TFile(OverlayName[irun],"readonly"));
 			OverlayTTree.push_back( (TTree*)( OverlayFile[irun]->Get(EventTTreeName) ) );
-			OverlayScale.push_back(3.40E-02);
+			OverlayScale.push_back(0.178);
 			
-			DirtName.push_back("/uboone/data/users/apapadop/searchingfornues/mc_dirt_v08_00_00_67_pelee_ntuple_run5_v67.root");
+			DirtName.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run5_dirt.root");
 			DirtFile.push_back(new TFile(DirtName[irun],"readonly"));
 			DirtTTree.push_back( (TTree*)( DirtFile[irun]->Get(EventTTreeName) ) );
-			DirtScale.push_back(9.46E-02); 															
-		
+			DirtScale.push_back(0.434);
+	
 		}							
 	
 	}
@@ -260,10 +314,10 @@ void DoubleRatio() {
 		PlotCanvas->SetGridy();						
 		PlotCanvas->Draw();		
 
-		TLegend* leg = new TLegend(0.15,0.89,0.97,0.99);
+		TLegend* leg = new TLegend(0.15,0.89,0.97,0.98);
 		leg->SetBorderSize(0);
 		leg->SetNColumns(2);
-		leg->SetTextSize(TextSize);	
+		leg->SetTextSize(TextSize-0.02);	
 		leg->SetTextFont(FontStyle);
 		leg->SetMargin(0.15);
 
@@ -363,7 +417,7 @@ void DoubleRatio() {
 		TLegend* legDouble = new TLegend(0.2,0.89,0.9,0.99);
 		legDouble->SetBorderSize(0);
 		legDouble->SetNColumns(3);
-		legDouble->SetTextSize(TextSize);	
+		legDouble->SetTextSize(TextSize-0.02);	
 		legDouble->SetTextFont(FontStyle);
 		legDouble->SetMargin(0.15);
 

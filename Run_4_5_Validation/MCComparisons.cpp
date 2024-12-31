@@ -38,32 +38,45 @@ void MCComparisons() {
 	std::vector<TString> MCNames; std::vector<TString> MCLabels; 
 	std::vector<int> MCColors; std::vector<double> MCPOT;
 	
-	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run1_reco2_reco2.root"); 
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run1_nu.root"); 
 	MCLabels.push_back("Run 1");
 	MCColors.push_back(kBlue+2);	
-	MCPOT.push_back(1.31E+21);	
+	MCPOT.push_back(1.28E+21);	
 	
-	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run2_reco2_D1D2_reco2.root"); 
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run2_nu.root"); 
 	MCLabels.push_back("Run 2");
 	MCColors.push_back(kAzure-4);	
 	MCPOT.push_back(1.02E+21);
 	
-	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/searchingfornues/v08_00_00_43/0928/prodgenie_bnb_nu_uboone_overlay_mcc9.1_v08_00_00_26_filter_run3_reco2_G_reco2.root"); 
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run3_nu.root"); 
 	MCLabels.push_back("Run 3");
 	MCColors.push_back(kGreen+2);	
-	MCPOT.push_back(1.34E+21);	
+	MCPOT.push_back(1.31E+21);	
 
-/*
-	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/davidc/run4/v08_00_00_65/022723/v01/run4b_bnb_nu_overlay_pandora_reco2_run4b_pandora_reco2_reco2.root");	
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4a/run4a_bnb_nu_overlay_unified_pandora_reco2_run4a_ana.root");	
+	MCLabels.push_back("Run 4a");	
+	MCColors.push_back(kViolet);
+	MCPOT.push_back(2.5e+20);
+
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run4b/run4b_bnb_nu_overlay_unified_pandora_reco2_run4b_ana.root");	
 	MCLabels.push_back("Run 4b");	
 	MCColors.push_back(kOrange+7);
-	MCPOT.push_back(6.1428283e+20);
-*/
+	MCPOT.push_back(7.58e20);
 
-	MCNames.push_back("root://fndca1.fnal.gov:1094//uboone/data/users/apapadop/searchingfornues/mc_overlay_v08_00_00_67_pelee_ntuple_run5_v67.root");	
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run4c_nu.root");	
+	MCLabels.push_back("Run 4c");	
+	MCColors.push_back(kMagenta-7);
+	MCPOT.push_back(4.65e20);
+
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/jdetje/pelee_v08_00_00_70/overlay_peleeTuple_uboone_v08_00_00_70_run4d_nu.root");	
+	MCLabels.push_back("Run 4d");	
+	MCColors.push_back(kCyan-3);
+	MCPOT.push_back(8.67e20);
+
+	MCNames.push_back("root://fndca1.fnal.gov:1094//pnfs/uboone/persistent/users/cthorpe/PELEE_2023/run5/run5_bnb_nu_overlay_ntuple_v08_00_00_67_run5_ana.root");	
 	MCLabels.push_back("Run 5");	
 	MCColors.push_back(kRed+1);
-	MCPOT.push_back(1.02168e+21);						
+	MCPOT.push_back(8.72e+20);
 
 	//------------------------------//		
 
@@ -170,10 +183,10 @@ void MCComparisons() {
 			PlotCanvas->SetBottomMargin(0.15);		
 			PlotCanvas->Draw();	
 
-			TLegend* leg = new TLegend(0.3,0.88,0.95,0.99);
+			TLegend* leg = new TLegend(0.3,0.87,0.95,0.98);
 			leg->SetBorderSize(0);
 			leg->SetNColumns(2);
-			leg->SetTextSize(TextSize-0.01);	
+			leg->SetTextSize(TextSize-0.02);	
 			leg->SetTextFont(FontStyle);
 			leg->SetMargin(0.1);								
 
